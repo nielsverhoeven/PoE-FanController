@@ -1067,6 +1067,36 @@ def write_pcb():
                         "U3", "ESP32-WROOM-32", 65.0, 53.0),
         embed_footprint("Package_SO", "SOIC-16_3.9x9.9mm_P1.27mm",
                         "U4", "CH340C", 82.0, 58.0),
+
+        # Zone A: TACH pull-up resistors between fan headers (y=19.5)
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R5", "10k", 51.5, 19.5),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R6", "10k", 62.1, 19.5),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R7", "10k", 72.8, 19.5),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R8", "10k", 92.0, 19.5),
+
+        # Zone B: I2C/GPIO pull-ups and bypass caps left of ESP32 (x=45-52, y=47-56)
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R1", "10k", 45.0, 47.0),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R2", "10k", 45.0, 50.0),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R3", "330R", 45.0, 53.0),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R4", "10k", 45.0, 56.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C3", "100nF", 52.0, 47.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C4", "100nF", 52.0, 50.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C5", "100nF", 52.0, 53.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C6", "100nF", 52.0, 56.0),
+
+        # Zone C SMD: bypass cap for CH340C and USB-C CC pull-down resistors below U4
+        # C7 at y=63.5: just south of U4 body (U4 bottom=63.05), x-clear of U4 courtyard (left≈78.5),
+        # avoids NTC1 reference field at (75.08, 66.13) — gap >1.6mm in y to silkscreen ✓
+        # Distance from U4 left edge (x≈78.7): 78.7−76.0=2.7mm (AC-6 within 5mm ✓)
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C7", "100nF", 76.0, 63.5),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R9", "5.1k", 83.0, 68.5),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R10", "5.1k", 83.0, 71.5),
+
+        # Zone C THT: switches, status LED, NTC thermistor (corrected coords per architecture.md)
+        embed_footprint("Button_Switch_THT", "SW_PUSH_6mm", "SW1", "SW_Reset", 44.0, 68.5),
+        embed_footprint("Button_Switch_THT", "SW_PUSH_6mm", "SW2", "SW_Boot", 54.0, 68.5),
+        embed_footprint("LED_THT", "LED_D3.0mm", "LED1", "LED_Green", 64.0, 68.5),
+        embed_footprint("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal", "NTC1", "NTC_10k", 70.0, 68.5),
     ]
 
     p = os.path.join(OUT_DIR, f"{PROJ}.kicad_pcb")
@@ -1101,17 +1131,16 @@ def write_bom():
         ["D1","1N5822","Diode_THT:D_DO-201AD_P12.70mm_Horizontal","1","ON Semi","1N5822","3A 40V Schottky diode","~"],
         ["C1","100uF/25V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 input bulk capacitor","~"],
         ["C2","100uF/10V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 output bulk capacitor","~"],
-        ["C3,C4,C5,C6","100nF","Capacitor_SMD:C_0402_1005Metric","4","","","3.3V decoupling capacitors","~"],
-        ["C7","100nF","Capacitor_SMD:C_0402_1005Metric","1","","","CH340C V3 decoupling","~"],
-        ["R1,R2","10k","Resistor_SMD:R_0402_1005Metric","2","","","EN and GPIO0 pull-up resistors","~"],
-        ["R3","330R","Resistor_SMD:R_0402_1005Metric","1","","","Status LED series resistor","~"],
-        ["R4","10k","Resistor_SMD:R_0402_1005Metric","1","","","NTC voltage divider resistor","~"],
-        ["R5,R6,R7,R8","10k","Resistor_SMD:R_0402_1005Metric","4","","","Fan TACH pull-up resistors","~"],
-        ["R9,R10","5.1k","Resistor_SMD:R_0402_1005Metric","2","","","USB-C CC pull-down resistors","~"],
-        ["LED1","LED_GREEN","LED_THT:LED_D3.0mm","1","","","Green status LED","~"],
-        ["SW1","RESET","Button_Switch_THT:SW_PUSH_6mm","1","","","Tactile reset button","~"],
-        ["SW2","BOOT","Button_Switch_THT:SW_PUSH_6mm","1","","","Tactile boot button","~"],
-        ["NTC1","NTC10K_B3950","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","1","","","10k NTC thermistor B=3950","~"],
+        ["C3,C4,C5,C6","100nF","Capacitor_SMD:C_0402_1005Metric","4","Samsung","CL05B104KO5NNNC","100nF 0402 16V X5R decoupling capacitors","https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp"],
+        ["C7","100nF","Capacitor_SMD:C_0402_1005Metric","1","Samsung","CL05B104KO5NNNC","100nF 0402 16V X5R — CH340C V3 decoupling","https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp"],
+        ["R1,R2,R4","10k","Resistor_SMD:R_0402_1005Metric","3","Yageo","RC0402FR-0710KL","10kΩ 0402 1% — EN, BOOT, NTC divider pull-up","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        ["R3","330R","Resistor_SMD:R_0402_1005Metric","1","Yageo","RC0402FR-07330RL","330Ω 0402 1% — status LED current limit","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        ["R5,R6,R7,R8","10k","Resistor_SMD:R_0402_1005Metric","4","Yageo","RC0402FR-0710KL","10kΩ 0402 1% — fan TACH pull-up resistors","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        ["R9,R10","5.1k","Resistor_SMD:R_0402_1005Metric","2","Yageo","RC0402FR-075K1L","5.1kΩ 0402 1% — USB-C CC pull-down resistors","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        ["LED1","LED_GREEN","LED_THT:LED_D3.0mm","1","Wurth","150060GS75000","Green 3mm THT LED, 565nm","https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000"],
+        ["SW1","RESET","Button_Switch_THT:SW_PUSH_6mm","1","C&K","PTS636 SK43 SMTR LFS","6mm tactile pushbutton, THT, 4.3mm height","https://www.ckswitches.com/products/switches/product-details/Tactile/PTS636/"],
+        ["SW2","BOOT","Button_Switch_THT:SW_PUSH_6mm","1","C&K","PTS636 SK43 SMTR LFS","6mm tactile pushbutton, THT, 4.3mm height","https://www.ckswitches.com/products/switches/product-details/Tactile/PTS636/"],
+        ["NTC1","NTC10K_B3950","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","1","Murata","NCP15XH103F03RC","10kΩ NTC thermistor B=3380, axial THT","https://www.murata.com/en-us/products/productdetail?partid=NCP15XH103F03RC"],
     ]
     p = os.path.join(os.path.dirname(__file__), "bom", "bom.csv")
     os.makedirs(os.path.dirname(p), exist_ok=True)
