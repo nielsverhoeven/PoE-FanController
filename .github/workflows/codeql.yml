@@ -10,7 +10,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze (csharp)
+    name: Analyze (python)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -23,25 +23,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Install MAUI Android workload
-        run: dotnet workload install maui-android
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: csharp
-          build-mode: manual
-
-      - name: Build for CodeQL
-        run: dotnet build src/Core/NdiForAndroid.Core.csproj -c Release --no-incremental
+          languages: python
+          build-mode: none
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
-          category: /language:csharp
-          wait-for-processing: false
+          category: /language:python

@@ -3,10 +3,3 @@ hardware/kicad/drc_result.rpt
 hardware/kicad/erc_output.json
 hardware/kicad/erc_result.rpt
 hardware/kicad/report.txt
-
-hardware/kicad/.history/
-
-*.rpt
-
-**/erc_out.txt
-hardware/kicad/~PoE-FanController.kicad_sch.lck

@@ -11,14 +11,13 @@ L1,68uH,Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC,1,B
 D1,1N5822,Diode_THT:D_DO-201AD_P12.70mm_Horizontal,1,ON Semi,1N5822,3A 40V Schottky diode,~
 C1,100uF/25V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 input bulk capacitor,~
 C2,100uF/10V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 output bulk capacitor,~
-"C3,C4,C5,C6",100nF,Capacitor_SMD:C_0402_1005Metric,4,,,3.3V decoupling capacitors,~
-C7,100nF,Capacitor_SMD:C_0402_1005Metric,1,,,CH340C V3 decoupling,~
-"R1,R2",10k,Resistor_SMD:R_0402_1005Metric,2,,,EN and GPIO0 pull-up resistors,~
-R3,330R,Resistor_SMD:R_0402_1005Metric,1,,,Status LED series resistor,~
-R4,10k,Resistor_SMD:R_0402_1005Metric,1,,,NTC voltage divider resistor,~
-"R5,R6,R7,R8",10k,Resistor_SMD:R_0402_1005Metric,4,,,Fan TACH pull-up resistors,~
-"R9,R10",5.1k,Resistor_SMD:R_0402_1005Metric,2,,,USB-C CC pull-down resistors,~
-LED1,LED_GREEN,LED_THT:LED_D3.0mm,1,,,Green status LED,~
-SW1,RESET,Button_Switch_THT:SW_PUSH_6mm,1,,,Tactile reset button,~
-SW2,BOOT,Button_Switch_THT:SW_PUSH_6mm,1,,,Tactile boot button,~
-NTC1,NTC10K_B3950,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,1,,,10k NTC thermistor B=3950,~
+"C3,C4,C5,C6",100nF,Capacitor_SMD:C_0402_1005Metric,4,Samsung,CL05B104KO5NNNC,100nF 0402 16V X5R decoupling capacitors,https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp
+C7,100nF,Capacitor_SMD:C_0402_1005Metric,1,Samsung,CL05B104KO5NNNC,100nF 0402 16V X5R — CH340C V3 decoupling,https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp
+"R1,R2,R4",10k,Resistor_SMD:R_0402_1005Metric,3,Yageo,RC0402FR-0710KL,"10kΩ 0402 1% — EN, BOOT, NTC divider pull-up",https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+R3,330R,Resistor_SMD:R_0402_1005Metric,1,Yageo,RC0402FR-07330RL,330Ω 0402 1% — status LED current limit,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+"R5,R6,R7,R8",10k,Resistor_SMD:R_0402_1005Metric,4,Yageo,RC0402FR-0710KL,10kΩ 0402 1% — fan TACH pull-up resistors,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+"R9,R10",5.1k,Resistor_SMD:R_0402_1005Metric,2,Yageo,RC0402FR-075K1L,5.1kΩ 0402 1% — USB-C CC pull-down resistors,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+LED1,LED_GREEN,LED_THT:LED_D3.0mm,1,Wurth,150060GS75000,"Green 3mm THT LED, 565nm",https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000
+SW1,RESET,Button_Switch_THT:SW_PUSH_6mm,1,C&K,PTS636 SK43 SMTR LFS,"6mm tactile pushbutton, THT, 4.3mm height",https://www.ckswitches.com/products/switches/product-details/Tactile/PTS636/
+SW2,BOOT,Button_Switch_THT:SW_PUSH_6mm,1,C&K,PTS636 SK43 SMTR LFS,"6mm tactile pushbutton, THT, 4.3mm height",https://www.ckswitches.com/products/switches/product-details/Tactile/PTS636/
+NTC1,NTC10K_B3950,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,1,Murata,NCP15XH103F03RC,"10kΩ NTC thermistor B=3380, axial THT",https://www.murata.com/en-us/products/productdetail?partid=NCP15XH103F03RC
