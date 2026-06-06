@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 1.0.0 | Last amended: 2026-06-06 -->
+<!-- Version: 1.0.1 | Last amended: 2026-06-06 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -97,9 +97,22 @@ No component footprint may have pads or courtyard on B.Cu.
 This rule is absolute: it simplifies hand assembly, visual inspection, and conformal coating.
 
 **P-HW-03 — Single board-edge connector rule (CRITICAL).**
-All external connectors (J1, J2–J5, J6) MUST be placed on the **same board edge**.
+All external connectors **(J1, J2–J5, J6)** MUST be placed on the **same board edge**.
 The designated edge is the **top edge at y ≈ 5 mm**.
 This ensures all cable connections are accessible from one side and prevents cable routing conflicts.
+
+> **Documented exception — J7 (debug UART header):**
+> J7 (`PinHeader_1x03_P2.54mm`, 3-pin 2.54 mm) is placed on the **right board edge (x = 95 mm)**
+> and is the **sole** named exception to this rule. Rationale:
+> 1. J7 is a development-only debug UART convenience connector; it is not panel-mounted,
+>    user-facing, or present on production labels.
+> 2. J7 has no locked MPN (§2.2 does not list it); no BOM amendment is triggered.
+> 3. J7 physically cannot fit on the top-edge secondary rail: the 53.5 mm secondary rail is
+>    fully consumed by J2–J5 + J6 (51.64 mm used, 1.86 mm margin), leaving a 5.76 mm
+>    shortfall for J7's 7.62 mm body width.
+> 4. J7 is entirely within the secondary (SELV) domain (x > 38 mm); its right-edge
+>    position introduces no isolation risk.
+> Amendment: v1.0.1, 2026-06-06 — architect, feature pcb-connector-edge.
 
 **P-HW-04 — Fixed board outline.**
 Board outline is 90 × 70 mm on Edge.Cuts. This must not change without a MAJOR amendment affecting fabrication quotes.
@@ -354,3 +367,4 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | Version | Date | Change | Author |
 |---|---|---|---|
 | 1.0.0 | 2026-06-06 | Initial constitution established | architect |
+| 1.0.1 | 2026-06-06 | PATCH — P-HW-03: documented J7 right-edge exception (debug UART header; does not fit top-edge rail; secondary domain only); clarification of named connector scope. Feature: pcb-connector-edge (#1). | architect |
