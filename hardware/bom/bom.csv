@@ -1,13 +1,13 @@
 Reference,Value,Footprint,Qty,Manufacturer,MPN,Description,Datasheet
-J1,RJ45_PoE,Connector_RJ45:RJ45_Shielded_Horizontal_Amphenol_54602,1,Wuerth,615008144521,Shielded RJ45 with integrated magnetics,https://www.we-online.com/en/components/products/WR-MJ/615008144521
+J1,RJ45_PoE,Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal,1,Wuerth,615008144521,Shielded RJ45 with integrated magnetics,https://www.we-online.com/en/components/products/WR-MJ/615008144521
 U1,Ag9905M,Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical,1,Silvertel,Ag9905M,"PoE+ 802.3at PD module, 12V 1.67A isolated",https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf
-U2,LM2596-3.3,Package_TO_SOT_THT:TO-263-5_TabDown,1,TI,LM2596T-3.3/NOPB,"3A 150kHz buck regulator, 3.3V fixed",https://www.ti.com/lit/ds/symlink/lm2596.pdf
+U2,LM2596-3.3,Package_TO_SOT_SMD:TO-263-5_TabPin3,1,TI,LM2596S-3.3/NOPB,"3A 150kHz buck regulator, 3.3V fixed, D2PAK",https://www.ti.com/lit/ds/symlink/lm2596.pdf
 U3,ESP32-WROOM-32,RF_Module:ESP32-WROOM-32,1,Espressif,ESP32-WROOM-32D,"ESP32 dual-core WiFi+BT module, 4MB flash",https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf
 U4,CH340C,Package_SO:SOIC-16_3.9x9.9mm_P1.27mm,1,WCH,CH340C,"USB-UART bridge, internal oscillator",https://www.wch-ic.com/downloads/CH340DS1_PDF.html
 "J2,J3,J4,J5",Fan_Header,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,4,Molex,47053-1000,4-pin 2.54mm 12V PWM fan header,~
-J6,USB_C_2.0,Connector_USB:USB_C_Receptacle_GCT_USB4135_FlipMountable,1,GCT,USB4135-GF-A,"USB Type-C receptacle, flip mount",~
+J6,USB_C_2.0,Connector_USB:USB_C_Receptacle_GCT_USB4085,1,GCT,USB4085-GF-A,"USB Type-C receptacle, through-hole",~
 J7,Debug_UART,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,1,,,3-pin debug UART header,~
-L1,68uH,Inductor_THT:L_Axial_L10.0mm_D4.5mm_P15.24mm,1,Bourns,SRR5028-680Y,68uH 3A shielded power inductor,~
+L1,68uH,Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC,1,Bourns,SRR5028-680Y,68uH 3A shielded power inductor,~
 D1,1N5822,Diode_THT:D_DO-201AD_P12.70mm_Horizontal,1,ON Semi,1N5822,3A 40V Schottky diode,~
 C1,100uF/25V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 input bulk capacitor,~
 C2,100uF/10V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 output bulk capacitor,~
