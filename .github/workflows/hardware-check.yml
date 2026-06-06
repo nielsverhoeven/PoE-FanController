@@ -73,9 +73,10 @@ jobs:
             --output hardware/kicad/drc_output.json \
             --format json --exit-code-violations || true
 
-      - name: Check DRC violation count (baseline 36)
-        # DRC baseline: 36 pre-existing violations (solder_mask_bridge, silk_edge_clearance,
-        # lib_footprint_mismatch). See issue #39 to drive to zero.
+      - name: Check DRC violation count (baseline 67)
+        # DRC baseline: 67 pre-existing violations measured in KiCad 10.0.2 Docker/Linux.
+        # Breakdown: 34 lib_footprint_issues (version-sensitive), 28 solder_mask_bridge, 5 silk_edge_clearance.
+        # Local Windows count (KiCad 10.0.3): 36. Docker is authoritative. See issue #39 to drive to zero.
         run: |
           python3 -c "
           import json, sys
@@ -83,7 +84,7 @@ jobs:
           violations = d.get('violations', [])
           n = len(violations)
           print(f'DRC: {n} violation(s)')
-          sys.exit(1 if n > 36 else 0)
+          sys.exit(1 if n > 67 else 0)
           "
 
       - name: Upload ERC report
