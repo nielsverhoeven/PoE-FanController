@@ -1577,7 +1577,7 @@
   		)
   	)
   )
-  (footprint "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" (layer "F.Cu") (uuid "00000195-0195-0195-0195-000000000195") (at 91.000 35.000 90.0)
+  (footprint "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" (layer "F.Cu") (uuid "00000195-0195-0195-0195-000000000195") (at 88.000 50.000 90.0)
   	(descr "Through hole straight pin header, 1x03, 2.54mm pitch, single row")
   	(tags "Through hole pin header THT 1x03 2.54mm single row")
   	(property "Reference" "J7"
@@ -1766,7 +1766,7 @@
   		)
   	)
   )
-  (footprint "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical" (layer "F.Cu") (uuid "00000196-0196-0196-0196-000000000196") (at 20.000 40.000)
+  (footprint "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical" (layer "F.Cu") (uuid "00000196-0196-0196-0196-000000000196") (at 21.000 32.000)
   	(descr "Through hole straight pin header, 2x04, 2.54mm pitch, double rows")
   	(tags "Through hole pin header THT 2x04 2.54mm double row")
   	(property "Reference" "U1"
@@ -2008,7 +2008,7 @@
   		)
   	)
   )
-  (footprint "Package_TO_SOT_SMD:TO-263-5_TabPin3" (layer "F.Cu") (uuid "00000197-0197-0197-0197-000000000197") (at 28.000 55.000)
+  (footprint "Package_TO_SOT_SMD:TO-263-5_TabPin3" (layer "F.Cu") (uuid "00000197-0197-0197-0197-000000000197") (at 27.000 57.000)
   	(descr "TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-5-1/")
   	(tags "D2PAK DDPAK TO-263 D2PAK-5 TO-263-5 SOT-426")
   	(property "Reference" "U2"
@@ -2363,7 +2363,7 @@
   		)
   	)
   )
-  (footprint "Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC" (layer "F.Cu") (uuid "00000198-0198-0198-0198-000000000198") (at 15.000 55.000)
+  (footprint "Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC" (layer "F.Cu") (uuid "00000198-0198-0198-0198-000000000198") (at 8.000 46.000)
   	(descr "Inductor, Axial series, Axial, Horizontal, pin pitch=15.24mm, length*diameter=11*4.5mm^2, Fastron, MECC, http://www.fastrongroup.com/image-show/21/MECC.pdf?type=Complete-DataSheet&productType=series")
   	(tags "Inductor Axial series Axial Horizontal pin pitch 15.24mm  length 11mm diameter 4.5mm Fastron MECC")
   	(property "Reference" "L1"
@@ -2502,7 +2502,7 @@
   		)
   	)
   )
-  (footprint "Diode_THT:D_DO-201AD_P12.70mm_Horizontal" (layer "F.Cu") (uuid "00000199-0199-0199-0199-000000000199") (at 22.000 62.000)
+  (footprint "Diode_THT:D_DO-201AD_P12.70mm_Horizontal" (layer "F.Cu") (uuid "00000199-0199-0199-0199-000000000199") (at 16.000 67.000)
   	(descr "Diode, DO-201AD series, Axial, Horizontal, pin pitch=12.7mm, length*diameter=9.5*5.2mm^2, http://www.diodes.com/_files/packages/DO-201AD.pdf")
   	(tags "Diode DO-201AD series Axial Horizontal pin pitch 12.7mm  length 9.5mm diameter 5.2mm")
   	(property "Reference" "D1"
@@ -2742,7 +2742,7 @@
   		)
   	)
   )
-  (footprint "Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm" (layer "F.Cu") (uuid "0000019a-019a-019a-019a-00000000019a") (at 18.000 45.000)
+  (footprint "Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm" (layer "F.Cu") (uuid "0000019a-019a-019a-019a-00000000019a") (at 8.000 32.000)
   	(descr "C, Radial series, Radial, pin pitch=3.50mm, diameter=8mm, height=11.5mm, Non-Polar Electrolytic Capacitor")
   	(tags "C Radial series Radial pin pitch 3.50mm diameter 8mm height 11.5mm Non-Polar Electrolytic Capacitor")
   	(property "Reference" "C1"
@@ -2845,7 +2845,7 @@
   		)
   	)
   )
-  (footprint "Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm" (layer "F.Cu") (uuid "0000019b-019b-019b-019b-00000000019b") (at 32.000 60.000)
+  (footprint "Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm" (layer "F.Cu") (uuid "0000019b-019b-019b-019b-00000000019b") (at 7.000 62.000)
   	(descr "C, Radial series, Radial, pin pitch=3.50mm, diameter=8mm, height=11.5mm, Non-Polar Electrolytic Capacitor")
   	(tags "C Radial series Radial pin pitch 3.50mm diameter 8mm height 11.5mm Non-Polar Electrolytic Capacitor")
   	(property "Reference" "C2"
@@ -2948,7 +2948,7 @@
   		)
   	)
   )
-  (footprint "RF_Module:ESP32-WROOM-32" (layer "F.Cu") (uuid "0000019c-019c-019c-019c-00000000019c") (at 65.000 42.000)
+  (footprint "RF_Module:ESP32-WROOM-32" (layer "F.Cu") (uuid "0000019c-019c-019c-019c-00000000019c") (at 65.000 53.000)
   	(descr "Single 2.4 GHz Wi-Fi and Bluetooth combo chip https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf")
   	(tags "Single 2.4 GHz Wi-Fi and Bluetooth combo  chip")
   	(property "Reference" "U3"
