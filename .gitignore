@@ -3,5 +3,4 @@ hardware/kicad/drc_result.rpt
 hardware/kicad/erc_output.json
 hardware/kicad/erc_result.rpt
 hardware/kicad/report.txt
-PoE-FanController-drc.rpt
-PoE-FanController-erc.rpt
+hardware/kicad/~PoE-FanController.kicad_sch.lck

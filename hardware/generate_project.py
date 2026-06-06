@@ -255,7 +255,7 @@ class Schematic:
             + f'  )\n')
         return all_p  # return {pin_num: (x,y)} for caller to use
 
-    def power(self, name, x, y, angle=0, pin_type="power_in"):
+    def power(self, name, x, y, angle=0, pin_type="power_out"):
         self.define_power(name, pin_type=pin_type)
         ref = f"#PWR{next(self._pwr_n):03d}"
         self._elements.append(
@@ -269,6 +269,25 @@ class Schematic:
             + f'    (pin "1" (uuid "{_uuid()}"))\n'
             + f'    (instances (project "{PROJ}" (path "/" (reference "{ref}") (unit 1))))\n'
             + f'  )\n')
+
+    def global_label(self, name, x, y, shape="bidirectional", angle=0):
+        """Global net label — visible across the entire schematic; preferred for
+        signals that cross between functional blocks (fan signals, UART, USB, etc.).
+        shape: input | output | bidirectional | tri_state | passive
+        """
+        justify = "right" if angle == 180 else "left"
+        iref_x = round(x + 2.54 * 3, 4)  # auto-placed intersheet ref offset
+        self._elements.append(
+            f'  (global_label "{name}"\n'
+            f'    (shape {shape})\n'
+            f'    (at {_pt(x,y)} {angle})\n'
+            f'    (fields_autoplaced yes)\n'
+            f'    (effects (font (size 1.27 1.27)) (justify {justify}))\n'
+            f'    (uuid "{_uuid()}")\n'
+            f'    (property "Intersheetrefs" "${{INTERSHEET_REFS}}"\n'
+            f'      (at {_pt(iref_x,y)} {angle})\n'
+            f'      (effects (font (size 1.27 1.27)) (justify {justify}) (hide yes)))\n'
+            f'  )\n')
 
     def label(self, name, x, y, angle=0):
         justify = "left" if angle != 180 else "right"
@@ -298,10 +317,20 @@ class Schematic:
             f'  (wire (pts (xy {_pt(x1,y1)}) (xy {_pt(x2,y2)}))\n'
             f'    (stroke (width 0) (type default)) (uuid "{_uuid()}"))\n')
 
-    def text(self, s, x, y, size=2.0):
+    def text(self, s, x, y, size=2.0, bold=False, color=None):
+        """Place a text annotation.
+        color: (r, g, b) tuple with values 0-255, e.g. (0, 0, 255) for blue.
+        """
+        font_parts = []
+        if color:
+            font_parts.append(f'(color {color[0]} {color[1]} {color[2]} 1)')
+        if bold:
+            font_parts.append('(bold yes)')
+        font_parts.append(f'(size {size} {size})')
+        font_str = " ".join(font_parts)
         self._elements.append(
             f'  (text "{s}" (at {_pt(x,y)} 0)\n'
-            f'    (effects (font (size {size} {size})))\n'
+            f'    (effects (font {font_str}))\n'
             f'    (uuid "{_uuid()}"))\n')
 
     # -----------------------------------------------------------------------
@@ -361,10 +390,10 @@ def build_schematic():
              "https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf",
              body_w=22.86, body_h=12.70,
              pins_left=[
-                 ("VPORT_A+", "1", "power_in"),
-                 ("VPORT_A-", "2", "power_in"),
-                 ("VPORT_B+", "3", "power_in"),
-                 ("VPORT_B-", "4", "power_in"),
+                 ("VPORT_A+", "1", "passive"),
+                 ("VPORT_A-", "2", "passive"),
+                 ("VPORT_B+", "3", "passive"),
+                 ("VPORT_B-", "4", "passive"),
              ],
              pins_right=[
                  ("VOUT_P", "5", "power_out"),
@@ -555,7 +584,8 @@ def build_schematic():
     # -----------------------------------------------------------------------
     # J1 – RJ45 with PoE
     # -----------------------------------------------------------------------
-    s.text("=== PoE Power Input ===", 25, 20)
+    BLUE = (0, 0, 255)
+    s.text("PoE Power Input", 25, 18, size=2.54, bold=True, color=BLUE)
     J1_CX, J1_CY = 38.1, 55.88          # 15*G, 22*G
     p = s.component("Custom:RJ45_PoE","J1","RJ45_PoE",
                     "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal",
@@ -583,7 +613,7 @@ def build_schematic():
     s.label("POE_B+", *p["3"])
     s.label("POE_B-", *p["4"])
     s.power("+12V",    *p["5"], pin_type="power_out")  # VOUT_P drives +12V rail
-    s.power("GND",     *p["6"], pin_type="power_out")  # VOUT_N = system GND driver
+    s.power("GND_PRI", *p["6"], pin_type="power_out")  # VOUT_N = primary-side GND
     # /SD: leave as no_connect (internal pull-up keeps module on)
     s.no_connect(*p["7"])
     s.no_connect(*p["8"])                # FLT: not monitored in v0.1
@@ -591,13 +621,13 @@ def build_schematic():
     # -----------------------------------------------------------------------
     # U2 – LM2596-3.3 step-down (12 V → 3.3 V)
     # -----------------------------------------------------------------------
-    s.text("=== 3.3V Regulator (LM2596) ===", 25, 100)
+    s.text("3.3V Regulator (LM2596)", 25, 98, size=2.54, bold=True, color=BLUE)
     U2_CX, U2_CY = 73.66, 127.0         # 29*G, 50*G
     p = s.component("Custom:LM2596-3.3","U2","LM2596-3.3",
                     "Package_TO_SOT_SMD:TO-263-5_TabPin3",
                     U2_CX, U2_CY)
     s.power("+12V",  *p["1"])            # IN: draw from +12V rail
-    s.power("GND",   *p["3"])            # GND
+    s.power("GND",   *p["3"])            # GND (secondary side)
     s.power("GND",   *p["5"])            # /ON tied to GND = always enable
     s.label("+3V3_SW", *p["2"], angle=180)  # switch node output
     s.power("+3V3",    *p["4"])                  # FB connected to output rail (fixed 3.3V)
@@ -608,7 +638,7 @@ def build_schematic():
                     "Diode_THT:D_DO-201AD_P12.70mm_Horizontal",
                     D1_CX, D1_CY)
     s.label("+3V3_SW", *p["1"])          # anode
-    s.power("GND",     *p["2"])          # cathode → GND
+    s.power("GND",     *p["2"])          # cathode → GND (secondary)
 
     # L1 – 68 uH output inductor (SW → +3V3)
     L1_CX, L1_CY = 127.0, 127.0
@@ -647,7 +677,7 @@ def build_schematic():
     # -----------------------------------------------------------------------
     # U3 – ESP32-WROOM-32
     # -----------------------------------------------------------------------
-    s.text("=== ESP32-WROOM-32 ===", 155, 20)
+    s.text("ESP32-WROOM-32", 155, 18, size=2.54, bold=True, color=BLUE)
     U3_CX, U3_CY = 218.44, 109.22       # 86*G, 43*G
     p = s.component("Custom:ESP32-WROOM-32","U3","ESP32-WROOM-32",
                     "RF_Module:ESP32-WROOM-32",
@@ -660,18 +690,19 @@ def build_schematic():
     s.power("GND",   *p["39"])           # pad 39 = exposed bottom GND pad
 
     # Signal pins – left side (pads 3-19)
-    s.label("ESP_EN",    *p["3"])        # EN
-    s.label("FAN3_TACH", *p["4"])        # SENSOR_VP = GPIO36
-    s.label("FAN4_TACH", *p["5"])        # SENSOR_VN = GPIO39
-    s.label("FAN1_TACH", *p["6"])        # IO34
-    s.label("FAN2_TACH", *p["7"])        # IO35
-    s.label("NTC_ADC",   *p["8"])        # IO32
-    s.no_connect(        *p["9"])        # IO33
-    s.label("FAN1_PWM",  *p["10"])       # IO25
-    s.label("FAN2_PWM",  *p["11"])       # IO26
-    s.label("FAN3_PWM",  *p["12"])       # IO27
-    s.label("FAN4_PWM",  *p["13"])       # IO14
-    s.no_connect(        *p["14"])       # IO12
+    # EN/BOOT use global labels — driven by R1/SW1 and R2/SW2 respectively
+    s.global_label("ESP_EN",    *p["3"],  shape="input")
+    s.global_label("FAN3_TACH", *p["4"],  shape="input")  # SENSOR_VP = GPIO36
+    s.global_label("FAN4_TACH", *p["5"],  shape="input")  # SENSOR_VN = GPIO39
+    s.global_label("FAN1_TACH", *p["6"],  shape="input")  # IO34
+    s.global_label("FAN2_TACH", *p["7"],  shape="input")  # IO35
+    s.global_label("NTC_ADC",   *p["8"],  shape="output") # IO32
+    s.no_connect(               *p["9"])                   # IO33
+    s.global_label("FAN1_PWM",  *p["10"], shape="output") # IO25
+    s.global_label("FAN2_PWM",  *p["11"], shape="output") # IO26
+    s.global_label("FAN3_PWM",  *p["12"], shape="output") # IO27
+    s.global_label("FAN4_PWM",  *p["13"], shape="output") # IO14
+    s.no_connect(               *p["14"])                  # IO12
     for pn in ["16","17","18","19"]:
         s.no_connect(*p[pn])             # IO13, SD2, SD3, CMD (flash interface)
 
@@ -679,15 +710,15 @@ def build_schematic():
     for pn in ["20","21","22"]:
         s.no_connect(*p[pn])             # CLK, SD0, SD1 (flash interface)
     s.no_connect(*p["23"])               # IO15
-    s.label("GPIO2",   *p["24"], angle=180)  # IO2 → status LED
-    s.label("BOOT",    *p["25"], angle=180)  # IO0 → BOOT button
+    s.label("GPIO2",   *p["24"], angle=180)  # IO2 → status LED (local — same block)
+    s.global_label("BOOT",    *p["25"], shape="passive", angle=180)  # IO0 → BOOT button
     s.no_connect(*p["26"])               # IO4
     for pn in ["27","28","29","30","31"]:
         s.no_connect(*p[pn])             # IO16, IO17, IO5, IO18, IO19
     s.no_connect(*p["32"])               # NC (module internal)
     s.no_connect(*p["33"])               # IO21
-    s.label("ESP_RX",  *p["34"], angle=180)  # RXD0
-    s.label("ESP_TX",  *p["35"], angle=180)  # TXD0
+    s.global_label("ESP_RX",  *p["34"], shape="input",  angle=180)  # RXD0
+    s.global_label("ESP_TX",  *p["35"], shape="output", angle=180)  # TXD0
     s.no_connect(*p["36"])               # IO22
     s.no_connect(*p["37"])               # IO23
 
@@ -698,29 +729,29 @@ def build_schematic():
     R1_CX, R1_CY = 178.0, p["3"][1]   # same y as EN pin
     p1 = s.component("Custom:R","R1","10k","Resistor_SMD:R_0402_1005Metric",
                      R1_CX, R1_CY)
-    s.power("+3V3",   *p1["1"])
-    s.label("ESP_EN", *p1["2"])
+    s.power("+3V3",             *p1["1"])
+    s.global_label("ESP_EN",    *p1["2"], shape="input")
 
     # SW1 – RESET button
     SW1_CX, SW1_CY = 178.0, R1_CY + 5 * G
     p1 = s.component("Custom:SW_Push","SW1","RESET",
                      "Button_Switch_THT:SW_PUSH_6mm", SW1_CX, SW1_CY)
-    s.label("ESP_EN", *p1["1"])
-    s.power("GND",    *p1["2"])
+    s.global_label("ESP_EN", *p1["1"], shape="input")
+    s.power("GND",            *p1["2"])
 
     # R2 – 10k IO0 pull-up (pad 25 is right-side)
     R2_CX, R2_CY = 178.0, p["25"][1]  # same y as IO0 pin
     p1 = s.component("Custom:R","R2","10k","Resistor_SMD:R_0402_1005Metric",
                      R2_CX, R2_CY)
-    s.power("+3V3", *p1["1"])
-    s.label("BOOT", *p1["2"])
+    s.power("+3V3",           *p1["1"])
+    s.global_label("BOOT",    *p1["2"], shape="passive")
 
     # SW2 – BOOT button  (placed 10*G below SW1 to avoid pin coordinate collision)
     SW2_CX, SW2_CY = 178.0, SW1_CY + 10 * G
     p1 = s.component("Custom:SW_Push","SW2","BOOT",
                      "Button_Switch_THT:SW_PUSH_6mm", SW2_CX, SW2_CY)
-    s.label("BOOT", *p1["1"])
-    s.power("GND",  *p1["2"])
+    s.global_label("BOOT", *p1["1"], shape="passive")
+    s.power("GND",          *p1["2"])
 
     # R3 – 330R LED resistor (pad 24 = IO2)
     R3_CX, R3_CY = 178.0, p["24"][1]  # same y as IO2 pin
@@ -755,7 +786,7 @@ def build_schematic():
     # -----------------------------------------------------------------------
     # Fan headers J2-J5 + TACH pull-up resistors R5-R8
     # -----------------------------------------------------------------------
-    s.text("=== Fan Headers (4x PWM) ===", 305, 20)
+    s.text("Fan Headers (4× PWM)", 305, 18, size=2.54, bold=True, color=BLUE)
 
     fan_data = [
         ("FAN1_PWM", "FAN1_TACH"),
@@ -774,30 +805,30 @@ def build_schematic():
                         FJ_CX, FJ_CY)
         s.power("GND",    *p["1"])
         s.power("+12V",   *p["2"])
-        s.label(tach_net, *p["3"])
-        s.label(pwm_net,  *p["4"])
+        s.global_label(tach_net, *p["3"], shape="output")
+        s.global_label(pwm_net,  *p["4"], shape="input")
 
         # TACH pull-up resistor (R5-R8): +3V3 → TACH pin
         FR_CX = FJ_CX - 30 * G
         FR_CY = p["3"][1]   # same y as TACH pin
         pr = s.component("Custom:R", f"R{5+i}", "10k",
                          "Resistor_SMD:R_0402_1005Metric", FR_CX, FR_CY)
-        s.power("+3V3",   *pr["1"])
-        s.label(tach_net, *pr["2"])
+        s.power("+3V3",              *pr["1"])
+        s.global_label(tach_net,     *pr["2"], shape="output")
 
     # -----------------------------------------------------------------------
     # USB Type-C connector (J6) + CC resistors R9/R10
     # -----------------------------------------------------------------------
-    s.text("=== USB / UART Bridge ===", 25, 205)
+    s.text("USB / UART Bridge", 25, 203, size=2.54, bold=True, color=BLUE)
     J6_CX, J6_CY = 55.88, 264.16        # 22*G, 104*G
     p = s.component("Custom:USB_C","J6","USB_C_2.0",
                     "Connector_USB:USB_C_Receptacle_GCT_USB4085",
                     J6_CX, J6_CY)
-    s.power("GND",   *p["A1"])
+    s.power("GND",    *p["A1"])
     s.no_connect(*p["A4"])               # VBUS – not used (bus-powered from PoE)
-    s.label("USB_DP", *p["A6"])
-    s.label("USB_DN", *p["A7"])
-    # CC1 / CC2 pull-down to GND (no_connect placeholder – connect via R9/R10)
+    s.global_label("USB_DP", *p["A6"], shape="bidirectional")
+    s.global_label("USB_DN", *p["A7"], shape="bidirectional")
+    # CC1 / CC2 pull-down to GND (5.1k resistors R9/R10)
     s.label("CC1", *p["A5"])
     s.label("CC2", *p["B5"])
     s.no_connect(*p["SH"])               # shield
@@ -826,16 +857,16 @@ def build_schematic():
                     "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm",
                     U4_CX, U4_CY)
     s.power("GND",    *p["1"])           # GND
-    s.label("ESP_RX", *p["2"])           # TXD → ESP RXD0
-    s.label("ESP_TX", *p["3"])           # RXD ← ESP TXD0
+    s.global_label("ESP_RX", *p["2"], shape="output") # TXD → ESP RXD0
+    s.global_label("ESP_TX", *p["3"], shape="input")  # RXD ← ESP TXD0
     s.label("CH340_V3", *p["4"])         # V3: internal 3.3V, decouple with C7
-    s.label("USB_DP",   *p["5"])
-    s.label("USB_DN",   *p["6"])
+    s.global_label("USB_DP",   *p["5"], shape="bidirectional")
+    s.global_label("USB_DN",   *p["6"], shape="bidirectional")
     s.no_connect(*p["7"])                # XI (no crystal)
     s.no_connect(*p["8"])                # XO
     s.power("+3V3",   *p["16"])          # VCC
-    s.label("BOOT",   *p["15"], angle=180)  # DTR → GPIO0 auto-boot
-    s.label("ESP_EN", *p["14"], angle=180)  # RTS → EN auto-reset
+    s.global_label("BOOT",   *p["15"], shape="passive",  angle=180)  # DTR → GPIO0 auto-boot
+    s.global_label("ESP_EN", *p["14"], shape="input",    angle=180)  # RTS → EN auto-reset
     s.no_connect(*p["13"])               # CTS
     s.no_connect(*p["12"])               # DSR
     s.no_connect(*p["11"])               # RI
@@ -857,9 +888,9 @@ def build_schematic():
     p = s.component("Custom:Header3","J7","Debug_UART",
                     "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
                     J7_CX, J7_CY)
-    s.power("GND",    *p["1"])
-    s.label("ESP_TX", *p["2"])
-    s.label("ESP_RX", *p["3"])
+    s.power("GND",              *p["1"])
+    s.global_label("ESP_TX",    *p["2"], shape="input")
+    s.global_label("ESP_RX",    *p["3"], shape="output")
 
     return s
 
