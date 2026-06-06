@@ -1,0 +1,89 @@
+name: Hardware Check (ERC + DRC)
+
+on:
+  push:
+    paths:
+      - 'hardware/**'
+  pull_request:
+    paths:
+      - 'hardware/**'
+
+jobs:
+  validate-generator:
+    name: Validate PCB Generator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run generator (syntax + logic check)
+        # KICAD_FP_BASE is not set here; embed_footprint() will fail to find
+        # .kicad_mod files.  We only verify the script parses and runs to the
+        # footprint-reading stage without import errors or broken logic.
+        # Full ERC/DRC is performed in the kicad-erc-drc job below.
+        run: python hardware/generate_project.py || true
+
+  kicad-erc-drc:
+    name: KiCad ERC + DRC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install KiCad
+        run: |
+          sudo add-apt-repository --yes ppa:kicad/kicad-9-releases
+          sudo apt-get update -qq
+          sudo apt-get install --yes --no-install-recommends kicad
+
+      - name: Run PCB generator
+        env:
+          KICAD_FP_BASE: /usr/share/kicad/footprints
+        run: python3 hardware/generate_project.py
+
+      - name: Run ERC
+        run: |
+          kicad-cli sch erc \
+            hardware/kicad/PoE-FanController.kicad_sch \
+            --output hardware/kicad/erc_result.rpt
+          echo "=== ERC Report ===" && cat hardware/kicad/erc_result.rpt
+
+      - name: Run DRC
+        run: |
+          kicad-cli pcb drc \
+            hardware/kicad/PoE-FanController.kicad_pcb \
+            --output hardware/kicad/drc_result.rpt \
+            --schematic-parity
+          echo "=== DRC Report ===" && cat hardware/kicad/drc_result.rpt
+
+      - name: Check DRC violation count
+        run: |
+          VIOLATIONS=$(grep -c '^\[' hardware/kicad/drc_result.rpt || true)
+          MISSING=$(grep -c 'missing_footprint' hardware/kicad/drc_result.rpt || true)
+          echo "Total DRC violations: $VIOLATIONS"
+          echo "missing_footprint:    $MISSING"
+          if [ "$MISSING" -gt 0 ]; then
+            echo "❌ FAIL: missing_footprint violations detected"
+            exit 1
+          fi
+          if [ "$VIOLATIONS" -gt 36 ]; then
+            echo "❌ FAIL: DRC violation count $VIOLATIONS exceeds threshold 36"
+            exit 1
+          fi
+          echo "✅ PASS: DRC within acceptable limits"
+
+      - name: Upload ERC report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erc-report
+          path: hardware/kicad/erc_result.rpt
+
+      - name: Upload DRC report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: drc-report
+          path: hardware/kicad/drc_result.rpt

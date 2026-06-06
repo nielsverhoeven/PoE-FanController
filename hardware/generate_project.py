@@ -27,8 +27,13 @@ def _uuid():
 G  = 2.54   # grid unit (mm)
 PL = 2.54   # pin length (mm)
 
-# KiCad 10 footprint library base path
-KICAD_FP_BASE = r"C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\share\kicad\footprints"
+# KiCad 10 footprint library base path.
+# Override via KICAD_FP_BASE environment variable for CI / non-Windows systems.
+# Linux default (KiCad installed via apt): /usr/share/kicad/footprints
+KICAD_FP_BASE = os.environ.get(
+    "KICAD_FP_BASE",
+    r"C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\share\kicad\footprints",
+)
 
 def snap(v):
     """Snap value to nearest 1.27 mm."""
