@@ -14,7 +14,7 @@ Constraint: body_w and body_h must be multiples of 2.54 so that
   hw + pin_len = (n+2)*1.27 (always on 1.27 mm grid)
 """
 
-import json, os, itertools, csv
+import json, os, itertools, csv, re
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -26,6 +26,9 @@ def _uuid():
 
 G  = 2.54   # grid unit (mm)
 PL = 2.54   # pin length (mm)
+
+# KiCad 10 footprint library base path
+KICAD_FP_BASE = r"C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\share\kicad\footprints"
 
 def snap(v):
     """Snap value to nearest 1.27 mm."""
@@ -857,6 +860,56 @@ def build_schematic():
 
 
 # ---------------------------------------------------------------------------
+# Footprint embedding helper — reads .kicad_mod and transforms it for PCB
+# ---------------------------------------------------------------------------
+def embed_footprint(lib_name, fp_name, ref, value, cx, cy, rot=0.0):
+    """Read a footprint from the KiCad library and return it as a PCB footprint entry.
+
+    Transforms the .kicad_mod format into the inline footprint format used by
+    .kicad_pcb files: adds (at cx cy rot), (uuid ...), and updates Reference/Value.
+    """
+    fp_file = os.path.join(KICAD_FP_BASE, lib_name + ".pretty", fp_name + ".kicad_mod")
+    content = open(fp_file, encoding="utf-8").read()
+
+    uid = _uuid()
+    rot_str = f" {rot:.1f}" if rot != 0.0 else ""
+
+    # Transform the footprint header.
+    # .kicad_mod starts with: (footprint "Name" (version N)(generator "X")(generator_version "Y")(layer "F.Cu") ...
+    # .kicad_pcb needs:       (footprint "Lib:Name" (layer "F.Cu") (uuid "...") (at cx cy rot) ...
+    # The regex handles the header regardless of whitespace/newlines between elements.
+    transformed = re.sub(
+        r'\(footprint\s+"[^"]+"\s*'
+        r'(?:\(version\s+\d+\)\s*)?'
+        r'(?:\(generator\s+"[^"]*"\)\s*)?'
+        r'(?:\(generator_version\s+"[^"]*"\)\s*)?'
+        r'\(layer\s+"F\.Cu"\)',
+        f'(footprint "{lib_name}:{fp_name}" (layer "F.Cu") (uuid "{uid}") (at {cx:.3f} {cy:.3f}{rot_str})',
+        content,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+    # Update Reference and Value properties to actual designator and value.
+    transformed = re.sub(
+        r'(\(property\s+"Reference"\s+)"[^"]*"',
+        rf'\g<1>"{ref}"',
+        transformed,
+        count=1,
+    )
+    transformed = re.sub(
+        r'(\(property\s+"Value"\s+)"[^"]*"',
+        rf'\g<1>"{value}"',
+        transformed,
+        count=1,
+    )
+
+    # Indent the footprint body by 2 spaces for readability in the PCB file.
+    lines = transformed.splitlines()
+    return "\n".join("  " + l if l.strip() else l for l in lines)
+
+
+# ---------------------------------------------------------------------------
 # PCB skeleton (KiCad 10, 100×80 mm)
 # ---------------------------------------------------------------------------
 def write_pcb():
@@ -949,9 +1002,84 @@ def write_pcb():
     (polygon (pts (xy 40 5) (xy {W-5:.1f} 5) (xy {W-5:.1f} {H-5:.1f}) (xy 40 {H-5:.1f}))))
 )
 """
+    # -----------------------------------------------------------------------
+    # Footprint placements — all connectors on top edge (y=5mm), per plan.md
+    # Positions derived from footprint courtyard data + constitution P-HW-03.
+    #
+    # J1  RJ45   : rot=180 → port exits top edge; centre (20.0, 19.47)
+    # J2–J5 fans : rot=0   → vertical; pin-1 row near top edge; cy=7.62
+    # J6  USB-C  : rot=0   → port faces -Y (top edge); origin at (85.0, 6.06)
+    # J7  debug  : rot=90  → pin row parallel to right board edge; (91.0, 35.0)
+    #
+    # IC / passive positions verified against courtyard extents:
+    # U1 2x04 header   courtyard x[-1.77,4.31] y[-1.77,9.39]
+    # U2 TO-263-5       courtyard x[-10.2,6.45] y[-5.65,5.65]
+    # U3 ESP32-WROOM-32 T-shape courtyard: antenna x[-24,24] y[-30.74,-9.8]
+    #                                       body    x[-9.75,9.75] y[-9.8,10.51]
+    # L1 Axial P15.24   courtyard x[-1,16.24] y[-2.75,2.75]
+    # D1 DO-201AD P12.7 courtyard x[-1,13.7]  y[-2.6,2.6]
+    # C1/C2 Rad D8 P3.5 courtyard x[-2.5,6]   y[-4.25,4.25]
+    # -----------------------------------------------------------------------
+    fps = [
+        # Connectors — top edge (primary side)
+        embed_footprint("Connector_RJ", "RJ45_Amphenol_54602-x08_Horizontal",
+                        "J1", "RJ45_PoE", 20.0, 19.47, rot=180.0),
+        # Connectors — top edge (secondary side, x > 38 mm)
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J2", "Fan_Header", 46.1, 7.62),
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J3", "Fan_Header", 56.8, 7.62),
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J4", "Fan_Header", 67.4, 7.62),
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J5", "Fan_Header", 78.1, 7.62),
+        embed_footprint("Connector_USB", "USB_C_Receptacle_GCT_USB4085",
+                        "J6", "USB_C_2.0", 85.0, 6.06),
+        # J7 — right board edge (documented exception, P-HW-03 v1.0.1)
+        # At rot=90°, pins extend along +x. Pin 3 at x=88+5.08=93.08mm < board edge x=95mm ✓
+        # y=50 clears U3 antenna keepout (y[22.26,43.2]) by 6.9mm ✓
+        # and U4 body right (x=85.3) by 0.8mm ✓
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x03_P2.54mm_Vertical",
+                        "J7", "Debug_UART", 88.0, 50.0, rot=90.0),
+        # Major ICs — primary side.
+        # U1 at (21,32): courtyard y[30.23,41.39] — below J1 body (y<24), clear.
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_2x04_P2.54mm_Vertical",
+                        "U1", "Ag9905M", 21.0, 32.0),
+        # U2 at (27,57): TO-263 courtyard x[16.8,33.45] y[51.35,62.65] — below L1 bottom (y=48.75) ✓
+        embed_footprint("Package_TO_SOT_SMD", "TO-263-5_TabPin3",
+                        "U2", "LM2596-3.3", 27.0, 57.0),
+        # L1 at (8,46): pad2 at x=23.24; courtyard y[43.25,48.75] — above U2 top (y=51.35) ✓
+        embed_footprint("Inductor_THT", "L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC",
+                        "L1", "68uH", 8.0, 46.0),
+        # D1 at (16,67): pad2 at x=28.7 < 38 ✓; left courtyard at x=15 vs C2 right x=13 → 2mm gap ✓
+        embed_footprint("Diode_THT", "D_DO-201AD_P12.70mm_Horizontal",
+                        "D1", "1N5822", 16.0, 67.0),
+        # C1 at (8,32): courtyard x[5.5,14] — left of U1 (U1 left=19.23), no x overlap.
+        embed_footprint("Capacitor_THT", "C_Radial_D8.0mm_H11.5mm_P3.50mm",
+                        "C1", "100uF/25V", 8.0, 32.0),
+        # C2 at (7,62): courtyard x[4.5,13] y[57.75,66.25] — clear of U2 (x>16.8) and D1 (y>64.4).
+        embed_footprint("Capacitor_THT", "C_Radial_D8.0mm_H11.5mm_P3.50mm",
+                        "C2", "100uF/10V", 7.0, 62.0),
+        # U3 ESP32 at (65,53): antenna keepout top = 53-30.74 = 22.26 mm.
+        # J2-J5 courtyard bottoms at y=17.01 — gap 5.25 mm ✓.
+        # U4 at (82,58): outside U3 T-shaped courtyard (x=79 > U3 body right x=74.75) ✓.
+        embed_footprint("RF_Module", "ESP32-WROOM-32",
+                        "U3", "ESP32-WROOM-32", 65.0, 53.0),
+        embed_footprint("Package_SO", "SOIC-16_3.9x9.9mm_P1.27mm",
+                        "U4", "CH340C", 82.0, 58.0),
+    ]
+
     p = os.path.join(OUT_DIR, f"{PROJ}.kicad_pcb")
     with open(p, "w", encoding="utf-8") as f:
-        f.write(body)
+        # Write the board skeleton (everything up to the closing paren)
+        f.write(body.rstrip().rstrip(")").rstrip())
+        f.write("\n")
+        # Embed all footprints
+        for fp_str in fps:
+            f.write(fp_str)
+            f.write("\n")
+        # Close the kicad_pcb
+        f.write(")\n")
     print(f"  wrote {p}")
 
 
