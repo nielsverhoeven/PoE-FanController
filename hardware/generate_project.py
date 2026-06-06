@@ -14,7 +14,7 @@ Constraint: body_w and body_h must be multiples of 2.54 so that
   hw + pin_len = (n+2)*1.27 (always on 1.27 mm grid)
 """
 
-import json, os, itertools, csv
+import json, os, itertools, csv, re
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -26,6 +26,9 @@ def _uuid():
 
 G  = 2.54   # grid unit (mm)
 PL = 2.54   # pin length (mm)
+
+# KiCad 10 footprint library base path
+KICAD_FP_BASE = r"C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\share\kicad\footprints"
 
 def snap(v):
     """Snap value to nearest 1.27 mm."""
@@ -857,6 +860,56 @@ def build_schematic():
 
 
 # ---------------------------------------------------------------------------
+# Footprint embedding helper — reads .kicad_mod and transforms it for PCB
+# ---------------------------------------------------------------------------
+def embed_footprint(lib_name, fp_name, ref, value, cx, cy, rot=0.0):
+    """Read a footprint from the KiCad library and return it as a PCB footprint entry.
+
+    Transforms the .kicad_mod format into the inline footprint format used by
+    .kicad_pcb files: adds (at cx cy rot), (uuid ...), and updates Reference/Value.
+    """
+    fp_file = os.path.join(KICAD_FP_BASE, lib_name + ".pretty", fp_name + ".kicad_mod")
+    content = open(fp_file, encoding="utf-8").read()
+
+    uid = _uuid()
+    rot_str = f" {rot:.1f}" if rot != 0.0 else ""
+
+    # Transform the footprint header.
+    # .kicad_mod starts with: (footprint "Name" (version N)(generator "X")(generator_version "Y")(layer "F.Cu") ...
+    # .kicad_pcb needs:       (footprint "Lib:Name" (layer "F.Cu") (uuid "...") (at cx cy rot) ...
+    # The regex handles the header regardless of whitespace/newlines between elements.
+    transformed = re.sub(
+        r'\(footprint\s+"[^"]+"\s*'
+        r'(?:\(version\s+\d+\)\s*)?'
+        r'(?:\(generator\s+"[^"]*"\)\s*)?'
+        r'(?:\(generator_version\s+"[^"]*"\)\s*)?'
+        r'\(layer\s+"F\.Cu"\)',
+        f'(footprint "{lib_name}:{fp_name}" (layer "F.Cu") (uuid "{uid}") (at {cx:.3f} {cy:.3f}{rot_str})',
+        content,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+    # Update Reference and Value properties to actual designator and value.
+    transformed = re.sub(
+        r'(\(property\s+"Reference"\s+)"[^"]*"',
+        rf'\g<1>"{ref}"',
+        transformed,
+        count=1,
+    )
+    transformed = re.sub(
+        r'(\(property\s+"Value"\s+)"[^"]*"',
+        rf'\g<1>"{value}"',
+        transformed,
+        count=1,
+    )
+
+    # Indent the footprint body by 2 spaces for readability in the PCB file.
+    lines = transformed.splitlines()
+    return "\n".join("  " + l if l.strip() else l for l in lines)
+
+
+# ---------------------------------------------------------------------------
 # PCB skeleton (KiCad 10, 100×80 mm)
 # ---------------------------------------------------------------------------
 def write_pcb():
@@ -949,9 +1002,64 @@ def write_pcb():
     (polygon (pts (xy 40 5) (xy {W-5:.1f} 5) (xy {W-5:.1f} {H-5:.1f}) (xy 40 {H-5:.1f}))))
 )
 """
+    # -----------------------------------------------------------------------
+    # Footprint placements — all connectors on top edge (y=5mm), per plan.md
+    # Positions derived from footprint courtyard data + constitution P-HW-03.
+    #
+    # J1  RJ45   : rot=180 → port exits top edge; centre (20.0, 19.47)
+    # J2–J5 fans : rot=0   → vertical; pin-1 row near top edge; cy=7.62
+    # J6  USB-C  : rot=0   → port faces -Y (top edge); origin at (85.0, 6.06)
+    # J7  debug  : rot=90  → pin row parallel to right board edge; (91.0, 35.0)
+    # -----------------------------------------------------------------------
+    fps = [
+        # Connectors — top edge (primary side)
+        embed_footprint("Connector_RJ", "RJ45_Amphenol_54602-x08_Horizontal",
+                        "J1", "RJ45_PoE", 20.0, 19.47, rot=180.0),
+        # Connectors — top edge (secondary side, x > 38 mm)
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J2", "Fan_Header", 46.1, 7.62),
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J3", "Fan_Header", 56.8, 7.62),
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J4", "Fan_Header", 67.4, 7.62),
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
+                        "J5", "Fan_Header", 78.1, 7.62),
+        embed_footprint("Connector_USB", "USB_C_Receptacle_GCT_USB4085",
+                        "J6", "USB_C_2.0", 85.0, 6.06),
+        # J7 — right board edge (documented exception, P-HW-03 v1.0.1)
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x03_P2.54mm_Vertical",
+                        "J7", "Debug_UART", 91.0, 35.0, rot=90.0),
+        # Major ICs — primary side
+        embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_2x04_P2.54mm_Vertical",
+                        "U1", "Ag9905M", 20.0, 40.0),
+        embed_footprint("Package_TO_SOT_SMD", "TO-263-5_TabPin3",
+                        "U2", "LM2596-3.3", 28.0, 55.0),
+        embed_footprint("Inductor_THT", "L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC",
+                        "L1", "68uH", 15.0, 55.0),
+        embed_footprint("Diode_THT", "D_DO-201AD_P12.70mm_Horizontal",
+                        "D1", "1N5822", 22.0, 62.0),
+        embed_footprint("Capacitor_THT", "C_Radial_D8.0mm_H11.5mm_P3.50mm",
+                        "C1", "100uF/25V", 18.0, 45.0),
+        embed_footprint("Capacitor_THT", "C_Radial_D8.0mm_H11.5mm_P3.50mm",
+                        "C2", "100uF/10V", 32.0, 60.0),
+        # Major ICs — secondary side
+        embed_footprint("RF_Module", "ESP32-WROOM-32",
+                        "U3", "ESP32-WROOM-32", 65.0, 42.0),
+        embed_footprint("Package_SO", "SOIC-16_3.9x9.9mm_P1.27mm",
+                        "U4", "CH340C", 82.0, 58.0),
+    ]
+
     p = os.path.join(OUT_DIR, f"{PROJ}.kicad_pcb")
     with open(p, "w", encoding="utf-8") as f:
-        f.write(body)
+        # Write the board skeleton (everything up to the closing paren)
+        f.write(body.rstrip().rstrip(")").rstrip())
+        f.write("\n")
+        # Embed all footprints
+        for fp_str in fps:
+            f.write(fp_str)
+            f.write("\n")
+        # Close the kicad_pcb
+        f.write(")\n")
     print(f"  wrote {p}")
 
 

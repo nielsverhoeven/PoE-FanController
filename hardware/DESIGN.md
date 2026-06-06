@@ -91,14 +91,22 @@ Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
 - **Via**: 0.8 mm diameter, 0.4 mm drill
 - **Ground pour**: Both layers (GND). Split at isolation barrier.
 - **Component placement priority**:
-  1. J1 (RJ45) on board edge with clearance for cable
-  2. U1 (Ag9905M) close to J1, primary-side power traces
-  3. Isolation gap/slot between primary and secondary
-  4. U2 (LM2596) + L1 + D1 grouped together; keep loop small
-  5. U3 (ESP32) centered with fan headers on right
-  6. J2-J5 on right edge for cable access
-  7. J6 (USB-C) + U4 (CH340C) on bottom edge
-- **Decoupling**: Place C3-C6 as close as possible to U3 (ESP32) power pins
+  1. **All external connectors on top board edge** (y = 5 mm, per constitution P-HW-03):
+     | Ref | Part | Centre X | Side | Notes |
+     |-----|------|----------|------|-------|
+     | J1 | RJ45 Amphenol 54602 | 20.0 mm | Primary (x < 38 mm) | rot=180°, port exits top edge |
+     | J2 | Fan header 1×4 | 46.1 mm | Secondary | Courtyard left ≥ 41.0 mm (3 mm creepage) |
+     | J3 | Fan header 1×4 | 56.8 mm | Secondary | |
+     | J4 | Fan header 1×4 | 67.4 mm | Secondary | |
+     | J5 | Fan header 1×4 | 78.1 mm | Secondary | |
+     | J6 | USB-C GCT USB4085 | 85.0 mm | Secondary | Port faces top edge (rot=0°) |
+     | J7 | Debug UART 1×3 | 91.0 mm | Right edge | Documented exception P-HW-03 v1.0.1; rot=90° |
+  2. U1 (Ag9905M) close to J1, primary-side power traces (≈ x=20, y=40)
+  3. Isolation gap/slot at x=38 mm, y=10–70 mm, 1.0 mm wide (P-ISO-04)
+  4. U2 (LM2596) + L1 + D1 grouped together, primary side (≈ x=15–32, y=55–62)
+  5. U3 (ESP32) on secondary side (≈ x=65, y=42)
+  6. U4 (CH340C) near J6 on secondary side (≈ x=82, y=58)
+  7. Decoupling caps (C3–C6) as close as possible to U3 (ESP32) power pins
 
 ## Firmware Overview
 
