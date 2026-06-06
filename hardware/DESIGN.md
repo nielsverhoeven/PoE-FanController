@@ -1,6 +1,6 @@
 # PoE FanController – Hardware Design Notes
 
-<!-- Last updated: 2026-06-06 | Updated: feature/13-missing-passive-footprints -->
+<!-- Last updated: 2026-06-07 | Updated: feature/33-fix-ci-workflows -->
 
 ## Overview
 A PoE 802.3at (PoE+) powered device that controls up to 4 PWM fans via an
@@ -213,6 +213,31 @@ into `hardware/bom/bom.csv`. Key component selections:
 - **Web interface**: ESPAsyncWebServer + LittleFS (static HTML/CSS/JS)
 - **Configuration persistence**: NVS (Non-Volatile Storage)
 - **OTA**: ArduinoOTA over local WiFi
+
+## CI / Automated Checks
+
+Full workflow documentation is in [`docs/ci.md`](../docs/ci.md). This section summarises what CI enforces on hardware files.
+
+### Workflows that act on `hardware/`
+
+| Workflow | Trigger | Gate |
+|---|---|---|
+| **Hardware Check (ERC + DRC)** | `push` / `pull_request` touching `hardware/**` | Generator syntax; ERC zero errors; DRC ≤ 67 violations (Docker baseline) |
+| **KiCad Hardware Release** | `v*.*.*` tag | DRC zero tolerance, then Gerbers + BOM + schematic PDF → GitHub Release |
+
+### KiCad Docker image
+
+Both hardware workflows run `kicad-cli` inside `kicad/kicad:10.0.2` with `--user root`. The development toolchain is locked to KiCad 10.0.3 (P-KI-01); the Docker image uses 10.0.2 because no 10.0.3 image was published on Docker Hub as of 2026-05-09 (P-KI-01 PATCH amendment, constitution v1.1.0).
+
+### DRC baseline
+
+The PR gate allows up to **67 violations** in the Docker/Linux environment (breakdown: 34 `lib_footprint_issues`, 28 `solder_mask_bridge` on J6, 5 `silk_edge_clearance`). Issue #39 tracks driving this to zero. The release workflow uses a **zero-tolerance threshold** regardless of the PR baseline (P-CI-02).
+
+### ERC gate
+
+ERC errors (severity `"error"`) cause an immediate hard failure. Warnings are logged but do not block merge. The current schematic must have zero ERC errors (P-TEST-01).
+
+---
 
 ## Bring-up Procedure
 
