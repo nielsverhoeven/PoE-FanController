@@ -330,27 +330,22 @@ def build_schematic():
     # Symbol definitions  (body_w, body_h MUST be multiples of G=2.54)
     # -----------------------------------------------------------------------
 
-    # RJ45 with PoE: 9 left (Ethernet), 4 right (PoE taps)
+    # RJ45: 8-pin Amphenol 54602 (pads 1-8 match footprint exactly)
+    # PoE pairs share the physical Ethernet conductors (mode A: 1,2/3,6; mode B: 4,5/7,8)
     s.define("Custom:RJ45_PoE", "J", "RJ45_PoE",
-             "Connector_RJ45:RJ45_Shielded_Horizontal_Amphenol_54602", "~",
+             "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal", "~",
              body_w=15.24, body_h=22.86,
              pins_left=[
-                 ("DA+",    "1",  "bidirectional"),
-                 ("DA-",    "2",  "bidirectional"),
-                 ("DB+",    "3",  "bidirectional"),
-                 ("DB-",    "4",  "bidirectional"),
-                 ("DC+",    "5",  "bidirectional"),
-                 ("DC-",    "6",  "bidirectional"),
-                 ("DD+",    "7",  "bidirectional"),
-                 ("DD-",    "8",  "bidirectional"),
-                 ("SHIELD", "9",  "passive"),
+                 ("P1",  "1", "passive"),   # PoE mode A pair: +
+                 ("P2",  "2", "passive"),   # PoE mode A pair: +
+                 ("P3",  "3", "passive"),   # PoE mode A pair: –
+                 ("P4",  "4", "passive"),   # PoE mode B pair: +
+                 ("P5",  "5", "passive"),   # PoE mode B pair: +
+                 ("P6",  "6", "passive"),   # PoE mode A pair: –
+                 ("P7",  "7", "passive"),   # PoE mode B pair: –
+                 ("P8",  "8", "passive"),   # PoE mode B pair: –
              ],
-             pins_right=[
-                 ("POE_A+", "10", "passive"),
-                 ("POE_A-", "11", "passive"),
-                 ("POE_B+", "12", "passive"),
-                 ("POE_B-", "13", "passive"),
-             ])
+             pins_right=[])
 
     # Ag9905M PoE+ PD module: 4 left (PoE input), 4 right (12V output)
     s.define("Custom:Ag9905M", "U", "Ag9905M",
@@ -372,7 +367,7 @@ def build_schematic():
 
     # LM2596-3.3: 3 left (IN, GND, /ON), 2 right (OUT, FB)
     s.define("Custom:LM2596-3.3", "U", "LM2596-3.3",
-             "Package_TO_SOT_THT:TO-263-5_TabDown",
+             "Package_TO_SOT_SMD:TO-263-5_TabPin3",
              "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
              body_w=17.78, body_h=10.16,
              pins_left=[
@@ -385,42 +380,54 @@ def build_schematic():
                  ("FB",  "4", "input"),
              ])
 
-    # ESP32-WROOM-32: 14 left + 14 right = 28 pins
+    # ESP32-WROOM-32: 19 left (pads 1-19) + 20 right (pads 20-39, incl. exposed GND pad)
+    # Pin numbers match RF_Module:ESP32-WROOM-32 footprint pads exactly.
     s.define("Custom:ESP32-WROOM-32", "U", "ESP32-WROOM-32",
              "RF_Module:ESP32-WROOM-32",
              "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf",
-             body_w=30.48, body_h=35.56,
+             body_w=30.48, body_h=50.80,
              pins_left=[
-                 ("GND",    "1",  "power_in"),
-                 ("3V3",    "2",  "power_in"),
-                 ("EN",     "3",  "input"),
-                 ("GPIO0",  "4",  "bidirectional"),
-                 ("GPIO2",  "5",  "bidirectional"),
-                 ("GPIO4",  "6",  "bidirectional"),
-                 ("TXD0",   "7",  "output"),
-                 ("RXD0",   "8",  "input"),
-                 ("GPIO14", "9",  "bidirectional"),
-                 ("GPIO32", "10", "bidirectional"),
-                 ("GPIO34", "11", "input"),
-                 ("GPIO35", "12", "input"),
-                 ("GPIO36", "13", "input"),
-                 ("GPIO39", "14", "input"),
+                 ("GND",       "1",  "power_in"),
+                 ("VDD",       "2",  "power_in"),
+                 ("EN",        "3",  "input"),
+                 ("SENSOR_VP", "4",  "input"),       # GPIO36
+                 ("SENSOR_VN", "5",  "input"),       # GPIO39
+                 ("IO34",      "6",  "input"),
+                 ("IO35",      "7",  "input"),
+                 ("IO32",      "8",  "bidirectional"),
+                 ("IO33",      "9",  "bidirectional"),
+                 ("IO25",      "10", "bidirectional"),
+                 ("IO26",      "11", "bidirectional"),
+                 ("IO27",      "12", "bidirectional"),
+                 ("IO14",      "13", "bidirectional"),
+                 ("IO12",      "14", "bidirectional"),
+                 ("GND",       "15", "passive"),
+                 ("IO13",      "16", "bidirectional"),
+                 ("SHD/SD2",   "17", "bidirectional"),
+                 ("SWP/SD3",   "18", "bidirectional"),
+                 ("SCS/CMD",   "19", "bidirectional"),
              ],
              pins_right=[
-                 ("GND",    "15", "power_in"),
-                 ("GPIO25", "16", "bidirectional"),
-                 ("GPIO26", "17", "bidirectional"),
-                 ("GPIO27", "18", "bidirectional"),
-                 ("GPIO12", "19", "bidirectional"),
-                 ("GPIO13", "20", "bidirectional"),
-                 ("GPIO15", "21", "bidirectional"),
-                 ("GPIO16", "22", "bidirectional"),
-                 ("GPIO17", "23", "bidirectional"),
-                 ("GPIO18", "24", "bidirectional"),
-                 ("GPIO19", "25", "bidirectional"),
-                 ("GPIO21", "26", "bidirectional"),
-                 ("GPIO22", "27", "bidirectional"),
-                 ("GPIO23", "28", "bidirectional"),
+                 ("SCK/CLK",   "20", "bidirectional"),
+                 ("SDO/SD0",   "21", "bidirectional"),
+                 ("SDI/SD1",   "22", "bidirectional"),
+                 ("IO15",      "23", "bidirectional"),
+                 ("IO2",       "24", "bidirectional"),
+                 ("IO0",       "25", "bidirectional"),
+                 ("IO4",       "26", "bidirectional"),
+                 ("IO16",      "27", "bidirectional"),
+                 ("IO17",      "28", "bidirectional"),
+                 ("IO5",       "29", "bidirectional"),
+                 ("IO18",      "30", "bidirectional"),
+                 ("IO19",      "31", "bidirectional"),
+                 ("NC",        "32", "no_connect"),
+                 ("IO21",      "33", "bidirectional"),
+                 ("RXD0/IO3",  "34", "bidirectional"),
+                 ("TXD0/IO1",  "35", "bidirectional"),
+                 ("IO22",      "36", "bidirectional"),
+                 ("IO23",      "37", "bidirectional"),
+                 ("GND",       "38", "passive"),
+                 ("GND_PAD",   "39", "passive"),     # exposed bottom GND pad
              ])
 
     # CH340C: 8 left, 8 right
@@ -461,9 +468,9 @@ def build_schematic():
              ],
              pins_right=[])
 
-    # USB Type-C receptacle (simplified, 7 key signals)
+    # USB Type-C receptacle (GCT USB4085 full-featured, 20-pin)
     s.define("Custom:USB_C", "J", "USB_C",
-             "Connector_USB:USB_C_Receptacle_GCT_USB4135_FlipMountable", "~",
+             "Connector_USB:USB_C_Receptacle_GCT_USB4085", "~",
              body_w=15.24, body_h=20.32,
              pins_left=[
                  ("GND",  "A1", "passive"),
@@ -472,7 +479,7 @@ def build_schematic():
                  ("D+",   "A6", "bidirectional"),
                  ("D-",   "A7", "bidirectional"),
                  ("CC2",  "B5", "passive"),
-                 ("SHLD", "S1", "passive"),
+                 ("SHLD", "SH", "passive"),
              ],
              pins_right=[])
 
@@ -490,7 +497,7 @@ def build_schematic():
              pins_right=[("~", "2", "passive")])
 
     s.define("Custom:L", "L", "L",
-             "Inductor_THT:L_Axial_L10.0mm_D4.5mm_P15.24mm", "~",
+             "Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC", "~",
              body_w=7.62, body_h=2.54,
              pins_left=[("~", "1", "passive")],
              pins_right=[("~", "2", "passive")])
@@ -543,16 +550,18 @@ def build_schematic():
     s.text("=== PoE Power Input ===", 25, 20)
     J1_CX, J1_CY = 38.1, 55.88          # 15*G, 22*G
     p = s.component("Custom:RJ45_PoE","J1","RJ45_PoE",
-                    "Connector_RJ45:RJ45_Shielded_Horizontal_Amphenol_54602",
+                    "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal",
                     J1_CX, J1_CY)
-    # Left pins: Ethernet pairs → no connect (the Ag9905M has integrated magnetics)
-    for pn in ["1","2","3","4","5","6","7","8","9"]:
-        s.no_connect(*p[pn])
-    # Right pins: PoE differential pairs to Ag9905M (label at right-side pin tip)
-    s.label("POE_A+", *p["10"], angle=180)
-    s.label("POE_A-", *p["11"], angle=180)
-    s.label("POE_B+", *p["12"], angle=180)
-    s.label("POE_B-", *p["13"], angle=180)
+    # Pins 1,2 = mode-A pair (+); pins 3,6 = mode-A pair (–)
+    # Pins 4,5 = mode-B pair (+); pins 7,8 = mode-B pair (–)
+    s.label("POE_A+", *p["1"])
+    s.label("POE_A+", *p["2"])
+    s.label("POE_A-", *p["3"])
+    s.label("POE_B+", *p["4"])
+    s.label("POE_B+", *p["5"])
+    s.label("POE_A-", *p["6"])
+    s.label("POE_B-", *p["7"])
+    s.label("POE_B-", *p["8"])
 
     # -----------------------------------------------------------------------
     # U1 – Ag9905M PoE+ PD module
@@ -577,7 +586,7 @@ def build_schematic():
     s.text("=== 3.3V Regulator (LM2596) ===", 25, 100)
     U2_CX, U2_CY = 73.66, 127.0         # 29*G, 50*G
     p = s.component("Custom:LM2596-3.3","U2","LM2596-3.3",
-                    "Package_TO_SOT_THT:TO-263-5_TabDown",
+                    "Package_TO_SOT_SMD:TO-263-5_TabPin3",
                     U2_CX, U2_CY)
     s.power("+12V",  *p["1"])            # IN: draw from +12V rail
     s.power("GND",   *p["3"])            # GND
@@ -596,7 +605,7 @@ def build_schematic():
     # L1 – 68 uH output inductor (SW → +3V3)
     L1_CX, L1_CY = 127.0, 127.0
     p = s.component("Custom:L","L1","68uH",
-                    "Inductor_THT:L_Axial_L10.0mm_D4.5mm_P15.24mm",
+                    "Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC",
                     L1_CX, L1_CY)
     s.label("+3V3_SW", *p["1"])
     # +3V3 output: use power_out type to drive the +3V3 net (suppresses ERC warning)
@@ -635,38 +644,49 @@ def build_schematic():
     p = s.component("Custom:ESP32-WROOM-32","U3","ESP32-WROOM-32",
                     "RF_Module:ESP32-WROOM-32",
                     U3_CX, U3_CY)
-    # Power
-    s.power("GND",   *p["1"])
-    s.power("+3V3",  *p["2"])
-    s.power("GND",   *p["15"])
+    # Power pins
+    s.power("GND",   *p["1"])            # pad 1 = GND (left, top)
+    s.power("+3V3",  *p["2"])            # pad 2 = VDD
+    s.power("GND",   *p["15"])           # pad 15 = GND (mid-left)
+    s.power("GND",   *p["38"])           # pad 38 = GND (right, bottom)
+    s.power("GND",   *p["39"])           # pad 39 = exposed bottom GND pad
 
-    # Signal labels on left-side pins
-    s.label("ESP_EN",    *p["3"])
-    s.label("BOOT",      *p["4"])
-    s.label("GPIO2",     *p["5"])
-    s.no_connect(        *p["6"])        # GPIO4 reserved
-    s.label("ESP_TX",    *p["7"])
-    s.label("ESP_RX",    *p["8"])
-    s.label("FAN4_PWM",  *p["9"])        # GPIO14
-    s.label("NTC_ADC",   *p["10"])       # GPIO32
-    s.label("FAN1_TACH", *p["11"])       # GPIO34
-    s.label("FAN2_TACH", *p["12"])       # GPIO35
-    s.label("FAN3_TACH", *p["13"])       # GPIO36
-    s.label("FAN4_TACH", *p["14"])       # GPIO39
+    # Signal pins – left side (pads 3-19)
+    s.label("ESP_EN",    *p["3"])        # EN
+    s.label("FAN3_TACH", *p["4"])        # SENSOR_VP = GPIO36
+    s.label("FAN4_TACH", *p["5"])        # SENSOR_VN = GPIO39
+    s.label("FAN1_TACH", *p["6"])        # IO34
+    s.label("FAN2_TACH", *p["7"])        # IO35
+    s.label("NTC_ADC",   *p["8"])        # IO32
+    s.no_connect(        *p["9"])        # IO33
+    s.label("FAN1_PWM",  *p["10"])       # IO25
+    s.label("FAN2_PWM",  *p["11"])       # IO26
+    s.label("FAN3_PWM",  *p["12"])       # IO27
+    s.label("FAN4_PWM",  *p["13"])       # IO14
+    s.no_connect(        *p["14"])       # IO12
+    for pn in ["16","17","18","19"]:
+        s.no_connect(*p[pn])             # IO13, SD2, SD3, CMD (flash interface)
 
-    # Right side signal labels
-    s.label("FAN1_PWM", *p["16"])        # GPIO25
-    s.label("FAN2_PWM", *p["17"])        # GPIO26
-    s.label("FAN3_PWM", *p["18"])        # GPIO27
-
-    # No-connect unused right-side GPIOs for now
-    for pn in ["19","20","21","22","23","24","25","26","27","28"]:
-        s.no_connect(*p[pn])
+    # Signal pins – right side (pads 20-37)
+    for pn in ["20","21","22"]:
+        s.no_connect(*p[pn])             # CLK, SD0, SD1 (flash interface)
+    s.no_connect(*p["23"])               # IO15
+    s.label("GPIO2",   *p["24"], angle=180)  # IO2 → status LED
+    s.label("BOOT",    *p["25"], angle=180)  # IO0 → BOOT button
+    s.no_connect(*p["26"])               # IO4
+    for pn in ["27","28","29","30","31"]:
+        s.no_connect(*p[pn])             # IO16, IO17, IO5, IO18, IO19
+    s.no_connect(*p["32"])               # NC (module internal)
+    s.no_connect(*p["33"])               # IO21
+    s.label("ESP_RX",  *p["34"], angle=180)  # RXD0
+    s.label("ESP_TX",  *p["35"], angle=180)  # TXD0
+    s.no_connect(*p["36"])               # IO22
+    s.no_connect(*p["37"])               # IO23
 
     # -----------------------------------------------------------------------
     # ESP32 support: R1 (EN pull-up), SW1 (RESET), R2 (IO0 pull-up), SW2 (BOOT)
     # -----------------------------------------------------------------------
-    # R1 – 10k EN pull-up
+    # R1 – 10k EN pull-up (pad 3 is left-side)
     R1_CX, R1_CY = 178.0, p["3"][1]   # same y as EN pin
     p1 = s.component("Custom:R","R1","10k","Resistor_SMD:R_0402_1005Metric",
                      R1_CX, R1_CY)
@@ -680,8 +700,8 @@ def build_schematic():
     s.label("ESP_EN", *p1["1"])
     s.power("GND",    *p1["2"])
 
-    # R2 – 10k GPIO0 pull-up
-    R2_CX, R2_CY = 178.0, p["4"][1]   # same y as GPIO0 pin (boot pin)
+    # R2 – 10k IO0 pull-up (pad 25 is right-side)
+    R2_CX, R2_CY = 178.0, p["25"][1]  # same y as IO0 pin
     p1 = s.component("Custom:R","R2","10k","Resistor_SMD:R_0402_1005Metric",
                      R2_CX, R2_CY)
     s.power("+3V3", *p1["1"])
@@ -694,8 +714,8 @@ def build_schematic():
     s.label("BOOT", *p1["1"])
     s.power("GND",  *p1["2"])
 
-    # R3 – 330R LED resistor
-    R3_CX, R3_CY = 178.0, p["5"][1]   # same y as GPIO2
+    # R3 – 330R LED resistor (pad 24 = IO2)
+    R3_CX, R3_CY = 178.0, p["24"][1]  # same y as IO2 pin
     p1 = s.component("Custom:R","R3","330R","Resistor_SMD:R_0402_1005Metric",
                      R3_CX, R3_CY)
     s.label("GPIO2", *p1["1"])
@@ -709,8 +729,8 @@ def build_schematic():
     s.label("LED_A", *p1["1"])
     s.power("GND",   *p1["2"])
 
-    # R4 – 10k NTC voltage divider (top half)
-    R4_CX, R4_CY = 178.0, p["10"][1]   # same y as GPIO32
+    # R4 – 10k NTC voltage divider (top half, pad 8 = IO32)
+    R4_CX, R4_CY = 178.0, p["8"][1]   # same y as IO32 pin
     p1 = s.component("Custom:R","R4","10k","Resistor_SMD:R_0402_1005Metric",
                      R4_CX, R4_CY)
     s.power("+3V3",    *p1["1"])
@@ -763,7 +783,7 @@ def build_schematic():
     s.text("=== USB / UART Bridge ===", 25, 205)
     J6_CX, J6_CY = 55.88, 264.16        # 22*G, 104*G
     p = s.component("Custom:USB_C","J6","USB_C_2.0",
-                    "Connector_USB:USB_C_Receptacle_GCT_USB4135_FlipMountable",
+                    "Connector_USB:USB_C_Receptacle_GCT_USB4085",
                     J6_CX, J6_CY)
     s.power("GND",   *p["A1"])
     s.no_connect(*p["A4"])               # VBUS – not used (bus-powered from PoE)
@@ -772,7 +792,7 @@ def build_schematic():
     # CC1 / CC2 pull-down to GND (no_connect placeholder – connect via R9/R10)
     s.label("CC1", *p["A5"])
     s.label("CC2", *p["B5"])
-    s.no_connect(*p["S1"])               # shield
+    s.no_connect(*p["SH"])               # shield
 
     # R9 – CC1 pull-down (5.1k to GND)
     R9_CX = J6_CX - 5 * G
@@ -941,15 +961,15 @@ def write_pcb():
 def write_bom():
     rows = [
         ["Reference","Value","Footprint","Qty","Manufacturer","MPN","Description","Datasheet"],
-        ["J1","RJ45_PoE","Connector_RJ45:RJ45_Shielded_Horizontal_Amphenol_54602","1","Wuerth","615008144521","Shielded RJ45 with integrated magnetics","https://www.we-online.com/en/components/products/WR-MJ/615008144521"],
+        ["J1","RJ45_PoE","Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal","1","Wuerth","615008144521","Shielded RJ45 with integrated magnetics","https://www.we-online.com/en/components/products/WR-MJ/615008144521"],
         ["U1","Ag9905M","Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical","1","Silvertel","Ag9905M","PoE+ 802.3at PD module, 12V 1.67A isolated","https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf"],
-        ["U2","LM2596-3.3","Package_TO_SOT_THT:TO-263-5_TabDown","1","TI","LM2596T-3.3/NOPB","3A 150kHz buck regulator, 3.3V fixed","https://www.ti.com/lit/ds/symlink/lm2596.pdf"],
+        ["U2","LM2596-3.3","Package_TO_SOT_SMD:TO-263-5_TabPin3","1","TI","LM2596S-3.3/NOPB","3A 150kHz buck regulator, 3.3V fixed, D2PAK","https://www.ti.com/lit/ds/symlink/lm2596.pdf"],
         ["U3","ESP32-WROOM-32","RF_Module:ESP32-WROOM-32","1","Espressif","ESP32-WROOM-32D","ESP32 dual-core WiFi+BT module, 4MB flash","https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf"],
         ["U4","CH340C","Package_SO:SOIC-16_3.9x9.9mm_P1.27mm","1","WCH","CH340C","USB-UART bridge, internal oscillator","https://www.wch-ic.com/downloads/CH340DS1_PDF.html"],
         ["J2,J3,J4,J5","Fan_Header","Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical","4","Molex","47053-1000","4-pin 2.54mm 12V PWM fan header","~"],
-        ["J6","USB_C_2.0","Connector_USB:USB_C_Receptacle_GCT_USB4135_FlipMountable","1","GCT","USB4135-GF-A","USB Type-C receptacle, flip mount","~"],
+        ["J6","USB_C_2.0","Connector_USB:USB_C_Receptacle_GCT_USB4085","1","GCT","USB4085-GF-A","USB Type-C receptacle, through-hole","~"],
         ["J7","Debug_UART","Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical","1","","","3-pin debug UART header","~"],
-        ["L1","68uH","Inductor_THT:L_Axial_L10.0mm_D4.5mm_P15.24mm","1","Bourns","SRR5028-680Y","68uH 3A shielded power inductor","~"],
+        ["L1","68uH","Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC","1","Bourns","SRR5028-680Y","68uH 3A shielded power inductor","~"],
         ["D1","1N5822","Diode_THT:D_DO-201AD_P12.70mm_Horizontal","1","ON Semi","1N5822","3A 40V Schottky diode","~"],
         ["C1","100uF/25V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 input bulk capacitor","~"],
         ["C2","100uF/10V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 output bulk capacitor","~"],
