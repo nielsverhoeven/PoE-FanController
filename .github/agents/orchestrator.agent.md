@@ -96,16 +96,16 @@ If docs/constitution.md does not exist:
 
 | User intent | Entry point | Branch created? |
 |---|---|---|
-| 'create issue / new feature / I want to build X' | Stage -2 -> Stage 0 -> Approval gate -> Stage -1 | only after approval |
+| 'create issue / new feature / I want to build X' | Stage -2 -> Stage 0 -> Approval gate -> Stage -1 | yes, immediately after approval |
 | 'enrich issue N' | Stage 0 only | no |
-| 'plan feature N' | Stage 0 -> Stage 2 | no |
-| 'clarify issue N' | Stage 0 -> Stage 1 | no |
+| 'plan feature N' | Stage 0 -> Stage -1 -> Stage 2 | yes, before planning |
+| 'clarify issue N' | Stage 0 -> Stage -1 -> Stage 1 | yes, before clarification |
 | 'implement issue N' | Stage -1 -> full pipeline | yes |
 | 'implement all open issues' | Bulk mode | yes per issue |
 | 'check CI for PR N' | Stage 5.5 only | no |
 | 'document feature N' | Stage 7 only | no |
 
-When in doubt, ask the user to confirm before creating a branch or starting implementation.
+When in doubt, ask the user to confirm before creating a branch.
 
 ---
 
@@ -130,6 +130,8 @@ After Stage 0 for a newly created issue, present a 3-5 bullet summary and ask:
 'Shall I proceed with implementation? (yes / no / I want to change something first)'
 
 ### Stage -1 — Branch Setup
+**Always run Stage -1 immediately after the Approval Gate, before any planning or clarification.**
+All subsequent work (plan.md, tasks.md, implementation files) must be committed to this branch.
 Delegate to github.issues-manager -> Create Branch.
 Use feature/<issue>-<slug> or bugfix/<issue>-<slug>.
 Exit gate: Branch exists on remote and is checked out locally.
@@ -144,7 +146,7 @@ Exit gate: No unresolved [NEEDS CLARIFICATION] markers remain.
 
 ### Stage 2 — Feature Planning
 Delegate to feature.planner. For hardware features, include power budget and component selection.
-Exit gate: docs/features/<feature-name>/plan.md exists.
+Exit gate: docs/features/<feature-name>/plan.md exists and is committed to the feature branch.
 
 ### Stage 3 — Architecture Validation
 Delegate to architect. Architect consults kicad.expert, esp32.expert, poe.expert as needed.
@@ -152,7 +154,7 @@ Exit gate: architect confirms alignment or applies architecture updates.
 
 ### Stage 4 — Task Breakdown
 Delegate to feature.breakdown.
-Exit gate: docs/features/<feature-name>/tasks.md exists with GitHub-linked tasks.
+Exit gate: docs/features/<feature-name>/tasks.md exists with GitHub-linked tasks and is committed to the feature branch.
 
 ### Stage 5 — Implementation
 Delegate to implementer. Tasks may involve: KiCad schematic, PCB layout, ERC/DRC, BOM, firmware, web UI.
@@ -192,7 +194,7 @@ When a feature requires violating or extending a constitution principle:
 - Never modify source code or hardware files directly — delegate to implementer.
 - Never modify architecture docs directly — delegate to architect.
 - Always read docs/constitution.md before starting any feature work.
-- Only create a branch when implementation is explicitly requested.
+- **Always create a branch (Stage -1) before any planning, clarification, or implementation work begins.** No feature work — including plan.md and tasks.md — may be committed to main.
 - ERC must pass (zero errors) after any schematic change before proceeding to layout.
 - DRC must pass (zero errors) after any layout change before proceeding to CI or testing.
 
