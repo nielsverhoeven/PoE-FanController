@@ -62,7 +62,7 @@ shows every net in the schematic and its correct label type:
 | `LED_A` | Intra-block (ESP32 block: R3 → LED1) | `label` ✅ | ✅ |
 | `CH340_V3` | Intra-block (USB/UART Bridge: U4 V3 → C7) | `label` ✅ | ✅ |
 | `CC1`, `CC2` | Intra-block (USB/UART Bridge: J6 → R9/R10) | `label` ✅ | ✅ |
-| `NTC_ADC` | Intra-block (ESP32 block: U3 IO32 → R4/NTC1) | `label` preferred | ⚠️ Mixed — see §5.1 |
+| `NTC_ADC` | Intra-block (ESP32 block: U3 IO32 → R4/NTC1) | `global_label` | ✅ Fixed in T002 — all three endpoints use `global_label` |
 
 ---
 
@@ -279,65 +279,29 @@ The following nets must use `label` (NOT `global_label`) — verifiable by inspe
 
 ## 5. Remaining Gaps
 
-### 5.1 ⚠️ NTC_ADC Label Inconsistency (Style Gap — Not Blocking ERC)
+### 5.1 ✅ NTC_ADC Label Inconsistency — Resolved in T002 (commit `599edfd`)
 
-**Location in generator:**
-- Line 699: `s.global_label("NTC_ADC", *p["8"], shape="output")` — ESP32 IO32
-- Line 776: `s.label("NTC_ADC", *p1["2"])` — R4 top resistor pin 2 (right side)
-- Line 783: `s.label("NTC_ADC", *p1["1"])` — NTC1 thermistor pin 1 (left side)
+**Resolved:** All three NTC_ADC endpoints now use `global_label` consistently.
+IO32 shape corrected to `input` (ESP32 reads the ADC voltage); R4 pin 2 and NTC1 pin 1
+changed from plain `label` to `global_label` with `shape="output"` (passive divider drives node).
+The shape-mismatch KiCad warning on this net was eliminated — ERC now shows 85 warnings (was 86).
 
-**Location in generated schematic:**
-- Line 1954: `(global_label "NTC_ADC" ...)` — IO32
-- Line 2428: `(label "NTC_ADC" ...)` — R4 pin 2
-- Line 2454: `(label "NTC_ADC" ...)` — NTC1 pin 1
+**Changes made in `hardware/generate_project.py`:**
+- Line 699: `shape="output"` → `shape="input"` on ESP32 IO32 endpoint
+- Line 776: `s.label("NTC_ADC", ...)` → `s.global_label("NTC_ADC", ..., shape="output", angle=180)`
+- Line 783: `s.label("NTC_ADC", ...)` → `s.global_label("NTC_ADC", ..., shape="output")`
 
-**Analysis:** R4 (x=178 mm) and NTC1 (x=178 mm) are both placed within the ESP32 block footprint
-(x=155–295 mm), so the NTC_ADC net does not technically cross a functional block boundary. Per
-P-SCH-01, local `label` is acceptable. However, the ESP32 IO32 pin uses `global_label` for the
-same net name. In a single-sheet KiCad schematic, local labels and global labels of the same name
-do connect to the same net (global labels propagate across sheets only in multi-sheet designs); the
-current ERC showing 0 errors confirms they are electrically connected.
+**Verification:** `Select-String hardware/kicad/PoE-FanController.kicad_sch -Pattern "NTC_ADC"`
+returns 3 lines, all containing `global_label`; zero plain `label` hits for this net.
 
-**Recommended fix (future PR):** Standardise to `global_label` for all three endpoints, or change
-IO32 to `label`. The `global_label` on IO32 is more conservative and matches the approach used for
-all other ESP32 signal pins; changing R4/NTC1 to `global_label` is the lower-risk change:
-```python
-# Line 776 — change:
-s.label("NTC_ADC", *p1["2"])
-# To:
-s.global_label("NTC_ADC", *p1["2"], shape="output", angle=180)
+### 5.2 ✅ `erc_output.json` Stale — Resolved in T001 and T003 (commits `bd6c99c`, `d9412d4`)
 
-# Line 783 — change:
-s.label("NTC_ADC", *p1["1"])
-# To:
-s.global_label("NTC_ADC", *p1["1"], shape="output")
-```
-Also correct the `shape="output"` on IO32 (line 699) to `shape="input"` — ESP32 is reading the ADC
-voltage, not driving the net. The current `shape="output"` produces a schematic shape mismatch
-that KiCad flags as a warning.
+**Resolved:** `hardware/kicad/erc_output.json` has been regenerated as valid JSON using
+`kicad-cli sch erc --format json`. The file shows **0 errors, 85 warnings** (dated 2026-06-06T23:05:08)
+and is committed to `feature/25-schematic-readability`.
 
-**Priority:** Low. Does not affect ERC error count. Tidy-up candidate for v0.2.
-
-### 5.2 ⚠️ `erc_output.json` Stale (Process Gap — Blocking per P-DEV-02)
-
-**Location:** `hardware/kicad/erc_output.json`
-
-**Current state:** The committed file records a pre-PR-#24 ERC run with **197 errors, 139 warnings**
-(from before the generator improvements). Per P-TEST-02, this file must be updated and committed
-alongside every schematic change. Per P-DEV-02, any hardware PR must include an updated ERC report
-showing zero errors.
-
-**Required action:** Run KiCad 10.0.3 ERC on `hardware/kicad/PoE-FanController.kicad_sch` (generated
-by the current `generate_project.py`), save the report to `hardware/kicad/erc_output.json`, and
-commit it to `feature/25-schematic-readability`.
-
-**Steps:**
-1. Run `python hardware/generate_project.py` to produce the latest `.kicad_sch`
-2. Open `hardware/kicad/PoE-FanController.kicad_sch` in KiCad 10.0.3
-3. Inspect → Electrical Rules Checker → Run → Save Report as `hardware/kicad/erc_output.json`
-4. Confirm 0 errors; commit the file
-
-**Priority:** High — blocks PR merge per P-DEV-02.
+- T001 (`bd6c99c`): Initial JSON regeneration as baseline (0 errors, 86 warnings)
+- T003 (`d9412d4`): Refreshed after NTC_ADC fix (0 errors, 85 warnings; shape-mismatch eliminated)
 
 ---
 
@@ -370,8 +334,8 @@ commit it to `feature/25-schematic-readability`.
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
 | KiCad version drift invalidates format | Low | Medium | P-KI-01 locks KiCad to 10.0.3; generator pinned to `version 20260101` |
-| `NTC_ADC` label/global_label mismatch creates open net on future KiCad versions | Low | High | Fix in §5.1 recommended for v0.2; single-sheet behaviour confirmed safe in 10.0.3 |
-| `erc_output.json` not updated before merge | Medium | Medium | P-DEV-02 requires zero-error ERC in PR; reviewer must check file timestamp and content |
+| `NTC_ADC` label/global_label mismatch creates open net on future KiCad versions | ~~Low~~ **Eliminated** | High | ✅ Fixed in T002 — all three endpoints now `global_label`; shape-mismatch warning removed |
+| `erc_output.json` not updated before merge | ~~Medium~~ **Eliminated** | Medium | ✅ Resolved in T001/T003 — JSON format, 0 errors, committed to feature branch |
 | `pwr_flag()` method unused → silent regression if `power()` default reverts | Low | High | P-SCH-04 documents the design decision; any change to `power()` default must re-evaluate ERC |
 
 ---
@@ -383,9 +347,9 @@ commit it to `feature/25-schematic-readability`.
 | **P-HW-05** | Schematic is generated, not hand-edited | All changes are in `generate_project.py`; `.kicad_sch` is a build artefact |
 | **P-KI-04** | Generator script is the schematic source of truth | `build_schematic()` is the only place schematic content is defined |
 | **P-KI-01** | KiCad 10.0.3 exclusively | Format version `20260101` locked in `render()` header |
-| **P-TEST-01** | Zero ERC errors required | Achieved: 0 errors after PR #24; `erc_output.json` refresh is a remaining action |
-| **P-TEST-02** | ERC output recorded in `erc_output.json` | Gap identified in §5.2; must be resolved before merge |
-| **P-DEV-02** | ERC gate for hardware PRs | Blocks merge until §5.2 is resolved |
+| **P-TEST-01** | Zero ERC errors required | ✅ 0 errors — verified post-PR #24 and after T002 NTC_ADC fix |
+| **P-TEST-02** | ERC output recorded in `erc_output.json` | ✅ Resolved in T001 and T003 — valid JSON, 0 errors, committed |
+| **P-DEV-02** | ERC gate for hardware PRs | ✅ Satisfied — `erc_output.json` current and showing 0 errors |
 | **P-SCH-01** | Global labels for all inter-block signals | All 8 inter-block signal groups use `global_label` (§2.2, §3.2) |
 | **P-SCH-02** | Isolated ground domains | `GND_PRI` (power_out, U1 only) and `GND` (secondary) — never bridged (§3.3) |
 | **P-SCH-03** | Blue bold 2.54 mm section headers | All 5 blocks: `text(..., size=2.54, bold=True, color=(0,0,255))` (§3.4) |
@@ -405,4 +369,4 @@ commit it to `feature/25-schematic-readability`.
 | Constitution §8.1 | `docs/constitution.md` §8.1 | P-TEST-01/-02 govern ERC requirements |
 | DMX_NODE reference | `docs/reference-samples/DMX_NODE/DMX_NODE.kicad_sch` | Source of best-practice patterns analysed in this feature |
 | KiCad expert agent | `.github/agents/kicad.expert.agent.md` | KiCad 10.0.3 format rules, schematic readability section |
-| ERC output (stale) | `hardware/kicad/erc_output.json` | Must be refreshed — see §5.2 |
+| ERC output | `hardware/kicad/erc_output.json` | ✅ Refreshed — 0 errors, 85 warnings (T001, T003) |
