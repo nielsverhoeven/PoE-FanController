@@ -1010,6 +1010,15 @@ def write_pcb():
     # J2–J5 fans : rot=0   → vertical; pin-1 row near top edge; cy=7.62
     # J6  USB-C  : rot=0   → port faces -Y (top edge); origin at (85.0, 6.06)
     # J7  debug  : rot=90  → pin row parallel to right board edge; (91.0, 35.0)
+    #
+    # IC / passive positions verified against courtyard extents:
+    # U1 2x04 header   courtyard x[-1.77,4.31] y[-1.77,9.39]
+    # U2 TO-263-5       courtyard x[-10.2,6.45] y[-5.65,5.65]
+    # U3 ESP32-WROOM-32 T-shape courtyard: antenna x[-24,24] y[-30.74,-9.8]
+    #                                       body    x[-9.75,9.75] y[-9.8,10.51]
+    # L1 Axial P15.24   courtyard x[-1,16.24] y[-2.75,2.75]
+    # D1 DO-201AD P12.7 courtyard x[-1,13.7]  y[-2.6,2.6]
+    # C1/C2 Rad D8 P3.5 courtyard x[-2.5,6]   y[-4.25,4.25]
     # -----------------------------------------------------------------------
     fps = [
         # Connectors — top edge (primary side)
@@ -1027,24 +1036,35 @@ def write_pcb():
         embed_footprint("Connector_USB", "USB_C_Receptacle_GCT_USB4085",
                         "J6", "USB_C_2.0", 85.0, 6.06),
         # J7 — right board edge (documented exception, P-HW-03 v1.0.1)
+        # At rot=90°, pins extend along +x. Pin 3 at x=88+5.08=93.08mm < board edge x=95mm ✓
+        # y=50 clears U3 antenna keepout (y[22.26,43.2]) by 6.9mm ✓
+        # and U4 body right (x=85.3) by 0.8mm ✓
         embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x03_P2.54mm_Vertical",
-                        "J7", "Debug_UART", 91.0, 35.0, rot=90.0),
-        # Major ICs — primary side
+                        "J7", "Debug_UART", 88.0, 50.0, rot=90.0),
+        # Major ICs — primary side.
+        # U1 at (21,32): courtyard y[30.23,41.39] — below J1 body (y<24), clear.
         embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_2x04_P2.54mm_Vertical",
-                        "U1", "Ag9905M", 20.0, 40.0),
+                        "U1", "Ag9905M", 21.0, 32.0),
+        # U2 at (27,57): TO-263 courtyard x[16.8,33.45] y[51.35,62.65] — below L1 bottom (y=48.75) ✓
         embed_footprint("Package_TO_SOT_SMD", "TO-263-5_TabPin3",
-                        "U2", "LM2596-3.3", 28.0, 55.0),
+                        "U2", "LM2596-3.3", 27.0, 57.0),
+        # L1 at (8,46): pad2 at x=23.24; courtyard y[43.25,48.75] — above U2 top (y=51.35) ✓
         embed_footprint("Inductor_THT", "L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC",
-                        "L1", "68uH", 15.0, 55.0),
+                        "L1", "68uH", 8.0, 46.0),
+        # D1 at (16,67): pad2 at x=28.7 < 38 ✓; left courtyard at x=15 vs C2 right x=13 → 2mm gap ✓
         embed_footprint("Diode_THT", "D_DO-201AD_P12.70mm_Horizontal",
-                        "D1", "1N5822", 22.0, 62.0),
+                        "D1", "1N5822", 16.0, 67.0),
+        # C1 at (8,32): courtyard x[5.5,14] — left of U1 (U1 left=19.23), no x overlap.
         embed_footprint("Capacitor_THT", "C_Radial_D8.0mm_H11.5mm_P3.50mm",
-                        "C1", "100uF/25V", 18.0, 45.0),
+                        "C1", "100uF/25V", 8.0, 32.0),
+        # C2 at (7,62): courtyard x[4.5,13] y[57.75,66.25] — clear of U2 (x>16.8) and D1 (y>64.4).
         embed_footprint("Capacitor_THT", "C_Radial_D8.0mm_H11.5mm_P3.50mm",
-                        "C2", "100uF/10V", 32.0, 60.0),
-        # Major ICs — secondary side
+                        "C2", "100uF/10V", 7.0, 62.0),
+        # U3 ESP32 at (65,53): antenna keepout top = 53-30.74 = 22.26 mm.
+        # J2-J5 courtyard bottoms at y=17.01 — gap 5.25 mm ✓.
+        # U4 at (82,58): outside U3 T-shaped courtyard (x=79 > U3 body right x=74.75) ✓.
         embed_footprint("RF_Module", "ESP32-WROOM-32",
-                        "U3", "ESP32-WROOM-32", 65.0, 42.0),
+                        "U3", "ESP32-WROOM-32", 65.0, 53.0),
         embed_footprint("Package_SO", "SOIC-16_3.9x9.9mm_P1.27mm",
                         "U4", "CH340C", 82.0, 58.0),
     ]
