@@ -53,7 +53,8 @@ jobs:
           kicad-cli sch erc \
             hardware/kicad/PoE-FanController.kicad_sch \
             --output hardware/kicad/erc_output.json \
-            --format json --exit-code-violations
+            --format json || true
+          # Violations include warnings — zero-error gate enforced by the next step
 
       - name: Check ERC results (zero errors enforced)
         run: |
