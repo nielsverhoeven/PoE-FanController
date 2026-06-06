@@ -9,7 +9,11 @@ PoE-FanController is an open-hardware device that controls PWM fans using Power 
 ## Technology Stack
 
 ### Hardware
-- **PCB design**: KiCad 8.x (schematic + layout)
+- **PCB design**: KiCad 10.x (schematic + layout) — current install: **KiCad 10.0.3**
+  - Schematic file format version: `20260101`
+  - PCB file format version: `20260206`
+  - Always use these version codes in generated `.kicad_sch` / `.kicad_pcb` files to avoid "older version" warnings
+  - `kicad-cli` path: `C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe`
 - **Microcontroller**: ESP32 (ESP-WROOM-32 or ESP32-S3 module)
 - **Power input**: PoE 802.3af (15.4 W) / 802.3at (30 W) via dedicated PD controller IC
 - **Fan outputs**: 4-wire PWM fans controlled via ESP32 LEDC peripheral (25 kHz)
