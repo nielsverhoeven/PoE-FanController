@@ -1,0 +1,24 @@
+Reference,Value,Footprint,Quantity,Manufacturer,MPN,Description,Datasheet
+J1,RJ45_PoE,Connector_RJ45:RJ45_Shielded_Horizontal,1,Würth,615008144521,"Shielded RJ45 with integrated magnetics, PoE support",https://www.we-online.com/en/components/products/WR-MJ/615008144521
+U1,Ag9905M,Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical,1,Silvertel,Ag9905M,"PoE+ 802.3at PD module, 12V 1.67A isolated output",https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf
+U2,LM2596-3.3,Package_TO_SOT_THT:TO-263-5_TabDown,1,TI,LM2596T-3.3/NOPB,"3A 150kHz step-down voltage regulator, 3.3V fixed",https://www.ti.com/lit/ds/symlink/lm2596.pdf
+U3,ESP32-WROOM-32,RF_Module:ESP32-WROOM-32,1,Espressif,ESP32-WROOM-32D,"ESP32 dual-core WiFi+BT module, 4MB flash",https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf
+U4,CH340C,Package_SO:SOIC-16_3.9x9.9mm_P1.27mm,1,WCH,CH340C,"USB-UART bridge, built-in oscillator",https://www.wch-ic.com/downloads/CH340DS1_PDF.html
+"J2,J3,J4,J5",Fan_Header,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,4,Molex,47053-1000,4-pin 2.54mm fan header,~
+J6,USB_C_2.0,Connector_USB:USB_C_Receptacle_GCT_USB4135_FlipMountable,1,GCT,USB4135-GF-A,"USB Type-C receptacle, flip mount",~
+J7,Debug_UART,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,1,,,3-pin debug UART header,~
+L1,68µH,Inductor_THT:L_Axial_L10.0mm_D4.5mm_P15.24mm,1,Bourns,SRR5028-680Y,68µH 3.0A shielded power inductor for LM2596,~
+D1,1N5822,Diode_THT:D_DO-201AD_P12.70mm_Horizontal,1,ON Semi,1N5822,3A 40V Schottky diode for LM2596 freewheeling,~
+C1,100µF/25V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 input bulk capacitor,~
+C2,100µF/10V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 output bulk capacitor,~
+"C3,C4,C5,C6",100nF,Capacitor_SMD:C_0402_1005Metric,4,,,3.3V decoupling capacitors,~
+C7,100nF,Capacitor_SMD:C_0402_1005Metric,1,,,CH340C V3 decoupling,~
+"R1,R2",10kΩ,Resistor_SMD:R_0402_1005Metric,2,,,EN and GPIO0 pull-up resistors,~
+R3,330Ω,Resistor_SMD:R_0402_1005Metric,1,,,Status LED current limiting resistor,~
+R4,10kΩ,Resistor_SMD:R_0402_1005Metric,1,,,NTC voltage divider top resistor,~
+"R5,R6,R7,R8",10kΩ,Resistor_SMD:R_0402_1005Metric,4,,,Fan TACH pull-up resistors,~
+"R9,R10",5.1kΩ,Resistor_SMD:R_0402_1005Metric,2,,,USB-C CC1/CC2 resistors (UFP/sink),~
+LED1,LED_GREEN,LED_THT:LED_D3.0mm,1,,,"Status LED, green",~
+SW1,RESET,Button_Switch_THT:SW_PUSH_6mm,1,,,Tactile reset button (EN),~
+SW2,BOOT,Button_Switch_THT:SW_PUSH_6mm,1,,,Tactile boot button (GPIO0),~
+NTC1,NTC10K_B3950,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,1,,,10kΩ NTC thermistor B=3950,~
