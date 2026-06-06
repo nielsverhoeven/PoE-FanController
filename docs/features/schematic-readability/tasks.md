@@ -8,6 +8,10 @@
 - **Branch:** `feature/25-schematic-readability`
 - **Core implementation status:** Complete (merged via PR #24 into `main`)
 - **Remaining scope:** Two gaps identified post-merge; all other acceptance criteria already satisfied on `main`
+- **T001:** ✅ Complete (commit `bd6c99c`) — erc_output.json regenerated as valid JSON, 0 errors
+- **T002:** ✅ Complete (commit `599edfd`) — NTC_ADC global_label shapes fixed in generator and schematic
+- **T003:** ✅ Complete (commit `d9412d4`) — erc_output.json refreshed after NTC_ADC fix, 0 errors
+- **T004:** ✅ Complete (commit `04649a7`) — plan.md §5.1 and §5.2 marked resolved
 
 ### What is already done (no tasks needed)
 | Criterion | Status |
