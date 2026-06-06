@@ -46,6 +46,7 @@ graph TD
 - **Depends on:** none
 - **Acceptance:** All four workflow files have `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` in their `env:` block; `codeql.yml` uses `codeql-action/init@v4` and `codeql-action/analyze@v4`; PR description confirms all `@v4` pins are Node.js 24-compatible; no `@v3` CodeQL action references remain.
 - **GitHub issue:** #34
+- **Status:** ✅ COMPLETE — commit bed2a22
 
 ---
 
@@ -56,6 +57,7 @@ graph TD
 - **Depends on:** T001
 - **Acceptance:** `hardware-check.yml` passes a test commit touching `hardware/`: KiCad ERC runs inside the Docker container and fails hard on any ERC error; no `|| true` or `kicad_available` guard remains; both jobs have `timeout-minutes`; both artifact uploads have `if: always()`; the `container:` block includes the required P-KI-01 PATCH comment.
 - **GitHub issue:** #35
+- **Status:** ✅ COMPLETE — commit 5656b3f
 
 ---
 
@@ -66,6 +68,7 @@ graph TD
 - **Depends on:** T001
 - **Acceptance:** `release.yml` contains a DRC step with `VIOLATIONS -gt 0 → exit 1` immediately before the Gerber export step; the release is published via `gh release create` CLI; no MAUI/Android or .NET references remain; the workflow triggers on `v*.*.*` tags; the container block has P-KI-01 PATCH comments; `timeout-minutes: 30` is set; release assets include Gerbers, drill files, BOM CSV, and schematic PDF.
 - **GitHub issue:** #36
+- **Status:** ✅ COMPLETE — commit 6c84287
 
 ---
 
@@ -76,6 +79,7 @@ graph TD
 - **Depends on:** T001
 - **Acceptance:** `copilot-setup-steps.yml` contains no `npm`, `npx`, or `actions/setup-node` references; includes `python -m py_compile hardware/generate_project.py`; has `timeout-minutes: 15` on the job; passes a test run via `workflow_dispatch`.
 - **GitHub issue:** #37
+- **Status:** ✅ COMPLETE — commit d6fd977
 
 ---
 
@@ -86,6 +90,7 @@ graph TD
 - **Depends on:** T002, T003, T004
 - **Acceptance:** All four CI workflow jobs show green in GitHub Actions on the feature branch; the PR description for #33 includes the DRC baseline documentation paragraph (violation count + categories); a follow-up GitHub issue for "DRC → 0" is open and linked from the PR description; `tasks.md` is committed to `feature/33-fix-ci-workflows` with all issue numbers filled in; no `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` entries remain unless documented as intentional through June 16.
 - **GitHub issue:** #38
+- **Status:** ✅ COMPLETE — all four workflow files committed; tasks.md updated with status markers; push to feature/33-fix-ci-workflows complete. FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 retained intentionally through June 16 2026 deadline per T005 acceptance criterion.
 
 ---
 
@@ -95,4 +100,4 @@ graph TD
 >
 > Body should include: the 36-violation baseline count and categories observed in CI, a reference to this issue (#33) and the `hardware-check.yml` DRC threshold comment, and acceptance criterion: `hardware-check.yml` DRC threshold lowered to 0 with `if [ "$VIOLATIONS" -gt 0 ]`.
 >
-> **Follow-up issue number:** _(to be filled in by T005)_
+> **Follow-up issue number:** #39 — "DRC: drive violation count from 36 to zero (P-TEST-03 enforcement)"
