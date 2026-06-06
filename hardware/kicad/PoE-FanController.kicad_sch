@@ -1952,7 +1952,7 @@
   )
 
   (global_label "NTC_ADC"
-    (shape output)
+    (shape input)
     (at 200.6600 102.8700 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2425,9 +2425,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR031") (unit 1))))
   )
 
-  (label "NTC_ADC" (at 182.8800 102.8700 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000e9-00e9-00e9-00e9-0000000000e9"))
+  (global_label "NTC_ADC"
+    (shape output)
+    (at 182.8800 102.8700 180)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid "000000e9-00e9-00e9-00e9-0000000000e9")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 190.5000 102.8700 180)
+      (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:NTC") (at 177.8000 115.5700 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2451,9 +2458,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "NTC1") (unit 1))))
   )
 
-  (label "NTC_ADC" (at 172.7200 115.5700 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000ed-00ed-00ed-00ed-0000000000ed"))
+  (global_label "NTC_ADC"
+    (shape output)
+    (at 172.7200 115.5700 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000ed-00ed-00ed-00ed-0000000000ed")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 180.3400 115.5700 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "power:GND") (at 182.8800 115.5700 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)

@@ -696,7 +696,7 @@ def build_schematic():
     s.global_label("FAN4_TACH", *p["5"],  shape="input")  # SENSOR_VN = GPIO39
     s.global_label("FAN1_TACH", *p["6"],  shape="input")  # IO34
     s.global_label("FAN2_TACH", *p["7"],  shape="input")  # IO35
-    s.global_label("NTC_ADC",   *p["8"],  shape="output") # IO32
+    s.global_label("NTC_ADC",   *p["8"],  shape="input")  # IO32 — reads ADC voltage
     s.no_connect(               *p["9"])                   # IO33
     s.global_label("FAN1_PWM",  *p["10"], shape="output") # IO25
     s.global_label("FAN2_PWM",  *p["11"], shape="output") # IO26
@@ -773,14 +773,14 @@ def build_schematic():
     p1 = s.component("Custom:R","R4","10k","Resistor_SMD:R_0402_1005Metric",
                      R4_CX, R4_CY)
     s.power("+3V3",    *p1["1"])
-    s.label("NTC_ADC", *p1["2"])
+    s.global_label("NTC_ADC", *p1["2"], shape="output", angle=180)
 
     # NTC1 – thermistor (bottom half of divider)
     NTC1_CX, NTC1_CY = 178.0, R4_CY + 5 * G
     p1 = s.component("Custom:NTC","NTC1","NTC10K_B3950",
                      "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
                      NTC1_CX, NTC1_CY)
-    s.label("NTC_ADC", *p1["1"])
+    s.global_label("NTC_ADC", *p1["1"], shape="output")
     s.power("GND",     *p1["2"])
 
     # -----------------------------------------------------------------------

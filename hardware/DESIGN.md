@@ -1,6 +1,6 @@
 # PoE FanController – Hardware Design Notes
 
-<!-- Last updated: 2026-06-06 | Updated: feature/13-missing-passive-footprints -->
+<!-- Last updated: 2026-06-06 | Updated: feature/25-schematic-readability -->
 
 ## Overview
 A PoE 802.3at (PoE+) powered device that controls up to 4 PWM fans via an
@@ -167,6 +167,131 @@ All components sit on `F.Cu` only (P-HW-02 ✓). All centres are east of x=38 mm
 | All centres east of isolation barrier (x = 38 mm) | ✓ (nearest: SW1 at cx = 44.0 mm) |
 
 DRC report: `PoE-FanController-drc.rpt` (repository root).
+
+---
+
+## Schematic Conventions
+
+These conventions are enforced by `hardware/generate_project.py` and codified in constitution §7A
+(P-SCH-01 – P-SCH-05). The generator is the single source of truth for the schematic; the
+`.kicad_sch` file is a build artefact and must never be edited by hand (P-HW-05, P-KI-04).
+
+### Global labels vs. local labels
+
+Any signal that crosses between two of the five functional blocks MUST use `global_label()`.
+Purely intra-block connections use `label()`.
+
+| Signal type | Method | Example nets |
+|---|---|---|
+| Inter-block | `global_label()` | `FAN1_PWM`, `FAN1_TACH`, `ESP_TX`, `ESP_RX`, `USB_DP`, `USB_DN`, `NTC_ADC`, `ESP_EN`, `BOOT` |
+| Intra-block | `label()` | `POE_A+`, `POE_A-`, `GPIO2`, `LED_A`, `CH340_V3`, `+3V3_SW`, `CC1`, `CC2` |
+
+The `global_label()` method emits a KiCad 10 S-expression with `fields_autoplaced yes` and an
+`Intersheetrefs` property carrying `${INTERSHEET_REFS}`, matching the KiCad 10 reference-project
+format. The schematic currently contains **41 global labels**.
+
+Label `shape` follows signal direction at the point of connection:
+
+| Shape | Meaning | Example in this schematic |
+|---|---|---|
+| `input` | This end receives the signal | `ESP32.IO32` receiving `NTC_ADC`; `ESP32.EN` receiving `ESP_EN` |
+| `output` | This end drives the signal | `Fan_Header.TACH` driving `FAN1_TACH`; `R4` driving `NTC_ADC` |
+| `bidirectional` | Both drive and receive | `USB_DP`, `USB_DN` |
+| `passive` | No defined direction | `BOOT` (pulled-up by R2, driven by CH340C DTR, consumed by ESP32 IO0) |
+
+### Ground domain separation
+
+Two ground nets exist in the schematic and are **never connected** to each other, either in the
+schematic or on the PCB:
+
+| Net | Defined on | Side | Function |
+|---|---|---|---|
+| `GND_PRI` | U1 VOUT_N (pin 6), `pin_type="power_out"` | Primary (PoE) | Return path for PoE input currents only |
+| `GND` | U2 GND (pin 3) and all secondary components | Secondary (SELV) | Return path for 12 V fans and 3.3 V logic |
+
+The isolation barrier is at x = 38 mm on the PCB (P-ISO-02). The copper pour on both layers is
+split at this line (P-HW-08). No PCB trace, pad, via, or pour may cross it.
+
+### Section header style
+
+Each functional block opens with a plain-text annotation placed by the `text()` method:
+
+```python
+BLUE = (0, 0, 255)
+s.text("PoE Power Input", 25, 18, size=2.54, bold=True, color=BLUE)
+```
+
+The five section headers in the current schematic:
+
+| Header text | Components |
+|---|---|
+| `PoE Power Input` | J1 (RJ45), U1 (Ag9905M) |
+| `3.3V Regulator (LM2596)` | U2, D1, L1, C1–C6 |
+| `ESP32-WROOM-32` | U3, R1–R4, SW1–SW2, LED1, NTC1 |
+| `Fan Headers (4× PWM)` | J2–J5, R5–R8 |
+| `USB / UART Bridge` | J6, J7, U4 (CH340C), R9–R10, C7 |
+
+Requirements (P-SCH-03): `bold=True`, `size=2.54` mm, `color=(0,0,255)` (blue).
+No ASCII-art decoration (`===`, `---`, `***`) is permitted.
+
+### Power symbol pin types
+
+The `power()` method in the generator defaults to `pin_type="power_out"`:
+
+```python
+def power(self, name, x, y, angle=0, pin_type="power_out"):
+    self.define_power(name, pin_type=pin_type)
+```
+
+Every `#PWR` symbol placed by `power()` — whether a rail source or a power consumer (decoupling
+cap, pull-up, ground return) — is therefore defined as `power_out`. This eliminates all
+`power_pin_not_driven` ERC errors without needing separate `PWR_FLAG` symbols (P-SCH-04).
+
+The three key rail driver calls that are also explicitly marked `power_out`:
+
+| Call in `generate_project.py` | Net driven |
+|---|---|
+| `s.power("+12V",    *p["5"], pin_type="power_out")` — U1 VOUT_P | `+12V` rail |
+| `s.power("GND_PRI", *p["6"], pin_type="power_out")` — U1 VOUT_N | `GND_PRI` rail |
+| `s.power("+3V3",    *p["2"], pin_type="power_out")` — L1 pin 2 | `+3V3` rail |
+
+**Ag9905M VPORT pins:** U1 input pins (VPORT_A±, VPORT_B±) use `passive` in the custom symbol
+definition (not `power_in`). Using `power_in` on these pins previously caused spurious
+`power_pin_not_driven` ERC errors because no schematic element drives the PoE pair nets — they
+are driven externally by the Ethernet PSE. Changing to `passive` removes those errors (P-SCH-05).
+
+### ERC status
+
+Authoritative ERC run: KiCad 10.0.3, `hardware/kicad/erc_output.json`, 2026-06-06T23:14:29.
+
+| Metric | Result |
+|---|---|
+| **Errors** | **0** |
+| **Warnings** | **85** |
+
+All 85 warnings fall into two categories, both benign:
+
+**`lib_symbol_issues` — "symbol library 'Custom' not included"**
+All components are defined inline in `generate_project.py` using `Custom:*` lib IDs. The `Custom`
+library is not registered in `PoE-FanController.kicad_pro` because it does not exist on disk;
+all symbol definitions are embedded directly in the generated `.kicad_sch` file. KiCad cannot
+find the external library and flags each component. This is expected and correct by design
+(P-HW-05, P-KI-04).
+
+**`lib_symbol_mismatch` — "symbol 'X' doesn't match copy in library 'power'"**
+Inline power symbols (`GND`, `+12V`, `+3V3`, `GND_PRI`) are generated with `pin_type="power_out"`,
+whereas the KiCad stock `power` library defines those same names with `pin_type="power_in"`.
+KiCad detects the mismatch. Benign: the deviation is intentional (P-SCH-04) and is precisely
+what suppresses `power_pin_not_driven` ERC errors project-wide.
+
+Four check types are suppressed in the project-level ERC configuration:
+
+| Suppressed check | Reason |
+|---|---|
+| `single_global_label` | Precautionary suppress; all 41 global labels appear at ≥ 2 locations |
+| `four_way_junction` | No 4-way wire junctions exist in the schematic |
+| `simulation_model_issue` | No SPICE models are attached |
+| `footprint_filter` | Custom footprint assignments do not match KiCad library filter strings |
 
 ---
 
