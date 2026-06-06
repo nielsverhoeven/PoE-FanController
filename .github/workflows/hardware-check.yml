@@ -8,6 +8,9 @@ on:
     paths:
       - 'hardware/**'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   validate-generator:
     name: Validate PCB Generator
