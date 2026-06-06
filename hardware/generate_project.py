@@ -300,7 +300,7 @@ class Schematic:
     def render(self):
         return (
             f'(kicad_sch\n'
-            f'  (version 20250610)\n'
+            f'  (version 20260101)\n'
             f'  (generator "eeschema")\n'
             f'  (generator_version "10.0")\n'
             f'  (uuid "{SCH_UUID}")\n'
@@ -866,7 +866,7 @@ def write_pcb():
         return _uuid()
 
     body = f"""(kicad_pcb
-  (version 20250610)
+  (version 20260206)
   (generator "pcbnew")
   (generator_version "10.0")
   (general (thickness 1.6) (legacy_teardrops no))
