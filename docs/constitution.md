@@ -290,6 +290,33 @@ Fabrication outputs (Gerbers, drill files) are generated into `hardware/gerbers/
 
 ---
 
+## 7A. Schematic Readability Standards
+
+These rules were derived from analysing the DMX_NODE reference project (commit `docs/reference-samples/DMX_NODE/`).
+They apply to the schematic generator (`hardware/generate_project.py`) and are enforced during code review.
+
+**P-SCH-01 — Global labels for all inter-block signals.**
+Any signal that crosses between two functional blocks (PoE input, power regulation, ESP32, fans, USB/UART) MUST use a `global_label` element, not a plain `label`. Global labels provide visual clarity and are highlighted by KiCad's "Highlight Net" feature across the full schematic.
+
+**P-SCH-02 — Isolated ground domains.**
+The schematic uses two distinct ground nets:
+- `GND_PRI` — primary side (PoE input, Ag9905M). Defined as `power_out` on U1 pin VOUT_N.
+- `GND` — secondary side (all SELV circuits: LM2596, ESP32, CH340C, fans). Defined as `power_out` on the first secondary GND usage.
+
+No connection between `GND_PRI` and `GND` may appear in the schematic. The physical isolation barrier is enforced by P-ISO-02.
+
+**P-SCH-03 — Section header style.**
+Each functional block in the schematic must begin with a section header. Headers MUST use the `text()` method with `bold=True`, `size=2.54` (mm), and `color=(0,0,255)` (blue). No ASCII-art decoration (`===`, `---`, `***`) is permitted.
+
+**P-SCH-04 — Power symbol pin types.**
+- Power symbols for rail drivers (U1 VOUT_P → `+12V`; U1 VOUT_N → `GND_PRI`; L1 output → `+3V3`) must be placed with `pin_type="power_out"`.
+- All other power symbols use the default `pin_type="power_out"` (set as the generator default). This ensures zero `power_pin_not_driven` ERC errors without requiring PWR_FLAG symbols.
+
+**P-SCH-05 — Component pin types in custom symbols.**
+Pins in custom component symbols (defined in `define()` / `define_power()` calls) must use the most restrictive correct pin type. Raw signal pins (not connected to a power rail) must be `passive` or `input`/`output` as appropriate; they must **not** be `power_in` or `power_out` unless the pin is genuinely a power-rail driver or consumer. Using `power_in` on non-power pins causes spurious `power_pin_not_driven` ERC errors.
+
+---
+
 ## 8. Testing Standards
 
 ### 8.1 Schematic and ERC

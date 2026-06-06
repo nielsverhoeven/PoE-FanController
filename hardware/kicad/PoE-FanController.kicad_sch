@@ -98,19 +98,19 @@
           (fill (type background)))
       )
       (symbol "Ag9905M_1_1"
-        (pin power_in line
+        (pin passive line
           (at -13.9700 5.0800 0) (length 2.5400)
           (name "VPORT_A+" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27)))))
-        (pin power_in line
+        (pin passive line
           (at -13.9700 2.5400 0) (length 2.5400)
           (name "VPORT_A-" (effects (font (size 1.27 1.27))))
           (number "2" (effects (font (size 1.27 1.27)))))
-        (pin power_in line
+        (pin passive line
           (at -13.9700 0.0000 0) (length 2.5400)
           (name "VPORT_B+" (effects (font (size 1.27 1.27))))
           (number "3" (effects (font (size 1.27 1.27)))))
-        (pin power_in line
+        (pin passive line
           (at -13.9700 -2.5400 0) (length 2.5400)
           (name "VPORT_B-" (effects (font (size 1.27 1.27))))
           (number "4" (effects (font (size 1.27 1.27)))))
@@ -874,6 +874,32 @@
           (number "1" (effects (font (size 1.27 1.27)))))
       )
     )
+    (symbol "power:GND_PRI"
+      (pin_numbers (hide yes))
+      (pin_names (offset 0) (hide yes))
+      (exclude_from_sim no) (in_bom no) (on_board no)
+    (property "Reference" "#PWR"
+      (at 0.0000 -2.5400 0)
+      (hide yes)
+      (effects (font (size 1.27 1.27))))
+    (property "Value" "GND_PRI"
+      (at 0.0000 2.5400 0)
+      (effects (font (size 1.27 1.27))))
+    (property "Footprint" ""
+      (at 0.0000 0.0000 0)
+      (hide yes)
+      (effects (font (size 1.27 1.27))))
+    (property "Datasheet" ""
+      (at 0.0000 0.0000 0)
+      (hide yes)
+      (effects (font (size 1.27 1.27))))
+      (symbol "GND_PRI_0_1")
+      (symbol "GND_PRI_1_1"
+        (pin power_out line (at 0 0 270) (length 0)
+          (name "~" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27)))))
+      )
+    )
     (symbol "power:GND"
       (pin_numbers (hide yes))
       (pin_names (offset 0) (hide yes))
@@ -921,15 +947,15 @@
       (effects (font (size 1.27 1.27))))
       (symbol "+3V3_0_1")
       (symbol "+3V3_1_1"
-        (pin power_in line (at 0 0 270) (length 0)
+        (pin power_out line (at 0 0 270) (length 0)
           (name "~" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27)))))
       )
     )
   )
 
-  (text "=== PoE Power Input ===" (at 25.4000 20.3200 0)
-    (effects (font (size 2.0 2.0)))
+  (text "PoE Power Input" (at 25.4000 17.7800 0)
+    (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "00000001-0001-0001-0001-000000000001"))
 
   (symbol (lib_id "Custom:RJ45_PoE") (at 38.1000 55.8800 0)
@@ -1058,14 +1084,14 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR001") (unit 1))))
   )
 
-  (symbol (lib_id "power:GND") (at 110.4900 53.3400 0)
+  (symbol (lib_id "power:GND_PRI") (at 110.4900 53.3400 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
     (fields_autoplaced yes) (uuid "00000022-0022-0022-0022-000000000022")
     (property "Reference" "#PWR002"
       (at 110.4900 55.8800 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "GND"
+    (property "Value" "GND_PRI"
       (at 110.4900 50.8000 0)
       (effects (font (size 1.27 1.27))))
     (property "Footprint" ""
@@ -1084,8 +1110,8 @@
 
   (no_connect (at 110.4900 58.4200) (uuid "00000025-0025-0025-0025-000000000025"))
 
-  (text "=== 3.3V Regulator (LM2596) ===" (at 25.4000 100.3300 0)
-    (effects (font (size 2.0 2.0)))
+  (text "3.3V Regulator (LM2596)" (at 25.4000 97.7900 0)
+    (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "00000026-0026-0026-0026-000000000026"))
 
   (symbol (lib_id "Custom:LM2596-3.3") (at 73.6600 127.0000 0)
@@ -1697,8 +1723,8 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR020") (unit 1))))
   )
 
-  (text "=== ESP32-WROOM-32 ===" (at 154.9400 20.3200 0)
-    (effects (font (size 2.0 2.0)))
+  (text "ESP32-WROOM-32" (at 154.9400 17.7800 0)
+    (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "0000006c-006c-006c-006c-00000000006c"))
 
   (symbol (lib_id "Custom:ESP32-WROOM-32") (at 218.4400 109.2200 0)
@@ -1870,47 +1896,117 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR025") (unit 1))))
   )
 
-  (label "ESP_EN" (at 200.6600 90.1700 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "0000009f-009f-009f-009f-00000000009f"))
+  (global_label "ESP_EN"
+    (shape input)
+    (at 200.6600 90.1700 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "0000009f-009f-009f-009f-00000000009f")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 90.1700 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN3_TACH" (at 200.6600 92.7100 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a0-00a0-00a0-00a0-0000000000a0"))
+  (global_label "FAN3_TACH"
+    (shape input)
+    (at 200.6600 92.7100 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a0-00a0-00a0-00a0-0000000000a0")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 92.7100 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN4_TACH" (at 200.6600 95.2500 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a1-00a1-00a1-00a1-0000000000a1"))
+  (global_label "FAN4_TACH"
+    (shape input)
+    (at 200.6600 95.2500 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a1-00a1-00a1-00a1-0000000000a1")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 95.2500 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN1_TACH" (at 200.6600 97.7900 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a2-00a2-00a2-00a2-0000000000a2"))
+  (global_label "FAN1_TACH"
+    (shape input)
+    (at 200.6600 97.7900 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a2-00a2-00a2-00a2-0000000000a2")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 97.7900 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN2_TACH" (at 200.6600 100.3300 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a3-00a3-00a3-00a3-0000000000a3"))
+  (global_label "FAN2_TACH"
+    (shape input)
+    (at 200.6600 100.3300 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a3-00a3-00a3-00a3-0000000000a3")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 100.3300 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "NTC_ADC" (at 200.6600 102.8700 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a4-00a4-00a4-00a4-0000000000a4"))
+  (global_label "NTC_ADC"
+    (shape output)
+    (at 200.6600 102.8700 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a4-00a4-00a4-00a4-0000000000a4")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 102.8700 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (no_connect (at 200.6600 105.4100) (uuid "000000a5-00a5-00a5-00a5-0000000000a5"))
 
-  (label "FAN1_PWM" (at 200.6600 107.9500 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a6-00a6-00a6-00a6-0000000000a6"))
+  (global_label "FAN1_PWM"
+    (shape output)
+    (at 200.6600 107.9500 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a6-00a6-00a6-00a6-0000000000a6")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 107.9500 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN2_PWM" (at 200.6600 110.4900 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a7-00a7-00a7-00a7-0000000000a7"))
+  (global_label "FAN2_PWM"
+    (shape output)
+    (at 200.6600 110.4900 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a7-00a7-00a7-00a7-0000000000a7")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 110.4900 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN3_PWM" (at 200.6600 113.0300 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a8-00a8-00a8-00a8-0000000000a8"))
+  (global_label "FAN3_PWM"
+    (shape output)
+    (at 200.6600 113.0300 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a8-00a8-00a8-00a8-0000000000a8")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 113.0300 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN4_PWM" (at 200.6600 115.5700 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000a9-00a9-00a9-00a9-0000000000a9"))
+  (global_label "FAN4_PWM"
+    (shape output)
+    (at 200.6600 115.5700 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000a9-00a9-00a9-00a9-0000000000a9")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 208.2800 115.5700 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (no_connect (at 200.6600 118.1100) (uuid "000000aa-00aa-00aa-00aa-0000000000aa"))
 
@@ -1934,9 +2030,16 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid "000000b3-00b3-00b3-00b3-0000000000b3"))
 
-  (label "BOOT" (at 236.2200 97.7900 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "000000b4-00b4-00b4-00b4-0000000000b4"))
+  (global_label "BOOT"
+    (shape passive)
+    (at 236.2200 97.7900 180)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid "000000b4-00b4-00b4-00b4-0000000000b4")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 243.8400 97.7900 180)
+      (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
+  )
 
   (no_connect (at 236.2200 100.3300) (uuid "000000b5-00b5-00b5-00b5-0000000000b5"))
 
@@ -1954,13 +2057,27 @@
 
   (no_connect (at 236.2200 118.1100) (uuid "000000bc-00bc-00bc-00bc-0000000000bc"))
 
-  (label "ESP_RX" (at 236.2200 120.6500 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "000000bd-00bd-00bd-00bd-0000000000bd"))
+  (global_label "ESP_RX"
+    (shape input)
+    (at 236.2200 120.6500 180)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid "000000bd-00bd-00bd-00bd-0000000000bd")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 243.8400 120.6500 180)
+      (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
+  )
 
-  (label "ESP_TX" (at 236.2200 123.1900 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "000000be-00be-00be-00be-0000000000be"))
+  (global_label "ESP_TX"
+    (shape output)
+    (at 236.2200 123.1900 180)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid "000000be-00be-00be-00be-0000000000be")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 243.8400 123.1900 180)
+      (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
+  )
 
   (no_connect (at 236.2200 125.7300) (uuid "000000bf-00bf-00bf-00bf-0000000000bf"))
 
@@ -2010,9 +2127,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR026") (unit 1))))
   )
 
-  (label "ESP_EN" (at 182.8800 90.1700 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000c6-00c6-00c6-00c6-0000000000c6"))
+  (global_label "ESP_EN"
+    (shape input)
+    (at 182.8800 90.1700 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000c6-00c6-00c6-00c6-0000000000c6")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 190.5000 90.1700 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:SW_Push") (at 177.8000 102.8700 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2036,9 +2160,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "SW1") (unit 1))))
   )
 
-  (label "ESP_EN" (at 171.4500 101.6000 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000ca-00ca-00ca-00ca-0000000000ca"))
+  (global_label "ESP_EN"
+    (shape input)
+    (at 171.4500 101.6000 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000ca-00ca-00ca-00ca-0000000000ca")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 179.0700 101.6000 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "power:GND") (at 171.4500 104.1400 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2106,9 +2237,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR028") (unit 1))))
   )
 
-  (label "BOOT" (at 182.8800 97.7900 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000d2-00d2-00d2-00d2-0000000000d2"))
+  (global_label "BOOT"
+    (shape passive)
+    (at 182.8800 97.7900 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000d2-00d2-00d2-00d2-0000000000d2")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 190.5000 97.7900 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:SW_Push") (at 177.8000 128.2700 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2132,9 +2270,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "SW2") (unit 1))))
   )
 
-  (label "BOOT" (at 171.4500 127.0000 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000d6-00d6-00d6-00d6-0000000000d6"))
+  (global_label "BOOT"
+    (shape passive)
+    (at 171.4500 127.0000 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000d6-00d6-00d6-00d6-0000000000d6")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 179.0700 127.0000 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "power:GND") (at 171.4500 129.5400 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2332,8 +2477,8 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR032") (unit 1))))
   )
 
-  (text "=== Fan Headers (4x PWM) ===" (at 304.8000 20.3200 0)
-    (effects (font (size 2.0 2.0)))
+  (text "Fan Headers (4× PWM)" (at 304.8000 17.7800 0)
+    (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "000000f0-00f0-00f0-00f0-0000000000f0"))
 
   (symbol (lib_id "Custom:Fan_Header") (at 330.2000 35.5600 0)
@@ -2404,13 +2549,27 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR034") (unit 1))))
   )
 
-  (label "FAN1_TACH" (at 322.5800 35.5600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000fa-00fa-00fa-00fa-0000000000fa"))
+  (global_label "FAN1_TACH"
+    (shape output)
+    (at 322.5800 35.5600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000fa-00fa-00fa-00fa-0000000000fa")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 35.5600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN1_PWM" (at 322.5800 38.1000 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000fb-00fb-00fb-00fb-0000000000fb"))
+  (global_label "FAN1_PWM"
+    (shape input)
+    (at 322.5800 38.1000 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "000000fb-00fb-00fb-00fb-0000000000fb")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 38.1000 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:R") (at 254.0000 35.5600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2456,9 +2615,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR035") (unit 1))))
   )
 
-  (label "FAN1_TACH" (at 259.0800 35.5600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000101-0101-0101-0101-000000000101"))
+  (global_label "FAN1_TACH"
+    (shape output)
+    (at 259.0800 35.5600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000101-0101-0101-0101-000000000101")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 266.7000 35.5600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:Fan_Header") (at 330.2000 137.1600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2528,13 +2694,27 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR037") (unit 1))))
   )
 
-  (label "FAN2_TACH" (at 322.5800 137.1600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "0000010b-010b-010b-010b-00000000010b"))
+  (global_label "FAN2_TACH"
+    (shape output)
+    (at 322.5800 137.1600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "0000010b-010b-010b-010b-00000000010b")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 137.1600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN2_PWM" (at 322.5800 139.7000 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "0000010c-010c-010c-010c-00000000010c"))
+  (global_label "FAN2_PWM"
+    (shape input)
+    (at 322.5800 139.7000 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "0000010c-010c-010c-010c-00000000010c")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 139.7000 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:R") (at 254.0000 137.1600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2580,9 +2760,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR038") (unit 1))))
   )
 
-  (label "FAN2_TACH" (at 259.0800 137.1600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000112-0112-0112-0112-000000000112"))
+  (global_label "FAN2_TACH"
+    (shape output)
+    (at 259.0800 137.1600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000112-0112-0112-0112-000000000112")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 266.7000 137.1600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:Fan_Header") (at 330.2000 238.7600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2652,13 +2839,27 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR040") (unit 1))))
   )
 
-  (label "FAN3_TACH" (at 322.5800 238.7600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "0000011c-011c-011c-011c-00000000011c"))
+  (global_label "FAN3_TACH"
+    (shape output)
+    (at 322.5800 238.7600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "0000011c-011c-011c-011c-00000000011c")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 238.7600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN3_PWM" (at 322.5800 241.3000 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "0000011d-011d-011d-011d-00000000011d"))
+  (global_label "FAN3_PWM"
+    (shape input)
+    (at 322.5800 241.3000 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "0000011d-011d-011d-011d-00000000011d")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 241.3000 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:R") (at 254.0000 238.7600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2704,9 +2905,16 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR041") (unit 1))))
   )
 
-  (label "FAN3_TACH" (at 259.0800 238.7600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000123-0123-0123-0123-000000000123"))
+  (global_label "FAN3_TACH"
+    (shape output)
+    (at 259.0800 238.7600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000123-0123-0123-0123-000000000123")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 266.7000 238.7600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:Fan_Header") (at 330.2000 340.3600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2776,13 +2984,27 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR043") (unit 1))))
   )
 
-  (label "FAN4_TACH" (at 322.5800 340.3600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "0000012d-012d-012d-012d-00000000012d"))
+  (global_label "FAN4_TACH"
+    (shape output)
+    (at 322.5800 340.3600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "0000012d-012d-012d-012d-00000000012d")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 340.3600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "FAN4_PWM" (at 322.5800 342.9000 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "0000012e-012e-012e-012e-00000000012e"))
+  (global_label "FAN4_PWM"
+    (shape input)
+    (at 322.5800 342.9000 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "0000012e-012e-012e-012e-00000000012e")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 330.2000 342.9000 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (symbol (lib_id "Custom:R") (at 254.0000 340.3600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
@@ -2828,12 +3050,19 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR044") (unit 1))))
   )
 
-  (label "FAN4_TACH" (at 259.0800 340.3600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000134-0134-0134-0134-000000000134"))
+  (global_label "FAN4_TACH"
+    (shape output)
+    (at 259.0800 340.3600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000134-0134-0134-0134-000000000134")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 266.7000 340.3600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (text "=== USB / UART Bridge ===" (at 25.4000 204.4700 0)
-    (effects (font (size 2.0 2.0)))
+  (text "USB / UART Bridge" (at 25.4000 203.2000 0)
+    (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "00000135-0135-0135-0135-000000000135"))
 
   (symbol (lib_id "Custom:USB_C") (at 55.8800 264.1600 0)
@@ -2887,13 +3116,27 @@
 
   (no_connect (at 45.7200 257.8100) (uuid "00000140-0140-0140-0140-000000000140"))
 
-  (label "USB_DP" (at 45.7200 262.8900 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000141-0141-0141-0141-000000000141"))
+  (global_label "USB_DP"
+    (shape bidirectional)
+    (at 45.7200 262.8900 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000141-0141-0141-0141-000000000141")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 53.3400 262.8900 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "USB_DN" (at 45.7200 265.4300 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000142-0142-0142-0142-000000000142"))
+  (global_label "USB_DN"
+    (shape bidirectional)
+    (at 45.7200 265.4300 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000142-0142-0142-0142-000000000142")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 53.3400 265.4300 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (label "CC1" (at 45.7200 260.3500 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
@@ -3059,25 +3302,53 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR048") (unit 1))))
   )
 
-  (label "ESP_RX" (at 113.0300 256.5400 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000165-0165-0165-0165-000000000165"))
+  (global_label "ESP_RX"
+    (shape output)
+    (at 113.0300 256.5400 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000165-0165-0165-0165-000000000165")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 120.6500 256.5400 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "ESP_TX" (at 113.0300 259.0800 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000166-0166-0166-0166-000000000166"))
+  (global_label "ESP_TX"
+    (shape input)
+    (at 113.0300 259.0800 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000166-0166-0166-0166-000000000166")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 120.6500 259.0800 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (label "CH340_V3" (at 113.0300 261.6200 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid "00000167-0167-0167-0167-000000000167"))
 
-  (label "USB_DP" (at 113.0300 264.1600 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000168-0168-0168-0168-000000000168"))
+  (global_label "USB_DP"
+    (shape bidirectional)
+    (at 113.0300 264.1600 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000168-0168-0168-0168-000000000168")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 120.6500 264.1600 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "USB_DN" (at 113.0300 266.7000 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000169-0169-0169-0169-000000000169"))
+  (global_label "USB_DN"
+    (shape bidirectional)
+    (at 113.0300 266.7000 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000169-0169-0169-0169-000000000169")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 120.6500 266.7000 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (no_connect (at 113.0300 269.2400) (uuid "0000016a-016a-016a-016a-00000000016a"))
 
@@ -3105,13 +3376,27 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR049") (unit 1))))
   )
 
-  (label "BOOT" (at 140.9700 256.5400 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "0000016e-016e-016e-016e-00000000016e"))
+  (global_label "BOOT"
+    (shape passive)
+    (at 140.9700 256.5400 180)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid "0000016e-016e-016e-016e-00000000016e")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 148.5900 256.5400 180)
+      (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
+  )
 
-  (label "ESP_EN" (at 140.9700 259.0800 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "0000016f-016f-016f-016f-00000000016f"))
+  (global_label "ESP_EN"
+    (shape input)
+    (at 140.9700 259.0800 180)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid "0000016f-016f-016f-016f-00000000016f")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 148.5900 259.0800 180)
+      (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
+  )
 
   (no_connect (at 140.9700 261.6200) (uuid "00000170-0170-0170-0170-000000000170"))
 
@@ -3216,13 +3501,27 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR051") (unit 1))))
   )
 
-  (label "ESP_TX" (at 166.3700 262.8900 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000181-0181-0181-0181-000000000181"))
+  (global_label "ESP_TX"
+    (shape input)
+    (at 166.3700 262.8900 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000181-0181-0181-0181-000000000181")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 173.9900 262.8900 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
-  (label "ESP_RX" (at 166.3700 265.4300 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "00000182-0182-0182-0182-000000000182"))
+  (global_label "ESP_RX"
+    (shape output)
+    (at 166.3700 265.4300 0)
+    (fields_autoplaced yes)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid "00000182-0182-0182-0182-000000000182")
+    (property "Intersheetrefs" "${INTERSHEET_REFS}"
+      (at 173.9900 265.4300 0)
+      (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
+  )
 
   (sheet_instances (path "/" (page "1")))
 )
