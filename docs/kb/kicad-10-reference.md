@@ -87,11 +87,43 @@ Mismatched versions cause "older version" warnings in KiCad GUI.
 
 | Environment | Violations | Breakdown |
 |---|---|---|
-| Windows local (KiCad 10.0.3) | 36 | solder_mask_bridge + silk_edge_clearance + lib_footprint_mismatch |
+| Windows local (KiCad 10.0.3) | 36 | 28 solder_mask_bridge (J6) + 5 silk_edge_clearance + 2 lib_footprint_mismatch (J1,J7) + 1 lib_footprint_issues (U3 Custom) |
 | Docker CI (KiCad 10.0.2) | 67 | 34 lib_footprint_issues + 28 solder_mask_bridge + 5 silk_edge_clearance |
 
 **Docker is authoritative for CI.** Baseline in `hardware-check.yml` = 67.
 DRC must not exceed baseline. Driving to zero is tracked in issue #39.
+
+### Critical: Docker generator must succeed
+
+If `generate_project.py` crashes in Docker (e.g. footprint not in Docker's library), DRC runs
+on the **committed** (Windows-generated) PCB instead. The 10.0.3-embedded footprints differ from
+10.0.2 → many more `lib_footprint_issues` than the 34 baseline (typically 43+ for feature branches
+adding new components). **Always use footprints confirmed in Docker 10.0.2** for PCB `embed_footprint`
+calls to ensure the generator succeeds and Docker DRC uses the freshly-generated PCB.
+
+### Footprints confirmed in Docker kicad/kicad:10.0.2
+
+**Safe (confirmed):**
+- `Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal` ✅
+- `Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical` ✅
+- `Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical` ✅
+- `Resistor_SMD:R_0402_1005Metric` ✅
+- `Capacitor_SMD:C_0402_1005Metric` ✅
+- `Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm` ✅
+
+**Avoid (may not exist in 10.0.2):**
+- `Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal` ⚠️ (present in 10.0.3 local, uncertain in Docker)
+
+### 0402 component placement constraints (verified against DRC)
+
+R_0402 and C_0402 footprints:
+- Courtyard half-width (X): 0.86 mm
+- Pad half-width (X): ~0.52 mm (pad2 right edge ≈ center+0.48, pad1 left edge ≈ center-0.51)
+
+Minimum X spacing between adjacent 0402s at same Y:
+- Centre-to-centre ≥ 2.0 mm to avoid courtyard overlap
+- Centre-to-centre ≥ 1.2 mm to avoid copper clearance violation (0.2 mm required)
+- Practical rule: use ≥ 2.0 mm centre-to-centre for any co-planar 0402 pair
 
 ---
 
