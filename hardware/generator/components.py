@@ -82,44 +82,85 @@ def build_schematic():
                  ("FB",  "4", "input"),
              ])
 
-    # ESP32-P4-MINI-1U-N16R8: 14 left functional pins + 12 right RMII/UART/MDIO pins.
-    # Pin numbers are GPIO IDs for schematic clarity.
-    # RMII fixed pins GPIO32-37 + GPIO50: hard-wired to IO_MUX (ESP32-P4 TRM §EMAC).
-    # MDIO GPIO28 / MDC GPIO31: GPIO-matrix configurable.
-    # All assignments verified: OQ-01 RESOLVED 2026-06-07.
+    # ESP32-P4-MINI-1U-N16R8: 56 pads numbered 1-56 to match Custom:ESP32-P4-MINI-1 footprint.
+    # Pin NUMBERS match footprint pad numbers so KiCad "Update PCB from Schematic" assigns nets.
+    # Physical layout (Espressif ESP32-P4-MINI-1U, 25.4 × 19 mm, 1.27 mm pitch, best estimate —
+    # VERIFY against Espressif ESP32-P4-MINI-1U Hardware Design Guide before fabrication):
+    #   Bottom row left→right : pads  1-20
+    #   Right  col  bot→top   : pads 21-28
+    #   Top    row  right→left: pads 29-48
+    #   Left   col  top→bot   : pads 49-56
+    # Active signal assignments (OQ-01 RESOLVED 2026-06-07):
+    #   RMII fixed IO_MUX: GPIO32-37 + GPIO50 (pads 37-42, 55)
+    #   MDIO/MDC GPIO-matrix: GPIO28/GPIO31 (pads 33, 36)
+    # body_h = 28 * G = 71.12 mm for 28 pins per side.
     s.define("Custom:ESP32-P4", "U", "ESP32-P4-MINI-1U",
              "Custom:ESP32-P4-MINI-1",
              "https://www.espressif.com/sites/default/files/documentation/esp32-p4_datasheet_en.pdf",
-             body_w=30.48, body_h=35.56,
+             body_w=30.48, body_h=71.12,
              pins_left=[
-                 ("GND",    "GND1", "power_in"),
-                 ("VDD",    "VDD",  "power_in"),
-                 ("EN",     "EN",   "input"),
-                 ("GPIO0",  "G0",   "input"),         # BOOT strapping pin
-                 ("GPIO2",  "G2",   "bidirectional"), # 1-Wire / status LED
-                 ("GPIO4",  "G4",   "output"),        # FAN1_PWM  LEDC CH0
-                 ("GPIO5",  "G5",   "output"),        # FAN2_PWM  LEDC CH1
-                 ("GPIO6",  "G6",   "output"),        # FAN3_PWM  LEDC CH2
-                 ("GPIO7",  "G7",   "output"),        # FAN4_PWM  LEDC CH3
-                 ("GPIO8",  "G8",   "input"),         # FAN1_TACH
-                 ("GPIO9",  "G9",   "input"),         # FAN2_TACH
-                 ("GPIO10", "G10",  "input"),         # FAN3_TACH
-                 ("GPIO11", "G11",  "input"),         # FAN4_TACH
-                 ("GPIO16", "G16",  "input"),         # NTC_ADC
+                 # Bottom row, pads 1-20 (left→right maps to top→bottom on left side)
+                 ("GND",    "1",  "power_in"),       # pad 1  GND
+                 ("GPIO0",  "2",  "input"),           # pad 2  BOOT strapping pin
+                 ("NC",     "3",  "no_connect"),      # pad 3
+                 ("GPIO2",  "4",  "bidirectional"),   # pad 4  1-Wire / status LED
+                 ("NC",     "5",  "no_connect"),      # pad 5
+                 ("GPIO4",  "6",  "output"),          # pad 6  FAN1_PWM  LEDC CH0
+                 ("GPIO5",  "7",  "output"),          # pad 7  FAN2_PWM  LEDC CH1
+                 ("GPIO6",  "8",  "output"),          # pad 8  FAN3_PWM  LEDC CH2
+                 ("GPIO7",  "9",  "output"),          # pad 9  FAN4_PWM  LEDC CH3
+                 ("GPIO8",  "10", "input"),           # pad 10 FAN1_TACH
+                 ("GPIO9",  "11", "input"),           # pad 11 FAN2_TACH
+                 ("GPIO10", "12", "input"),           # pad 12 FAN3_TACH
+                 ("GPIO11", "13", "input"),           # pad 13 FAN4_TACH
+                 ("NC",     "14", "no_connect"),      # pad 14
+                 ("NC",     "15", "no_connect"),      # pad 15
+                 ("NC",     "16", "no_connect"),      # pad 16
+                 ("NC",     "17", "no_connect"),      # pad 17
+                 ("GPIO16", "18", "input"),           # pad 18 NTC_ADC
+                 ("NC",     "19", "no_connect"),      # pad 19
+                 ("VDD",    "20", "power_in"),        # pad 20 VDD 3.3 V
+                 # Left column, pads 49-56 (top→bottom)
+                 ("NC",     "49", "no_connect"),      # pad 49
+                 ("NC",     "50", "no_connect"),      # pad 50
+                 ("NC",     "51", "no_connect"),      # pad 51
+                 ("NC",     "52", "no_connect"),      # pad 52
+                 ("NC",     "53", "no_connect"),      # pad 53
+                 ("NC",     "54", "no_connect"),      # pad 54
+                 ("GPIO50", "55", "output"),          # pad 55 EMAC_REF_CLK 50 MHz → PHY
+                 ("EN",     "56", "input"),           # pad 56 chip enable
              ],
              pins_right=[
-                 ("GND",    "GND2", "power_in"),
-                 ("GPIO28", "G28",  "bidirectional"), # EMAC_MDIO (GPIO-matrix)
-                 ("GPIO31", "G31",  "output"),        # EMAC_MDC  (GPIO-matrix)
-                 ("GPIO32", "G32",  "input"),         # EMAC_RXD0 RMII fixed
-                 ("GPIO33", "G33",  "input"),         # EMAC_RXD1 RMII fixed
-                 ("GPIO34", "G34",  "input"),         # EMAC_CRS_DV RMII fixed
-                 ("GPIO35", "G35",  "output"),        # EMAC_TXD0 RMII fixed
-                 ("GPIO36", "G36",  "output"),        # EMAC_TXD1 RMII fixed
-                 ("GPIO37", "G37",  "output"),        # EMAC_TX_EN RMII fixed
-                 ("GPIO38", "G38",  "output"),        # UART0_TX IO_MUX default
-                 ("GPIO39", "G39",  "input"),         # UART0_RX IO_MUX default
-                 ("GPIO50", "G50",  "output"),        # EMAC_REF_CLK 50 MHz → PHY
+                 # Right column, pads 21-28 (bottom→top maps to top→bottom on right side)
+                 ("NC",     "21", "no_connect"),      # pad 21
+                 ("NC",     "22", "no_connect"),      # pad 22
+                 ("NC",     "23", "no_connect"),      # pad 23
+                 ("NC",     "24", "no_connect"),      # pad 24
+                 ("NC",     "25", "no_connect"),      # pad 25
+                 ("NC",     "26", "no_connect"),      # pad 26
+                 ("NC",     "27", "no_connect"),      # pad 27
+                 ("GND",    "28", "power_in"),        # pad 28 GND
+                 # Top row, pads 29-48 (right→left maps to top→bottom on right side)
+                 ("NC",     "29", "no_connect"),      # pad 29
+                 ("NC",     "30", "no_connect"),      # pad 30
+                 ("NC",     "31", "no_connect"),      # pad 31
+                 ("NC",     "32", "no_connect"),      # pad 32
+                 ("GPIO28", "33", "bidirectional"),   # pad 33 EMAC_MDIO (GPIO-matrix)
+                 ("NC",     "34", "no_connect"),      # pad 34
+                 ("NC",     "35", "no_connect"),      # pad 35
+                 ("GPIO31", "36", "output"),          # pad 36 EMAC_MDC  (GPIO-matrix)
+                 ("GPIO32", "37", "input"),           # pad 37 EMAC_RXD0 RMII fixed
+                 ("GPIO33", "38", "input"),           # pad 38 EMAC_RXD1 RMII fixed
+                 ("GPIO34", "39", "input"),           # pad 39 EMAC_CRS_DV RMII fixed
+                 ("GPIO35", "40", "output"),          # pad 40 EMAC_TXD0 RMII fixed
+                 ("GPIO36", "41", "output"),          # pad 41 EMAC_TXD1 RMII fixed
+                 ("GPIO37", "42", "output"),          # pad 42 EMAC_TX_EN RMII fixed
+                 ("GPIO38", "43", "output"),          # pad 43 UART0_TX IO_MUX default
+                 ("GPIO39", "44", "input"),           # pad 44 UART0_RX IO_MUX default
+                 ("NC",     "45", "no_connect"),      # pad 45
+                 ("NC",     "46", "no_connect"),      # pad 46
+                 ("NC",     "47", "no_connect"),      # pad 47
+                 ("GND",    "48", "power_in"),        # pad 48 GND (top edge)
              ])
 
     # CH340C: 8 left, 8 right
@@ -148,34 +189,45 @@ def build_schematic():
                  ("CKO", "9",  "output"),
              ])
 
-    # LAN8720A-CP-TR Ethernet PHY QFN-24
-    # Left: RMII interface (← ESP32-P4) + MDI physical pairs (↔ J1 via R11-R14)
-    # Right: power pins (+3V3, GND, exposed pad)
+    # LAN8720A-CP-TR Ethernet PHY QFN-24+EP
+    # Pin NUMBERS match QFN-24-1EP footprint pads 1-24 + EP(25).
+    # Datasheet: DS00001913C (Microchip).
+    # Left: RMII interface + MDI pairs + config/control pins.
+    # Right: power supply pins (VDD33A, VDD33D, VDDIO, GND_LDO, GND_A, EP).
+    # body_h = 19 * G = 48.26 mm for 19 left pins.
+    # RBIAS (pin 4): external 6.04 kΩ to GND sets internal bias current.
     s.define("Custom:LAN8720A", "U", "LAN8720A-CP-TR",
              "Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm",
-             "https://ww1.microchip.com/downloads/en/DeviceDoc/8720a.pdf",
-             body_w=20.32, body_h=35.56,
+             "https://ww1.microchip.com/downloads/en/DeviceDoc/00002165B.pdf",
+             body_w=20.32, body_h=48.26,
              pins_left=[
-                 ("TXEN",   "TXEN", "input"),         # TX_EN  ← ESP32 GPIO37
-                 ("TXD0",   "TXD0", "input"),         # TXD0   ← ESP32 GPIO35
-                 ("TXD1",   "TXD1", "input"),         # TXD1   ← ESP32 GPIO36
-                 ("RXD0",   "RXD0", "output"),        # RXD0   → ESP32 GPIO32
-                 ("RXD1",   "RXD1", "output"),        # RXD1   → ESP32 GPIO33
-                 ("CRS_DV", "CRDV", "output"),        # CRS_DV → ESP32 GPIO34
-                 ("REFCLK", "RCLK", "input"),         # 50 MHz ← ESP32 GPIO50
-                 ("MDIO",   "MDIO", "bidirectional"), # MDIO   ↔ ESP32 GPIO28
-                 ("MDC",    "MDC",  "input"),         # MDC    ← ESP32 GPIO31
-                 ("NRESET", "NRST", "input"),         # Active-low (tie to +3V3)
-                 ("TX+",    "TXP",  "passive"),       # MDI TX+ → J1 via R11
-                 ("TX-",    "TXN",  "passive"),       # MDI TX- → J1 via R12
-                 ("RX+",    "RXP",  "passive"),       # MDI RX+ ← J1 via R13
-                 ("RX-",    "RXN",  "passive"),       # MDI RX- ← J1 via R14
+                 ("TXEN",    "1",  "input"),         # TX_EN   ← ESP32 GPIO37
+                 ("TXD1",    "2",  "input"),         # TXD[1]  ← ESP32 GPIO36
+                 ("TXD0",    "3",  "input"),         # TXD[0]  ← ESP32 GPIO35
+                 ("RBIAS",   "4",  "passive"),       # 6.04 kΩ to GND (sets bias)
+                 ("RXD0",    "5",  "output"),        # RXD[0]  → ESP32 GPIO32
+                 ("RXD1",    "6",  "output"),        # RXD[1]  → ESP32 GPIO33
+                 ("CRS_DV",  "7",  "output"),        # CRS_DV  → ESP32 GPIO34
+                 ("RXERR",   "8",  "output"),        # RX error (NC in this design)
+                 ("CLKOUT",  "9",  "input"),         # REF_CLK ← ESP32 GPIO50 (ext clk mode)
+                 ("nINTSEL", "10", "input"),         # pull to 3.3V (no interrupt)
+                 ("LED2",    "11", "input"),         # MODE[1] pull to 3.3V → full-duplex
+                 ("LED1",    "12", "input"),         # MODE[0] pull to 3.3V → 100BASE-TX
+                 ("MDIO",    "13", "bidirectional"), # MDIO    ↔ ESP32 GPIO28
+                 ("MDC",     "14", "input"),         # MDC     ← ESP32 GPIO31
+                 ("nRST",    "15", "input"),         # active-low reset (tied to 3.3V)
+                 ("TX+",     "20", "passive"),       # MDI TX+ → J1 via R11
+                 ("TX-",     "21", "passive"),       # MDI TX- → J1 via R12
+                 ("RX+",     "22", "passive"),       # MDI RX+ ← J1 via R13
+                 ("RX-",     "23", "passive"),       # MDI RX- ← J1 via R14
              ],
              pins_right=[
-                 ("VDD",   "VDD",   "power_in"),  # 3.3 V
-                 ("VDDIO", "VDDIO", "power_in"),  # 3.3 V I/O supply
-                 ("GND",   "GND",   "power_in"),
-                 ("EP",    "EP",    "power_in"),  # Exposed pad = GND
+                 ("VDD33A",  "17", "power_in"),      # Analog  3.3V supply
+                 ("VDD33D",  "18", "power_in"),      # Digital 3.3V supply
+                 ("VDDIO",   "19", "power_in"),      # I/O     3.3V supply
+                 ("GND_LDO", "16", "power_in"),      # LDO GND
+                 ("GND_A",   "24", "power_in"),      # Analog  GND
+                 ("EP",      "25", "power_in"),      # Exposed pad GND
              ])
 
     # 4-pin fan header
@@ -190,18 +242,34 @@ def build_schematic():
              ],
              pins_right=[])
 
-    # USB Type-C receptacle (GCT USB4085 full-featured, 20-pin)
+    # USB Type-C receptacle (GCT USB4085), full 20-pad footprint.
+    # Pin NUMBERS match footprint pad names: A1, A4-A9, A12, B1, B4-B9, B12, SH.
+    # body_h = 17 * G = 43.18 mm for 17 pins.
+    # VBUS (A4, A9, B4, B9): not used in this design (powered from PoE); no_connect.
+    # Duplicate GND pads (A12, B1, B12): connected to GND net.
+    # Mirrored data pads (B6=D-, B7=D+): connected to same nets as A7/A6.
+    # SBU (A8, B8): sideband use; no_connect in this design.
     s.define("Custom:USB_C", "J", "USB_C",
              "Connector_USB:USB_C_Receptacle_GCT_USB4085", "~",
-             body_w=15.24, body_h=20.32,
+             body_w=15.24, body_h=43.18,
              pins_left=[
-                 ("GND",  "A1", "passive"),
-                 ("VBUS", "A4", "power_in"),
-                 ("CC1",  "A5", "passive"),
-                 ("D+",   "A6", "bidirectional"),
-                 ("D-",   "A7", "bidirectional"),
-                 ("CC2",  "B5", "passive"),
-                 ("SHLD", "SH", "passive"),
+                 ("GND",  "A1",  "passive"),        # Ground
+                 ("VBUS", "A4",  "passive"),         # VBUS (no_connect — PoE-powered)
+                 ("CC1",  "A5",  "passive"),         # CC1 configuration
+                 ("D+",   "A6",  "bidirectional"),   # USB D+
+                 ("D-",   "A7",  "bidirectional"),   # USB D-
+                 ("SBU1", "A8",  "no_connect"),      # Sideband use 1 (NC)
+                 ("VBUS", "A9",  "passive"),         # VBUS duplicate (NC)
+                 ("GND",  "A12", "passive"),         # GND duplicate
+                 ("GND",  "B1",  "passive"),         # GND duplicate
+                 ("VBUS", "B4",  "passive"),         # VBUS duplicate (NC)
+                 ("CC2",  "B5",  "passive"),         # CC2 configuration
+                 ("D-",   "B6",  "bidirectional"),   # USB D- (mirror of A7)
+                 ("D+",   "B7",  "bidirectional"),   # USB D+ (mirror of A6)
+                 ("SBU2", "B8",  "no_connect"),      # Sideband use 2 (NC)
+                 ("VBUS", "B9",  "passive"),         # VBUS duplicate (NC)
+                 ("GND",  "B12", "passive"),         # GND duplicate
+                 ("SHLD", "SH",  "passive"),         # Shield
              ],
              pins_right=[])
 
@@ -364,52 +432,56 @@ def build_schematic():
         s.power("GND",  *p["2"])
 
     # -----------------------------------------------------------------------
-    # U3 – ESP32-P4-MINI-1U (replaces ESP32-WROOM-32D)
+    # U3 – ESP32-P4-MINI-1U (pin numbers now match footprint pads 1-56)
     # RMII fixed pins GPIO32-37 + GPIO50 verified against TRM §EMAC (OQ-01 closed)
+    # NOTE: pad-to-GPIO mapping is best estimate from module layout; verify against
+    #       Espressif ESP32-P4-MINI-1U Hardware Design Guide before fabrication.
     # -----------------------------------------------------------------------
     s.text("ESP32-P4", 155, 18, size=2.54, bold=True, color=BLUE)
-    U3_CX, U3_CY = 218.44, 109.22       # 86*G, 43*G — centre unchanged
+    U3_CX, U3_CY = 218.44, 130.0        # 86*G — centre shifted down for taller body
     p = s.component("Custom:ESP32-P4","U3","ESP32-P4-MINI-1U",
                     "Custom:ESP32-P4-MINI-1",
                     U3_CX, U3_CY)
 
-    # Power pins
-    s.power("GND",   *p["GND1"])
-    s.power("+3V3",  *p["VDD"])
-    s.power("GND",   *p["GND2"])
+    # Power pins (pads 1, 20, 28, 48)
+    s.power("GND",  *p["1"])             # pad 1  GND (bottom row)
+    s.power("+3V3", *p["20"])            # pad 20 VDD
+    s.power("GND",  *p["28"])            # pad 28 GND (right column)
+    s.power("GND",  *p["48"])            # pad 48 GND (top row)
 
-    # Left side — functional GPIO
-    s.global_label("ESP_EN",    *p["EN"],  shape="input")
-    s.global_label("BOOT",      *p["G0"],  shape="passive")
-    s.label("GPIO2",            *p["G2"])                         # LED circuit local
-    s.global_label("FAN1_PWM",  *p["G4"],  shape="output")
-    s.global_label("FAN2_PWM",  *p["G5"],  shape="output")
-    s.global_label("FAN3_PWM",  *p["G6"],  shape="output")
-    s.global_label("FAN4_PWM",  *p["G7"],  shape="output")
-    s.global_label("FAN1_TACH", *p["G8"],  shape="input")
-    s.global_label("FAN2_TACH", *p["G9"],  shape="input")
-    s.global_label("FAN3_TACH", *p["G10"], shape="input")
-    s.global_label("FAN4_TACH", *p["G11"], shape="input")
-    s.global_label("NTC_ADC",   *p["G16"], shape="input")
+    # Left side — functional GPIO (pads 2, 4, 6-13, 18, 55, 56)
+    s.global_label("BOOT",      *p["2"],  shape="passive")
+    s.label("GPIO2",            *p["4"])                          # LED circuit local
+    s.global_label("FAN1_PWM",  *p["6"],  shape="output")
+    s.global_label("FAN2_PWM",  *p["7"],  shape="output")
+    s.global_label("FAN3_PWM",  *p["8"],  shape="output")
+    s.global_label("FAN4_PWM",  *p["9"],  shape="output")
+    s.global_label("FAN1_TACH", *p["10"], shape="input")
+    s.global_label("FAN2_TACH", *p["11"], shape="input")
+    s.global_label("FAN3_TACH", *p["12"], shape="input")
+    s.global_label("FAN4_TACH", *p["13"], shape="input")
+    s.global_label("NTC_ADC",   *p["18"], shape="input")
+    s.global_label("EMAC_REF_CLK", *p["55"], shape="output")     # GPIO50 on left col
+    s.global_label("ESP_EN",    *p["56"], shape="input")          # EN on left col
 
-    # Right side — RMII + UART + MDIO/MDC (all with angle=180 = label points right)
-    s.global_label("ETH_MDIO",    *p["G28"], shape="bidirectional", angle=180)
-    s.global_label("ETH_MDC",     *p["G31"], shape="output",        angle=180)
-    s.global_label("EMAC_RXD0",   *p["G32"], shape="input",         angle=180)
-    s.global_label("EMAC_RXD1",   *p["G33"], shape="input",         angle=180)
-    s.global_label("EMAC_CRS_DV", *p["G34"], shape="input",         angle=180)
-    s.global_label("EMAC_TXD0",   *p["G35"], shape="output",        angle=180)
-    s.global_label("EMAC_TXD1",   *p["G36"], shape="output",        angle=180)
-    s.global_label("EMAC_TX_EN",  *p["G37"], shape="output",        angle=180)
-    s.global_label("ESP_TX",      *p["G38"], shape="output",        angle=180)
-    s.global_label("ESP_RX",      *p["G39"], shape="input",         angle=180)
-    s.global_label("EMAC_REF_CLK",*p["G50"], shape="output",        angle=180)
+    # Right side — RMII + UART + MDIO/MDC (pads 33, 36-44)
+    s.global_label("ETH_MDIO",    *p["33"], shape="bidirectional", angle=180)
+    s.global_label("ETH_MDC",     *p["36"], shape="output",        angle=180)
+    s.global_label("EMAC_RXD0",   *p["37"], shape="input",         angle=180)
+    s.global_label("EMAC_RXD1",   *p["38"], shape="input",         angle=180)
+    s.global_label("EMAC_CRS_DV", *p["39"], shape="input",         angle=180)
+    s.global_label("EMAC_TXD0",   *p["40"], shape="output",        angle=180)
+    s.global_label("EMAC_TXD1",   *p["41"], shape="output",        angle=180)
+    s.global_label("EMAC_TX_EN",  *p["42"], shape="output",        angle=180)
+    s.global_label("ESP_TX",      *p["43"], shape="output",        angle=180)
+    s.global_label("ESP_RX",      *p["44"], shape="input",         angle=180)
 
     # -----------------------------------------------------------------------
     # ESP32-P4 support: R1 (EN pull-up), SW1 (RESET), R2 (IO0 pull-up), SW2 (BOOT)
+    # Pin references now use numeric pad numbers (pad 56=EN, pad 2=GPIO0, etc.)
     # -----------------------------------------------------------------------
     # R1 – 10k EN pull-up
-    R1_CX, R1_CY = 178.0, p["EN"][1]   # same y as EN pin
+    R1_CX, R1_CY = 178.0, p["56"][1]   # same y as EN pin (pad 56, left col)
     p1 = s.component("Custom:R","R1","10k","Resistor_SMD:R_0402_1005Metric",
                      R1_CX, R1_CY)
     s.power("+3V3",             *p1["1"])
@@ -423,21 +495,21 @@ def build_schematic():
     s.power("GND",            *p1["2"])
 
     # R2 – 10k GPIO0 pull-up
-    R2_CX, R2_CY = 178.0, p["G0"][1]   # same y as GPIO0 pin
+    R2_CX, R2_CY = 178.0, p["2"][1]    # same y as GPIO0 pin (pad 2)
     p1 = s.component("Custom:R","R2","10k","Resistor_SMD:R_0402_1005Metric",
                      R2_CX, R2_CY)
     s.power("+3V3",           *p1["1"])
     s.global_label("BOOT",    *p1["2"], shape="passive")
 
-    # SW2 – BOOT button (offset 8*G below SW1 to clear NTC divider at GPIO16)
+    # SW2 – BOOT button (offset 8*G below SW1)
     SW2_CX, SW2_CY = 178.0, SW1_CY + 8 * G
     p1 = s.component("Custom:SW_Push","SW2","BOOT",
                      "Button_Switch_THT:SW_PUSH_6mm", SW2_CX, SW2_CY)
     s.global_label("BOOT", *p1["1"], shape="passive")
     s.power("GND",          *p1["2"])
 
-    # R3 – 330R LED resistor (GPIO2)
-    R3_CX, R3_CY = 178.0, p["G2"][1]   # same y as GPIO2 pin
+    # R3 – 330R LED resistor (GPIO2 = pad 4)
+    R3_CX, R3_CY = 178.0, p["4"][1]    # same y as GPIO2 pin (pad 4)
     p1 = s.component("Custom:R","R3","330R","Resistor_SMD:R_0402_1005Metric",
                      R3_CX, R3_CY)
     s.label("GPIO2", *p1["1"])
@@ -451,8 +523,8 @@ def build_schematic():
     s.label("LED_A", *p1["1"])
     s.power("GND",   *p1["2"])
 
-    # R4 – 10k NTC voltage divider top (GPIO16 = NTC_ADC)
-    R4_CX, R4_CY = 178.0, p["G16"][1]  # same y as GPIO16 pin
+    # R4 – 10k NTC voltage divider top (GPIO16 = pad 18)
+    R4_CX, R4_CY = 178.0, p["18"][1]   # same y as GPIO16 pin (pad 18)
     p1 = s.component("Custom:R","R4","10k","Resistor_SMD:R_0402_1005Metric",
                      R4_CX, R4_CY)
     s.power("+3V3",    *p1["1"])
@@ -468,46 +540,67 @@ def build_schematic():
 
     # -----------------------------------------------------------------------
     # U5 – LAN8720A Ethernet PHY (RMII)
-    # RMII interface: all 7 signals connect to ESP32-P4 via matching global labels
-    # MDI interface: to J1 secondary winding via 49.9 Ω termination resistors R11-R14
+    # Pin numbers now match QFN-24-1EP footprint pads 1-24 + EP(25).
+    # New pins: RBIAS(4)→R15, RXERR(8)→NC, nINTSEL(10)/LED2(11)/LED1(12)→3V3,
+    #           VDD33D(18)→3V3, GND_A(24)→GND.
     # -----------------------------------------------------------------------
     s.text("Ethernet PHY (LAN8720A)", 430, 18, size=2.54, bold=True, color=BLUE)
-    U5_CX, U5_CY = 490.0, 109.22        # east of fan section; same y as U3
+    U5_CX, U5_CY = 490.0, 109.22        # east of fan section; same y as U3 centre
     p5 = s.component("Custom:LAN8720A","U5","LAN8720A-CP-TR",
                      "Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm",
                      U5_CX, U5_CY)
 
-    # Power
-    s.power("+3V3", *p5["VDD"])
-    s.power("+3V3", *p5["VDDIO"])
-    s.power("GND",  *p5["GND"])
-    s.power("GND",  *p5["EP"])
+    # Power supplies (right side pins)
+    s.power("+3V3", *p5["17"])           # VDD33A  (analog 3.3V)
+    s.power("+3V3", *p5["18"])           # VDD33D  (digital 3.3V)
+    s.power("+3V3", *p5["19"])           # VDDIO   (I/O 3.3V)
+    s.power("GND",  *p5["16"])           # GND_LDO
+    s.power("GND",  *p5["24"])           # GND_A
+    s.power("GND",  *p5["25"])           # EP (exposed pad)
 
-    # NRESET — tie to +3V3 (PHY always released; optional external control deferred)
-    s.power("+3V3", *p5["NRST"])
+    # nRST — tie to +3V3 (PHY always released; optional external control deferred)
+    s.power("+3V3", *p5["15"])
+
+    # RXERR — no_connect in this design
+    s.no_connect(*p5["8"])
+
+    # Mode configuration: nINTSEL(10) + LED2/MODE[1](11) + LED1/MODE[0](12) → 3V3
+    # MODE[1:0] = 11b → 100BASE-TX full-duplex auto-negotiation
+    s.power("+3V3", *p5["10"])
+    s.power("+3V3", *p5["11"])
+    s.power("+3V3", *p5["12"])
 
     # RMII receive path (U5 drives → MCU receives)
-    s.global_label("EMAC_RXD0",   *p5["RXD0"], shape="output")
-    s.global_label("EMAC_RXD1",   *p5["RXD1"], shape="output")
-    s.global_label("EMAC_CRS_DV", *p5["CRDV"], shape="output")
+    s.global_label("EMAC_RXD0",   *p5["5"],  shape="output")
+    s.global_label("EMAC_RXD1",   *p5["6"],  shape="output")
+    s.global_label("EMAC_CRS_DV", *p5["7"],  shape="output")
 
     # RMII transmit path (MCU drives → U5 receives)
-    s.global_label("EMAC_TX_EN",  *p5["TXEN"], shape="input")
-    s.global_label("EMAC_TXD0",   *p5["TXD0"], shape="input")
-    s.global_label("EMAC_TXD1",   *p5["TXD1"], shape="input")
+    s.global_label("EMAC_TX_EN",  *p5["1"],  shape="input")
+    s.global_label("EMAC_TXD1",   *p5["2"],  shape="input")
+    s.global_label("EMAC_TXD0",   *p5["3"],  shape="input")
 
-    # Reference clock (MCU GPIO50 → U5)
-    s.global_label("EMAC_REF_CLK",*p5["RCLK"], shape="input")
+    # Reference clock (MCU GPIO50 → U5 CLKOUT/REF_CLK input)
+    s.global_label("EMAC_REF_CLK",*p5["9"],  shape="input")
 
     # MDIO management bus
-    s.global_label("ETH_MDIO",    *p5["MDIO"], shape="bidirectional")
-    s.global_label("ETH_MDC",     *p5["MDC"],  shape="input")
+    s.global_label("ETH_MDIO",    *p5["13"], shape="bidirectional")
+    s.global_label("ETH_MDC",     *p5["14"], shape="input")
 
     # MDI physical pairs (via R11-R14 termination resistors)
-    s.global_label("ETH_TD_P", *p5["TXP"], shape="passive")
-    s.global_label("ETH_TD_N", *p5["TXN"], shape="passive")
-    s.global_label("ETH_RD_P", *p5["RXP"], shape="passive")
-    s.global_label("ETH_RD_N", *p5["RXN"], shape="passive")
+    s.global_label("ETH_TD_P", *p5["20"], shape="passive")
+    s.global_label("ETH_TD_N", *p5["21"], shape="passive")
+    s.global_label("ETH_RD_P", *p5["22"], shape="passive")
+    s.global_label("ETH_RD_N", *p5["23"], shape="passive")
+
+    # RBIAS (pin 4): 6.04 kΩ resistor to GND sets LAN8720A internal bias current
+    R15_CX = 445.0
+    R15_CY = p5["4"][1]
+    pr15 = s.component("Custom:R","R15","6k04",
+                       "Resistor_SMD:R_0402_1005Metric", R15_CX, R15_CY)
+    s.label("RBIAS", *pr15["2"])         # right pin → toward U5 RBIAS
+    s.power("GND",   *pr15["1"])         # left  pin → GND
+    s.label("RBIAS", *p5["4"])
 
     # -----------------------------------------------------------------------
     # MDI termination resistors R11-R14 (49.9 Ω ±1% 0402)
@@ -529,21 +622,22 @@ def build_schematic():
         s.global_label(net_out, *pr["2"], shape="passive", angle=180)
 
     # -----------------------------------------------------------------------
-    # U5 decoupling caps: 4 × 100 nF near VDD pins + 1 × 10 µF bulk (C8-C11)
+    # U5 decoupling caps: 3 × 100 nF near VDD pins + 1 × 10 µF bulk (C8-C11)
+    # Pin references updated: VDD33A=17, VDDIO=19, GND_LDO=16, EP=25
     # -----------------------------------------------------------------------
-    C8_CX, C8_CY   = 518.0, p5["VDD"][1]
+    C8_CX, C8_CY   = 518.0, p5["17"][1]   # VDD33A decoupling
     p_cx = s.component("Custom:C","C8","100nF","Capacitor_SMD:C_0402_1005Metric",C8_CX,C8_CY)
     s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
 
-    C9_CX, C9_CY   = 518.0, p5["VDDIO"][1]
+    C9_CX, C9_CY   = 518.0, p5["19"][1]   # VDDIO decoupling
     p_cx = s.component("Custom:C","C9","100nF","Capacitor_SMD:C_0402_1005Metric",C9_CX,C9_CY)
     s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
 
-    C10_CX, C10_CY  = 518.0, p5["GND"][1]
+    C10_CX, C10_CY  = 518.0, p5["16"][1]  # GND_LDO rail decoupling
     p_cx = s.component("Custom:C","C10","100nF","Capacitor_SMD:C_0402_1005Metric",C10_CX,C10_CY)
     s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
 
-    C11_CX, C11_CY  = 518.0, p5["EP"][1]
+    C11_CX, C11_CY  = 518.0, p5["25"][1]  # EP (bulk)
     p_cx = s.component("Custom:C","C11","10uF/10V","Capacitor_SMD:C_0805_2012Metric",C11_CX,C11_CY)
     s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
 
@@ -588,14 +682,30 @@ def build_schematic():
     p = s.component("Custom:USB_C","J6","USB_C_2.0",
                     "Connector_USB:USB_C_Receptacle_GCT_USB4085",
                     J6_CX, J6_CY)
-    s.power("GND",    *p["A1"])
-    s.no_connect(*p["A4"])               # VBUS – not used (bus-powered from PoE)
-    s.global_label("USB_DP", *p["A6"], shape="bidirectional")
-    s.global_label("USB_DN", *p["A7"], shape="bidirectional")
-    # CC1 / CC2 pull-down to GND (5.1k resistors R9/R10)
+    # GND pads (all connected to GND net)
+    s.power("GND",    *p["A1"])           # main GND
+    s.power("GND",    *p["A12"])          # GND duplicate
+    s.power("GND",    *p["B1"])           # GND duplicate
+    s.power("GND",    *p["B12"])          # GND duplicate
+    # VBUS pads (not used — PoE-powered; all no_connect)
+    s.no_connect(*p["A4"])
+    s.no_connect(*p["A9"])
+    s.no_connect(*p["B4"])
+    s.no_connect(*p["B9"])
+    # CC pull-down resistors (R9/R10) via local labels
     s.label("CC1", *p["A5"])
     s.label("CC2", *p["B5"])
-    s.no_connect(*p["SH"])               # shield
+    # Data pairs A-side
+    s.global_label("USB_DP", *p["A6"], shape="bidirectional")
+    s.global_label("USB_DN", *p["A7"], shape="bidirectional")
+    # Data pairs B-side (mirror — connect to same nets)
+    s.global_label("USB_DN", *p["B6"], shape="bidirectional")
+    s.global_label("USB_DP", *p["B7"], shape="bidirectional")
+    # SBU (sideband use) — no_connect in this design
+    s.no_connect(*p["A8"])
+    s.no_connect(*p["B8"])
+    # Shield — no_connect
+    s.no_connect(*p["SH"])
 
     # R9 – CC1 pull-down (5.1k to GND)
     R9_CX = J6_CX - 5 * G
