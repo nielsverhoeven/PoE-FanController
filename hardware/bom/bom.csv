@@ -1,5 +1,5 @@
 Reference,Value,Footprint,Qty,Manufacturer,MPN,Description,Datasheet
-J1,RJ45_PoE,Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal,1,Wuerth,615008144521,Shielded RJ45 with integrated magnetics,https://www.we-online.com/en/components/products/WR-MJ/615008144521
+J1,RJ45_PoE,Custom:RJ45_Wuerth_615008144521,1,Wuerth,615008144521,Shielded RJ45 with integrated magnetics,https://www.we-online.com/en/components/products/WR-MJ/615008144521
 U1,Ag9905M,Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical,1,Silvertel,Ag9905M,"PoE+ 802.3at PD module, 12V 1.67A isolated",https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf
 U2,LM2596-3.3,Package_TO_SOT_SMD:TO-263-5_TabPin3,1,TI,LM2596S-3.3/NOPB,"3A 150kHz buck regulator, 3.3V fixed, D2PAK",https://www.ti.com/lit/ds/symlink/lm2596.pdf
 U3,ESP32-P4-MINI-1U-N16R8,Custom:ESP32-P4-MINI-1,1,Espressif,ESP32-P4-MINI-1U-N16R8,"ESP32-P4 MCU module 16MB flash/8MB PSRAM, RMII Ethernet",https://www.espressif.com/sites/default/files/documentation/esp32-p4-mini-1u_datasheet_en.pdf

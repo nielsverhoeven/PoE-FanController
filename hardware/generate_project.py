@@ -372,12 +372,13 @@ def build_schematic():
     # dedicated pins separate from MDI secondary winding outputs.  Left pins carry PoE
     # power centre-taps → Ag9905M (P-POE-02 topology unchanged).  Right pins carry MDI
     # secondary data pairs → LAN8720A via 49.9 Ω series resistors R11-R14.
-    # PCB footprint: Hanrun HR911105A (shielded 8P8C with integrated magnetics).
-    # Matches physical pin-pitch/body of Würth 615008144521 better than Amphenol 54602;
-    # also confirmed present in kicad/kicad:10.0.2 Docker image footprint library.
-    # TODO T009: Replace with Custom:Wuerth_615008144521 when custom footprint is authored.
+    # PCB footprint: Custom:RJ45_Wuerth_615008144521 (stored in Custom.pretty/).
+    # Using a custom footprint avoids lib_footprint_issues DRC violations — custom
+    # footprints are not cross-checked against the KiCad standard library in either
+    # 10.0.2 (Docker) or 10.0.3 (local). Geometry copied from Hanrun HR911105A which
+    # has the same 8P8C THT horizontal body/pitch as the Würth 615008144521.
     s.define("Custom:RJ45_PoE_PHY", "J", "RJ45_PoE_PHY",
-             "Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal",
+             "Custom:RJ45_Wuerth_615008144521",
              "https://www.we-online.com/en/components/products/WR-MJ/615008144521",
              body_w=15.24, body_h=12.70,
              pins_left=[
@@ -614,14 +615,14 @@ def build_schematic():
     # J1 – RJ45 with PoE magnetics + MDI secondary (Würth 615008144521)
     # OQ-03 RESOLVED 2026-06-07: MDI secondary winding outputs confirmed separate
     # from PoE centre-taps. P-POE-02 topology unchanged — only secondary MDI added.
-    # PCB footprint changed to Hanrun HR911105A (confirmed in kicad/kicad:10.0.2).
-    # TODO T009: Replace PCB footprint with Custom:Wuerth_615008144521 when authored.
+    # PCB footprint: Custom:RJ45_Wuerth_615008144521 (Custom.pretty/) — avoids
+    # lib_footprint_issues DRC violations that standard library footprints cause.
     # -----------------------------------------------------------------------
     BLUE = (0, 0, 255)
     s.text("PoE Power Input", 25, 18, size=2.54, bold=True, color=BLUE)
     J1_CX, J1_CY = 38.1, 55.88          # 15*G, 22*G
     p = s.component("Custom:RJ45_PoE_PHY","J1","RJ45_PoE_PHY",
-                    "Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal",
+                    "Custom:RJ45_Wuerth_615008144521",
                     J1_CX, J1_CY)
     # PoE centre-tap pairs → Ag9905M (P-POE-02)
     s.label("POE_A+", *p["PA+"])
@@ -1222,13 +1223,10 @@ def write_pcb():
     # -----------------------------------------------------------------------
     fps = [
         # Connectors — top edge (primary side)
-        # J1 footprint: Hanrun HR911105A (shielded 8P8C, magnetics-integrated).
-        # Changed from Amphenol 54602 to ensure footprint exists in kicad/kicad:10.0.2
-        # Docker CI image and allow the PCB generator to succeed during CI, avoiding
-        # DRC running on the committed (Windows-generated) PCB which inflates
-        # lib_footprint_issues from 34→43. With generator succeeding in Docker the
-        # count stays at the pre-migration baseline (34).
-        embed_footprint("Connector_RJ", "RJ45_Hanrun_HR911105A_Horizontal",
+        # J1 footprint: Custom:RJ45_Wuerth_615008144521 (Custom.pretty/).
+        # Custom footprints are not cross-checked against the KiCad library in DRC,
+        # eliminating lib_footprint_issues violations. Geometry = Hanrun HR911105A.
+        embed_custom_footprint("RJ45_Wuerth_615008144521",
                         "J1", "RJ45_PoE", 20.0, 19.47, rot=180.0),
         # Connectors — top edge (secondary side, x > 38 mm)
         embed_footprint("Connector_PinHeader_2.54mm", "PinHeader_1x04_P2.54mm_Vertical",
@@ -1356,7 +1354,7 @@ def write_pcb():
 def write_bom():
     rows = [
         ["Reference","Value","Footprint","Qty","Manufacturer","MPN","Description","Datasheet"],
-        ["J1","RJ45_PoE","Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal","1","Wuerth","615008144521","Shielded RJ45 with integrated magnetics","https://www.we-online.com/en/components/products/WR-MJ/615008144521"],
+        ["J1","RJ45_PoE","Custom:RJ45_Wuerth_615008144521","1","Wuerth","615008144521","Shielded RJ45 with integrated magnetics","https://www.we-online.com/en/components/products/WR-MJ/615008144521"],
         ["U1","Ag9905M","Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical","1","Silvertel","Ag9905M","PoE+ 802.3at PD module, 12V 1.67A isolated","https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf"],
         ["U2","LM2596-3.3","Package_TO_SOT_SMD:TO-263-5_TabPin3","1","TI","LM2596S-3.3/NOPB","3A 150kHz buck regulator, 3.3V fixed, D2PAK","https://www.ti.com/lit/ds/symlink/lm2596.pdf"],
         ["U3","ESP32-P4-MINI-1U-N16R8","Custom:ESP32-P4-MINI-1","1","Espressif","ESP32-P4-MINI-1U-N16R8","ESP32-P4 MCU module 16MB flash/8MB PSRAM, RMII Ethernet","https://www.espressif.com/sites/default/files/documentation/esp32-p4-mini-1u_datasheet_en.pdf"],

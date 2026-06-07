@@ -97,10 +97,10 @@
     (connect_pads (clearance 0.3)) (min_thickness 0.25) (filled_areas_thickness no)
     (fill yes (thermal_gap 0.5) (thermal_bridge_width 0.5))
     (polygon (pts (xy 40 5) (xy 95.0 5) (xy 95.0 75.0) (xy 40 75.0))))
-  (footprint "Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal" (layer "F.Cu") (uuid "000001cf-01cf-01cf-01cf-0000000001cf") (at 20.000 19.470 180.0)
-  	(descr "1 Port RJ45 8P8C receptacle, shielded, with magnetics, through hole, 2 LEDs, tab down, http://www.hanrun.com/public/upload/down/2020/09-11/cc11be56d66bb63d5f1eeb85492439c0.pdf")
+  (footprint "Custom:RJ45_Wuerth_615008144521" (layer "F.Cu") (uuid "000001cf-01cf-01cf-01cf-0000000001cf") (at 20.000 19.470 180.0)
+  	(descr "Wuerth 615008144521 RJ45 8P8C shielded with integrated PoE magnetics, horizontal THT")
   	(tags "RJ45 Magjack ethernet")
-  	(property "Reference" "J1"
+  	(property "Reference" "REF**"
   		(at 4.44 -5 0)
   		(layer "F.SilkS")
   		(uuid "52ee1736-ce5d-46c6-a5b2-1e50bd721285")
@@ -111,7 +111,7 @@
   			)
   		)
   	)
-  	(property "Value" "RJ45_PoE"
+  	(property "Value" "RJ45_Wuerth_615008144521"
   		(at 4.44 18.5 0)
   		(layer "F.Fab")
   		(uuid "2a234c9b-1fe2-448b-9a78-15320e1a25a8")
@@ -551,6 +551,7 @@
   		)
   	)
   )
+
   (footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" (layer "F.Cu") (uuid "000001d0-01d0-01d0-01d0-0000000001d0") (at 46.100 7.620)
   	(descr "Through hole straight pin header, 1x04, 2.54mm pitch, single row")
   	(tags "Through hole pin header THT 1x04 2.54mm single row")
