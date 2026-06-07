@@ -51,6 +51,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Store PCB checksum (P-KI-07 guard baseline)
+        run: sha256sum hardware/kicad/PoE-FanController.kicad_pcb > /tmp/pcb_before.sha256
+
       - name: Regenerate schematic from Python
         run: |
           cd hardware
@@ -58,7 +61,7 @@ jobs:
 
       - name: Guard — kicad_pcb must not be modified by generator (P-KI-07)
         run: |
-          git diff --exit-code hardware/kicad/PoE-FanController.kicad_pcb || \
+          sha256sum --check /tmp/pcb_before.sha256 || \
             (echo "ERROR: kicad_pcb was modified by generator — P-KI-07 violation" && exit 1)
 
       - name: Run ERC
