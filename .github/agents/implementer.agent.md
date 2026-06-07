@@ -114,6 +114,31 @@ Never guess about component selection, ESP32 peripheral configuration, or PoE co
 - Run ERC after every schematic change: `kicad-cli sch erc hardware/kicad/PoE-FanController.kicad_sch`
 - Run DRC after every layout change: `kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb`
 
+#### CRITICAL — Symbol pin numbers must match footprint pad numbers
+
+**KiCad matches symbol pins to footprint pads by number string (not name).**
+If the footprint uses `"1"`, `"2"`, `"A1"`, etc., the symbol pin number field must use the **exact same string**.
+Using functional names (e.g. `"GPIO4"`, `"TXEN"`) as pin numbers while the footprint uses numeric pads → every pad gets NO net — the chip is completely non-functional in PCB.
+
+Rule for `s.define()` calls in generator:
+```python
+# WRONG — functional name as pin number
+("GPIO4", "G4", "output")   # won't match footprint pad "6"
+
+# CORRECT — use actual physical pad number from footprint/datasheet
+("GPIO4", "6", "output")    # matches footprint pad "6"
+```
+
+- Every footprint pad must have a matching symbol pin — add `("NC", "N", "no_connect")` entries for unused pads.
+- Multiple GND pads: give each a unique pin number, wire all to GND net in schematic.
+- See `docs/kb/kicad-10-reference.md §9` for full details.
+
+#### CRITICAL — fp-lib-table required for custom footprints
+
+`hardware/kicad/fp-lib-table` must exist and register Custom.pretty.
+Without it, any `Custom:` footprint causes "Cannot add XN (footprint not found)" in "Update PCB from Schematic".
+See `docs/kb/kicad-10-reference.md §8` for the required format.
+
 **For firmware tasks (C/C++):**
 - Follow module structure from `docs/architecture.md`
 - One module per concern: `fan_control`, `temp_sensor`, `web_server`, `config`, etc.

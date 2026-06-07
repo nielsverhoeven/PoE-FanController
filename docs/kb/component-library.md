@@ -1,6 +1,6 @@
 # Component Library
 
-<!-- Last updated: 2026-06-07 | Source: constitution v1.2.0, BOM, expert consultations -->
+<!-- Last updated: 2026-06-07 (session 2) | Source: constitution v1.3.0, BOM, expert consultations -->
 <!-- All MPNs are BOM-locked unless noted. Changes require MAJOR or MINOR amendment. -->
 
 ---
@@ -30,10 +30,24 @@
 | R2 | 10 kΩ | Reset pull-up | ESP32-P4 EN pin |
 | R3 | 10 kΩ | BOOT pull-up | GPIO0 default HIGH |
 | R4 | 10 kΩ NTC (B=3950) | NTC thermistor | Bottom of voltage divider |
+| **R15** | **6.04 kΩ (RC0402FR-076K04L)** | **LAN8720A RBIAS** | **MANDATORY — sets PHY internal bias current; PHY non-functional without it** |
 | C1 | 100 µF / 16 V | Bulk decoupling | After LM2596 output |
 | C2 | 100 nF | Local bypass | 3.3 V rail, near U3 |
 | C3–C6 | 100 nF | Fan header bypass | One per fan header |
 | NTC1 | 10 kΩ NTC (B=3950) | Temperature sensing | In series with R4 |
+
+---
+
+## LAN8720A Mandatory Support Components (design-critical)
+
+All required or PHY will not function:
+
+| Signal | Ref | Value | Connection | Notes |
+|---|---|---|---|---|
+| RBIAS (pin 4) | R15 | 6.04 kΩ | pin 4 → GND | Sets internal bias current — **non-negotiable** |
+| LED1 (pin 12) | pull-up | 10 kΩ | pin 12 → 3.3V | MODE[0]=1 → 100BASE-TX auto-negotiate |
+| LED2 (pin 11) | pull-up | 10 kΩ | pin 11 → 3.3V | MODE[1]=1 → full-duplex |
+| nINTSEL (pin 10) | pull-up | 10 kΩ | pin 10 → 3.3V | Disables interrupt output |
 
 ---
 
