@@ -8,6 +8,32 @@
 - **Branch:** `feature/40-replace-esp32-with-esp32-p4`
 - **Constitution version:** v1.2.0 (MAJOR-001 — already ratified; no further amendment needed)
 - **Architecture document:** `docs/features/esp32-p4-migration/architecture.md`
+- **Stage 5 status:** ✅ COMPLETE (2026-06-07)
+- **ERC result:** 0 errors, 106 warnings (all `lib_symbol_mismatch`/`lib_symbol_issues` — pre-existing, non-blocking)
+- **DRC result:** 53 violations (baseline ≤67 ✅)
+
+## Task Status
+
+| Task | Title | Status |
+|------|-------|--------|
+| T001 | Verify RMII fixed GPIO pins against TRM | ✅ DONE |
+| T002 | Author ESP32-P4-MINI-1U custom KiCad footprint | ✅ DONE |
+| T003 | Replace U3 symbol in generate_project.py | ✅ DONE |
+| T004 | Add U5 LAN8720A symbol in generate_project.py | ✅ DONE |
+| T005 | Redesign J1 RJ45 symbol (MDI pairs exposed) | ✅ DONE |
+| T006 | Add global labels for RMII and MDI signals | ✅ DONE |
+| T007 | Run ERC — 0 errors | ✅ DONE |
+| T008 | Add U5 LAN8720A to PCB layout | ✅ DONE |
+| T009 | Verify J1 PCB footprint (Würth 615008144521) | ✅ DONE |
+| T010 | Add RMII and MDI trace stubs to PCB generator | ✅ DONE |
+| T011 | Run DRC ≤67 violations | ✅ DONE (53) |
+| T012 | Update platformio.ini for ESP32-P4 | ✅ DONE |
+| T013 | Replace WiFi with Ethernet in firmware | ✅ DONE |
+| T014 | Update GPIO pin constants | ✅ DONE |
+| T015 | Update BOM | ✅ DONE |
+| T016 | Firmware unit tests | ✅ DONE |
+| T017 | Update documentation | ✅ DONE |
+| T018 | Final GitHub issue update | ✅ DONE |
 
 ---
 
