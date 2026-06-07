@@ -1,6 +1,6 @@
 # ESP32-P4 Reference
 
-<!-- Last updated: 2026-06-07 | Source: esp32.expert consultation + architecture.md -->
+<!-- Last updated: 2026-06-07 | Source: esp32.expert consultation + architecture.md | GPIO2 corrected: feature/40-replace-esp32-with-esp32-p4 -->
 <!-- Verified against: Espressif ESP32-P4 TRM, arduino-esp32 3.x docs -->
 
 ---
@@ -54,7 +54,7 @@
 | FAN3_TACH | GPIO10 | GPIO interrupt | Tach input |
 | FAN4_TACH | GPIO11 | GPIO interrupt | Tach input |
 | NTC_ADC | GPIO16 | ADC | NTC thermistor (Steinhart-Hart) |
-| 1-WIRE | GPIO2 | GPIO | DS18B20 temperature sensor |
+| STATUS_LED | GPIO2 | Output | Status LED via R3 330 Ω (active HIGH) |
 | UART0_TX | GPIO38 | UART0 | To CH340C; IO_MUX default |
 | UART0_RX | GPIO39 | UART0 | From CH340C; IO_MUX default |
 | EMAC_MDIO | GPIO28 | EMAC | PHY management data |
@@ -70,8 +70,9 @@
 
 ```ini
 [env:esp32-p4]
-platform = espressif32 >= 6.9.0
-board = esp32-p4-function-ev-board
+platform = espressif32 @ >=6.9.0
+board     = esp32-p4-mini-1u    ; custom manifest in firmware/boards/
+board_dir = boards
 framework = arduino
 
 ; arduino-esp32 ≥ 3.1.0 required for ESP32-P4 + ETH.h support
@@ -91,7 +92,7 @@ build_flags =
   -DFAN3_TACH_PIN=10
   -DFAN4_TACH_PIN=11
   -DNTC_ADC_PIN=16
-  -DONE_WIRE_PIN=2
+  -DSTATUS_LED_PIN=2
   ; RMII config for ETH.h
   -DETH_PHY_TYPE=ETH_PHY_LAN8720
   -DETH_PHY_ADDR=0
@@ -100,7 +101,9 @@ build_flags =
   -DETH_CLK_MODE=ETH_CLOCK_GPIO50_OUT
 ```
 
-> ⚠️ OQ-04: Custom `boards/esp32-p4-mini-1u.json` board manifest may be needed for 16 MB flash variant. Use `esp32-p4-function-ev-board` as base, override flash size.
+> **OQ-04 resolved (feature/40):** Custom board manifest `firmware/boards/esp32-p4-mini-1u.json`
+> was created for the 16 MB flash variant (N16R8). `esp32-p4-function-ev-board` is the upstream
+> base; the custom manifest overrides `flash_size` to 16 MB and `connectivity` to `["ethernet"]`.
 
 ---
 
