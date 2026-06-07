@@ -28,8 +28,16 @@ jobs:
       - name: Install generator dependencies
         run: pip install --quiet sexpdata 2>/dev/null || true
 
-      - name: Syntax check generator
-        run: python -m py_compile hardware/generate_project.py && echo "Syntax OK"
+      - name: Syntax check generator (entry point + all modules)
+        run: |
+          python -m py_compile hardware/generate_project.py
+          python -m py_compile hardware/generator/__init__.py
+          python -m py_compile hardware/generator/utils.py
+          python -m py_compile hardware/generator/schematic.py
+          python -m py_compile hardware/generator/components.py
+          python -m py_compile hardware/generator/pcb_utils.py
+          python -m py_compile hardware/generator/bom.py
+          echo "Syntax OK — all 7 modules"
 
   kicad-erc-drc:
     name: KiCad ERC + DRC
@@ -43,10 +51,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run PCB generator
+      - name: Regenerate schematic from Python
         run: |
           cd hardware
           KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py
+
+      - name: Guard — kicad_pcb must not be modified by generator (P-KI-07)
+        run: |
+          git diff --exit-code hardware/kicad/PoE-FanController.kicad_pcb || \
+            (echo "ERROR: kicad_pcb was modified by generator — P-KI-07 violation" && exit 1)
 
       - name: Run ERC
         run: |
