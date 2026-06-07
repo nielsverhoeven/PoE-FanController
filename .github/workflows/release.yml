@@ -1,108 +1,93 @@
-name: Release
+name: KiCad Hardware Release
 
 on:
-  workflow_run:
-    workflows:
-      - MAUI CI
-    types:
-      - completed
-    branches:
-      - main
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
     inputs:
-      prerelease:
-        description: Mark as pre-release
-        required: false
-        default: 'true'
-        type: string
+      tag:
+        description: 'Release tag (e.g. v0.1.0)'
+        required: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   release:
-    runs-on: windows-latest
+    name: Build and publish hardware release
+    runs-on: ubuntu-latest
     timeout-minutes: 30
+    container:
+      image: kicad/kicad:10.0.2
+      options: --user root
+      # KiCad locked to 10.0.3 per P-KI-01; using 10.0.2 (closest available on Docker Hub as of 2026-05-09)
+
     permissions:
       contents: write
-    if: >-
-      ${{
-        github.event_name == 'workflow_dispatch' ||
-        (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
-      }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Install MAUI Android workload
-        run: dotnet workload install maui-android
-
-      - name: Restore dependencies
-        run: dotnet restore NdiForAndroid.sln
-
-      - name: Run unit tests
-        run: dotnet test tests/MauiApp.Tests/MauiApp.Tests.csproj --no-restore -c Release
-
-      - name: Determine release mode
-        id: release_mode
-        shell: pwsh
+      - name: Generate KiCad files
         run: |
-          $isPre = '${{ github.event.inputs.prerelease }}' -eq 'true' -or '${{ github.ref }}' -ne 'refs/heads/main'
-          if ($isPre) {
-            'IS_PRERELEASE=true' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-            'is_prerelease=true' | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          } else {
-            'IS_PRERELEASE=false' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-            'is_prerelease=false' | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          }
+          cd hardware
+          KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py
 
-      - name: Read version from version.properties
-        id: version
-        shell: pwsh
+      - name: DRC gate (zero tolerance) — P-CI-02
         run: |
-          $props = @{}
-          Get-Content version.properties | ForEach-Object {
-            if ($_ -match '^\s*([^#=]+)=(.*)$') { $props[$matches[1].Trim()] = $matches[2].Trim() }
-          }
-          $versionName = $props['versionName']
-          if ([string]::IsNullOrWhiteSpace($versionName)) {
-            Write-Error 'versionName not found in version.properties'
-            exit 1
-          }
-          "VERSION_NAME=$versionName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "TAG_NAME=v$versionName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "version_name=$versionName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "tag_name=v$versionName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          kicad-cli pcb drc \
+            hardware/kicad/PoE-FanController.kicad_pcb \
+            --output /tmp/drc_release.json \
+            --format json --exit-code-violations || true
+          python3 - <<'EOF'
+          import json, sys
+          d = json.load(open('/tmp/drc_release.json'))
+          violations = d.get('violations', [])
+          if violations:
+              print(f"DRC FAILED: {len(violations)} violation(s) — Gerber export blocked (P-CI-02, P-TEST-04)")
+              for v in violations[:10]:
+                  print(f"  {v.get('type','?')}: {v.get('description','')}")
+              sys.exit(1)
+          print("DRC PASSED: 0 violations")
+          EOF
 
-      - name: Publish MAUI Android APK
-        shell: pwsh
+      - name: Export Gerbers
         run: |
-          dotnet publish src/MauiApp/NdiForAndroid.csproj `
-            -f net10.0-android `
-            -c Release `
-            -o publish-output `
-            /p:AndroidPackageFormat=apk
+          mkdir -p hardware/gerbers
+          kicad-cli pcb export gerbers \
+            hardware/kicad/PoE-FanController.kicad_pcb \
+            --output hardware/gerbers/
 
-      - name: Locate APK artifact
-        id: locate_apk
-        shell: pwsh
+      - name: Export drill files
         run: |
-          $apk = Get-ChildItem -Path publish-output -Filter "*.apk" -Recurse | Select-Object -First 1
-          if (-not $apk) { Write-Error "No APK found in publish-output"; exit 1 }
-          "APK_PATH=$($apk.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          "apk_path=$($apk.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          kicad-cli pcb export drill \
+            hardware/kicad/PoE-FanController.kicad_pcb \
+            --output hardware/gerbers/ \
+            --format excellon
 
-      - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.version.outputs.tag_name }}
-          name: NDI for Android ${{ steps.version.outputs.version_name }}
-          files: ${{ steps.locate_apk.outputs.apk_path }}
-          fail_on_unmatched_files: true
-          generate_release_notes: true
-          prerelease: ${{ steps.release_mode.outputs.is_prerelease == 'true' }}
+      - name: Export schematic PDF
+        run: |
+          kicad-cli sch export pdf \
+            hardware/kicad/PoE-FanController.kicad_sch \
+            --output hardware/PoE-FanController-schematic.pdf
+
+      - name: Bundle release assets
+        run: |
+          TAG="${{ github.ref_name || inputs.tag }}"
+          zip -j hardware/gerbers-${TAG}.zip hardware/gerbers/*
+          cp hardware/bom/bom.csv hardware/PoE-FanController-bom-${TAG}.csv
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${{ github.ref_name || inputs.tag }}"
+          gh release create "${TAG}" \
+            --title "PoE FanController ${TAG}" \
+            --notes "Hardware release ${TAG}. Contains Gerbers, drill files, BOM, and schematic PDF." \
+            hardware/gerbers-${TAG}.zip \
+            hardware/PoE-FanController-bom-${TAG}.csv \
+            hardware/PoE-FanController-schematic.pdf
+

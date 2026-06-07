@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 1.0.1 | Last amended: 2026-06-06 -->
+<!-- Version: 1.1.0 | Last amended: 2026-06-06 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -270,6 +270,30 @@ No web asset (HTML, CSS, JS) may be embedded as a C string literal in firmware s
 **P-KI-01 — KiCad version lock.**
 The project uses **KiCad 10.0.3** exclusively. Files must not be opened and saved with a different KiCad version, as this changes format version codes and may corrupt the generator-driven schematic.
 
+> **P-KI-01 PATCH — CI Docker image exception (Amendment v1.1.0, 2026-06-06):**
+> For **read-only CI operations only** (ERC, DRC, Gerber export via `kicad-cli`) the Docker image
+> `kicad/kicad:<version>` is used. If the exact locked version (`10.0.3`) is not published on
+> Docker Hub, the closest available patch release of the same minor series is permitted as a
+> temporary substitute, subject to all of the following conditions:
+>
+> 1. The YAML workflow file **must** include comments clearly distinguishing the locked dev version
+>    from the CI image version, e.g.:
+>    ```yaml
+>    # KiCad dev toolchain locked at: 10.0.3 (P-KI-01)
+>    # CI image: kicad/kicad:10.0.2 — 10.0.3 image unavailable on Docker Hub at time of amendment
+>    image: kicad/kicad:10.0.2
+>    ```
+> 2. The substitute image must be a **lower** patch version of the same `10.0.x` series; jumping to
+>    a different minor or major version is not permitted.
+> 3. Once a Docker image matching the locked version (`kicad/kicad:10.0.3`) becomes available on
+>    Docker Hub, it **must** be adopted within **one release cycle** (next tagged release).
+> 4. This exception applies **only** to CI automation. Local development (schematic editing, PCB
+>    layout, file save) must always use KiCad 10.0.3 exactly.
+>
+> **Current approved CI image:** `kicad/kicad:10.0.2`
+> **Locked dev version:** KiCad 10.0.3 (image `kicad/kicad:10.0.3` unavailable on Docker Hub at
+> time of amendment; latest published tag was `10.0.2`, pushed 2026-05-09).
+
 **P-KI-02 — Schematic format version.**
 `.kicad_sch` files must have `(version 20260101)` in their header. Any file with a different version code must be rejected and the project constitution amended before proceeding.
 
@@ -358,6 +382,41 @@ The following sequence must be completed (and results logged) for every new boar
 5. **Fan PWM test**: Drive one fan at 50 % duty; confirm audible speed change and TACH signal.
 6. **Full-load thermal test**: All 4 fans at 100 % for 10 min; check component temperatures.
 
+### 8.5 CI Gate Principles
+
+**P-CI-01 — ERC and DRC must be enforced in CI.**
+Every pull request that modifies any file under `hardware/` must pass automated ERC and DRC checks
+in CI before it may be merged. The following sub-rules apply:
+
+- ERC must report **zero errors** (see P-TEST-01). Warnings must be logged but do not block merge
+  if each is accompanied by an existing inline explanation in the generator script or a recorded
+  waiver in `hardware/kicad/erc_output.json`.
+- DRC must report **zero violations above the documented baseline** (see P-TEST-03). A baseline of
+  known benign items may be recorded in the CI job configuration; any violation not in that baseline
+  is blocking.
+- CI **may not** rely on graceful-skip fallbacks for these checks. If the KiCad environment
+  (Docker image, `kicad-cli` binary, or required library) is unavailable or fails to initialise,
+  the job **must exit with a non-zero status** and fail the pull request. A silent pass (exit 0
+  without actually running checks) is forbidden.
+- The Docker image used for CI ERC/DRC is governed by P-KI-01 and its PATCH amendment.
+
+**P-CI-02 — Release workflow must DRC-gate Gerber export.**
+The CI release workflow (triggered on version tags, e.g. `v*.*.*`) must run DRC with
+**zero-tolerance** immediately before Gerber export, subject to the following rules:
+
+- DRC is executed via `kicad-cli pcb drc` with `--exit-code-violations`. Any violation — including
+  those in the PR-gate baseline — causes `exit 1` and aborts the release job. The release gate
+  uses **zero as its threshold**, not the PR baseline.
+- This DRC gate must be a **separate, independent step** from the PR gate; it may not be skipped
+  or substituted by a cached result from an earlier workflow run.
+- Gerber export must not start until the DRC step has exited with code 0.
+- The release workflow must produce a **GitHub Release** containing all of the following artefacts:
+  - Gerber files (all copper, mask, silk, paste, edge-cuts layers)
+  - Drill file (Excellon format)
+  - BOM CSV (`hardware/bom/bom.csv` or equivalent generated output)
+  - Schematic PDF (`hardware/kicad/PoE-FanController.pdf` or equivalent)
+- Absence of any mandatory artefact causes the release job to fail.
+
 ---
 
 ## 9. Development Agreements
@@ -395,3 +454,6 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 |---|---|---|---|
 | 1.0.0 | 2026-06-06 | Initial constitution established | architect |
 | 1.0.1 | 2026-06-06 | PATCH — P-HW-03: documented J7 right-edge exception (debug UART header; does not fit top-edge rail; secondary domain only); clarification of named connector scope. Feature: pcb-connector-edge (#1). | architect |
+| 1.1.0 | 2026-06-06 | PATCH — P-KI-01: added CI Docker image exception permitting `kicad/kicad:10.0.2` for read-only CI operations when the locked `10.0.3` image is unavailable on Docker Hub; adoption obligation within one release cycle; YAML comment requirements. Current approved CI image: `kicad/kicad:10.0.2`. Feature: ci-fixes (#33). | architect |
+| 1.1.0 | 2026-06-06 | MINOR — P-CI-01 (new): ERC and DRC must be enforced in CI for every PR touching `hardware/`; zero-error ERC, zero-above-baseline DRC; graceful-skip fallbacks forbidden; job must fail if KiCad environment is unavailable. Feature: ci-fixes (#33). | architect |
+| 1.1.0 | 2026-06-06 | MINOR — P-CI-02 (new): Release workflow must DRC-gate Gerber export with zero-tolerance threshold independent of PR gate; release must produce GitHub Release with Gerbers, drill file, BOM CSV, and schematic PDF. Feature: ci-fixes (#33). | architect |
