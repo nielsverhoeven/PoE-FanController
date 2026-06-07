@@ -4,4 +4,10 @@ hardware/kicad/erc_output.json
 hardware/kicad/erc_result.rpt
 hardware/kicad/report.txt
 hardware/kicad/~PoE-FanController.kicad_sch.lck
+hardware/kicad/.history/
 docs/reference-samples/DMX_NODE/
+
+# PlatformIO build artifacts and cached libraries
+firmware/.pio/
+**/__pycache__/
+*.pyc

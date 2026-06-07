@@ -1,28 +1,19 @@
 # PoE FanController – Hardware Design Notes
 
-<!-- Last updated: 2026-06-07 | Updated: feature/40-replace-esp32-with-esp32-p4 -->
+<!-- Last updated: 2026-06-07 | Updated: feature/62-split-generator-kicad-gui-pcb -->
 
 ## Overview
 A PoE 802.3at (PoE+) powered device that controls up to 4 PWM fans via an
-ESP32-P4-MINI-1U-N16R8 MCU (dual-core RISC-V, 16 MB flash, 8 MB PSRAM) with
-wired 100BASE-T Ethernet via an external LAN8720A RMII PHY (U5). WiFi is not
-present on the ESP32-P4 — all network connectivity is via the RJ45 jack (J1).
+ESP32-WROOM-32 microcontroller and exposes a web-based configuration interface.
 
 ## Block Diagram
 ```
 [Ethernet cable / PoE+]
        │
-   ┌───▼────────────────────┐
-   │  J1  RJ45 + magnetics  │  ← Shielded, PoE-capable (Würth 615008144521)
-   └───┬──────────┬─────────┘
-       │ PoE pair │ MDI data pairs
-       │          │ (differential, 100BASE-T)
-       │      ┌───▼────────────────┐
-       │      │  U5  LAN8720A PHY  │  ← RMII, QFN-24; 3.3 V single-rail
-       │      └───┬────────────────┘
-       │          │ RMII (GPIO32-37 + GPIO50, fixed IO_MUX)
-       │          │ MDC/MDIO (GPIO31/GPIO28, GPIO-matrix)
-       │ 37–57 V  │
+   ┌───▼────────────────┐
+   │  J1  RJ45 + magnetics │  ← Shielded, PoE-capable
+   └───┬────────────────┘
+       │ 37–57 V DC (PoE pair)
    ┌───▼────────────────┐
    │  U1  Ag9905M module │  ← PoE PD negotiation + isolated flyback
    └───┬────────────────┘
@@ -33,63 +24,45 @@ present on the ESP32-P4 — all network connectivity is via the RJ45 jack (J1).
    │  U2  LM2596-3.3    │  ← 12 V → 3.3 V, 3 A step-down
    └───┬────────────────┘
        │ 3.3 V
-       ├──── U3 ESP32-P4-MINI-1U-N16R8  (dual-core RISC-V, no WiFi/BT)
-       ├──── U5 LAN8720A PHY             (RMII — see above)
-       ├──── U4 CH340C                   (USB-UART bridge, retained v0.2)
+       ├──── U3 ESP32-WROOM-32
+       ├──── U4 CH340C
        └──── Logic decoupling caps
 ```
 
 ## Power Budget (802.3at PoE+ = 25.5 W at PD)
 
-| Consumer              | Voltage | Current  | Power   |
-|-----------------------|---------|----------|---------|
-| 4 × 12 V fan (max)   | 12 V    | 4×0.25 A | 12 W    |
-| ESP32-P4 (peak, no WiFi) | 3.3 V | 0.25 A  | 0.83 W  |
-| U5 LAN8720A PHY       | 3.3 V   | 0.10 A   | 0.33 W  |
-| CH340C + logic        | 3.3 V   | 0.10 A   | 0.33 W  |
-| LM2596 losses         | –       | –        | ~1.5 W  |
-| Ag9905M losses        | –       | –        | ~2.0 W  |
-| **Total**             |         |          |**~17 W**|
+| Consumer          | Voltage | Current  | Power  |
+|-------------------|---------|----------|--------|
+| 4 × 12 V fan (max)| 12 V   | 4×0.25 A | 12 W   |
+| ESP32 (peak WiFi) | 3.3 V   | 0.35 A   | 1.15 W |
+| CH340C + logic    | 3.3 V   | 0.10 A   | 0.33 W |
+| LM2596 losses     | –       | –        | ~1.5 W |
+| Ag9905M losses    | –       | –        | ~2.0 W |
+| **Total**         |         |          |**~17 W**|
 
 Available margin: 25.5 − 17 = 8.5 W.  Safe for 802.3at Class 4.
 
-> **Note:** ESP32-P4 and LAN8720A current figures are estimates from datasheets.
-> Confirm with bench measurement during hardware bring-up.
+## ESP32 GPIO Allocation
 
-## ESP32-P4 GPIO Allocation
-
-Pin assignments are the single source of truth in `firmware/include/pins.h` and
-enforced by `build_flags` in `firmware/platformio.ini`.
-
-| GPIO    | Constant / Signal  | Direction     | Notes                                         |
-|---------|--------------------|---------------|-----------------------------------------------|
-| GPIO0   | `BOOT_PIN`         | Input         | Strapping pin; pull-up via R2; BOOT button SW2 |
-| GPIO2   | `STATUS_LED_PIN`   | Output        | Status LED, active HIGH, R3 330 Ω             |
-| GPIO4   | `FAN1_PWM_PIN`     | Output        | LEDC 25 kHz 8-bit (arduino-esp32 3.x API)     |
-| GPIO5   | `FAN2_PWM_PIN`     | Output        | LEDC 25 kHz 8-bit                             |
-| GPIO6   | `FAN3_PWM_PIN`     | Output        | LEDC 25 kHz 8-bit                             |
-| GPIO7   | `FAN4_PWM_PIN`     | Output        | LEDC 25 kHz 8-bit                             |
-| GPIO8   | `FAN1_TACH_PIN`    | Input         | IRAM_ATTR ISR on FALLING edge; internal pull-up |
-| GPIO9   | `FAN2_TACH_PIN`    | Input         | IRAM_ATTR ISR on FALLING edge; internal pull-up |
-| GPIO10  | `FAN3_TACH_PIN`    | Input         | IRAM_ATTR ISR on FALLING edge; internal pull-up |
-| GPIO11  | `FAN4_TACH_PIN`    | Input         | IRAM_ATTR ISR on FALLING edge; internal pull-up |
-| GPIO16  | `NTC_ADC_PIN`      | ADC Input     | 12-bit ADC; NTC1 thermistor voltage divider (R4 10 kΩ) |
-| GPIO28  | `ETH_MDIO_PIN`     | Bidirectional | EMAC MDIO — GPIO-matrix configurable          |
-| GPIO31  | `ETH_MDC_PIN`      | Output        | EMAC MDC  — GPIO-matrix configurable          |
-| GPIO32  | EMAC_RXD0          | Input         | **Fixed IO_MUX — do not reassign**            |
-| GPIO33  | EMAC_RXD1          | Input         | **Fixed IO_MUX — do not reassign**            |
-| GPIO34  | EMAC_CRS_DV        | Input         | **Fixed IO_MUX — do not reassign**            |
-| GPIO35  | EMAC_TXD0          | Output        | **Fixed IO_MUX — do not reassign**            |
-| GPIO36  | EMAC_TXD1          | Output        | **Fixed IO_MUX — do not reassign**            |
-| GPIO37  | EMAC_TX_EN         | Output        | **Fixed IO_MUX — do not reassign**            |
-| GPIO38  | UART0_TX           | Output        | To CH340C RXD (IO_MUX default on ESP32-P4)    |
-| GPIO39  | UART0_RX           | Input         | From CH340C TXD (IO_MUX default on ESP32-P4)  |
-| GPIO50  | EMAC_REF_CLK       | Output        | 50 MHz RMII ref clock to LAN8720A; **Fixed IO_MUX** |
-| EN      | Reset              | Input         | Module enable, active-high; pull-up R1; RESET button SW1 |
-
-GPIO32–37 and GPIO50 are managed automatically by `ETH.begin()` — they must not
-be reassigned to any other function. They are commented-out (not `#define`d) in
-`pins.h` to prevent accidental reuse.
+| GPIO   | Function         | Direction | Notes                          |
+|--------|------------------|-----------|--------------------------------|
+| GPIO0  | BOOT             | Input     | Pull-up R2; BOOT button SW2    |
+| GPIO2  | Status LED       | Output    | Active HIGH, R3 330 Ω          |
+| GPIO4  | (reserved)       | –         | 1-Wire or I2C SDA alternative  |
+| GPIO14 | FAN4 PWM         | Output    | LEDC channel 3, 25 kHz         |
+| GPIO21 | I2C SDA (future) | I/O       | Not populated on v0.1          |
+| GPIO22 | I2C SCL (future) | I/O       | Not populated on v0.1          |
+| GPIO25 | FAN1 PWM         | Output    | LEDC channel 0, 25 kHz         |
+| GPIO26 | FAN2 PWM         | Output    | LEDC channel 1, 25 kHz         |
+| GPIO27 | FAN3 PWM         | Output    | LEDC channel 2, 25 kHz         |
+| GPIO32 | NTC ADC          | ADC Input | 12-bit ADC, voltage divider    |
+| GPIO34 | FAN1 TACH        | Input     | Input-only pin, pull-up R5     |
+| GPIO35 | FAN2 TACH        | Input     | Input-only pin, pull-up R6     |
+| GPIO36 | FAN3 TACH        | Input     | Input-only pin, pull-up R7     |
+| GPIO39 | FAN4 TACH        | Input     | Input-only pin, pull-up R8     |
+| GPIO1  | TXD0 (UART0)     | Output    | To CH340C RXD                  |
+| GPIO3  | RXD0 (UART0)     | Input     | From CH340C TXD                |
+| EN     | Reset            | Input     | Pull-up R1; RESET button SW1   |
 
 ## Safety & Isolation Requirements (CRITICAL)
 
@@ -121,7 +94,7 @@ Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
   1. **All external connectors on top board edge** (y = 5 mm, per constitution P-HW-03):
      | Ref | Part | Centre X | Side | Notes |
      |-----|------|----------|------|-------|
-     | J1 | RJ45 Würth 615008144521 | 20.0 mm | Primary (x < 38 mm) | rot=180°, port exits top edge; exposes PoE pairs + MDI data pairs |
+     | J1 | RJ45 Amphenol 54602 | 20.0 mm | Primary (x < 38 mm) | rot=180°, port exits top edge |
      | J2 | Fan header 1×4 | 46.1 mm | Secondary | Courtyard left ≥ 41.0 mm (3 mm creepage) |
      | J3 | Fan header 1×4 | 56.8 mm | Secondary | |
      | J4 | Fan header 1×4 | 67.4 mm | Secondary | |
@@ -131,33 +104,32 @@ Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
   2. U1 (Ag9905M) close to J1, primary-side power traces (≈ x=20, y=40)
   3. Isolation gap/slot at x=38 mm, y=10–70 mm, 1.0 mm wide (P-ISO-04)
   4. U2 (LM2596) + L1 + D1 grouped together, primary side (≈ x=15–32, y=55–62)
-  5. U3 (ESP32-P4-MINI-1U) on secondary side (≈ x=65, y=42)
-  6. U5 (LAN8720A QFN-24) on secondary side — place adjacent to U3; close to J1 MDI pairs to minimise RMII trace lengths
-  7. U4 (CH340C) near J6 on secondary side (≈ x=82, y=58)
-  8. Passive components — 19 footprints placed across three zones (see **Passive Component Placement Zones** below)
+  5. U3 (ESP32) on secondary side (≈ x=65, y=42)
+  6. U4 (CH340C) near J6 on secondary side (≈ x=82, y=58)
+  7. Passive components — 19 footprints placed across three zones (see **Passive Component Placement Zones** below)
 
 ## Passive Component Placement Zones
 
 All 19 passive footprints were added in feature #13 (`feature/13-missing-passive-footprints`).
 Coordinates below are the PCB origin (cx, cy) passed to `embed_footprint()` in
-`hardware/generate_project.py` — the single source of truth for all placements.
+`hardware/generator/components.py` (`build_schematic()`) — the single source of truth for all placements.
 All components sit on `F.Cu` only (P-HW-02 ✓). All centres are east of x=38 mm (P-ISO-02 ✓).
 
 ### Zone A — Between fan headers (y ≈ 19.5 mm)
 
 | Ref | cx (mm) | cy (mm) | Package | Value | Function |
 |-----|---------|---------|---------|-------|----------|
-| R5 | 51.5 | 19.5 | 0402 | 10 kΩ | FAN1 TACH pull-up (→ GPIO8)  |
-| R6 | 62.1 | 19.5 | 0402 | 10 kΩ | FAN2 TACH pull-up (→ GPIO9)  |
-| R7 | 72.8 | 19.5 | 0402 | 10 kΩ | FAN3 TACH pull-up (→ GPIO10) |
-| R8 | 92.0 | 19.5 | 0402 | 10 kΩ | FAN4 TACH pull-up (→ GPIO11) |
+| R5 | 51.5 | 19.5 | 0402 | 10 kΩ | FAN1 TACH pull-up (→ GPIO34) |
+| R6 | 62.1 | 19.5 | 0402 | 10 kΩ | FAN2 TACH pull-up (→ GPIO35) |
+| R7 | 72.8 | 19.5 | 0402 | 10 kΩ | FAN3 TACH pull-up (→ GPIO36) |
+| R8 | 92.0 | 19.5 | 0402 | 10 kΩ | FAN4 TACH pull-up (→ GPIO39) |
 
-### Zone B — Left of ESP32-P4 body (x = 45–52 mm, y = 47–56 mm)
+### Zone B — Left of ESP32 body (x = 45–52 mm, y = 47–56 mm)
 
 | Ref | cx (mm) | cy (mm) | Package | Value | Function |
 |-----|---------|---------|---------|-------|----------|
-| R1 | 45.0 | 47.0 | 0402 | 10 kΩ | ESP32-P4 EN pull-up |
-| R2 | 45.0 | 50.0 | 0402 | 10 kΩ | ESP32-P4 BOOT (GPIO0) pull-up |
+| R1 | 45.0 | 47.0 | 0402 | 10 kΩ | ESP32 EN pull-up |
+| R2 | 45.0 | 50.0 | 0402 | 10 kΩ | ESP32 BOOT (GPIO0) pull-up |
 | R3 | 45.0 | 53.0 | 0402 | 330 Ω | Status LED current limit |
 | R4 | 45.0 | 56.0 | 0402 | 10 kΩ | NTC voltage divider (top half) |
 | C3 | 52.0 | 47.0 | 0402 | 100 nF | +3V3 decoupling — U3 |
@@ -200,7 +172,8 @@ DRC report: `PoE-FanController-drc.rpt` (repository root).
 
 ## Schematic Conventions
 
-These conventions are enforced by `hardware/generate_project.py` and codified in constitution §7A
+These conventions are enforced by the `hardware/generator/` package (invoked via `hardware/generate_project.py`)
+and codified in constitution §7A
 (P-SCH-01 – P-SCH-05). The generator is the single source of truth for the schematic; the
 `.kicad_sch` file is a build artefact and must never be edited by hand (P-HW-05, P-KI-04).
 
@@ -255,8 +228,7 @@ The five section headers in the current schematic:
 |---|---|
 | `PoE Power Input` | J1 (RJ45), U1 (Ag9905M) |
 | `3.3V Regulator (LM2596)` | U2, D1, L1, C1–C6 |
-| `ESP32-P4` | U3, R1–R4, SW1–SW2, LED1, NTC1 |
-| `Ethernet PHY (LAN8720A)` | U5, R11–R14, C8–C11 |
+| `ESP32-WROOM-32` | U3, R1–R4, SW1–SW2, LED1, NTC1 |
 | `Fan Headers (4× PWM)` | J2–J5, R5–R8 |
 | `USB / UART Bridge` | J6, J7, U4 (CH340C), R9–R10, C7 |
 
@@ -291,17 +263,17 @@ are driven externally by the Ethernet PSE. Changing to `passive` removes those e
 
 ### ERC status
 
-Authoritative ERC run: KiCad 10.0.3, `hardware/kicad/erc_output.json`, 2026-06-07T12:17:53.
+Authoritative ERC run: KiCad 10.0.3, `hardware/kicad/erc_output.json`, 2026-06-06T23:14:29.
 
 | Metric | Result |
 |---|---|
 | **Errors** | **0** |
-| **Warnings** | **106** |
+| **Warnings** | **85** |
 
-All 106 warnings fall into two categories, both benign:
+All 85 warnings fall into two categories, both benign:
 
 **`lib_symbol_issues` — "symbol library 'Custom' not included"**
-All components are defined inline in `generate_project.py` using `Custom:*` lib IDs. The `Custom`
+All components are defined inline in `generator/components.py` using `Custom:*` lib IDs. The `Custom`
 library is not registered in `PoE-FanController.kicad_pro` because it does not exist on disk;
 all symbol definitions are embedded directly in the generated `.kicad_sch` file. KiCad cannot
 find the external library and flags each component. This is expected and correct by design
@@ -324,6 +296,118 @@ Four check types are suppressed in the project-level ERC configuration:
 
 ---
 
+## Generator Architecture
+
+The schematic and BOM are generated from the `hardware/generator/` Python package (P-KI-04, P-HW-05).
+`hardware/generate_project.py` is a **thin entry point** (≤ 37 lines) that delegates all work to the
+package. **The generator never reads, creates, or modifies `hardware/kicad/PoE-FanController.kicad_pcb`**
+(P-KI-07). The PCB file is KiCad GUI territory.
+
+### Package structure
+
+```
+hardware/
+├── generate_project.py          # thin entry point — imports package; calls write_pro(),
+│                                # build_schematic(), write_bom(); writes .kicad_sch
+└── generator/
+    ├── __init__.py              # public API: re-exports build_schematic, write_bom
+    ├── utils.py                 # constants (G, PL, OUT_DIR, PROJ, SCH_UUID, KICAD_FP_BASE),
+    │                            # helpers (_uuid(), snap(), _pt()), write_pro()
+    ├── schematic.py             # class Schematic — S-expression builder; render() → .kicad_sch text
+    ├── components.py            # build_schematic() — all component symbols, pins, nets, wires, labels
+    ├── pcb_utils.py             # embed_footprint() — kept for reference; NOT called by entry point
+    └── bom.py                   # write_bom() — writes hardware/bom/bom.csv
+```
+
+### Module responsibilities
+
+| Module | Exported symbol(s) | Responsibility |
+|---|---|---|
+| `generate_project.py` | — (entry point) | CLI entry point; calls `write_pro()`, `build_schematic()`, `write_bom()`; writes `.kicad_sch` |
+| `generator/__init__.py` | `build_schematic`, `write_bom` | Package API surface; re-exports from sub-modules |
+| `generator/utils.py` | `_uuid`, `snap`, `_pt`, `G`, `PL`, `KICAD_FP_BASE`, `OUT_DIR`, `PROJ`, `SCH_UUID`, `write_pro` | Shared constants and stateless helpers; writes `.kicad_pro` |
+| `generator/schematic.py` | `Schematic` | S-expression builder; `render()` produces `.kicad_sch` text; owns no I/O |
+| `generator/components.py` | `build_schematic` | Instantiates `Schematic`; defines every component symbol, pin, net, wire, label; returns `Schematic` for caller to `render()` |
+| `generator/pcb_utils.py` | `embed_footprint` | Reads `.kicad_mod` files from `KICAD_FP_BASE`; **reference / future tooling only — not called by entry point** |
+| `generator/bom.py` | `write_bom` | Reads BOM data; writes `hardware/bom/bom.csv`; no schematic involvement |
+
+### Import graph (acyclic)
+
+```mermaid
+graph TB
+    EP["generate_project.py\n(thin entry point)"]
+    INIT["generator/__init__.py\n(package API)"]
+    COMP["generator/components.py\nbuild_schematic()"]
+    SCH["generator/schematic.py\nclass Schematic"]
+    PCBU["generator/pcb_utils.py\nembed_footprint()"]
+    UTILS["generator/utils.py\nconstants · helpers · write_pro()"]
+    BOM["generator/bom.py\nwrite_bom()"]
+
+    EP --> INIT
+    INIT --> COMP
+    INIT --> BOM
+    COMP --> SCH
+    COMP --> PCBU
+    SCH --> UTILS
+    PCBU --> UTILS
+    BOM --> UTILS
+```
+
+All paths terminate at `utils.py`. No module imports its own ancestor.
+
+### Running the generator
+
+```bash
+cd hardware
+python3 generate_project.py
+```
+
+Outputs (all under `hardware/kicad/` or `hardware/bom/`):
+
+| Output file | Written by |
+|---|---|
+| `hardware/kicad/PoE-FanController.kicad_sch` | `build_schematic()` → `Schematic.render()` |
+| `hardware/kicad/PoE-FanController.kicad_pro` | `write_pro()` in `generator/utils.py` |
+| `hardware/bom/bom.csv` | `write_bom()` in `generator/bom.py` |
+
+`hardware/kicad/PoE-FanController.kicad_pcb` is **not created or modified** on any generator run.
+
+### How to extend the generator
+
+| Task | File to edit | API entry point |
+|---|---|---|
+| Add a new schematic component | `generator/components.py` | `build_schematic()` — call `s.define(...)` then `s.place(...)` |
+| Add a new S-expression builder method | `generator/schematic.py` | `class Schematic` |
+| Add or change a shared constant or helper | `generator/utils.py` | module-level |
+| Add a new BOM row | `generator/bom.py` | `write_bom()` |
+
+**Never** add any function that opens and writes `hardware/kicad/PoE-FanController.kicad_pcb` anywhere
+under `hardware/generator/`. This is forbidden by P-KI-07 and caught immediately by the CI
+`sha256sum` guard described in the [CI section](#ci--automated-checks) below.
+
+### P-KI-07 CI enforcement
+
+The `kicad-erc-drc` job in `hardware-check.yml` includes a `sha256sum` guard around every generator run:
+
+```yaml
+- name: Store PCB checksum (P-KI-07 guard baseline)
+  run: sha256sum hardware/kicad/PoE-FanController.kicad_pcb > /tmp/pcb_before.sha256
+
+- name: Regenerate schematic from Python
+  run: |
+    cd hardware
+    KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py
+
+- name: Guard — kicad_pcb must not be modified by generator (P-KI-07)
+  run: |
+    sha256sum --check /tmp/pcb_before.sha256 || \
+      (echo "ERROR: kicad_pcb was modified by generator — P-KI-07 violation" && exit 1)
+```
+
+If any byte of the PCB file changes, the guard fails with exit code 1 and blocks the pipeline.
+
+---
+
 ## Bill of Materials Summary
 
 Full BOM (with Qty, Manufacturer, MPN, Datasheet links) is generated by `python hardware/generate_project.py`
@@ -335,10 +419,9 @@ into `hardware/bom/bom.csv`. Key component selections:
 |-----|-------------|---------|------|
 | U1 | Silvertel Ag9905M | 2×4 pin header 2.54 mm | PoE+ 802.3at PD module, 12 V / 1.67 A isolated |
 | U2 | TI LM2596S-3.3/NOPB | D2PAK (TO-263-5) | 3.3 V 3 A fixed buck regulator |
-| U3 | Espressif ESP32-P4-MINI-1U-N16R8 | LGA-56 castellation module | Main MCU — dual-core RISC-V 400 MHz, 16 MB flash, 8 MB PSRAM, no WiFi/BT |
-| U4 | WCH CH340C | SOIC-16 | USB-UART bridge (no external crystal); retained v0.2 |
-| U5 | Microchip LAN8720A-CP-TR | QFN-24 (4×4 mm, 0.5 mm pitch) | Ethernet PHY — 10/100BASE-T, RMII, 3.3 V single-rail |
-| J1 | Würth 615008144521 | RJ45 horizontal | PoE input with integrated magnetics; exposes both PoE pairs and MDI data pairs |
+| U3 | Espressif ESP32-WROOM-32D | RF module | Main MCU, WiFi, 4 MB flash |
+| U4 | WCH CH340C | SOIC-16 | USB-UART bridge (no external crystal) |
+| J1 | Würth 615008144521 | RJ45 horizontal | PoE input with integrated magnetics |
 | J2–J5 | Molex 47053-1000 | 4-pin 2.54 mm | 12 V PWM fan headers |
 | J6 | GCT USB4085-GF-A | USB-C through-hole | USB-C debug / programming |
 | L1 | Bourns SRR5028-680Y | Axial THT | 68 µH buck inductor |
@@ -353,34 +436,21 @@ into `hardware/bom/bom.csv`. Key component selections:
 | R3 | 1 | 330 Ω | 0402 | Yageo RC0402FR-07330RL | Status LED current limit |
 | R9, R10 | 2 | 5.1 kΩ | 0402 | Yageo RC0402FR-075K1L | USB-C CC1/CC2 pull-down resistors |
 | LED1 | 1 | Green 3 mm | THT Ø3 mm | Würth 150060GS75000 | Status LED, 565 nm, active HIGH via R3 |
-| SW1 | 1 | RESET | 6 mm THT | C&K PTS636 SK43 SMTR LFS | ESP32-P4 EN reset button |
-| SW2 | 1 | BOOT | 6 mm THT | C&K PTS636 SK43 SMTR LFS | ESP32-P4 GPIO0 boot-mode button |
-| NTC1 | 1 | 10 kΩ NTC | Axial THT P10.16 mm | Murata NCP15XH103F03RC | Temperature sensing (B = 3380 K, GPIO16 ADC) |
-
-### Passives Added in Feature #40 (not BOM-locked — equivalents acceptable if value/package match)
-
-| Refs | Qty | Value | Package | MPN | Notes |
-|------|-----|-------|---------|-----|-------|
-| R11, R12, R13, R14 | 4 | 49.9 Ω | 0402 | Yageo RC0402FR-0749R9L | MDI termination resistors for LAN8720A TX/RX pairs |
-| C8, C9, C10 | 3 | 100 nF | 0402 | Samsung CL05B104KO5NNNC | LAN8720A VDD decoupling, X5R 16 V |
-| C11 | 1 | 10 µF / 10 V | 0805 | Samsung CL21A106KAYNNNE | LAN8720A bulk decoupling, X5R |
+| SW1 | 1 | RESET | 6 mm THT | C&K PTS636 SK43 SMTR LFS | ESP32 EN reset button |
+| SW2 | 1 | BOOT | 6 mm THT | C&K PTS636 SK43 SMTR LFS | ESP32 GPIO0 boot-mode button |
+| NTC1 | 1 | 10 kΩ NTC | Axial THT P10.16 mm | Murata NCP15XH103F03RC | Temperature sensing (B = 3380 K, GPIO32 ADC) |
 
 ---
 
 ## Firmware Overview
 
-- **Framework**: Arduino for ESP32 (PlatformIO, arduino-esp32 ≥ 3.1.0)
-- **Fan PWM**: ESP32-P4 LEDC peripheral, 25 kHz, 8-bit resolution; arduino-esp32 3.x API:
-  `ledcAttach(pin, freq, bits)` / `ledcWrite(pin, duty)` — **not** the deprecated 2.x
-  `ledcSetup()` / `ledcAttachPin()` calls
-- **TACH**: GPIO interrupt counting (IRAM_ATTR ISR on FALLING edge), Hz → RPM
-- **Temperature**: ADC (GPIO16) + Steinhart-Hart equation for NTC1 (B = 3380 K)
-- **Ethernet**: `ETH.h` (bundled with arduino-esp32 ≥ 3.x); LAN8720A RMII PHY via
-  `ETH.begin(ETH_PHY_LAN8720, 0, GPIO31, GPIO28, -1, ETH_CLOCK_GPIO50_OUT)`
-- **Web interface**: ESPAsyncWebServer (`mathieucarbou/ESPAsyncWebServer`) + LittleFS
+- **Framework**: Arduino for ESP32 (PlatformIO)
+- **Fan PWM**: ESP32 LEDC peripheral, 25 kHz, 8-bit resolution
+- **TACH**: GPIO interrupt counting or PCNT peripheral, Hz → RPM
+- **Temperature**: ADC + Steinhart-Hart equation for NTC
+- **Web interface**: ESPAsyncWebServer + LittleFS (static HTML/CSS/JS)
 - **Configuration persistence**: NVS (Non-Volatile Storage)
-- **OTA**: HTTP OTA via POST `/api/v1/ota` + `Update.h` — wired Ethernet only;
-  ArduinoOTA (WiFi) has been removed
+- **OTA**: ArduinoOTA over local WiFi
 
 ## CI / Automated Checks
 
@@ -390,8 +460,38 @@ Full workflow documentation is in [`docs/ci.md`](../docs/ci.md). This section su
 
 | Workflow | Trigger | Gate |
 |---|---|---|
-| **Hardware Check (ERC + DRC)** | `push` / `pull_request` touching `hardware/**` | Generator syntax; ERC zero errors; DRC ≤ 76 violations (Docker baseline) |
+| **Hardware Check (ERC + DRC)** | `push` / `pull_request` touching `hardware/**` | Generator syntax (all 7 modules); P-KI-07 PCB guard; ERC zero errors; DRC ≤ 67 violations (Docker baseline) |
 | **KiCad Hardware Release** | `v*.*.*` tag | DRC zero tolerance, then Gerbers + BOM + schematic PDF → GitHub Release |
+
+### `validate-generator` job — syntax check (7 modules)
+
+The `validate-generator` job runs `python -m py_compile` on every module in the generator package,
+not just the entry point (FR-09):
+
+```bash
+python -m py_compile hardware/generate_project.py
+python -m py_compile hardware/generator/__init__.py
+python -m py_compile hardware/generator/utils.py
+python -m py_compile hardware/generator/schematic.py
+python -m py_compile hardware/generator/components.py
+python -m py_compile hardware/generator/pcb_utils.py
+python -m py_compile hardware/generator/bom.py
+# "Syntax OK — all 7 modules"
+```
+
+### `kicad-erc-drc` job — step order
+
+Steps in order:
+
+1. **Store PCB checksum** — `sha256sum hardware/kicad/PoE-FanController.kicad_pcb > /tmp/pcb_before.sha256`
+2. **Regenerate schematic from Python** — runs `generate_project.py`; any non-zero exit fails immediately
+3. **Guard — kicad_pcb must not be modified by generator (P-KI-07)** — `sha256sum --check /tmp/pcb_before.sha256`; exits 1 if PCB changed
+4. **Run ERC** — `kicad-cli sch erc … --format json`
+5. **Check ERC results (zero errors enforced)** — Python one-liner; exits 1 if any `severity == "error"`
+6. **Run DRC** — `kicad-cli pcb drc … --format json --exit-code-violations || true`
+7. **Check DRC violation count (baseline 67)** — exits 1 if `len(violations) > 67`
+8. **Upload ERC report** (`if: always()`) — artifact `erc-report`
+9. **Upload DRC report** (`if: always()`) — artifact `drc-report`
 
 ### KiCad Docker image
 
@@ -399,12 +499,7 @@ Both hardware workflows run `kicad-cli` inside `kicad/kicad:10.0.2` with `--user
 
 ### DRC baseline
 
-The PR gate allows up to **76 violations** in the Docker/Linux environment (breakdown:
-43 `lib_footprint_issues`, 28 `solder_mask_bridge` on J6, 5 `silk_edge_clearance`).
-The baseline increased from 67 to 76 in feature #40 — 9 new components (U5, R11–R14,
-C8–C11) each add one `lib_footprint_issues` violation in the Docker image.
-Issue #39 tracks driving this to zero. The release workflow uses a **zero-tolerance
-threshold** regardless of the PR baseline (P-CI-02).
+The PR gate allows up to **67 violations** in the Docker/Linux environment (breakdown: 34 `lib_footprint_issues`, 28 `solder_mask_bridge` on J6, 5 `silk_edge_clearance`). Issue #39 tracks driving this to zero. The release workflow uses a **zero-tolerance threshold** regardless of the PR baseline (P-CI-02).
 
 ### ERC gate
 
@@ -416,10 +511,7 @@ ERC errors (severity `"error"`) cause an immediate hard failure. Warnings are lo
 
 1. **No-load power test**: Connect PoE+ switch. Measure Ag9905M output (expect 12.0 ± 0.3 V).
 2. **Secondary rail**: Measure LM2596 output (expect 3.30 ± 0.05 V).
-3. **PHY power**: Measure LAN8720A VDD pins (expect 3.30 ± 0.05 V); check C8–C11 present.
-4. **UART test**: Connect USB-C. CH340C should enumerate. Open serial at 115200 baud.
-5. **Flash firmware**: `pio run -e esp32-p4 --target upload` via CH340C.
-6. **Ethernet link-up**: Connect RJ45 to a 100BASE-T switch. Monitor serial for
-   `[ETH] IP: x.x.x.x  speed: 100 Mbps  full-duplex` from the `ARDUINO_EVENT_ETH_GOT_IP` handler.
-7. **Fan test**: Connect one fan to J2. Command 50% duty cycle from firmware/web UI.
-8. **Full load test**: Connect all 4 fans at 100%, run for 10 min. Check temperatures.
+3. **UART test**: Connect USB-C. CH340C should enumerate. Open serial at 115200 baud.
+4. **Flash firmware**: `pio run -e esp32dev --target upload` via CH340C.
+5. **Fan test**: Connect one fan to J2. Command 50% duty cycle from firmware/web UI.
+6. **Full load test**: Connect all 4 fans at 100%, run for 10 min. Check temperatures.
