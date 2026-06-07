@@ -53,7 +53,21 @@ Read these files first — they constrain every implementation decision:
 1. `docs/constitution.md` — technology choices and architecture principles
 2. `docs/features/<feature-name>/plan.md` — the approved technical approach
 3. `docs/features/<feature-name>/tasks.md` — the dependency-ordered task list
-4. `docs/architecture.md` — current module structure and patterns
+
+## ⚡ KB-First — Check Before Spawning Expert Agents (saves cloud credits)
+
+Before delegating to any expert sub-agent, check the knowledge base:
+
+| Question type | KB file to read first |
+|---|---|
+| KiCad format, ERC/DRC, footprints | `docs/kb/kicad-10-reference.md` |
+| ESP32-P4 GPIO, RMII, PlatformIO, APIs | `docs/kb/esp32-p4-reference.md` |
+| PoE class table, power budget, Ag9905M | `docs/kb/poe-reference.md` |
+| Component MPNs, KiCad library matches | `docs/kb/component-library.md` |
+| Which model to use for a task | `docs/kb/model-routing.md` |
+
+If the KB has the answer → use it directly. **Do not spawn an expert agent.**
+If the KB is missing the fact → spawn the expert, get the answer, **then add it to the KB.**
 
 ### Branch Safety Gate (mandatory)
 

@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 1.1.0 | Last amended: 2026-06-06 -->
+<!-- Version: 1.2.0 | Last amended: 2026-06-07 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -14,7 +14,7 @@
 | Project name | PoE FanController |
 | Repository | nielsverhoeven/PoE-FanController |
 | Current revision | v0.1 |
-| Purpose | 802.3at PoE-powered, ESP32-controlled 4-channel PWM fan controller with web UI |
+| Purpose | 802.3at PoE-powered, ESP32-P4-controlled 4-channel PWM fan controller with web UI and wired 100BASE-T Ethernet |
 | Initial constitution date | 2026-06-06 |
 
 ---
@@ -48,8 +48,9 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 |---|---|---|---|
 | U1 | Ag9905M (Silvertel) | 2×4 pin header (2.54 mm) | PoE+ 802.3at PD module — provides isolated 12 V / 1.67 A output |
 | U2 | LM2596S-3.3/NOPB (TI) | D2PAK (TO-263-5) | Fixed 3.3 V, 3 A buck regulator (12 V → 3.3 V for logic) |
-| U3 | ESP32-WROOM-32D (Espressif) | RF module | Main MCU — dual-core, WiFi, BT, 4 MB flash |
-| U4 | CH340C (WCH) | SOIC-16 | USB-UART bridge with internal oscillator (no external crystal) |
+| U3 | ESP32-P4-MINI-1U-N16R8 (Espressif) | LGA-56 castellation module | Main MCU — dual-core RISC-V, no WiFi/BT, 16 MB flash, 8 MB PSRAM |
+| U4 | CH340C (WCH) | SOIC-16 | USB-UART bridge — retained for v0.2; native USB OTG deferred to future amendment |
+| U5 | LAN8720A-CP-TR (Microchip) | QFN-24 | Ethernet PHY — RMII interface, 3.3 V single-rail, external to ESP32-P4 EMAC |
 | J1 | 615008144521 (Würth) | RJ45 horizontal | PoE input with integrated magnetics and shield |
 | J2–J5 | 47053-1000 (Molex) | 4-pin 2.54 mm | 12 V PWM fan headers (4-wire Intel spec) |
 | J6 | USB4085-GF-A (GCT) | USB-C through-hole | USB-C debug / programming receptacle |
@@ -61,16 +62,17 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 | Concern | Choice | Version / Spec | Rationale |
 |---|---|---|---|
 | Build system | PlatformIO | Latest stable at project creation | Reproducible ESP32 builds |
-| Framework | Arduino for ESP32 | arduino-esp32 ≥ 2.x | Familiar API; broad library support |
+| Framework | Arduino for ESP32 | arduino-esp32 ≥ 3.1.0 | Required for ESP32-P4 support; IDF 5.3+ base |
 | RTOS | FreeRTOS | Bundled with arduino-esp32 | Provided by framework |
 | HTTP server | ESPAsyncWebServer | Latest stable | Non-blocking async serving |
 | Filesystem | LittleFS | Bundled with arduino-esp32 | Static web asset storage |
 | PWM driver | ESP32 LEDC peripheral | — | Hardware PWM; no software timer needed |
 | Fan tachometer | GPIO interrupt counting | — | PCNT peripheral may be used in future |
-| Temperature sensing | ADC + Steinhart-Hart | — | NTC1 10 kΩ B=3950 on GPIO32 |
+| Temperature sensing | ADC + Steinhart-Hart | — | NTC1 10 kΩ B=3950; GPIO TBD (ESP32-P4 — confirm in Phase 1) |
 | Persistent config | NVS (Non-Volatile Storage) | — | Survives power cycles |
-| OTA updates | ArduinoOTA | — | Over local WiFi only |
-| Serial debug | UART0 (GPIO1/GPIO3) | 115200 baud | Via U4 CH340C → J6 USB-C |
+| OTA updates | HTTP OTA via POST /api/v1/ota + Update.h | — | Wired Ethernet only; ArduinoOTA (WiFi) removed |
+| Ethernet driver | ETH.h (bundled with arduino-esp32 ≥ 3.x) | — | LAN8720A RMII via ESP32-P4 EMAC |
+| Serial debug | UART0 (GPIO38/GPIO39) | 115200 baud | Via U4 CH340C → J6 USB-C; P4 IO_MUX defaults — confirm in Phase 1 |
 
 ### 2.4 Web UI
 
@@ -147,24 +149,25 @@ Firmware is structured into the following independent modules. Each module owns 
 | `temp` | ADC sampling, Steinhart-Hart NTC calculation, temperature reporting |
 | `web` | ESPAsyncWebServer routes, JSON serialisation, LittleFS asset serving |
 | `config` | NVS read/write, default values, schema validation |
-| `ota` | ArduinoOTA handler, update progress callbacks |
+| `ota` | HTTP OTA endpoint handler (POST /api/v1/ota), Update.h streaming, update progress callbacks |
 | `main` | Initialisation order, top-level task creation |
 
 **P-FW-02 — Peripheral ownership.**
-Each ESP32 peripheral is owned by exactly one firmware module. No peripheral may be accessed from two modules without a documented interface.
+Each ESP32-P4 peripheral is owned by exactly one firmware module. No peripheral may be accessed from two modules without a documented interface.
 
-| ESP32 Peripheral | Owner module | Pins |
+| ESP32-P4 Peripheral | Owner module | Pins |
 |---|---|---|
-| LEDC channels 0–3 | `fan` | GPIO25 (FAN1), GPIO26 (FAN2), GPIO27 (FAN3), GPIO14 (FAN4) |
-| GPIO interrupts (TACH) | `fan` | GPIO34, GPIO35, GPIO36, GPIO39 |
-| ADC1 CH4 | `temp` | GPIO32 (NTC) |
-| UART0 | `main` / debug | GPIO1 (TXD0), GPIO3 (RXD0) |
+| LEDC channels 0–3 | `fan` | GPIO4 (FAN1), GPIO5 (FAN2), GPIO6 (FAN3), GPIO7 (FAN4) |
+| GPIO interrupts (TACH) | `fan` | GPIO8, GPIO9, GPIO10, GPIO11 |
+| ADC1 (channel TBD) | `temp` | GPIO16 (NTC) — channel confirmed in Phase 1 |
+| UART0 | `main` / debug | GPIO38 (TXD0), GPIO39 (RXD0) — P4 IO_MUX defaults; confirm in Phase 1 |
 | GPIO output | `main` | GPIO2 (status LED) |
-| GPIO input | `main` | GPIO0 (BOOT), EN (RESET via R1/SW1) |
+| GPIO input | `main` | GPIO0 (BOOT strapping), EN (RESET via R1/SW1) |
 | LittleFS | `web`, `config` | — |
 | NVS | `config` | — |
-| WiFi / TCP stack | `web`, `ota` | — |
-| I2C (SDA/SCL) | reserved | GPIO21, GPIO22 (not populated v0.1) |
+| EMAC (Ethernet MAC) — RMII fixed | `web`, `ota` | GPIO32 (RXD0), GPIO33 (RXD1), GPIO34 (CRS_DV), GPIO35 (TXD0), GPIO36 (TXD1), GPIO37 (TX_EN), GPIO50 (REF_CLK out) |
+| EMAC MDIO/MDC — GPIO-matrix | `web`, `ota` | GPIO28 (MDIO), GPIO31 (MDC) |
+| I2C (SDA/SCL) | reserved | TBD (not populated v0.2) |
 
 **P-FW-03 — PWM specification.**
 Fan PWM frequency is **25 kHz**, 8-bit resolution. This must not change; 4-wire PC fans require 21–28 kHz per Intel fan spec.
@@ -195,23 +198,25 @@ Default PWM duty cycle at boot must be **100 %** (full speed) until configuratio
         ▼
    U2  LM2596S-3.3 buck regulator          (12 V → 3.3 V, 3 A)
         │  3.3 V DC
-        ├──► U3 ESP32-WROOM-32
+        ├──► U3 ESP32-P4-MINI-1
         ├──► U4 CH340C
+        ├──► U5 LAN8720A (Ethernet PHY)
         └──► Decoupling network (C3–C7)
 ```
 
-### 5.2 Power Budget
+### 5.2 Power Budget (v0.2 — ESP32-P4 + LAN8720A)
 
-| Consumer | Rail | Max current | Max power |
-|---|---|---|---|
-| 4 × PWM fan (max) | 12 V | 4 × 0.25 A = 1.0 A | 12.0 W |
-| LM2596 losses (est.) | — | — | ~1.5 W |
-| ESP32-WROOM-32 (WiFi peak) | 3.3 V | 0.35 A | 1.15 W |
-| CH340C + logic | 3.3 V | 0.10 A | 0.33 W |
-| Ag9905M losses (est.) | — | — | ~2.0 W |
-| **Total** | | | **~17 W** |
-| **802.3at Class 4 budget** | | | **25.5 W** |
-| **Margin** | | | **~8.5 W** |
+| Consumer | Rail | Max current | Max power | Notes |
+|---|---|---|---|---|
+| 4 × PWM fan (max) | 12 V | 4 × 0.25 A = 1.0 A | 12.0 W | Unchanged |
+| ESP32-P4-MINI-1 (active, no WiFi) | 3.3 V | 0.30 A | 0.99 W | P4 TRM §Power; verify datasheet |
+| LAN8720A PHY (100BASE-T active) | 3.3 V | 0.07 A | 0.23 W | LAN8720A datasheet §Electrical |
+| CH340C + logic | 3.3 V | 0.10 A | 0.33 W | Unchanged |
+| LM2596 losses (est.) | — | — | ~1.5 W | Unchanged |
+| Ag9905M losses (est.) | — | — | ~2.0 W | Unchanged |
+| **Total** | | | **~17.1 W** | |
+| **802.3at Class 4 budget** | | | **25.5 W** | |
+| **Margin** | | | **~8.4 W** | No PoE class change required |
 
 ### 5.3 PoE Standards
 
@@ -457,3 +462,4 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | 1.1.0 | 2026-06-06 | PATCH — P-KI-01: added CI Docker image exception permitting `kicad/kicad:10.0.2` for read-only CI operations when the locked `10.0.3` image is unavailable on Docker Hub; adoption obligation within one release cycle; YAML comment requirements. Current approved CI image: `kicad/kicad:10.0.2`. Feature: ci-fixes (#33). | architect |
 | 1.1.0 | 2026-06-06 | MINOR — P-CI-01 (new): ERC and DRC must be enforced in CI for every PR touching `hardware/`; zero-error ERC, zero-above-baseline DRC; graceful-skip fallbacks forbidden; job must fail if KiCad environment is unavailable. Feature: ci-fixes (#33). | architect |
 | 1.1.0 | 2026-06-06 | MINOR — P-CI-02 (new): Release workflow must DRC-gate Gerber export with zero-tolerance threshold independent of PR gate; release must produce GitHub Release with Gerbers, drill file, BOM CSV, and schematic PDF. Feature: ci-fixes (#33). | architect |
+| 1.2.0 | 2026-06-07 | **MAJOR-001** — §1, §2.2, §2.3, §4 (P-FW-01/02), §5.1/5.2: (1) U3 replaced: ESP32-WROOM-32D → ESP32-P4-MINI-1U-N16R8 (dual-core RISC-V, 16 MB flash, 8 MB PSRAM, no WiFi/BT, built-in EMAC). (2) U5 added: LAN8720A-CP-TR Ethernet PHY (RMII, QFN-24, 3.3 V). (3) U4 CH340C retained for v0.2; native USB OTG deferred. (4) Firmware: arduino-esp32 bumped to ≥ 3.1.0; ArduinoOTA (WiFi) replaced by HTTP OTA via POST /api/v1/ota + Update.h; ETH.h added; WiFi removed. (5) GPIO peripheral ownership table updated: RMII fixed pins GPIO32–37+50; LEDC GPIO4–7; TACH GPIO8–11; NTC GPIO16; UART0 GPIO38/39. (6) Power budget updated for v0.2 (no class change; 8.4 W margin retained). Rationale: ESP32-WROOM-32D lacks Ethernet MAC; WiFi not required for wired PoE device; ESP32-P4 provides superior performance, wired EMAC, and eliminates unnecessary wireless radio. Expert consultations: `kicad.expert` (symbol/footprint strategy for P4 + LAN8720A, J1 MDI exposure), `esp32.expert` (P4 RMII fixed pins, PlatformIO board ID, ETH.h + LAN8720A support, GPIO conflict resolution), `poe.expert` (Class 4 budget confirmation, EMC clearance for 50 MHz PHY). Feature: esp32-p4-migration (#40). | architect |

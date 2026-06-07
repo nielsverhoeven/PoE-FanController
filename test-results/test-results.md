@@ -1,3 +1,227 @@
+# Test Results: Issue #40 — MCU Replace ESP32-WROOM-32D → ESP32-P4 (Stage 6 Validation)
+**Branch:** `feature/40-replace-esp32-with-esp32-p4`
+**Date:** 2026-06-07
+**Tester:** tester-agent (automated)
+**Feature:** Replace ESP32-WROOM-32D with ESP32-P4-MINI-1U-N16R8 + LAN8720A Ethernet PHY
+**CI Run:** #27089999402 ✅ (all jobs green prior to this local Stage 6 run)
+
+---
+
+## Stage Results
+
+| Stage | Status | Command / Method | Notes |
+|---|---|---|---|
+| 1 · Firmware build | ⏭ N/A | `pio run -e esp32dev` | ESP32-P4 cannot be built locally — no Arduino-P4 toolchain. CI ✅ on Linux. Hardware bring-up deferred (see §Hardware Bring-up). |
+| 2 · Native unit tests | ✅ PASS | `pio test -e native` | 14/14 tests, 3 suites. 1 test-config fix applied (see §Failures). |
+| 3 · ERC validation | ✅ PASS | `erc_output.json` (KiCad 10.0.3) | 0 error-severity violations; 106 warnings (all non-blocking) |
+| 4 · DRC validation | ✅ PASS | `drc_output.json` (KiCad 10.0.3, local) | 36 violations ≤ 76 Docker baseline |
+| 5 · Firmware size | ⏭ N/A | — | Hardware not available; bring-up deferred |
+| 6 · YAML syntax | ✅ PASS | PowerShell structural check | All 4 workflow files valid |
+| 6 · generate_project.py syntax | ✅ PASS | `python -m py_compile` | No syntax errors |
+| 6 · platformio.ini board | ✅ PASS | Inspect `board = esp32-p4-mini-1u` | Custom manifest (correct; see §Task 4) |
+| 6 · pins.h GPIO constants | ✅ PASS | vs architecture.md §4 | All 13 constants match authoritative spec |
+
+---
+
+## Task Detail: Task 1 — Workflow YAML Validation
+
+All four `.github/workflows/` files validated:
+
+| File | name: | on: | jobs: | Tab indentation | Result |
+|---|---|---|---|---|---|
+| `hardware-check.yml` | ✅ | ✅ | ✅ | None | ✅ PASS |
+| `release.yml` | ✅ | ✅ | ✅ | None | ✅ PASS |
+| `codeql.yml` | ✅ | ✅ | ✅ | None | ✅ PASS |
+| `copilot-setup-steps.yml` | ✅ | ✅ | ✅ | None | ✅ PASS |
+
+Key checks confirmed per file:
+- `hardware-check.yml`: ERC zero-error gate (`severity == 'error'`), DRC baseline 76 (`n > 76`), KiCad 10.0.2 Docker image, artifact uploads.
+- `release.yml`: DRC zero-tolerance gate before Gerber export (P-CI-02), Gerber + drill + schematic PDF + GitHub Release.
+- `codeql.yml`: Python language analysis, weekly schedule + PR trigger.
+- `copilot-setup-steps.yml`: Python smoke-test of `generate_project.py`.
+
+---
+
+## Task Detail: Task 2 — generate_project.py Syntax
+
+```
+python3 -m py_compile hardware/generate_project.py → exit 0
+```
+
+Content verified:
+- `ESP32-P4-MINI-1U-N16R8` defined at line 435 (`Custom:ESP32-P4`)
+- `WROOM-32D` appears **only in a comment** (line 712: `# U3 – ESP32-P4-MINI-1U (replaces ESP32-WROOM-32D)`) — no active code uses old MCU
+- `LAN8720A` referenced for U5 Ethernet PHY symbol definition
+- RMII fixed-pin mapping (GPIO32–37, GPIO50) present with correct comments
+
+**Result: ✅ PASS**
+
+---
+
+## Task Detail: Task 3 — ERC Zero-Error Gate
+
+**File:** `hardware/kicad/erc_output.json` (generated 2026-06-07T12:17:53, KiCad 10.0.3)
+
+| Metric | Result | Gate | Status |
+|---|---|---|---|
+| error-severity violations | **0** | = 0 | ✅ PASS |
+| warning-severity violations | 106 | informational | ✅ acceptable |
+
+Warning breakdown (all pre-existing, non-blocking):
+- `lib_symbol_issues`: Custom symbol library not configured in host KiCad environment (expected — custom symbols are defined inline in `generate_project.py`)
+- `lib_symbol_mismatch`: Standard power symbols differ from library copies (pre-existing in all prior runs)
+
+CI gate logic replicated exactly: `[v for s in d['sheets'] for v in s['violations'] if v['severity'] == 'error']` → `[]`
+
+**Result: ✅ PASS — 0 ERC errors**
+
+---
+
+## Task Detail: Task 4 — platformio.ini Board Setting
+
+The task specification requests `board = esp32-p4-function-ev-board`. Actual value:
+
+```ini
+[env:esp32-p4]
+board     = esp32-p4-mini-1u
+board_dir = boards
+```
+
+**Why this is correct:** OQ-04 (open question from architecture planning) was resolved by creating a custom board manifest `firmware/boards/esp32-p4-mini-1u.json`. The `esp32-p4-function-ev-board` (from the kb reference doc §4) was the suggested base board, but it targets the generic ESP32-P4 Function EV Board with 8 MB flash. The custom manifest overrides to 16 MB flash (matching N16 variant of ESP32-P4-MINI-1U-N16R8).
+
+Custom board manifest contents validated:
+| Field | Value | Expected | Status |
+|---|---|---|---|
+| `mcu` | `esp32p4` | esp32p4 | ✅ |
+| `f_cpu` | `400000000L` | 400 MHz | ✅ |
+| `flash_size` | `16MB` | 16MB (N16 variant) | ✅ |
+| `connectivity` | `["ethernet"]` | Ethernet | ✅ |
+| `upload.maximum_size` | `16777216` | 16MB | ✅ |
+| `upload.maximum_ram_size` | `786432` | 768 KB HP-RAM | ✅ |
+
+**Result: ✅ PASS — custom board manifest correct for ESP32-P4-MINI-1U-N16R8**
+
+---
+
+## Task Detail: Task 5 — pins.h GPIO Constants vs Reference
+
+Authoritative source: `docs/features/esp32-p4-migration/architecture.md §4` (2026-06-07, supersedes kb reference)
+
+| Constant | pins.h | architecture.md §4 | Match |
+|---|---|---|---|
+| `FAN1_PWM_PIN` | 4 | GPIO4 | ✅ |
+| `FAN2_PWM_PIN` | 5 | GPIO5 | ✅ |
+| `FAN3_PWM_PIN` | 6 | GPIO6 | ✅ |
+| `FAN4_PWM_PIN` | 7 | GPIO7 | ✅ |
+| `FAN1_TACH_PIN` | 8 | GPIO8 | ✅ |
+| `FAN2_TACH_PIN` | 9 | GPIO9 | ✅ |
+| `FAN3_TACH_PIN` | 10 | GPIO10 | ✅ |
+| `FAN4_TACH_PIN` | 11 | GPIO11 | ✅ |
+| `NTC_ADC_PIN` | 16 | GPIO16 | ✅ |
+| `STATUS_LED_PIN` | 2 | GPIO2 (Status LED, via R3 330Ω) | ✅ |
+| `BOOT_PIN` | 0 | GPIO0 (Strapping / BOOT) | ✅ |
+| `ETH_MDIO_PIN` | 28 | GPIO28 (GPIO-matrix MDIO) | ✅ |
+| `ETH_MDC_PIN` | 31 | GPIO31 (GPIO-matrix MDC) | ✅ |
+
+RMII fixed pins (GPIO32–37, GPIO50): correctly documented in pins.h as commented-out block; NOT assigned to user functions. ETH.begin() handles them automatically. ✅
+
+⚠️ **Documentation discrepancy (non-blocking):** `docs/kb/esp32-p4-reference.md` §3 lists GPIO2 as "1-WIRE / DS18B20 temperature sensor". The authoritative architecture.md §4 assigns GPIO2 to "Status LED". The kb doc predates the architecture finalization. Recommend updating `esp32-p4-reference.md §3` to match architecture.md §4.
+
+**Result: ✅ PASS — all 13 constants match architecture.md §4**
+
+---
+
+## Task Detail: Task 6 — Native Unit Tests (pio test -e native)
+
+**Environment setup required:** No system GCC on PATH. Installed `platformio/toolchain-gccmingw32@1.50100.0` (MinGW32 GCC 5.1.0) via `pio pkg install`. Added to PATH for test run.
+
+**Test-config fix applied:** GCC 5.1.0 defaults to C++98 (no `nullptr`). Added `-std=c++11` to `[env:native] build_flags` in `platformio.ini`. Linux CI (GCC 11+) uses C++11+ by default and is unaffected. Fix committed: `575f0b3`.
+
+### Results
+
+| Suite | Tests | Pass | Fail | Status |
+|---|---|---|---|---|
+| `test_pins` | 7 | 7 | 0 | ✅ PASS |
+| `test_ota` | 4 | 4 | 0 | ✅ PASS |
+| `test_fan` | 3 | 3 | 0 | ✅ PASS |
+| **TOTAL** | **14** | **14** | **0** | ✅ **ALL PASS** |
+
+### Individual test results
+
+**test_pins (7/7):**
+- `test_fan_pwm_pins` — GPIO4/5/6/7 constants match spec ✅
+- `test_fan_tach_pins` — GPIO8/9/10/11 constants match spec ✅
+- `test_adc_and_misc_pins` — NTC=16, LED=2, BOOT=0 ✅
+- `test_eth_management_pins` — MDIO=28, MDC=31 ✅
+- `test_no_gpio_collisions` — all 13 pins unique, no duplicates ✅
+- `test_no_rmii_collision` — no user pin overlaps RMII fixed (32–37, 50) ✅
+- `test_fan_pwm_params` — 25 kHz, 8-bit, safe-default=255 ✅
+
+**test_ota (4/4):**
+- `test_ota_sequence` — begin/write/end called in correct order ✅
+- `test_ota_no_delay_in_upload` — no delay() in streaming handler (P-FW-04) ✅
+- `test_ota_response_200_on_success` — HTTP 200 "OK" on success ✅
+- `test_ota_response_500_on_error` — HTTP 500 "FAIL" on error ✅
+
+**test_fan (3/3):**
+- `test_ledc_attach_called_not_setup` — new 3.x ledcAttach() API used, NOT deprecated ledcSetup() ✅
+- `test_ledc_attach_parameters` — correct pin/freq/resolution per channel ✅
+- `test_ledc_safe_default_on_init` — all 4 fans start at 100% duty (P-FW-05) ✅
+
+---
+
+## Hardware Bring-up Note (Deferred)
+
+**⚠️ Firmware flashing to physical hardware is NOT possible at this stage.**
+
+The ESP32-P4-MINI-1U-N16R8 PCB has not been fabricated. No hardware is available for:
+- Firmware build validation (`pio run -e esp32-p4`)
+- Firmware size check (RAM/Flash usage)
+- Ethernet link-up / DHCP test
+- OTA firmware update over HTTP
+- Fan PWM output verification
+- NTC thermistor ADC readings
+- LAN8720A RMII initialization
+
+These tests are deferred until physical hardware is received. Open questions pending hardware:
+- OQ-05: ESPAsyncWebServer compatibility under arduino-esp32 3.x on ESP32-P4 (must test on target)
+- GPIO2 strapping behavior on ESP32-P4 (confirm STATUS_LED does not interfere with boot)
+- LAN8720A PHY address auto-detection (ADDR0/ADDR1 pin state at boot)
+
+---
+
+## Failures Found & Fixed
+
+| Test | Failure | Root Cause | Fix | Verified |
+|---|---|---|---|---|
+| `test_ota` (all 4 cases) | Build error: `'nullptr' was not declared in this scope` | MinGW32 GCC 5.1.0 defaults to C++98 mode; `nullptr` is C++11 | Added `-std=c++11` to `[env:native] build_flags` in `platformio.ini` | ✅ Re-run: 4/4 PASS |
+
+**Classification:** Test-environment configuration error (not a test-code bug, not a production-code bug). The test code is valid C++11; the compiler environment was misconfigured for Windows. Linux CI is unaffected.
+
+---
+
+## Release Gate
+
+| Check | Threshold | Result | Status |
+|---|---|---|---|
+| YAML workflow syntax (×4) | Syntactically valid | All valid | ✅ |
+| `generate_project.py` syntax | Exit 0 | Exit 0 | ✅ |
+| ERC error-severity violations | = 0 | 0 errors, 106 warnings | ✅ |
+| DRC violations (local KiCad 10.0.3) | ≤ 76 (Docker baseline) | 36 | ✅ |
+| `platformio.ini` board | ESP32-P4 target | `esp32-p4-mini-1u` (custom manifest) | ✅ |
+| `pins.h` GPIO constants | Match architecture.md §4 | 13/13 match | ✅ |
+| Native unit tests | 14/14 PASS | 14/14 PASS | ✅ |
+| Firmware build (esp32-p4) | ✅ on CI | CI Run #27089999402 ✅ | ✅ |
+| Hardware bring-up | Deferred — no hardware | N/A | ⏭ |
+
+## **Final Verdict: ✅ PASS (Stage 6)**
+
+Branch `feature/40-replace-esp32-with-esp32-p4` passes all locally executable Stage 6 checks.
+Hardware bring-up testing is explicitly deferred pending PCB fabrication.
+One test-configuration fix was applied and committed (`575f0b3`).
+
+---
+
 # Test Results: Issue #13 — Missing Passive Footprints
 **Branch:** `feature/13-missing-passive-footprints`
 **Date:** 2026-06-06
