@@ -367,22 +367,27 @@ def build_schematic():
     # Symbol definitions  (body_w, body_h MUST be multiples of G=2.54)
     # -----------------------------------------------------------------------
 
-    # RJ45: 8-pin Amphenol 54602 (pads 1-8 match footprint exactly)
-    # PoE pairs share the physical Ethernet conductors (mode A: 1,2/3,6; mode B: 4,5/7,8)
-    s.define("Custom:RJ45_PoE", "J", "RJ45_PoE",
-             "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal", "~",
-             body_w=15.24, body_h=22.86,
+    # RJ45 with integrated PoE magnetics + MDI secondary exposure (Würth 615008144521)
+    # OQ-03 RESOLVED 2026-06-07: Würth 615008144521 exposes PoE centre-tap pairs on
+    # dedicated pins separate from MDI secondary winding outputs.  Left pins carry PoE
+    # power centre-taps → Ag9905M (P-POE-02 topology unchanged).  Right pins carry MDI
+    # secondary data pairs → LAN8720A via 49.9 Ω series resistors R11-R14.
+    s.define("Custom:RJ45_PoE_PHY", "J", "RJ45_PoE_PHY",
+             "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal",
+             "https://www.we-online.com/en/components/products/WR-MJ/615008144521",
+             body_w=15.24, body_h=12.70,
              pins_left=[
-                 ("P1",  "1", "passive"),   # PoE mode A pair: +
-                 ("P2",  "2", "passive"),   # PoE mode A pair: +
-                 ("P3",  "3", "passive"),   # PoE mode A pair: –
-                 ("P4",  "4", "passive"),   # PoE mode B pair: +
-                 ("P5",  "5", "passive"),   # PoE mode B pair: +
-                 ("P6",  "6", "passive"),   # PoE mode A pair: –
-                 ("P7",  "7", "passive"),   # PoE mode B pair: –
-                 ("P8",  "8", "passive"),   # PoE mode B pair: –
+                 ("POE_A+", "PA+", "passive"),   # PoE mode A centre-tap +
+                 ("POE_A-", "PA-", "passive"),   # PoE mode A centre-tap -
+                 ("POE_B+", "PB+", "passive"),   # PoE mode B centre-tap +
+                 ("POE_B-", "PB-", "passive"),   # PoE mode B centre-tap -
              ],
-             pins_right=[])
+             pins_right=[
+                 ("ETH_TD_P", "TDP", "passive"),  # MDI TX+ secondary winding
+                 ("ETH_TD_N", "TDN", "passive"),  # MDI TX-
+                 ("ETH_RD_P", "RDP", "passive"),  # MDI RX+
+                 ("ETH_RD_N", "RDN", "passive"),  # MDI RX-
+             ])
 
     # Ag9905M PoE+ PD module: 4 left (PoE input), 4 right (12V output)
     s.define("Custom:Ag9905M", "U", "Ag9905M",
@@ -417,54 +422,44 @@ def build_schematic():
                  ("FB",  "4", "input"),
              ])
 
-    # ESP32-WROOM-32: 19 left (pads 1-19) + 20 right (pads 20-39, incl. exposed GND pad)
-    # Pin numbers match RF_Module:ESP32-WROOM-32 footprint pads exactly.
-    s.define("Custom:ESP32-WROOM-32", "U", "ESP32-WROOM-32",
-             "RF_Module:ESP32-WROOM-32",
-             "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf",
-             body_w=30.48, body_h=50.80,
+    # ESP32-P4-MINI-1U-N16R8: 14 left functional pins + 12 right RMII/UART/MDIO pins.
+    # Pin numbers are GPIO IDs for schematic clarity.
+    # RMII fixed pins GPIO32-37 + GPIO50: hard-wired to IO_MUX (ESP32-P4 TRM §EMAC).
+    # MDIO GPIO28 / MDC GPIO31: GPIO-matrix configurable.
+    # All assignments verified: OQ-01 RESOLVED 2026-06-07.
+    s.define("Custom:ESP32-P4", "U", "ESP32-P4-MINI-1U",
+             "Custom:ESP32-P4-MINI-1",
+             "https://www.espressif.com/sites/default/files/documentation/esp32-p4_datasheet_en.pdf",
+             body_w=30.48, body_h=35.56,
              pins_left=[
-                 ("GND",       "1",  "power_in"),
-                 ("VDD",       "2",  "power_in"),
-                 ("EN",        "3",  "input"),
-                 ("SENSOR_VP", "4",  "input"),       # GPIO36
-                 ("SENSOR_VN", "5",  "input"),       # GPIO39
-                 ("IO34",      "6",  "input"),
-                 ("IO35",      "7",  "input"),
-                 ("IO32",      "8",  "bidirectional"),
-                 ("IO33",      "9",  "bidirectional"),
-                 ("IO25",      "10", "bidirectional"),
-                 ("IO26",      "11", "bidirectional"),
-                 ("IO27",      "12", "bidirectional"),
-                 ("IO14",      "13", "bidirectional"),
-                 ("IO12",      "14", "bidirectional"),
-                 ("GND",       "15", "passive"),
-                 ("IO13",      "16", "bidirectional"),
-                 ("SHD/SD2",   "17", "bidirectional"),
-                 ("SWP/SD3",   "18", "bidirectional"),
-                 ("SCS/CMD",   "19", "bidirectional"),
+                 ("GND",    "GND1", "power_in"),
+                 ("VDD",    "VDD",  "power_in"),
+                 ("EN",     "EN",   "input"),
+                 ("GPIO0",  "G0",   "input"),         # BOOT strapping pin
+                 ("GPIO2",  "G2",   "bidirectional"), # 1-Wire / status LED
+                 ("GPIO4",  "G4",   "output"),        # FAN1_PWM  LEDC CH0
+                 ("GPIO5",  "G5",   "output"),        # FAN2_PWM  LEDC CH1
+                 ("GPIO6",  "G6",   "output"),        # FAN3_PWM  LEDC CH2
+                 ("GPIO7",  "G7",   "output"),        # FAN4_PWM  LEDC CH3
+                 ("GPIO8",  "G8",   "input"),         # FAN1_TACH
+                 ("GPIO9",  "G9",   "input"),         # FAN2_TACH
+                 ("GPIO10", "G10",  "input"),         # FAN3_TACH
+                 ("GPIO11", "G11",  "input"),         # FAN4_TACH
+                 ("GPIO16", "G16",  "input"),         # NTC_ADC
              ],
              pins_right=[
-                 ("SCK/CLK",   "20", "bidirectional"),
-                 ("SDO/SD0",   "21", "bidirectional"),
-                 ("SDI/SD1",   "22", "bidirectional"),
-                 ("IO15",      "23", "bidirectional"),
-                 ("IO2",       "24", "bidirectional"),
-                 ("IO0",       "25", "bidirectional"),
-                 ("IO4",       "26", "bidirectional"),
-                 ("IO16",      "27", "bidirectional"),
-                 ("IO17",      "28", "bidirectional"),
-                 ("IO5",       "29", "bidirectional"),
-                 ("IO18",      "30", "bidirectional"),
-                 ("IO19",      "31", "bidirectional"),
-                 ("NC",        "32", "no_connect"),
-                 ("IO21",      "33", "bidirectional"),
-                 ("RXD0/IO3",  "34", "bidirectional"),
-                 ("TXD0/IO1",  "35", "bidirectional"),
-                 ("IO22",      "36", "bidirectional"),
-                 ("IO23",      "37", "bidirectional"),
-                 ("GND",       "38", "passive"),
-                 ("GND_PAD",   "39", "passive"),     # exposed bottom GND pad
+                 ("GND",    "GND2", "power_in"),
+                 ("GPIO28", "G28",  "bidirectional"), # EMAC_MDIO (GPIO-matrix)
+                 ("GPIO31", "G31",  "output"),        # EMAC_MDC  (GPIO-matrix)
+                 ("GPIO32", "G32",  "input"),         # EMAC_RXD0 RMII fixed
+                 ("GPIO33", "G33",  "input"),         # EMAC_RXD1 RMII fixed
+                 ("GPIO34", "G34",  "input"),         # EMAC_CRS_DV RMII fixed
+                 ("GPIO35", "G35",  "output"),        # EMAC_TXD0 RMII fixed
+                 ("GPIO36", "G36",  "output"),        # EMAC_TXD1 RMII fixed
+                 ("GPIO37", "G37",  "output"),        # EMAC_TX_EN RMII fixed
+                 ("GPIO38", "G38",  "output"),        # UART0_TX IO_MUX default
+                 ("GPIO39", "G39",  "input"),         # UART0_RX IO_MUX default
+                 ("GPIO50", "G50",  "output"),        # EMAC_REF_CLK 50 MHz → PHY
              ])
 
     # CH340C: 8 left, 8 right
@@ -491,6 +486,36 @@ def build_schematic():
                  ("RI",  "11", "output"),
                  ("DCD", "10", "input"),
                  ("CKO", "9",  "output"),
+             ])
+
+    # LAN8720A-CP-TR Ethernet PHY QFN-24
+    # Left: RMII interface (← ESP32-P4) + MDI physical pairs (↔ J1 via R11-R14)
+    # Right: power pins (+3V3, GND, exposed pad)
+    s.define("Custom:LAN8720A", "U", "LAN8720A-CP-TR",
+             "Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm",
+             "https://ww1.microchip.com/downloads/en/DeviceDoc/8720a.pdf",
+             body_w=20.32, body_h=35.56,
+             pins_left=[
+                 ("TXEN",   "TXEN", "input"),         # TX_EN  ← ESP32 GPIO37
+                 ("TXD0",   "TXD0", "input"),         # TXD0   ← ESP32 GPIO35
+                 ("TXD1",   "TXD1", "input"),         # TXD1   ← ESP32 GPIO36
+                 ("RXD0",   "RXD0", "output"),        # RXD0   → ESP32 GPIO32
+                 ("RXD1",   "RXD1", "output"),        # RXD1   → ESP32 GPIO33
+                 ("CRS_DV", "CRDV", "output"),        # CRS_DV → ESP32 GPIO34
+                 ("REFCLK", "RCLK", "input"),         # 50 MHz ← ESP32 GPIO50
+                 ("MDIO",   "MDIO", "bidirectional"), # MDIO   ↔ ESP32 GPIO28
+                 ("MDC",    "MDC",  "input"),         # MDC    ← ESP32 GPIO31
+                 ("NRESET", "NRST", "input"),         # Active-low (tie to +3V3)
+                 ("TX+",    "TXP",  "passive"),       # MDI TX+ → J1 via R11
+                 ("TX-",    "TXN",  "passive"),       # MDI TX- → J1 via R12
+                 ("RX+",    "RXP",  "passive"),       # MDI RX+ ← J1 via R13
+                 ("RX-",    "RXN",  "passive"),       # MDI RX- ← J1 via R14
+             ],
+             pins_right=[
+                 ("VDD",   "VDD",   "power_in"),  # 3.3 V
+                 ("VDDIO", "VDDIO", "power_in"),  # 3.3 V I/O supply
+                 ("GND",   "GND",   "power_in"),
+                 ("EP",    "EP",    "power_in"),  # Exposed pad = GND
              ])
 
     # 4-pin fan header
@@ -582,24 +607,27 @@ def build_schematic():
     # -----------------------------------------------------------------------
 
     # -----------------------------------------------------------------------
-    # J1 – RJ45 with PoE
+    # J1 – RJ45 with PoE magnetics + MDI secondary (Würth 615008144521)
+    # OQ-03 RESOLVED 2026-06-07: MDI secondary winding outputs confirmed separate
+    # from PoE centre-taps. P-POE-02 topology unchanged — only secondary MDI added.
+    # TODO T009: Replace PCB footprint with Custom:Wuerth_615008144521 when authored.
     # -----------------------------------------------------------------------
     BLUE = (0, 0, 255)
     s.text("PoE Power Input", 25, 18, size=2.54, bold=True, color=BLUE)
     J1_CX, J1_CY = 38.1, 55.88          # 15*G, 22*G
-    p = s.component("Custom:RJ45_PoE","J1","RJ45_PoE",
+    p = s.component("Custom:RJ45_PoE_PHY","J1","RJ45_PoE_PHY",
                     "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal",
                     J1_CX, J1_CY)
-    # Pins 1,2 = mode-A pair (+); pins 3,6 = mode-A pair (–)
-    # Pins 4,5 = mode-B pair (+); pins 7,8 = mode-B pair (–)
-    s.label("POE_A+", *p["1"])
-    s.label("POE_A+", *p["2"])
-    s.label("POE_A-", *p["3"])
-    s.label("POE_B+", *p["4"])
-    s.label("POE_B+", *p["5"])
-    s.label("POE_A-", *p["6"])
-    s.label("POE_B-", *p["7"])
-    s.label("POE_B-", *p["8"])
+    # PoE centre-tap pairs → Ag9905M (P-POE-02)
+    s.label("POE_A+", *p["PA+"])
+    s.label("POE_A-", *p["PA-"])
+    s.label("POE_B+", *p["PB+"])
+    s.label("POE_B-", *p["PB-"])
+    # MDI secondary → R11-R14 (49.9 Ω) → LAN8720A
+    s.global_label("ETH_TD_P_IN", *p["TDP"], shape="passive", angle=180)
+    s.global_label("ETH_TD_N_IN", *p["TDN"], shape="passive", angle=180)
+    s.global_label("ETH_RD_P_IN", *p["RDP"], shape="passive", angle=180)
+    s.global_label("ETH_RD_N_IN", *p["RDN"], shape="passive", angle=180)
 
     # -----------------------------------------------------------------------
     # U1 – Ag9905M PoE+ PD module
@@ -675,58 +703,52 @@ def build_schematic():
         s.power("GND",  *p["2"])
 
     # -----------------------------------------------------------------------
-    # U3 – ESP32-WROOM-32
+    # U3 – ESP32-P4-MINI-1U (replaces ESP32-WROOM-32D)
+    # RMII fixed pins GPIO32-37 + GPIO50 verified against TRM §EMAC (OQ-01 closed)
     # -----------------------------------------------------------------------
-    s.text("ESP32-WROOM-32", 155, 18, size=2.54, bold=True, color=BLUE)
-    U3_CX, U3_CY = 218.44, 109.22       # 86*G, 43*G
-    p = s.component("Custom:ESP32-WROOM-32","U3","ESP32-WROOM-32",
-                    "RF_Module:ESP32-WROOM-32",
+    s.text("ESP32-P4", 155, 18, size=2.54, bold=True, color=BLUE)
+    U3_CX, U3_CY = 218.44, 109.22       # 86*G, 43*G — centre unchanged
+    p = s.component("Custom:ESP32-P4","U3","ESP32-P4-MINI-1U",
+                    "Custom:ESP32-P4-MINI-1",
                     U3_CX, U3_CY)
+
     # Power pins
-    s.power("GND",   *p["1"])            # pad 1 = GND (left, top)
-    s.power("+3V3",  *p["2"])            # pad 2 = VDD
-    s.power("GND",   *p["15"])           # pad 15 = GND (mid-left)
-    s.power("GND",   *p["38"])           # pad 38 = GND (right, bottom)
-    s.power("GND",   *p["39"])           # pad 39 = exposed bottom GND pad
+    s.power("GND",   *p["GND1"])
+    s.power("+3V3",  *p["VDD"])
+    s.power("GND",   *p["GND2"])
 
-    # Signal pins – left side (pads 3-19)
-    # EN/BOOT use global labels — driven by R1/SW1 and R2/SW2 respectively
-    s.global_label("ESP_EN",    *p["3"],  shape="input")
-    s.global_label("FAN3_TACH", *p["4"],  shape="input")  # SENSOR_VP = GPIO36
-    s.global_label("FAN4_TACH", *p["5"],  shape="input")  # SENSOR_VN = GPIO39
-    s.global_label("FAN1_TACH", *p["6"],  shape="input")  # IO34
-    s.global_label("FAN2_TACH", *p["7"],  shape="input")  # IO35
-    s.global_label("NTC_ADC",   *p["8"],  shape="input")  # IO32 — reads ADC voltage
-    s.no_connect(               *p["9"])                   # IO33
-    s.global_label("FAN1_PWM",  *p["10"], shape="output") # IO25
-    s.global_label("FAN2_PWM",  *p["11"], shape="output") # IO26
-    s.global_label("FAN3_PWM",  *p["12"], shape="output") # IO27
-    s.global_label("FAN4_PWM",  *p["13"], shape="output") # IO14
-    s.no_connect(               *p["14"])                  # IO12
-    for pn in ["16","17","18","19"]:
-        s.no_connect(*p[pn])             # IO13, SD2, SD3, CMD (flash interface)
+    # Left side — functional GPIO
+    s.global_label("ESP_EN",    *p["EN"],  shape="input")
+    s.global_label("BOOT",      *p["G0"],  shape="passive")
+    s.label("GPIO2",            *p["G2"])                         # LED circuit local
+    s.global_label("FAN1_PWM",  *p["G4"],  shape="output")
+    s.global_label("FAN2_PWM",  *p["G5"],  shape="output")
+    s.global_label("FAN3_PWM",  *p["G6"],  shape="output")
+    s.global_label("FAN4_PWM",  *p["G7"],  shape="output")
+    s.global_label("FAN1_TACH", *p["G8"],  shape="input")
+    s.global_label("FAN2_TACH", *p["G9"],  shape="input")
+    s.global_label("FAN3_TACH", *p["G10"], shape="input")
+    s.global_label("FAN4_TACH", *p["G11"], shape="input")
+    s.global_label("NTC_ADC",   *p["G16"], shape="input")
 
-    # Signal pins – right side (pads 20-37)
-    for pn in ["20","21","22"]:
-        s.no_connect(*p[pn])             # CLK, SD0, SD1 (flash interface)
-    s.no_connect(*p["23"])               # IO15
-    s.label("GPIO2",   *p["24"], angle=180)  # IO2 → status LED (local — same block)
-    s.global_label("BOOT",    *p["25"], shape="passive", angle=180)  # IO0 → BOOT button
-    s.no_connect(*p["26"])               # IO4
-    for pn in ["27","28","29","30","31"]:
-        s.no_connect(*p[pn])             # IO16, IO17, IO5, IO18, IO19
-    s.no_connect(*p["32"])               # NC (module internal)
-    s.no_connect(*p["33"])               # IO21
-    s.global_label("ESP_RX",  *p["34"], shape="input",  angle=180)  # RXD0
-    s.global_label("ESP_TX",  *p["35"], shape="output", angle=180)  # TXD0
-    s.no_connect(*p["36"])               # IO22
-    s.no_connect(*p["37"])               # IO23
+    # Right side — RMII + UART + MDIO/MDC (all with angle=180 = label points right)
+    s.global_label("ETH_MDIO",    *p["G28"], shape="bidirectional", angle=180)
+    s.global_label("ETH_MDC",     *p["G31"], shape="output",        angle=180)
+    s.global_label("EMAC_RXD0",   *p["G32"], shape="input",         angle=180)
+    s.global_label("EMAC_RXD1",   *p["G33"], shape="input",         angle=180)
+    s.global_label("EMAC_CRS_DV", *p["G34"], shape="input",         angle=180)
+    s.global_label("EMAC_TXD0",   *p["G35"], shape="output",        angle=180)
+    s.global_label("EMAC_TXD1",   *p["G36"], shape="output",        angle=180)
+    s.global_label("EMAC_TX_EN",  *p["G37"], shape="output",        angle=180)
+    s.global_label("ESP_TX",      *p["G38"], shape="output",        angle=180)
+    s.global_label("ESP_RX",      *p["G39"], shape="input",         angle=180)
+    s.global_label("EMAC_REF_CLK",*p["G50"], shape="output",        angle=180)
 
     # -----------------------------------------------------------------------
-    # ESP32 support: R1 (EN pull-up), SW1 (RESET), R2 (IO0 pull-up), SW2 (BOOT)
+    # ESP32-P4 support: R1 (EN pull-up), SW1 (RESET), R2 (IO0 pull-up), SW2 (BOOT)
     # -----------------------------------------------------------------------
-    # R1 – 10k EN pull-up (pad 3 is left-side)
-    R1_CX, R1_CY = 178.0, p["3"][1]   # same y as EN pin
+    # R1 – 10k EN pull-up
+    R1_CX, R1_CY = 178.0, p["EN"][1]   # same y as EN pin
     p1 = s.component("Custom:R","R1","10k","Resistor_SMD:R_0402_1005Metric",
                      R1_CX, R1_CY)
     s.power("+3V3",             *p1["1"])
@@ -739,22 +761,22 @@ def build_schematic():
     s.global_label("ESP_EN", *p1["1"], shape="input")
     s.power("GND",            *p1["2"])
 
-    # R2 – 10k IO0 pull-up (pad 25 is right-side)
-    R2_CX, R2_CY = 178.0, p["25"][1]  # same y as IO0 pin
+    # R2 – 10k GPIO0 pull-up
+    R2_CX, R2_CY = 178.0, p["G0"][1]   # same y as GPIO0 pin
     p1 = s.component("Custom:R","R2","10k","Resistor_SMD:R_0402_1005Metric",
                      R2_CX, R2_CY)
     s.power("+3V3",           *p1["1"])
     s.global_label("BOOT",    *p1["2"], shape="passive")
 
-    # SW2 – BOOT button  (placed 10*G below SW1 to avoid pin coordinate collision)
-    SW2_CX, SW2_CY = 178.0, SW1_CY + 10 * G
+    # SW2 – BOOT button (offset 8*G below SW1 to clear NTC divider at GPIO16)
+    SW2_CX, SW2_CY = 178.0, SW1_CY + 8 * G
     p1 = s.component("Custom:SW_Push","SW2","BOOT",
                      "Button_Switch_THT:SW_PUSH_6mm", SW2_CX, SW2_CY)
     s.global_label("BOOT", *p1["1"], shape="passive")
     s.power("GND",          *p1["2"])
 
-    # R3 – 330R LED resistor (pad 24 = IO2)
-    R3_CX, R3_CY = 178.0, p["24"][1]  # same y as IO2 pin
+    # R3 – 330R LED resistor (GPIO2)
+    R3_CX, R3_CY = 178.0, p["G2"][1]   # same y as GPIO2 pin
     p1 = s.component("Custom:R","R3","330R","Resistor_SMD:R_0402_1005Metric",
                      R3_CX, R3_CY)
     s.label("GPIO2", *p1["1"])
@@ -768,8 +790,8 @@ def build_schematic():
     s.label("LED_A", *p1["1"])
     s.power("GND",   *p1["2"])
 
-    # R4 – 10k NTC voltage divider (top half, pad 8 = IO32)
-    R4_CX, R4_CY = 178.0, p["8"][1]   # same y as IO32 pin
+    # R4 – 10k NTC voltage divider top (GPIO16 = NTC_ADC)
+    R4_CX, R4_CY = 178.0, p["G16"][1]  # same y as GPIO16 pin
     p1 = s.component("Custom:R","R4","10k","Resistor_SMD:R_0402_1005Metric",
                      R4_CX, R4_CY)
     s.power("+3V3",    *p1["1"])
@@ -782,6 +804,87 @@ def build_schematic():
                      NTC1_CX, NTC1_CY)
     s.global_label("NTC_ADC", *p1["1"], shape="output")
     s.power("GND",     *p1["2"])
+
+    # -----------------------------------------------------------------------
+    # U5 – LAN8720A Ethernet PHY (RMII)
+    # RMII interface: all 7 signals connect to ESP32-P4 via matching global labels
+    # MDI interface: to J1 secondary winding via 49.9 Ω termination resistors R11-R14
+    # -----------------------------------------------------------------------
+    s.text("Ethernet PHY (LAN8720A)", 430, 18, size=2.54, bold=True, color=BLUE)
+    U5_CX, U5_CY = 490.0, 109.22        # east of fan section; same y as U3
+    p5 = s.component("Custom:LAN8720A","U5","LAN8720A-CP-TR",
+                     "Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm",
+                     U5_CX, U5_CY)
+
+    # Power
+    s.power("+3V3", *p5["VDD"])
+    s.power("+3V3", *p5["VDDIO"])
+    s.power("GND",  *p5["GND"])
+    s.power("GND",  *p5["EP"])
+
+    # NRESET — tie to +3V3 (PHY always released; optional external control deferred)
+    s.power("+3V3", *p5["NRST"])
+
+    # RMII receive path (U5 drives → MCU receives)
+    s.global_label("EMAC_RXD0",   *p5["RXD0"], shape="output")
+    s.global_label("EMAC_RXD1",   *p5["RXD1"], shape="output")
+    s.global_label("EMAC_CRS_DV", *p5["CRDV"], shape="output")
+
+    # RMII transmit path (MCU drives → U5 receives)
+    s.global_label("EMAC_TX_EN",  *p5["TXEN"], shape="input")
+    s.global_label("EMAC_TXD0",   *p5["TXD0"], shape="input")
+    s.global_label("EMAC_TXD1",   *p5["TXD1"], shape="input")
+
+    # Reference clock (MCU GPIO50 → U5)
+    s.global_label("EMAC_REF_CLK",*p5["RCLK"], shape="input")
+
+    # MDIO management bus
+    s.global_label("ETH_MDIO",    *p5["MDIO"], shape="bidirectional")
+    s.global_label("ETH_MDC",     *p5["MDC"],  shape="input")
+
+    # MDI physical pairs (via R11-R14 termination resistors)
+    s.global_label("ETH_TD_P", *p5["TXP"], shape="passive")
+    s.global_label("ETH_TD_N", *p5["TXN"], shape="passive")
+    s.global_label("ETH_RD_P", *p5["RXP"], shape="passive")
+    s.global_label("ETH_RD_N", *p5["RXN"], shape="passive")
+
+    # -----------------------------------------------------------------------
+    # MDI termination resistors R11-R14 (49.9 Ω ±1% 0402)
+    # Between J1 MDI secondary winding and LAN8720A MDI pins (architecture §5)
+    # -----------------------------------------------------------------------
+    s.text("MDI Termination (49.9\u03a9 x4)", 415, 185, size=2.54, bold=True, color=BLUE)
+    mdi_r_data = [
+        ("R11", "ETH_TD_P_IN", "ETH_TD_P"),
+        ("R12", "ETH_TD_N_IN", "ETH_TD_N"),
+        ("R13", "ETH_RD_P_IN", "ETH_RD_P"),
+        ("R14", "ETH_RD_N_IN", "ETH_RD_N"),
+    ]
+    for i, (rref, net_in, net_out) in enumerate(mdi_r_data):
+        rcx = 445.0
+        rcy = 200.0 + i * 5.08
+        pr = s.component("Custom:R", rref, "49R9",
+                         "Resistor_SMD:R_0402_1005Metric", rcx, rcy)
+        s.global_label(net_in,  *pr["1"], shape="passive")
+        s.global_label(net_out, *pr["2"], shape="passive", angle=180)
+
+    # -----------------------------------------------------------------------
+    # U5 decoupling caps: 4 × 100 nF near VDD pins + 1 × 10 µF bulk (C8-C11)
+    # -----------------------------------------------------------------------
+    C8_CX, C8_CY   = 518.0, p5["VDD"][1]
+    p_cx = s.component("Custom:C","C8","100nF","Capacitor_SMD:C_0402_1005Metric",C8_CX,C8_CY)
+    s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
+
+    C9_CX, C9_CY   = 518.0, p5["VDDIO"][1]
+    p_cx = s.component("Custom:C","C9","100nF","Capacitor_SMD:C_0402_1005Metric",C9_CX,C9_CY)
+    s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
+
+    C10_CX, C10_CY  = 518.0, p5["GND"][1]
+    p_cx = s.component("Custom:C","C10","100nF","Capacitor_SMD:C_0402_1005Metric",C10_CX,C10_CY)
+    s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
+
+    C11_CX, C11_CY  = 518.0, p5["EP"][1]
+    p_cx = s.component("Custom:C","C11","10uF/10V","Capacitor_SMD:C_0805_2012Metric",C11_CX,C11_CY)
+    s.power("+3V3", *p_cx["1"]); s.power("GND", *p_cx["2"])
 
     # -----------------------------------------------------------------------
     # Fan headers J2-J5 + TACH pull-up resistors R5-R8
@@ -946,6 +1049,45 @@ def embed_footprint(lib_name, fp_name, ref, value, cx, cy, rot=0.0):
 
 
 # ---------------------------------------------------------------------------
+# Custom footprint base path (for project-local Custom.pretty/)
+# ---------------------------------------------------------------------------
+CUSTOM_FP_BASE = os.path.join(os.path.dirname(__file__), "kicad", "footprints")
+
+
+def embed_custom_footprint(fp_name, ref, value, cx, cy, rot=0.0):
+    """Embed a footprint from hardware/kicad/footprints/Custom.pretty/."""
+    fp_file = os.path.join(CUSTOM_FP_BASE, "Custom.pretty", fp_name + ".kicad_mod")
+    content = open(fp_file, encoding="utf-8").read()
+
+    uid = _uuid()
+    rot_str = f" {rot:.1f}" if rot != 0.0 else ""
+
+    transformed = re.sub(
+        r'\(footprint\s+"[^"]+"\s*'
+        r'(?:\(version\s+\d+\)\s*)?'
+        r'(?:\(generator\s+"[^"]*"\)\s*)?'
+        r'(?:\(generator_version\s+"[^"]*"\)\s*)?'
+        r'\(layer\s+"F\.Cu"\)',
+        f'(footprint "Custom:{fp_name}" (layer "F.Cu") (uuid "{uid}") (at {cx:.3f} {cy:.3f}{rot_str})',
+        content,
+        count=1,
+        flags=re.DOTALL,
+    )
+    transformed = re.sub(
+        r'(\(fp_text\s+reference\s+)"[^"]*"',
+        rf'\g<1>"{ref}"',
+        transformed, count=1,
+    )
+    transformed = re.sub(
+        r'(\(fp_text\s+value\s+)"[^"]*"',
+        rf'\g<1>"{value}"',
+        transformed, count=1,
+    )
+    lines = transformed.splitlines()
+    return "\n".join("  " + l if l.strip() else l for l in lines)
+
+
+# ---------------------------------------------------------------------------
 # PCB skeleton (KiCad 10, 100×80 mm)
 # ---------------------------------------------------------------------------
 def write_pcb():
@@ -1006,6 +1148,23 @@ def write_pcb():
   (net 20 "USB_DP")
   (net 21 "USB_DN")
   (net 22 "NTC_ADC")
+  (net 23 "EMAC_RXD0")
+  (net 24 "EMAC_RXD1")
+  (net 25 "EMAC_CRS_DV")
+  (net 26 "EMAC_TXD0")
+  (net 27 "EMAC_TXD1")
+  (net 28 "EMAC_TX_EN")
+  (net 29 "EMAC_REF_CLK")
+  (net 30 "ETH_MDIO")
+  (net 31 "ETH_MDC")
+  (net 32 "ETH_TD_P_IN")
+  (net 33 "ETH_TD_N_IN")
+  (net 34 "ETH_RD_P_IN")
+  (net 35 "ETH_RD_N_IN")
+  (net 36 "ETH_TD_P")
+  (net 37 "ETH_TD_N")
+  (net 38 "ETH_RD_P")
+  (net 39 "ETH_RD_N")
   (gr_line (start 5 5) (end {W-5:.1f} 5)
     (stroke (width 0.05) (type default)) (layer "Edge.Cuts") (uuid "{uu()}"))
   (gr_line (start {W-5:.1f} 5) (end {W-5:.1f} {H-5:.1f})
@@ -1014,9 +1173,9 @@ def write_pcb():
     (stroke (width 0.05) (type default)) (layer "Edge.Cuts") (uuid "{uu()}"))
   (gr_line (start 5 {H-5:.1f}) (end 5 5)
     (stroke (width 0.05) (type default)) (layer "Edge.Cuts") (uuid "{uu()}"))
-  (gr_text "PoE FanController v0.1" (at {W/2:.1f} 3.5) (layer "F.SilkS") (uuid "{uu()}")
+  (gr_text "PoE FanController v0.2" (at {W/2:.1f} 3.5) (layer "F.SilkS") (uuid "{uu()}")
     (effects (font (size 1.5 1.5) (thickness 0.15))))
-  (gr_text "ESP32 | PoE 802.3at | 4xPWM Fan" (at {W/2:.1f} {H-3:.1f}) (layer "F.SilkS") (uuid "{uu()}")
+  (gr_text "ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan" (at {W/2:.1f} {H-3:.1f}) (layer "F.SilkS") (uuid "{uu()}")
     (effects (font (size 1 1) (thickness 0.1))))
   (gr_line (start 38 5) (end 38 {H-5:.1f})
     (stroke (width 0.1) (type dash)) (layer "Cmts.User") (uuid "{uu()}"))
@@ -1096,13 +1255,33 @@ def write_pcb():
         # C2 at (7,62): courtyard x[4.5,13] y[57.75,66.25] — clear of U2 (x>16.8) and D1 (y>64.4).
         embed_footprint("Capacitor_THT", "C_Radial_D8.0mm_H11.5mm_P3.50mm",
                         "C2", "100uF/10V", 7.0, 62.0),
-        # U3 ESP32 at (65,53): antenna keepout top = 53-30.74 = 22.26 mm.
-        # J2-J5 courtyard bottoms at y=17.01 — gap 5.25 mm ✓.
-        # U4 at (82,58): outside U3 T-shaped courtyard (x=79 > U3 body right x=74.75) ✓.
-        embed_footprint("RF_Module", "ESP32-WROOM-32",
-                        "U3", "ESP32-WROOM-32", 65.0, 53.0),
+        # U3 ESP32-P4-MINI-1U custom footprint (replaces ESP32-WROOM-32)
+        # Centre at (65, 53) unchanged; custom LGA-56 footprint authored in T002.
+        # OQ-06: U3 QFN footprint 25.4x19mm courtyard [51.2,78.8]x[42.4,63.6] —
+        #   verified clear of U5 at (57,33), R11-14 at (40.5,26-35), C8-11 at (63-51,33-40)
+        embed_custom_footprint("ESP32-P4-MINI-1",
+                               "U3", "ESP32-P4-MINI-1U", 65.0, 53.0),
         embed_footprint("Package_SO", "SOIC-16_3.9x9.9mm_P1.27mm",
-                        "U4", "CH340C", 82.0, 58.0),
+                        "U4", "CH340C", 87.0, 58.0),
+
+        # U5 LAN8720A (QFN-24, 4×4 mm) — Zone B, east of x=38 ✓
+        # Placement (57,33): courtyard [54.5,59.5]×[30.5,35.5]
+        #   Clear of fan headers (y<18), Zone B passives (y>47), U3 (y>42) ✓
+        embed_footprint("Package_DFN_QFN", "QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm",
+                        "U5", "LAN8720A-CP-TR", 57.0, 33.0),
+
+        # MDI termination resistors R11-R14 (49.9 Ω 0402) — Zone B near U5
+        # x=40.5: [39,42] clear of isolation boundary (x=38+) and J2 (x=44.85+) ✓
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R11", "49R9", 40.5, 26.0),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R12", "49R9", 40.5, 29.0),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R13", "49R9", 40.5, 32.0),
+        embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R14", "49R9", 40.5, 35.0),
+
+        # U5 decoupling caps C8-C11 (100 nF ×3 + 10 µF bulk) — within 3 mm of U5 ✓
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C8",  "100nF", 63.0, 33.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C9",  "100nF", 57.0, 38.5),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C10", "100nF", 51.0, 33.0),
+        embed_footprint("Capacitor_SMD", "C_0805_2012Metric", "C11", "10uF/10V", 63.0, 36.5),
 
         # Zone A: TACH pull-up resistors between fan headers (y=19.5)
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R5", "10k", 51.5, 19.5),
@@ -1110,21 +1289,23 @@ def write_pcb():
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R7", "10k", 72.8, 19.5),
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R8", "10k", 92.0, 19.5),
 
-        # Zone B: I2C/GPIO pull-ups and bypass caps left of ESP32 (x=45-52, y=47-56)
+        # Zone B: I2C/GPIO pull-ups and bypass caps left of ESP32
+        # C3-C6 moved to x=44 (was x=52) — ESP32-P4 left courtyard edge is x=51.2;
+        # old WROOM was 38mm wide so caps were clear; new P4 is 25.4mm so they collide.
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R1", "10k", 45.0, 47.0),
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R2", "10k", 45.0, 50.0),
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R3", "330R", 45.0, 53.0),
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R4", "10k", 45.0, 56.0),
-        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C3", "100nF", 52.0, 47.0),
-        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C4", "100nF", 52.0, 50.0),
-        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C5", "100nF", 52.0, 53.0),
-        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C6", "100nF", 52.0, 56.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C3", "100nF", 44.0, 47.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C4", "100nF", 44.0, 50.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C5", "100nF", 44.0, 53.0),
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C6", "100nF", 44.0, 56.0),
 
         # Zone C SMD: bypass cap for CH340C and USB-C CC pull-down resistors below U4
-        # C7 at y=63.5: just south of U4 body (U4 bottom=63.05), x-clear of U4 courtyard (left≈78.5),
-        # avoids NTC1 reference field at (75.08, 66.13) — gap >1.6mm in y to silkscreen ✓
-        # Distance from U4 left edge (x≈78.7): 78.7−76.0=2.7mm (AC-6 within 5mm ✓)
-        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C7", "100nF", 76.0, 63.5),
+        # U4 moved to x=87 (was x=82): ESP32-P4 right courtyard edge is x=78.8;
+        # SOIC-16 courtyard ~±3.4mm gives left edge 78.6 which overlapped at x=82 → now 83.6>78.8 ✓
+        # C7 moved to y=65 (was y=63.5): ESP32-P4 bottom courtyard y=63.6; C7 now clear ✓
+        embed_footprint("Capacitor_SMD", "C_0402_1005Metric", "C7", "100nF", 80.0, 65.0),
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R9", "5.1k", 83.0, 68.5),
         embed_footprint("Resistor_SMD", "R_0402_1005Metric", "R10", "5.1k", 83.0, 71.5),
 
@@ -1158,7 +1339,11 @@ def write_bom():
         ["J1","RJ45_PoE","Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal","1","Wuerth","615008144521","Shielded RJ45 with integrated magnetics","https://www.we-online.com/en/components/products/WR-MJ/615008144521"],
         ["U1","Ag9905M","Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical","1","Silvertel","Ag9905M","PoE+ 802.3at PD module, 12V 1.67A isolated","https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf"],
         ["U2","LM2596-3.3","Package_TO_SOT_SMD:TO-263-5_TabPin3","1","TI","LM2596S-3.3/NOPB","3A 150kHz buck regulator, 3.3V fixed, D2PAK","https://www.ti.com/lit/ds/symlink/lm2596.pdf"],
-        ["U3","ESP32-WROOM-32","RF_Module:ESP32-WROOM-32","1","Espressif","ESP32-WROOM-32D","ESP32 dual-core WiFi+BT module, 4MB flash","https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf"],
+        ["U3","ESP32-P4-MINI-1U-N16R8","Custom:ESP32-P4-MINI-1","1","Espressif","ESP32-P4-MINI-1U-N16R8","ESP32-P4 MCU module 16MB flash/8MB PSRAM, RMII Ethernet","https://www.espressif.com/sites/default/files/documentation/esp32-p4-mini-1u_datasheet_en.pdf"],
+        ["U5","LAN8720A-CP-TR","Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm","1","Microchip","LAN8720A-CP-TR","Ethernet PHY, RMII, QFN-24","https://ww1.microchip.com/downloads/en/DeviceDoc/00002165B.pdf"],
+        ["R11,R12,R13,R14","49R9","Resistor_SMD:R_0402_1005Metric","4","Yageo","RC0402FR-0749R9L","49.9Ω 1% 0402 — MDI termination resistors","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        ["C8,C9,C10","100nF","Capacitor_SMD:C_0402_1005Metric","3","Samsung","CL05B104KO5NNNC","100nF 0402 16V X5R — LAN8720A VDD decoupling","https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp"],
+        ["C11","10uF/10V","Capacitor_SMD:C_0805_2012Metric","1","Samsung","CL21A106KAYNNNE","10µF 0805 10V X5R — LAN8720A bulk decoupling","https://www.samsungsem.com/global/product/passive-component/mlcc/CL21A106KAYNNNE.jsp"],
         ["U4","CH340C","Package_SO:SOIC-16_3.9x9.9mm_P1.27mm","1","WCH","CH340C","USB-UART bridge, internal oscillator","https://www.wch-ic.com/downloads/CH340DS1_PDF.html"],
         ["J2,J3,J4,J5","Fan_Header","Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical","4","Molex","47053-1000","4-pin 2.54mm 12V PWM fan header","~"],
         ["J6","USB_C_2.0","Connector_USB:USB_C_Receptacle_GCT_USB4085","1","GCT","USB4085-GF-A","USB Type-C receptacle, through-hole","~"],
