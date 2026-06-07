@@ -108,4 +108,40 @@ kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb
 - **Thermal**: verify power dissipation for linear regulators and PoE PD controller
 
 <!-- MANUAL ADDITIONS START -->
+
+## Knowledge Base (KB) — Read Before Spending Cloud Credits
+
+The `docs/kb/` directory contains pre-loaded domain facts for this project.
+**Check these files before spawning any expert sub-agent or doing web searches.**
+
+| File | Use for |
+|---|---|
+| `docs/kb/kicad-10-reference.md` | KiCad 10 format, ERC/DRC baselines, schematic conventions |
+| `docs/kb/esp32-p4-reference.md` | RMII fixed pins, GPIO allocation, PlatformIO config, LEDC 3.x API |
+| `docs/kb/poe-reference.md` | 802.3at class table, Ag9905M specs, power budget |
+| `docs/kb/component-library.md` | All project MPNs, KiCad footprints, datasheet facts |
+| `docs/kb/model-routing.md` | Which model/approach to use for each task type |
+| `docs/kb/local-ai-setup.md` | Ollama installation and usage for free local inference |
+
+**KB-First rule:** If the answer is in the KB, answer directly — no sub-agent, no web search.
+After any expert consultation that produces a new verified fact, **update the KB file** and commit it.
+
+## Model Routing — Use the Cheapest Appropriate Model
+
+| Task complexity | Model choice |
+|---|---|
+| Simple: grep, edit, YAML validate, boilerplate from template | Local Ollama (`qwen2.5-coder:7b`) |
+| Medium: GitHub API, file exploration, issue enrichment | Cloud Haiku (`claude-haiku-4.5`) |
+| Complex: architecture, novel code, multi-domain reasoning | Cloud Sonnet (`claude-sonnet-4.6`) |
+
+When calling the `task` tool for sub-agents, pass `model: "claude-haiku-4.5"` for:
+- `explore` agents doing file/code searches
+- `github.issues-manager` doing simple CRUD operations
+- `github.action-manager` checking CI status
+
+Keep `claude-sonnet-4.6` only for: `architect`, `implementer` (complex tasks), `feature.planner`, `rubber-duck`.
+
+**Single biggest credit saver:** do direct tool calls (view + edit + powershell) instead of
+spawning a sub-agent for tasks that take ≤ 5 tool calls.
+
 <!-- MANUAL ADDITIONS END -->
