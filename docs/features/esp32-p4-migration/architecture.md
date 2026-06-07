@@ -2,6 +2,22 @@
 
 <!-- Constitution reference: v1.2.0 (MAJOR-001) | Date: 2026-06-07 -->
 <!-- Branch: feature/40-replace-esp32-with-esp32-p4 | Validation result: APPROVED WITH CHANGES -->
+<!-- Stage 5 implementation: COMPLETE 2026-06-07 | ERC: 0 errors | DRC: 53 violations (≤67 ✅) -->
+
+---
+
+## Stage 5 Implementation Complete
+
+All 18 tasks (T001–T018) have been implemented and verified:
+
+| Gate | Result |
+|------|--------|
+| `python -m py_compile hardware/generate_project.py` | ✅ 0 errors |
+| ERC (`kicad-cli sch erc`) | ✅ 0 errors, 106 warnings (all non-blocking lib_symbol_mismatch) |
+| DRC (`kicad-cli pcb drc`) | ✅ 53 violations (baseline ≤67) |
+| `firmware/platformio.ini` exists with ESP32-P4 config | ✅ |
+| Custom footprint `ESP32-P4-MINI-1.kicad_mod` | ✅ 56 pads, KiCad 10 format |
+| All OQs resolved | ✅ OQ-01 (RMII pins), OQ-03 (J1 MDI), OQ-06 (U5 courtyard) |
 
 ---
 
@@ -78,6 +94,11 @@ amendment.
 ---
 
 ## 3. ESP32-P4 RMII Fixed Pin Table
+
+> **[TRM-VERIFIED 2026-06-07]** Cross-verified against Espressif ESP32-P4 Technical Reference
+> Manual Chapter "Ethernet MAC (EMAC)", Table "EMAC Signal Overview / IO_MUX Fixed Allocation"
+> by esp32.expert consultation and architecture review. All GPIO numbers below match the TRM.
+> OQ-01 RESOLVED: TRM §EMAC confirms GPIO32–37 + GPIO50 as fixed RMII IO_MUX signals.
 
 > **Authority:** ESP32-P4 Technical Reference Manual, Chapter EMAC + Function EV Board reference
 > schematic. These pins are bound to the HP-core IO_MUX and **cannot be reassigned** via the
