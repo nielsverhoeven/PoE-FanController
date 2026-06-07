@@ -1,0 +1,1232 @@
+{
+    "$schema": "https://schemas.kicad.org/drc.v1.json",
+    "coordinate_units": "mm",
+    "date": "2026-06-07T11:38:49",
+    "ignored_checks": [
+        {
+            "description": "Footprint has no courtyard defined",
+            "key": "missing_courtyard"
+        },
+        {
+            "description": "Track endpoint not centered on via",
+            "key": "track_not_centered_on_via"
+        },
+        {
+            "description": "Tuning profile track geometries",
+            "key": "tuning_profile_track_geometries"
+        },
+        {
+            "description": "Footprint doesn't match symbol's footprint filters",
+            "key": "footprint_filters_mismatch"
+        },
+        {
+            "description": "Footprint component type doesn't match footprint pads",
+            "key": "footprint_type_mismatch"
+        }
+    ],
+    "included_severities": [
+        "error",
+        "warning"
+    ],
+    "kicad_version": "10.0.3",
+    "schematic_parity": [],
+    "source": "PoE-FanController.kicad_pcb",
+    "unconnected_items": [],
+    "violations": [
+        {
+            "description": "Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0000 mm)",
+            "items": [
+                {
+                    "description": "Pad 1 [<no net>] of R1 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 47.0
+                    },
+                    "uuid": "bdcb1556-4359-4dbf-b0de-4a6e0d1ff25c"
+                },
+                {
+                    "description": "Pad 2 [<no net>] of C3 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 47.0
+                    },
+                    "uuid": "c607316d-db2e-4dd1-a536-11d35bc84468"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0000 mm)",
+            "items": [
+                {
+                    "description": "Pad 1 [<no net>] of R4 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 56.0
+                    },
+                    "uuid": "f4b8d22c-fd9f-463c-b760-92d41a0b0cc7"
+                },
+                {
+                    "description": "Pad 2 [<no net>] of C6 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 56.0
+                    },
+                    "uuid": "69e60160-d1f1-4440-bffe-72bfb5023a3a"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0000 mm)",
+            "items": [
+                {
+                    "description": "Pad 1 [<no net>] of R2 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 50.0
+                    },
+                    "uuid": "b3f2ad11-13b8-4e8a-aef9-61e4b609dd9d"
+                },
+                {
+                    "description": "Pad 2 [<no net>] of C4 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 50.0
+                    },
+                    "uuid": "69c81241-3a3a-418e-97ff-a976cb398e0c"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0000 mm)",
+            "items": [
+                {
+                    "description": "Pad 2 [<no net>] of C5 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 53.0
+                    },
+                    "uuid": "5c016e97-8dbf-413f-9880-dc34d4e089b9"
+                },
+                {
+                    "description": "Pad 1 [<no net>] of R3 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 53.0
+                    },
+                    "uuid": "4c31e5bc-8872-4389-8dbf-de5ad9656025"
+                }
+            ],
+            "severity": "error",
+            "type": "clearance"
+        },
+        {
+            "description": "Courtyards overlap",
+            "items": [
+                {
+                    "description": "Footprint R1",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 47.0
+                    },
+                    "uuid": "000001eb-01eb-01eb-01eb-0000000001eb"
+                },
+                {
+                    "description": "Footprint C3",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 47.0
+                    },
+                    "uuid": "000001ef-01ef-01ef-01ef-0000000001ef"
+                }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+        },
+        {
+            "description": "Courtyards overlap",
+            "items": [
+                {
+                    "description": "Footprint R2",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 50.0
+                    },
+                    "uuid": "000001ec-01ec-01ec-01ec-0000000001ec"
+                },
+                {
+                    "description": "Footprint C4",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 50.0
+                    },
+                    "uuid": "000001f0-01f0-01f0-01f0-0000000001f0"
+                }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+        },
+        {
+            "description": "Courtyards overlap",
+            "items": [
+                {
+                    "description": "Footprint R3",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 53.0
+                    },
+                    "uuid": "000001ed-01ed-01ed-01ed-0000000001ed"
+                },
+                {
+                    "description": "Footprint C5",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 53.0
+                    },
+                    "uuid": "000001f1-01f1-01f1-01f1-0000000001f1"
+                }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+        },
+        {
+            "description": "Courtyards overlap",
+            "items": [
+                {
+                    "description": "Footprint R4",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 56.0
+                    },
+                    "uuid": "000001ee-01ee-01ee-01ee-0000000001ee"
+                },
+                {
+                    "description": "Footprint C6",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 56.0
+                    },
+                    "uuid": "000001f2-01f2-01f2-01f2-0000000001f2"
+                }
+            ],
+            "severity": "error",
+            "type": "courtyards_overlap"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B7 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 7.41
+                    },
+                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
+                },
+                {
+                    "description": "PTH pad B6 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 7.41
+                    },
+                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B7 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 7.41
+                    },
+                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
+                },
+                {
+                    "description": "PTH pad B8 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 7.41
+                    },
+                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B7 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 7.41
+                    },
+                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
+                },
+                {
+                    "description": "PTH pad B6 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 7.41
+                    },
+                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B7 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 7.41
+                    },
+                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
+                },
+                {
+                    "description": "PTH pad B8 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 7.41
+                    },
+                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Pad 1 [<no net>] of R1 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 47.0
+                    },
+                    "uuid": "bdcb1556-4359-4dbf-b0de-4a6e0d1ff25c"
+                },
+                {
+                    "description": "Pad 2 [<no net>] of C3 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 47.0
+                    },
+                    "uuid": "c607316d-db2e-4dd1-a536-11d35bc84468"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Pad 1 [<no net>] of R2 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 50.0
+                    },
+                    "uuid": "b3f2ad11-13b8-4e8a-aef9-61e4b609dd9d"
+                },
+                {
+                    "description": "Pad 2 [<no net>] of C4 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 50.0
+                    },
+                    "uuid": "69c81241-3a3a-418e-97ff-a976cb398e0c"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B8 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 7.41
+                    },
+                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
+                },
+                {
+                    "description": "PTH pad B9 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 7.41
+                    },
+                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Pad 1 [<no net>] of R3 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 53.0
+                    },
+                    "uuid": "4c31e5bc-8872-4389-8dbf-de5ad9656025"
+                },
+                {
+                    "description": "Pad 2 [<no net>] of C5 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 53.0
+                    },
+                    "uuid": "5c016e97-8dbf-413f-9880-dc34d4e089b9"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A1 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.0,
+                        "y": 6.06
+                    },
+                    "uuid": "973433db-dbe2-4b63-a2c7-f47e00988053"
+                },
+                {
+                    "description": "PTH pad A4 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 6.06
+                    },
+                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "Pad 1 [<no net>] of R4 on F.Cu",
+                    "pos": {
+                        "x": 44.49,
+                        "y": 56.0
+                    },
+                    "uuid": "f4b8d22c-fd9f-463c-b760-92d41a0b0cc7"
+                },
+                {
+                    "description": "Pad 2 [<no net>] of C6 on F.Cu",
+                    "pos": {
+                        "x": 44.48,
+                        "y": 56.0
+                    },
+                    "uuid": "69e60160-d1f1-4440-bffe-72bfb5023a3a"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A1 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.0,
+                        "y": 6.06
+                    },
+                    "uuid": "973433db-dbe2-4b63-a2c7-f47e00988053"
+                },
+                {
+                    "description": "PTH pad A4 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 6.06
+                    },
+                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B8 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 7.41
+                    },
+                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
+                },
+                {
+                    "description": "PTH pad B9 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 7.41
+                    },
+                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B9 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 7.41
+                    },
+                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
+                },
+                {
+                    "description": "PTH pad B12 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.0,
+                        "y": 7.41
+                    },
+                    "uuid": "0ab0e897-5d63-4ef1-9ee6-3700773a5942"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A4 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 6.06
+                    },
+                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
+                },
+                {
+                    "description": "PTH pad A5 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 6.06
+                    },
+                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A4 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 6.06
+                    },
+                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
+                },
+                {
+                    "description": "PTH pad A5 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 6.06
+                    },
+                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A5 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 6.06
+                    },
+                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
+                },
+                {
+                    "description": "PTH pad A6 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 6.06
+                    },
+                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A5 [<no net>] of J6",
+                    "pos": {
+                        "x": 86.7,
+                        "y": 6.06
+                    },
+                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
+                },
+                {
+                    "description": "PTH pad A6 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 6.06
+                    },
+                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B9 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.85,
+                        "y": 7.41
+                    },
+                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
+                },
+                {
+                    "description": "PTH pad B12 [<no net>] of J6",
+                    "pos": {
+                        "x": 85.0,
+                        "y": 7.41
+                    },
+                    "uuid": "0ab0e897-5d63-4ef1-9ee6-3700773a5942"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A6 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 6.06
+                    },
+                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
+                },
+                {
+                    "description": "PTH pad A7 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 6.06
+                    },
+                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A6 [<no net>] of J6",
+                    "pos": {
+                        "x": 87.55,
+                        "y": 6.06
+                    },
+                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
+                },
+                {
+                    "description": "PTH pad A7 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 6.06
+                    },
+                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A7 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 6.06
+                    },
+                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
+                },
+                {
+                    "description": "PTH pad A8 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 6.06
+                    },
+                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A7 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 6.06
+                    },
+                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
+                },
+                {
+                    "description": "PTH pad A8 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 6.06
+                    },
+                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A8 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 6.06
+                    },
+                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
+                },
+                {
+                    "description": "PTH pad A9 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 6.06
+                    },
+                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A8 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 6.06
+                    },
+                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
+                },
+                {
+                    "description": "PTH pad A9 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 6.06
+                    },
+                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A9 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 6.06
+                    },
+                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
+                },
+                {
+                    "description": "PTH pad A12 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.95,
+                        "y": 6.06
+                    },
+                    "uuid": "013f0886-478f-4df3-843e-83c45ed19dd1"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad A9 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 6.06
+                    },
+                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
+                },
+                {
+                    "description": "PTH pad A12 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.95,
+                        "y": 6.06
+                    },
+                    "uuid": "013f0886-478f-4df3-843e-83c45ed19dd1"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B1 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.95,
+                        "y": 7.41
+                    },
+                    "uuid": "065ce6fb-d3bc-4f0f-8c50-2d505cb1962b"
+                },
+                {
+                    "description": "PTH pad B4 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 7.41
+                    },
+                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B1 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.95,
+                        "y": 7.41
+                    },
+                    "uuid": "065ce6fb-d3bc-4f0f-8c50-2d505cb1962b"
+                },
+                {
+                    "description": "PTH pad B4 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 7.41
+                    },
+                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B4 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 7.41
+                    },
+                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
+                },
+                {
+                    "description": "PTH pad B5 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 7.41
+                    },
+                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B4 [<no net>] of J6",
+                    "pos": {
+                        "x": 90.1,
+                        "y": 7.41
+                    },
+                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
+                },
+                {
+                    "description": "PTH pad B5 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 7.41
+                    },
+                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Front solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B5 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 7.41
+                    },
+                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
+                },
+                {
+                    "description": "PTH pad B6 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 7.41
+                    },
+                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Rear solder mask aperture bridges items with different nets",
+            "items": [
+                {
+                    "description": "PTH pad B5 [<no net>] of J6",
+                    "pos": {
+                        "x": 89.25,
+                        "y": 7.41
+                    },
+                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
+                },
+                {
+                    "description": "PTH pad B6 [<no net>] of J6",
+                    "pos": {
+                        "x": 88.4,
+                        "y": 7.41
+                    },
+                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
+                }
+            ],
+            "severity": "error",
+            "type": "solder_mask_bridge"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 5.0
+                    },
+                    "uuid": "000001c3-01c3-01c3-01c3-0000000001c3"
+                },
+                {
+                    "description": "Reference field of J2",
+                    "pos": {
+                        "x": 46.1,
+                        "y": 5.24
+                    },
+                    "uuid": "e6f0a4e7-bfe8-4a7c-aa12-042de12f23e6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 5.0
+                    },
+                    "uuid": "000001c3-01c3-01c3-01c3-0000000001c3"
+                },
+                {
+                    "description": "Reference field of J3",
+                    "pos": {
+                        "x": 56.8,
+                        "y": 5.24
+                    },
+                    "uuid": "236da282-28bb-4a6b-8a99-1bab417caeea"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 5.0
+                    },
+                    "uuid": "000001c3-01c3-01c3-01c3-0000000001c3"
+                },
+                {
+                    "description": "Reference field of J4",
+                    "pos": {
+                        "x": 67.4,
+                        "y": 5.24
+                    },
+                    "uuid": "f2f8a04d-fd1c-4f68-a8f8-12282fd43709"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 5.0
+                    },
+                    "uuid": "000001c3-01c3-01c3-01c3-0000000001c3"
+                },
+                {
+                    "description": "Reference field of J5",
+                    "pos": {
+                        "x": 78.1,
+                        "y": 5.24
+                    },
+                    "uuid": "da2783c0-9838-4406-bb53-f53a86631bcb"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Segment on Edge.Cuts",
+                    "pos": {
+                        "x": 5.0,
+                        "y": 75.0
+                    },
+                    "uuid": "000001c6-01c6-01c6-01c6-0000000001c6"
+                },
+                {
+                    "description": "Circle of C2 on F.Silkscreen",
+                    "pos": {
+                        "x": 8.75,
+                        "y": 62.0
+                    },
+                    "uuid": "f688dbf8-0ef7-4874-bb19-91021b87a3fc"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Footprint 'RJ45_Amphenol_54602-x08_Horizontal' does not match copy in library 'Connector_RJ'",
+            "items": [
+                {
+                    "description": "Footprint J1",
+                    "pos": {
+                        "x": 20.0,
+                        "y": 19.47
+                    },
+                    "uuid": "000001cf-01cf-01cf-01cf-0000000001cf"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "Footprint 'PinHeader_1x03_P2.54mm_Vertical' does not match copy in library 'Connector_PinHeader_2.54mm'",
+            "items": [
+                {
+                    "description": "Footprint J7",
+                    "pos": {
+                        "x": 88.0,
+                        "y": 50.0
+                    },
+                    "uuid": "000001d5-01d5-01d5-01d5-0000000001d5"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Custom'",
+            "items": [
+                {
+                    "description": "Footprint U3",
+                    "pos": {
+                        "x": 65.0,
+                        "y": 53.0
+                    },
+                    "uuid": "000001dc-01dc-01dc-01dc-0000000001dc"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of R1",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 45.83
+                    },
+                    "uuid": "60269d44-996d-4ce8-a8b9-03b7187a0fcb"
+                },
+                {
+                    "description": "Reference field of C3",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 45.84
+                    },
+                    "uuid": "a2900dce-1954-4373-aaf9-b98ffaefe5cd"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of R2",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 48.83
+                    },
+                    "uuid": "63614c1f-e6b8-4410-b989-d7f374f37b1b"
+                },
+                {
+                    "description": "Reference field of C4",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 48.84
+                    },
+                    "uuid": "e4f3d5bd-6c6a-4730-8073-a35d3e4c2eab"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of R4",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 54.83
+                    },
+                    "uuid": "50226696-98b8-4cff-9fbf-b604087965c7"
+                },
+                {
+                    "description": "Reference field of C6",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 54.84
+                    },
+                    "uuid": "68c33625-4deb-45f3-b6a2-c4b87ff06439"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of R3",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 51.83
+                    },
+                    "uuid": "6894f1af-cf83-4b0f-800a-4df657e52243"
+                },
+                {
+                    "description": "Reference field of C5",
+                    "pos": {
+                        "x": 44.0,
+                        "y": 51.84
+                    },
+                    "uuid": "f8993501-f6aa-41bd-8a02-026629c60cb3"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Segment of J7 on F.Silkscreen",
+                    "pos": {
+                        "x": 88.0,
+                        "y": 51.38
+                    },
+                    "uuid": "448354af-46bd-41be-9b59-786660c49b74"
+                },
+                {
+                    "description": "Reference field of U4",
+                    "pos": {
+                        "x": 87.0,
+                        "y": 52.1
+                    },
+                    "uuid": "f6b928b2-31ba-4171-9c69-91fb8b293e29"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        }
+    ]
+}
