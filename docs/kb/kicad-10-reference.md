@@ -88,9 +88,21 @@ Mismatched versions cause "older version" warnings in KiCad GUI.
 | Environment | Violations | Breakdown |
 |---|---|---|
 | Windows local (KiCad 10.0.3) | 36 | 28 solder_mask_bridge (J6) + 5 silk_edge_clearance + 2 lib_footprint_mismatch (J1,J7) + 1 lib_footprint_issues (U3 Custom) |
-| Docker CI (KiCad 10.0.2) | 67 | 34 lib_footprint_issues + 28 solder_mask_bridge + 5 silk_edge_clearance |
+| Docker CI (KiCad 10.0.2) | 76 | 43 lib_footprint_issues + 28 solder_mask_bridge + 5 silk_edge_clearance |
 
-**Docker is authoritative for CI.** Baseline in `hardware-check.yml` = 67.
+**Docker is authoritative for CI.** Baseline in `hardware-check.yml` = 76.
+
+### Why lib_footprint_issues count = number of BOM components (CRITICAL to understand)
+
+Docker's `fp-lib-table` does NOT list any standard footprint library. Every footprint in the PCB
+generates exactly **1 `lib_footprint_issues` violation** with description:
+`"The current configuration does not include the footprint library 'X'"`
+
+**Rule:** Adding N new BOM components adds N to the Docker DRC violation count.
+- ESP32-P4 migration added 9 new components (U5, R11–R14, C8–C11): baseline 67 → 76
+- Always update the baseline in `hardware-check.yml` when adding new BOM components
+- **Fix tracked in issue #39:** Add `fp-lib-table` pointing to Docker paths → eliminates all violations
+
 DRC must not exceed baseline. Driving to zero is tracked in issue #39.
 
 ### Critical: Docker generator must succeed

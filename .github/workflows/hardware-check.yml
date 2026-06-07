@@ -73,10 +73,16 @@ jobs:
             --output hardware/kicad/drc_output.json \
             --format json --exit-code-violations || true
 
-      - name: Check DRC violation count (baseline 67)
-        # DRC baseline: 67 pre-existing violations measured in KiCad 10.0.2 Docker/Linux.
-        # Breakdown: 34 lib_footprint_issues (version-sensitive), 28 solder_mask_bridge, 5 silk_edge_clearance.
-        # Local Windows count (KiCad 10.0.3): 36. Docker is authoritative. See issue #39 to drive to zero.
+      - name: Check DRC violation count (baseline 76)
+        # DRC baseline: 76 pre-existing violations measured in KiCad 10.0.2 Docker/Linux.
+        # Root cause: Docker fp-lib-table does not list ANY standard library; every footprint
+        # generates 1 'lib_footprint_issues' violation ("library not configured").
+        # Breakdown: 43 lib_footprint_issues (1 per component = 43 BOM footprints in Docker),
+        #            28 solder_mask_bridge (J6 USB-C, pre-existing),
+        #             5 silk_edge_clearance (pre-existing).
+        # Local Windows count (KiCad 10.0.3): 36. Docker is authoritative.
+        # +9 vs previous baseline 67: reflects 9 new components added by ESP32-P4 migration
+        # (U5 LAN8720A, R11-R14, C8-C11). See issue #39 to fix fp-lib-table and drive to zero.
         run: |
           python3 -c "
           import json, sys
@@ -84,7 +90,7 @@ jobs:
           violations = d.get('violations', [])
           n = len(violations)
           print(f'DRC: {n} violation(s)')
-          sys.exit(1 if n > 67 else 0)
+          sys.exit(1 if n > 76 else 0)
           "
 
       - name: Upload ERC report
