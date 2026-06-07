@@ -24,7 +24,7 @@
     (property "Value" "RJ45_PoE_PHY"
       (at 0.0000 7.6200 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal"
+    (property "Footprint" "Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1015,7 +1015,7 @@
     (property "Value" "RJ45_PoE_PHY"
       (at 39.3700 57.1500 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_RJ:RJ45_Amphenol_54602-x08_Horizontal"
+    (property "Footprint" "Connector_RJ:RJ45_Hanrun_HR911105A_Horizontal"
       (at 38.1000 55.8800 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
