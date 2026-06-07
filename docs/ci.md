@@ -1,4 +1,4 @@
-<!-- Last updated: 2026-06-07 | Updated by: feature/33-fix-ci-workflows -->
+<!-- Last updated: 2026-06-07 | Updated by: feature/62-split-generator-kicad-gui-pcb -->
 
 # CI / Automated Checks
 
@@ -31,13 +31,23 @@ All four workflows set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` at the `env:` 
 
 #### `validate-generator` (timeout: 10 min)
 
-Runs on `ubuntu-latest`. Checks out the repository, installs Python 3.12, and runs:
+Runs on `ubuntu-latest`. Checks out the repository, installs Python 3.12, and runs
+`python -m py_compile` on all seven modules in the generator package (entry point + six package
+modules):
 
-```
+```bash
 python -m py_compile hardware/generate_project.py
+python -m py_compile hardware/generator/__init__.py
+python -m py_compile hardware/generator/utils.py
+python -m py_compile hardware/generator/schematic.py
+python -m py_compile hardware/generator/components.py
+python -m py_compile hardware/generator/pcb_utils.py
+python -m py_compile hardware/generator/bom.py
+# "Syntax OK — all 7 modules"
 ```
 
-This confirms the generator script has no syntax errors before the KiCad container job starts.
+This confirms every module in `hardware/generator/` is syntactically valid before the KiCad container
+job starts. A syntax error in any sub-module — not only the entry point — fails the job immediately.
 
 #### `kicad-erc-drc` (timeout: 20 min)
 
@@ -53,32 +63,37 @@ container:
 
 **Steps (in order):**
 
-1. **Run PCB generator** — executes `KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py` inside `hardware/`. Any non-zero exit fails the job immediately (no `|| true` suppression).
+1. **Store PCB checksum (P-KI-07 guard baseline)** — records `sha256sum` of `hardware/kicad/PoE-FanController.kicad_pcb` to `/tmp/pcb_before.sha256` before any generator run.
 
-2. **Run ERC** — invokes `kicad-cli sch erc … --format json`. The KiCad CLI may exit non-zero even for warnings; the raw exit code is captured with `|| true` so the JSON output is always written.
+2. **Regenerate schematic from Python** — executes `KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py` inside `hardware/`. Any non-zero exit fails the job immediately (no `|| true` suppression).
 
-3. **Check ERC results (zero errors enforced)** — a Python one-liner reads `hardware/kicad/erc_output.json`, counts violations with `severity == "error"`, and calls `sys.exit(1)` if any are found. Warnings do not block the job.
+3. **Guard — kicad_pcb must not be modified by generator (P-KI-07)** — runs `sha256sum --check /tmp/pcb_before.sha256`. If the PCB file changed, the step exits with code 1 and prints `ERROR: kicad_pcb was modified by generator — P-KI-07 violation`. This enforces the policy that no script may write `.kicad_pcb` (P-KI-07, constitution v1.3.0).
 
-4. **Run DRC** — invokes `kicad-cli pcb drc … --format json --exit-code-violations || true` to guarantee JSON output regardless of violation count.
+4. **Run ERC** — invokes `kicad-cli sch erc … --format json`. The KiCad CLI may exit non-zero even for warnings; the raw exit code is captured with `|| true` so the JSON output is always written.
 
-5. **Check DRC violation count (baseline 67)** — a Python one-liner reads `hardware/kicad/drc_output.json` and exits with code 1 if the total violation count exceeds **67**. The baseline of 67 was measured in the `kicad/kicad:10.0.2` Docker/Linux environment and breaks down as:
+5. **Check ERC results (zero errors enforced)** — a Python one-liner reads `hardware/kicad/erc_output.json`, counts violations with `severity == "error"`, and calls `sys.exit(1)` if any are found. Warnings do not block the job.
+
+6. **Run DRC** — invokes `kicad-cli pcb drc … --format json --exit-code-violations || true` to guarantee JSON output regardless of violation count.
+
+7. **Check DRC violation count (baseline 67)** — a Python one-liner reads `hardware/kicad/drc_output.json` and exits with code 1 if the total violation count exceeds **67**. The baseline of 67 was measured in the `kicad/kicad:10.0.2` Docker/Linux environment and breaks down as:
    - 34 `lib_footprint_issues` (version-sensitive, dependent on Docker image's bundled library)
    - 28 `solder_mask_bridge` on J6 USB-C (pre-existing, component-level)
    - 5 `silk_edge_clearance`
 
    The local Windows KiCad 10.0.3 count is 36 (no `lib_footprint_issues`); Docker is the authoritative gate. A follow-up issue (#39) tracks driving this count to zero (P-TEST-03).
 
-6. **Upload ERC report** (`if: always()`) — uploads `hardware/kicad/erc_output.json` as the `erc-report` artifact.
+8. **Upload ERC report** (`if: always()`) — uploads `hardware/kicad/erc_output.json` as the `erc-report` artifact.
 
-7. **Upload DRC report** (`if: always()`) — uploads `hardware/kicad/drc_output.json` as the `drc-report` artifact. The `if: always()` condition ensures reports are preserved even when a preceding step fails.
+9. **Upload DRC report** (`if: always()`) — uploads `hardware/kicad/drc_output.json` as the `drc-report` artifact. The `if: always()` condition ensures reports are preserved even when a preceding step fails.
 
 **Interpreting failures:**
 
 | Failure step | Likely cause | Action |
 |---|---|---|
-| `validate-generator` / Syntax check | Python syntax error in `hardware/generate_project.py` | Fix the syntax error in the generator script |
-| `kicad-erc-drc` / Run PCB generator | Generator runtime error (bad net, missing component) | Run `python hardware/generate_project.py` locally and fix the error |
-| `kicad-erc-drc` / Check ERC results | One or more ERC errors (severity=error) in the schematic | Download the `erc-report` artifact and inspect errors; fix in generator |
+| `validate-generator` / Syntax check | Python syntax error in any `hardware/generator/*.py` module or the entry point | Run `python -m py_compile hardware/generate_project.py` and each module locally to identify the error |
+| `kicad-erc-drc` / Regenerate schematic | Generator runtime error (bad net, missing component) | Run `python hardware/generate_project.py` locally and fix the error |
+| `kicad-erc-drc` / Guard — kicad_pcb not modified | A generator module wrote to `.kicad_pcb` — P-KI-07 violation | Remove any `write_pcb()` or equivalent function from `hardware/generator/`; `.kicad_pcb` must only be edited in KiCad GUI |
+| `kicad-erc-drc` / Check ERC results | One or more ERC errors (severity=error) in the schematic | Download the `erc-report` artifact and inspect errors; fix in `hardware/generator/components.py` |
 | `kicad-erc-drc` / Check DRC violation count | More than 67 DRC violations in the Docker environment | Download the `drc-report` artifact; new violations must be resolved before merge |
 
 ---

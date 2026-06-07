@@ -1,6 +1,6 @@
 # PoE FanController – Hardware Design Notes
 
-<!-- Last updated: 2026-06-07 | Updated: feature/33-fix-ci-workflows -->
+<!-- Last updated: 2026-06-07 | Updated: feature/62-split-generator-kicad-gui-pcb -->
 
 ## Overview
 A PoE 802.3at (PoE+) powered device that controls up to 4 PWM fans via an
@@ -112,7 +112,7 @@ Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
 
 All 19 passive footprints were added in feature #13 (`feature/13-missing-passive-footprints`).
 Coordinates below are the PCB origin (cx, cy) passed to `embed_footprint()` in
-`hardware/generate_project.py` — the single source of truth for all placements.
+`hardware/generator/components.py` (`build_schematic()`) — the single source of truth for all placements.
 All components sit on `F.Cu` only (P-HW-02 ✓). All centres are east of x=38 mm (P-ISO-02 ✓).
 
 ### Zone A — Between fan headers (y ≈ 19.5 mm)
@@ -172,7 +172,8 @@ DRC report: `PoE-FanController-drc.rpt` (repository root).
 
 ## Schematic Conventions
 
-These conventions are enforced by `hardware/generate_project.py` and codified in constitution §7A
+These conventions are enforced by the `hardware/generator/` package (invoked via `hardware/generate_project.py`)
+and codified in constitution §7A
 (P-SCH-01 – P-SCH-05). The generator is the single source of truth for the schematic; the
 `.kicad_sch` file is a build artefact and must never be edited by hand (P-HW-05, P-KI-04).
 
@@ -272,7 +273,7 @@ Authoritative ERC run: KiCad 10.0.3, `hardware/kicad/erc_output.json`, 2026-06-0
 All 85 warnings fall into two categories, both benign:
 
 **`lib_symbol_issues` — "symbol library 'Custom' not included"**
-All components are defined inline in `generate_project.py` using `Custom:*` lib IDs. The `Custom`
+All components are defined inline in `generator/components.py` using `Custom:*` lib IDs. The `Custom`
 library is not registered in `PoE-FanController.kicad_pro` because it does not exist on disk;
 all symbol definitions are embedded directly in the generated `.kicad_sch` file. KiCad cannot
 find the external library and flags each component. This is expected and correct by design
@@ -292,6 +293,118 @@ Four check types are suppressed in the project-level ERC configuration:
 | `four_way_junction` | No 4-way wire junctions exist in the schematic |
 | `simulation_model_issue` | No SPICE models are attached |
 | `footprint_filter` | Custom footprint assignments do not match KiCad library filter strings |
+
+---
+
+## Generator Architecture
+
+The schematic and BOM are generated from the `hardware/generator/` Python package (P-KI-04, P-HW-05).
+`hardware/generate_project.py` is a **thin entry point** (≤ 37 lines) that delegates all work to the
+package. **The generator never reads, creates, or modifies `hardware/kicad/PoE-FanController.kicad_pcb`**
+(P-KI-07). The PCB file is KiCad GUI territory.
+
+### Package structure
+
+```
+hardware/
+├── generate_project.py          # thin entry point — imports package; calls write_pro(),
+│                                # build_schematic(), write_bom(); writes .kicad_sch
+└── generator/
+    ├── __init__.py              # public API: re-exports build_schematic, write_bom
+    ├── utils.py                 # constants (G, PL, OUT_DIR, PROJ, SCH_UUID, KICAD_FP_BASE),
+    │                            # helpers (_uuid(), snap(), _pt()), write_pro()
+    ├── schematic.py             # class Schematic — S-expression builder; render() → .kicad_sch text
+    ├── components.py            # build_schematic() — all component symbols, pins, nets, wires, labels
+    ├── pcb_utils.py             # embed_footprint() — kept for reference; NOT called by entry point
+    └── bom.py                   # write_bom() — writes hardware/bom/bom.csv
+```
+
+### Module responsibilities
+
+| Module | Exported symbol(s) | Responsibility |
+|---|---|---|
+| `generate_project.py` | — (entry point) | CLI entry point; calls `write_pro()`, `build_schematic()`, `write_bom()`; writes `.kicad_sch` |
+| `generator/__init__.py` | `build_schematic`, `write_bom` | Package API surface; re-exports from sub-modules |
+| `generator/utils.py` | `_uuid`, `snap`, `_pt`, `G`, `PL`, `KICAD_FP_BASE`, `OUT_DIR`, `PROJ`, `SCH_UUID`, `write_pro` | Shared constants and stateless helpers; writes `.kicad_pro` |
+| `generator/schematic.py` | `Schematic` | S-expression builder; `render()` produces `.kicad_sch` text; owns no I/O |
+| `generator/components.py` | `build_schematic` | Instantiates `Schematic`; defines every component symbol, pin, net, wire, label; returns `Schematic` for caller to `render()` |
+| `generator/pcb_utils.py` | `embed_footprint` | Reads `.kicad_mod` files from `KICAD_FP_BASE`; **reference / future tooling only — not called by entry point** |
+| `generator/bom.py` | `write_bom` | Reads BOM data; writes `hardware/bom/bom.csv`; no schematic involvement |
+
+### Import graph (acyclic)
+
+```mermaid
+graph TB
+    EP["generate_project.py\n(thin entry point)"]
+    INIT["generator/__init__.py\n(package API)"]
+    COMP["generator/components.py\nbuild_schematic()"]
+    SCH["generator/schematic.py\nclass Schematic"]
+    PCBU["generator/pcb_utils.py\nembed_footprint()"]
+    UTILS["generator/utils.py\nconstants · helpers · write_pro()"]
+    BOM["generator/bom.py\nwrite_bom()"]
+
+    EP --> INIT
+    INIT --> COMP
+    INIT --> BOM
+    COMP --> SCH
+    COMP --> PCBU
+    SCH --> UTILS
+    PCBU --> UTILS
+    BOM --> UTILS
+```
+
+All paths terminate at `utils.py`. No module imports its own ancestor.
+
+### Running the generator
+
+```bash
+cd hardware
+python3 generate_project.py
+```
+
+Outputs (all under `hardware/kicad/` or `hardware/bom/`):
+
+| Output file | Written by |
+|---|---|
+| `hardware/kicad/PoE-FanController.kicad_sch` | `build_schematic()` → `Schematic.render()` |
+| `hardware/kicad/PoE-FanController.kicad_pro` | `write_pro()` in `generator/utils.py` |
+| `hardware/bom/bom.csv` | `write_bom()` in `generator/bom.py` |
+
+`hardware/kicad/PoE-FanController.kicad_pcb` is **not created or modified** on any generator run.
+
+### How to extend the generator
+
+| Task | File to edit | API entry point |
+|---|---|---|
+| Add a new schematic component | `generator/components.py` | `build_schematic()` — call `s.define(...)` then `s.place(...)` |
+| Add a new S-expression builder method | `generator/schematic.py` | `class Schematic` |
+| Add or change a shared constant or helper | `generator/utils.py` | module-level |
+| Add a new BOM row | `generator/bom.py` | `write_bom()` |
+
+**Never** add any function that opens and writes `hardware/kicad/PoE-FanController.kicad_pcb` anywhere
+under `hardware/generator/`. This is forbidden by P-KI-07 and caught immediately by the CI
+`sha256sum` guard described in the [CI section](#ci--automated-checks) below.
+
+### P-KI-07 CI enforcement
+
+The `kicad-erc-drc` job in `hardware-check.yml` includes a `sha256sum` guard around every generator run:
+
+```yaml
+- name: Store PCB checksum (P-KI-07 guard baseline)
+  run: sha256sum hardware/kicad/PoE-FanController.kicad_pcb > /tmp/pcb_before.sha256
+
+- name: Regenerate schematic from Python
+  run: |
+    cd hardware
+    KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py
+
+- name: Guard — kicad_pcb must not be modified by generator (P-KI-07)
+  run: |
+    sha256sum --check /tmp/pcb_before.sha256 || \
+      (echo "ERROR: kicad_pcb was modified by generator — P-KI-07 violation" && exit 1)
+```
+
+If any byte of the PCB file changes, the guard fails with exit code 1 and blocks the pipeline.
 
 ---
 
@@ -347,8 +460,38 @@ Full workflow documentation is in [`docs/ci.md`](../docs/ci.md). This section su
 
 | Workflow | Trigger | Gate |
 |---|---|---|
-| **Hardware Check (ERC + DRC)** | `push` / `pull_request` touching `hardware/**` | Generator syntax; ERC zero errors; DRC ≤ 67 violations (Docker baseline) |
+| **Hardware Check (ERC + DRC)** | `push` / `pull_request` touching `hardware/**` | Generator syntax (all 7 modules); P-KI-07 PCB guard; ERC zero errors; DRC ≤ 67 violations (Docker baseline) |
 | **KiCad Hardware Release** | `v*.*.*` tag | DRC zero tolerance, then Gerbers + BOM + schematic PDF → GitHub Release |
+
+### `validate-generator` job — syntax check (7 modules)
+
+The `validate-generator` job runs `python -m py_compile` on every module in the generator package,
+not just the entry point (FR-09):
+
+```bash
+python -m py_compile hardware/generate_project.py
+python -m py_compile hardware/generator/__init__.py
+python -m py_compile hardware/generator/utils.py
+python -m py_compile hardware/generator/schematic.py
+python -m py_compile hardware/generator/components.py
+python -m py_compile hardware/generator/pcb_utils.py
+python -m py_compile hardware/generator/bom.py
+# "Syntax OK — all 7 modules"
+```
+
+### `kicad-erc-drc` job — step order
+
+Steps in order:
+
+1. **Store PCB checksum** — `sha256sum hardware/kicad/PoE-FanController.kicad_pcb > /tmp/pcb_before.sha256`
+2. **Regenerate schematic from Python** — runs `generate_project.py`; any non-zero exit fails immediately
+3. **Guard — kicad_pcb must not be modified by generator (P-KI-07)** — `sha256sum --check /tmp/pcb_before.sha256`; exits 1 if PCB changed
+4. **Run ERC** — `kicad-cli sch erc … --format json`
+5. **Check ERC results (zero errors enforced)** — Python one-liner; exits 1 if any `severity == "error"`
+6. **Run DRC** — `kicad-cli pcb drc … --format json --exit-code-violations || true`
+7. **Check DRC violation count (baseline 67)** — exits 1 if `len(violations) > 67`
+8. **Upload ERC report** (`if: always()`) — artifact `erc-report`
+9. **Upload DRC report** (`if: always()`) — artifact `drc-report`
 
 ### KiCad Docker image
 
