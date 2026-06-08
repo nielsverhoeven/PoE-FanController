@@ -1,111 +1,194 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-08T10:20:16 **
-** Report includes: Errors, Warnings, Exclusions **
+** Created on 2026-06-08T15:36:28 **
+** Report includes: Errors, Warnings **
 
-** Found 32 DRC violations **
-[silk_edge_clearance]: Silkscreen clipped by board edge
+** Found 4 DRC violations **
+[silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(5.0000 mm, 5.0000 mm): Segment on Edge.Cuts
-    @(46.1000 mm, 5.2400 mm): Reference field of J2
-[silk_edge_clearance]: Silkscreen clipped by board edge
+    @(21.0000 mm, 75.0000 mm): PCB text 'PoE FanController v0.2' on F.Silkscreen
+    @(33.6200 mm, 67.2700 mm): Segment of J5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(5.0000 mm, 5.0000 mm): Segment on Edge.Cuts
-    @(56.8000 mm, 5.2400 mm): Reference field of J3
-[silk_edge_clearance]: Silkscreen clipped by board edge
-    Rule: board setup constraints silk; warning
-    @(5.0000 mm, 5.0000 mm): Segment on Edge.Cuts
-    @(67.4000 mm, 5.2400 mm): Reference field of J4
-[silk_edge_clearance]: Silkscreen clipped by board edge
-    Rule: board setup constraints silk; warning
-    @(5.0000 mm, 5.0000 mm): Segment on Edge.Cuts
-    @(78.1000 mm, 5.2400 mm): Reference field of J5
-[silk_edge_clearance]: Silkscreen clipped by board edge
-    Rule: board setup constraints silk; warning
-    @(5.0000 mm, 75.0000 mm): Segment on Edge.Cuts
-    @(8.7500 mm, 62.0000 mm): Circle of C2 on F.Silkscreen
-[lib_footprint_mismatch]: Footprint 'RJ45_Wuerth_615008144521' does not match copy in library 'Custom'
+    @(21.0000 mm, 75.0000 mm): PCB text 'PoE FanController v0.2' on F.Silkscreen
+    @(33.6200 mm, 75.0000 mm): Segment of J5 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(20.0000 mm, 19.4700 mm): Footprint REF**
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'
+    @(1.6100 mm, 52.4300 mm): Segment of J8 on F.Silkscreen
+    @(2.8100 mm, 52.9300 mm): PTH pad 1 [+3V3] of J8
+[silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(46.1000 mm, 7.6200 mm): Footprint J2
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'
-    Local override; warning
-    @(56.8000 mm, 7.6200 mm): Footprint J3
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'
-    Local override; warning
-    @(67.4000 mm, 7.6200 mm): Footprint J4
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'
-    Local override; warning
-    @(78.1000 mm, 7.6200 mm): Footprint J5
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'
-    Local override; warning
-    @(88.0000 mm, 50.0000 mm): Footprint J7
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'
-    Local override; warning
-    @(21.0000 mm, 32.0000 mm): Footprint U1
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Package_TO_SOT_SMD'
-    Local override; warning
-    @(27.0000 mm, 57.0000 mm): Footprint U2
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Inductor_THT'
-    Local override; warning
-    @(8.0000 mm, 46.0000 mm): Footprint L1
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Diode_THT'
-    Local override; warning
-    @(16.0000 mm, 67.0000 mm): Footprint D1
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Capacitor_THT'
-    Local override; warning
-    @(8.0000 mm, 32.0000 mm): Footprint C1
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Capacitor_THT'
-    Local override; warning
-    @(7.0000 mm, 62.0000 mm): Footprint C2
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(51.5000 mm, 19.5000 mm): Footprint R5
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(62.1000 mm, 19.5000 mm): Footprint R6
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(72.8000 mm, 19.5000 mm): Footprint R7
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(92.0000 mm, 19.5000 mm): Footprint R8
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(45.0000 mm, 47.0000 mm): Footprint R1
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(45.0000 mm, 50.0000 mm): Footprint R2
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(45.0000 mm, 53.0000 mm): Footprint R3
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_SMD'
-    Local override; warning
-    @(45.0000 mm, 56.0000 mm): Footprint R4
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Capacitor_SMD'
-    Local override; warning
-    @(43.0000 mm, 47.0000 mm): Footprint C3
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Capacitor_SMD'
-    Local override; warning
-    @(43.0000 mm, 50.0000 mm): Footprint C4
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Capacitor_SMD'
-    Local override; warning
-    @(43.0000 mm, 53.0000 mm): Footprint C5
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Capacitor_SMD'
-    Local override; warning
-    @(43.0000 mm, 56.0000 mm): Footprint C6
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Capacitor_SMD'
-    Local override; warning
-    @(80.0000 mm, 65.0000 mm): Footprint C7
-[lib_footprint_issues]: The current configuration does not include the footprint library 'LED_THT'
-    Local override; warning
-    @(64.0000 mm, 68.5000 mm): Footprint LED1
-[lib_footprint_issues]: The current configuration does not include the footprint library 'Resistor_THT'
-    Local override; warning
-    @(70.0000 mm, 68.5000 mm): Footprint NTC1
+    @(1.6100 mm, 53.4300 mm): Segment of J8 on F.Silkscreen
+    @(2.8100 mm, 52.9300 mm): PTH pad 1 [+3V3] of J8
 
-** Found 0 unconnected pads **
+** Found 42 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 12.2900 mm): PTH pad 33 [GND] of J8
+    @(2.8100 mm, 17.3700 mm): PTH pad 29 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 17.3700 mm): PTH pad 29 [GND] of J8
+    @(2.8100 mm, 22.4500 mm): PTH pad 25 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 22.4500 mm): PTH pad 25 [GND] of J8
+    @(18.1900 mm, 30.0700 mm): PTH pad 20 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 42.7700 mm): PTH pad 9 [GND] of J8
+    @(18.1900 mm, 37.6900 mm): PTH pad 14 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 7.2100 mm): PTH pad 38 [GND] of J8
+    @(2.8100 mm, 12.2900 mm): PTH pad 33 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 30.0700 mm): PTH pad 20 [GND] of J8
+    @(18.1900 mm, 37.6900 mm): PTH pad 14 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 47.8500 mm): PTH pad 6 [GND] of J8
+    @(18.1900 mm, 37.6900 mm): PTH pad 14 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(27.5400 mm, 58.0000 mm): PTH pad 2 [GND] of LED1
+    @(18.1900 mm, 47.8500 mm): PTH pad 6 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(32.1600 mm, 68.0000 mm): PTH pad 2 [GND] of NTC1
+    @(35.0000 mm, 66.0000 mm): PTH pad 1 [GND] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(32.5400 mm, 6.0000 mm): PTH pad 2 [GND] of U_BOOST
+    @(18.1900 mm, 7.2100 mm): PTH pad 38 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 12.0000 mm): PTH pad 1 [GND] of J2
+    @(32.5400 mm, 6.0000 mm): PTH pad 2 [GND] of U_BOOST
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 32.0000 mm): PTH pad 1 [GND] of J3
+    @(18.1900 mm, 30.0700 mm): PTH pad 20 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 52.0000 mm): PTH pad 1 [GND] of J4
+    @(27.5400 mm, 58.0000 mm): PTH pad 2 [GND] of LED1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 66.0000 mm): PTH pad 1 [GND] of J5
+    @(27.5400 mm, 58.0000 mm): PTH pad 2 [GND] of LED1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 14.5400 mm): PTH pad 2 [+12V] of J2
+    @(35.0000 mm, 34.5400 mm): PTH pad 2 [+12V] of J3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 34.5400 mm): PTH pad 2 [+12V] of J3
+    @(35.0000 mm, 54.5400 mm): PTH pad 2 [+12V] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 54.5400 mm): PTH pad 2 [+12V] of J4
+    @(35.0000 mm, 68.5400 mm): PTH pad 2 [+12V] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0800 mm, 6.0000 mm): PTH pad 3 [+12V] of U_BOOST
+    @(35.0000 mm, 14.5400 mm): PTH pad 2 [+12V] of J2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 40.2300 mm): PTH pad 12 [FAN1_TACH] of J8
+    @(35.0000 mm, 17.0800 mm): PTH pad 3 [FAN1_TACH] of J2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 17.0800 mm): PTH pad 3 [FAN1_TACH] of J2
+    @(28.5100 mm, 12.0000 mm): Pad 2 [FAN1_TACH] of R5 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 45.3100 mm): PTH pad 7 [FAN1_PWM] of J8
+    @(35.0000 mm, 19.6200 mm): PTH pad 4 [FAN1_PWM] of J2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(28.5100 mm, 32.0000 mm): Pad 2 [FAN2_TACH] of R6 on F.Cu
+    @(2.8100 mm, 37.6900 mm): PTH pad 13 [FAN2_TACH] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 37.0800 mm): PTH pad 3 [FAN2_TACH] of J3
+    @(28.5100 mm, 32.0000 mm): Pad 2 [FAN2_TACH] of R6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 45.3100 mm): PTH pad 8 [FAN2_PWM] of J8
+    @(35.0000 mm, 39.6200 mm): PTH pad 4 [FAN2_PWM] of J3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(28.5100 mm, 52.0000 mm): Pad 2 [FAN3_TACH] of R7 on F.Cu
+    @(2.8100 mm, 35.1500 mm): PTH pad 15 [FAN3_TACH] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(35.0000 mm, 57.0800 mm): PTH pad 3 [FAN3_TACH] of J4
+    @(28.5100 mm, 52.0000 mm): Pad 2 [FAN3_TACH] of R7 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 42.7700 mm): PTH pad 10 [FAN3_PWM] of J8
+    @(35.0000 mm, 59.6200 mm): PTH pad 4 [FAN3_PWM] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 35.1500 mm): PTH pad 16 [FAN4_TACH] of J8
+    @(28.5100 mm, 72.0000 mm): Pad 2 [FAN4_TACH] of R8 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(28.5100 mm, 72.0000 mm): Pad 2 [FAN4_TACH] of R8 on F.Cu
+    @(35.0000 mm, 71.0800 mm): PTH pad 3 [FAN4_TACH] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 40.2300 mm): PTH pad 11 [FAN4_PWM] of J8
+    @(35.0000 mm, 73.6200 mm): PTH pad 4 [FAN4_PWM] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 32.6100 mm): PTH pad 17 [+3V3] of J8
+    @(2.8100 mm, 52.9300 mm): PTH pad 1 [+3V3] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(24.4900 mm, 24.0000 mm): Pad 1 [+3V3] of R4 on F.Cu
+    @(27.4900 mm, 12.0000 mm): Pad 1 [+3V3] of R5 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(24.4900 mm, 24.0000 mm): Pad 1 [+3V3] of R4 on F.Cu
+    @(2.8100 mm, 32.6100 mm): PTH pad 17 [+3V3] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(27.4900 mm, 32.0000 mm): Pad 1 [+3V3] of R6 on F.Cu
+    @(24.4900 mm, 24.0000 mm): Pad 1 [+3V3] of R4 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(27.4900 mm, 52.0000 mm): Pad 1 [+3V3] of R7 on F.Cu
+    @(27.4900 mm, 32.0000 mm): Pad 1 [+3V3] of R6 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(27.4900 mm, 72.0000 mm): Pad 1 [+3V3] of R8 on F.Cu
+    @(27.4900 mm, 52.0000 mm): Pad 1 [+3V3] of R7 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(2.8100 mm, 50.3900 mm): PTH pad 3 [STATUS_LED] of J8
+    @(24.4900 mm, 20.0000 mm): Pad 1 [STATUS_LED] of R3 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(25.0000 mm, 58.0000 mm): PTH pad 1 [/LED_A] of LED1
+    @(25.5100 mm, 20.0000 mm): Pad 2 [/LED_A] of R3 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(22.0000 mm, 68.0000 mm): PTH pad 1 [NTC_ADC] of NTC1
+    @(25.5100 mm, 24.0000 mm): Pad 2 [NTC_ADC] of R4 on F.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(25.5100 mm, 24.0000 mm): Pad 2 [NTC_ADC] of R4 on F.Cu
+    @(2.8100 mm, 24.9900 mm): PTH pad 23 [NTC_ADC] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.1900 mm, 50.3900 mm): PTH pad 4 [+5V] of J8
+    @(18.1900 mm, 52.9300 mm): PTH pad 2 [+5V] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(30.0000 mm, 6.0000 mm): PTH pad 1 [+5V] of U_BOOST
+    @(18.1900 mm, 50.3900 mm): PTH pad 4 [+5V] of J8
 
 ** Found 0 Footprint errors **
 
