@@ -79,11 +79,17 @@ def build_schematic():
     # Waveshare ESP32-P4-POE-ETH (SKU 32088) 2x20 female interface header (J8).
     # Female PinSocket — daughter board sits below Waveshare board; Waveshare
     # 2x20 male header pins plug into this socket.
+    #
+    # CRITICAL: row spacing is 2.81mm (NOT standard 2.54mm).
+    # Source: docs/kb/ESP32-P4-POE-ETH/ESP32-P4-ETH-details-size-*.webp
+    # Board dimensions confirmed: 78.00 x 21.00 mm; pin pitch 2.54mm, row pitch 2.81mm.
+    # Custom footprint: Custom:PinSocket_2x20_P2.54mm_P2.81mm_Vertical (in Custom.pretty)
+    #
     # OQ-02 PENDING: Confirm +5V on pins 2,4 from Waveshare SKU 32088 schematic.
     # OQ-03 PENDING: Confirm GPIO4-7/8-11/16/2 positions on SKU 32088 header.
     # body_w = 10 * 2.54 = 25.4 mm,  body_h = 20 * 2.54 = 50.8 mm
     s.define("Custom:J8_Waveshare", "J", "Waveshare_ESP32P4POEETH",
-             "Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical",
+             "Custom:PinSocket_2x20_P2.54mm_P2.81mm_Vertical",
              "https://www.waveshare.com/wiki/ESP32-P4-POE-ETH",
              body_w=25.4, body_h=50.8,
              pins_left=[
@@ -298,7 +304,7 @@ def build_schematic():
     s.text("Waveshare ESP32-P4-POE-ETH  Interface  (J8)",
            22, 112, size=2.54, bold=True, color=BLUE)
     p = s.component("Custom:J8_Waveshare", "J8", "Waveshare_ESP32P4POEETH",
-                    "Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical",
+                    "Custom:PinSocket_2x20_P2.54mm_P2.81mm_Vertical",
                     J8_CX, J8_CY)
 
     # --- Left pins (odd) — use angle=180 for global_labels ---

@@ -77,23 +77,25 @@ GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52
 
 ## 3. Board Dimensions
 
-> 🟡 **MEDIUM CONFIDENCE** — "Dimensions" section exists on docs page but pinout/dimension
-> tables are image-based and not extractable from HTML. Values below from training data
-> cross-checked with image file `ESP32-P4-ETH-details-size-*.webp` in this folder.
+> 🟢 **HIGH CONFIDENCE** — confirmed from dimension drawing in `ESP32-P4-ETH-details-size-*.webp`
 
 | Measurement | Value | Confidence |
 |---|---|---|
-| Length | ≈ 85.6 mm | 🟡 MEDIUM — verify from dimension drawing / webp image |
-| Width | ≈ 56 mm | 🟡 MEDIUM — verify from dimension drawing / webp image |
-| Header pitch | 2.54 mm (standard) | 🟢 HIGH |
+| Length | **78.00 mm** | 🟢 HIGH — measured from dimension drawing |
+| Width | **21.00 mm** | 🟢 HIGH — measured from dimension drawing |
+| Pin pitch (within row) | **2.54 mm** | 🟢 HIGH — shown in dimension drawing |
+| Row-to-row spacing | **2.81 mm** | 🟢 HIGH — shown in dimension drawing (⚠️ non-standard!) |
 | Mounting holes | 4× M2.5, Raspberry Pi HAT pattern | 🟡 MEDIUM |
 
-**Daughter board implication:**
-- Daughter board length = ESP32-P4-POE-ETH length ≈ **85.6 mm** (to mate flush)
-- Daughter board width > 56 mm (extra width for side-edge fan headers)
-- Fan headers (J2–J5) must sit on the **long side edge** of the daughter board
+> ⚠️ **Row spacing is 2.81 mm, NOT the standard 2.54 mm.**
+> The KiCad footprint `PinSocket_2x20_P2.54mm_Vertical` is WRONG for this board.
+> Use the custom footprint: `Custom:PinSocket_2x20_P2.54mm_P2.81mm_Vertical`
+> (stored in `hardware/kicad/footprints/Custom.pretty/`)
 
-> ✅ **Action:** Open `ESP32-P4-ETH-details-size-*.webp` in this folder for exact dimensions.
+**Daughter board implication:**
+- Daughter board length = ESP32-P4-POE-ETH length = **78.0 mm** (to mate flush)
+- Daughter board width > 21 mm (extra width for side-edge fan headers)
+- Fan headers (J2–J5) must sit on the **long side edge** of the daughter board
 
 ---
 
@@ -257,7 +259,7 @@ build_flags =
 
 | ID | Question | Blocking? | How to resolve |
 |---|---|---|---|
-| OQ-01 | Exact board dimensions L × W mm | ✅ Yes (PCB sizing) | Open `ESP32-P4-ETH-details-size-*.webp` in this folder |
+| OQ-01 | ~~Exact board dimensions L × W mm~~ | ✅ RESOLVED: 78.00 × 21.00 mm | From dimension drawing |
 | OQ-02 | Exact voltage and max current on header pins 2,4 (+5V?) | ✅ Yes (U_BOOST sizing) | Open schematic PDF in this folder |
 | OQ-03 | PHY address (ADDR0/1 pins on LAN8720A) | Yes (firmware) | Open schematic PDF |
 | OQ-04 | GPIO physical pin positions on 40-pin header (verify pin 3=GPIO2, etc.) | Yes (schematic) | Open pinout image from wiki or schematic PDF |
