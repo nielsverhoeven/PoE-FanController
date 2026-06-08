@@ -1,3 +1,213 @@
+# PoE FanController — Stage 6 Test Results
+## Feature: Waveshare ESP32-P4-ETH Carrier Board Redesign (Issue #62, v2.0.0)
+
+**Date:** 2026-06-08
+**Branch:** `feature/62-refactor-generator-esp32p4`
+**Constitution:** v2.0.0
+**Tester:** tester-agent (automated)
+
+---
+
+## Summary: PASS ✅ (with known limitations)
+
+All locally executable validation checks pass. ERC/DRC results sourced from CI runs
+27123515701 and 27123517984 (2026-06-08). Native unit tests are skipped on Windows
+(no MinGW in PATH); CI validates these on Linux.
+
+---
+
+## Stage Results
+
+| Stage | Status | Command / Method | Notes |
+|---|---|---|---|
+| Firmware build | ⏭ N/A | `pio run -e esp32-p4-eth` | Arduino-P4 toolchain not installed locally; CI ✅ (run 27123515701) |
+| Native unit tests | ⏭ SKIP | `pio test -e native` | 0/0 test cases — MinGW not in PATH on Windows; pre-existing limitation; CI ✅ on Linux |
+| ERC validation | ✅ PASS | CI run 27123515701 | 0 errors, 79 warnings (all acceptable) |
+| DRC validation | ✅ PASS | CI run 27123515701 | 75 violations ≤ 75 baseline |
+| Schematic generator | ✅ PASS | `python hardware/generate_project.py` | Produces valid `.kicad_sch` and `bom.csv`; exit 0 |
+| Generator py_compile | ✅ PASS | `python -m py_compile` ×5 modules | All 5 modules: OK |
+| BOM validation | ✅ PASS | Inspect `hardware/bom/bom.csv` | All removed parts absent; all new parts present |
+| Schematic content | ✅ PASS | PowerShell content search on `.kicad_sch` | All 8 content checks pass |
+| Board JSON | ✅ PASS | Inspect `firmware/boards/waveshare-esp32-p4-eth.json` | 32 MB flash, 400 MHz, maximum_size=33554432 |
+| platformio.ini | ✅ PASS | Inspect `firmware/platformio.ini` | `default_envs = esp32-p4-eth`, `board = waveshare-esp32-p4-eth` |
+| pins.h header | ✅ PASS | Inspect `firmware/include/pins.h` | "Waveshare ESP32-P4-ETH" in file header |
+| GPIO assignments | ✅ PASS | pins.h vs spec | GPIO4-11, GPIO16, GPIO2 unchanged; all present on Waveshare 2×20 header |
+
+---
+
+## Hardware Validation
+
+### ERC (from CI run 27123515701)
+
+- **Status: ✅ PASS — 0 errors, 79 warnings**
+- Gate: `severity == 'error'` count = 0
+- 79 warnings: all `lib_symbol_issues` / `lib_symbol_mismatch` — pre-existing, non-blocking
+
+### DRC (from CI run 27123515701)
+
+- **Status: ✅ PASS — 75 violations ≤ 75 baseline**
+- CI YAML baseline updated 76 → 75 in this PR
+- ~17 violations are from orphaned PCB footprints of removed components (see Known Limitations §1)
+
+### Schematic Generator
+
+- **Status: ✅ PASS**
+- Command: `python hardware/generate_project.py` → exit 0
+- Produced: `hardware/kicad/PoE-FanController.kicad_sch`, `hardware/kicad/PoE-FanController.kicad_pro`, `hardware/bom/bom.csv`
+- All 5 generator modules pass `python -m py_compile` with no errors
+
+### Schematic Content Verification
+
+| Check | Result | Status |
+|---|---|---|
+| `J8` present (HAT header) | True | ✅ |
+| `LM2596-5.0` present (5V regulator) | True | ✅ |
+| `LAN8720A` absent | True | ✅ |
+| `CH340C` absent | True | ✅ |
+| `ESP32-P4-MINI-1U` absent | True | ✅ |
+| `STATUS_LED` global label present | True | ✅ |
+| `+5V` power net present | True | ✅ |
+| `+5V_HAT` label present | True | ✅ |
+
+### BOM Validation
+
+| Component | Expected | Result | Status |
+|---|---|---|---|
+| U3 (ESP32-P4-MINI-1U) | ABSENT | Not in BOM | ✅ |
+| U4 (CH340C) | ABSENT | Not in BOM | ✅ |
+| U5 (LAN8720A) | ABSENT | Not in BOM | ✅ |
+| J6 (USB-C) | ABSENT | Not in BOM | ✅ |
+| U2 | LM2596S-5.0/NOPB | `LM2596-5.0` / MPN: `LM2596S-5.0/NOPB` | ✅ |
+| D2 | 1N5822 (back-feed protection) | `1N5822` / MPN: `1N5822` | ✅ |
+| J8 | 2×20 HAT header | `Waveshare_HAT` / 2×20 PinHeader | ✅ |
+
+Full BOM line count: 16 line items (correct for carrier-board-only BOM, excluding Waveshare module itself).
+
+---
+
+## Firmware Validation
+
+### Board JSON (`firmware/boards/waveshare-esp32-p4-eth.json`)
+
+- **Status: ✅ PASS**
+
+| Field | Value | Expected | Status |
+|---|---|---|---|
+| `name` | `Waveshare ESP32-P4-ETH` | Waveshare board | ✅ |
+| `mcu` | `esp32p4` | ESP32-P4 | ✅ |
+| `f_cpu` | `400000000L` | 400 MHz | ✅ |
+| `flash_size` | `32MB` | 32MB (NRW32 variant) | ✅ |
+| `upload.maximum_size` | `33554432` | 32MB = 33554432 B | ✅ |
+| `upload.maximum_ram_size` | `786432` | 768 KB HP-RAM | ✅ |
+| `connectivity` | `["ethernet"]` | Ethernet | ✅ |
+
+### platformio.ini
+
+- **Status: ✅ PASS**
+- `default_envs = esp32-p4-eth` ✅
+- `board = waveshare-esp32-p4-eth` ✅
+- `board_dir = boards` ✅
+
+### pins.h Header Comment
+
+- **Status: ✅ PASS**
+- File header: `"GPIO pin constants for PoE FanController v0.3 (Waveshare ESP32-P4-ETH)"`
+- MCU line: `"ESP32-P4NRW32 on Waveshare ESP32-P4-ETH board (SKU 32086)"`
+- ⚠️ Note embedded in pins.h: verify MDC/MDIO pin numbers (GPIO31/GPIO28) against Waveshare published schematic before hardware bring-up
+
+### GPIO Assignments
+
+- **Status: ✅ PASS — GPIO4-11, GPIO16, GPIO2 UNCHANGED**
+
+| Signal | GPIO | Available on Waveshare 2×20 Header | Status |
+|---|---|---|---|
+| FAN1_PWM | 4 | Yes | ✅ |
+| FAN2_PWM | 5 | Yes | ✅ |
+| FAN3_PWM | 6 | Yes | ✅ |
+| FAN4_PWM | 7 | Yes | ✅ |
+| FAN1_TACH | 8 | Yes | ✅ |
+| FAN2_TACH | 9 | Yes | ✅ |
+| FAN3_TACH | 10 | Yes | ✅ |
+| FAN4_TACH | 11 | Yes | ✅ |
+| NTC_ADC | 16 | Yes | ✅ |
+| STATUS_LED | 2 | Yes | ✅ |
+| ETH_MDC | 31 | Internal to Waveshare (not on J8) | ✅ |
+| ETH_MDIO | 28 | Internal to Waveshare (not on J8) | ✅ |
+
+### Native Tests (Windows environment)
+
+- **Status: ⏭ SKIP — pre-existing environment limitation**
+- Command: `pio test -e native` → "Collected 3 tests — 0 test cases: 0 succeeded"
+- Root cause: MinGW/g++ toolchain not in PATH on this Windows host; test binaries cannot link
+- Previous run (feature/40, 2026-06-07) confirmed all 14 tests pass when MinGW is present
+- CI validates native tests on Linux (Ubuntu) — confirmed passing
+
+---
+
+## Known Limitations (not blocking)
+
+1. **PCB layout has orphaned footprints** — `.kicad_pcb` still contains footprints for removed
+   components (U3/U4/U5/J6/SW1/SW2/R1-R2/R9-R15/C3-C11). These cause ~17 extra DRC
+   violations. Manual KiCad PCB cleanup is required (tracked as P-KI-07). DRC baseline
+   remains ≤ 75 including these.
+
+2. **Native tests cannot run on Windows** without MinGW toolchain. Install
+   `platformio/toolchain-gccmingw32` and add to PATH to run locally. CI (Linux) validates.
+
+3. **MDC/MDIO pin numbers** (GPIO31/GPIO28) should be verified against the Waveshare
+   ESP32-P4-ETH published schematic before first hardware bring-up. Noted as ⚠️ in `pins.h`.
+
+4. **PSE switch port** connected to J1 must be configured in "force PoE" mode
+   (link-independent) since J1 MDI secondary is NC — no Ethernet data link will form,
+   so PSE detection must be bypassed.
+
+5. **Hardware bring-up deferred** — Waveshare ESP32-P4-ETH + carrier PCB not yet fabricated.
+   Firmware flash, Ethernet link-up, fan PWM, OTA, and NTC ADC tests are deferred.
+
+---
+
+## Failures Found & Fixed
+
+| Test | Failure | Root Cause | Fix | Verified |
+|---|---|---|---|---|
+| — | — | — | — | — |
+
+No failures found in locally executable checks. All passed on first run.
+
+---
+
+## Release Gate
+
+| Check | Threshold | Result | Status |
+|---|---|---|---|
+| Schematic generator | Exit 0 | Exit 0 | ✅ |
+| Generator py_compile (×5 modules) | No errors | All OK | ✅ |
+| ERC errors (CI) | = 0 | 0 errors, 79 warnings | ✅ |
+| DRC violations (CI) | ≤ 75 | 75 violations | ✅ |
+| BOM removed parts absent | 4/4 absent | 4/4 absent | ✅ |
+| BOM new parts present | 3/3 present | 3/3 present | ✅ |
+| Schematic content checks | 8/8 pass | 8/8 pass | ✅ |
+| Board JSON (32 MB flash) | flash_size=32MB | 32MB, max=33554432 | ✅ |
+| platformio.ini board target | waveshare-esp32-p4-eth | waveshare-esp32-p4-eth | ✅ |
+| pins.h Waveshare header | Present | Present | ✅ |
+| GPIO assignments unchanged | GPIO4-11, 16, 2 | All match | ✅ |
+| Native unit tests | Pass on CI (Linux) | CI ✅; local SKIP (no MinGW) | ⏭ |
+| Firmware build | Pass on CI | CI ✅ (run 27123515701) | ⏭ |
+| Hardware bring-up | Deferred | Not yet fabricated | ⏭ |
+
+## **Final Verdict: ✅ PASS (with known limitations)**
+
+Branch `feature/62-refactor-generator-esp32p4` passes all locally executable Stage 6 checks.
+ERC=0 errors and DRC≤75 confirmed by CI. Hardware bring-up is deferred pending PCB fabrication
+and delivery of Waveshare ESP32-P4-ETH module.
+
+## Links
+
+- CI Run (push): https://github.com/nielsverhoeven/PoE-FanController/actions/runs/27123515701
+- CI Run (PR): https://github.com/nielsverhoeven/PoE-FanController/actions/runs/27123517984
+
+---
+
 # Test Results: Issue #40 — MCU Replace ESP32-WROOM-32D → ESP32-P4 (Stage 6 Validation)
 **Branch:** `feature/40-replace-esp32-with-esp32-p4`
 **Date:** 2026-06-07
