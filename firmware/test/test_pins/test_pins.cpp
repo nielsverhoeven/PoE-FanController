@@ -33,13 +33,15 @@ void test_adc_and_misc_pins()
 {
     TEST_ASSERT_EQUAL(16, NTC_ADC_PIN);
     TEST_ASSERT_EQUAL(2,  STATUS_LED_PIN);
+    TEST_ASSERT_EQUAL(15, PROG_LED_PIN);
     TEST_ASSERT_EQUAL(0,  BOOT_PIN);
 }
 
 void test_eth_management_pins()
 {
-    TEST_ASSERT_EQUAL(28, ETH_MDIO_PIN);
+    TEST_ASSERT_EQUAL(52, ETH_MDIO_PIN);
     TEST_ASSERT_EQUAL(31, ETH_MDC_PIN);
+    TEST_ASSERT_EQUAL(51, ETH_PHY_RST_PIN);
 }
 
 // ---------------------------------------------------------------------------
@@ -50,14 +52,13 @@ void test_no_gpio_collisions()
     const int pins[] = {
         FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
-        NTC_ADC_PIN,   STATUS_LED_PIN, BOOT_PIN,
-        ETH_MDIO_PIN,  ETH_MDC_PIN,
+        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
     };
     const int N = sizeof(pins) / sizeof(pins[0]);
 
     for (int i = 0; i < N; i++) {
         for (int j = i + 1; j < N; j++) {
-            // Each pair must be distinct
             TEST_ASSERT_NOT_EQUAL_MESSAGE(pins[i], pins[j],
                 "GPIO collision detected between two pin constants");
         }
@@ -74,8 +75,8 @@ void test_no_rmii_collision()
     const int user_pins[]  = {
         FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
-        NTC_ADC_PIN,   STATUS_LED_PIN, BOOT_PIN,
-        ETH_MDIO_PIN,  ETH_MDC_PIN,
+        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
     };
 
     for (int u = 0; u < (int)(sizeof(user_pins)/sizeof(user_pins[0])); u++) {
