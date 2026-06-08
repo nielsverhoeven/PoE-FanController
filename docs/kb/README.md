@@ -17,7 +17,7 @@ costs far less than a sub-agent invocation.
 | `component-library.md` | Current BOM (daughter board v3.1.0): J8, U_BOOST, J2–J5, R3–R8, LED1, NTC1; KiCad footprints | implementer, kicad.expert |
 | `model-routing.md` | Decision guide: when to use local Ollama vs cloud Haiku vs cloud Sonnet | all agents, orchestrator |
 | `local-ai-setup.md` | Ollama installation + recommended models for this project | developer setup |
-| `Sample-PCB-Sketch.png` | User-approved PCB layout sketch: portrait 42×78mm, ESP32 left column, fans right column | implementer, kicad.expert |
+| `kikit-reference.md` | KiKit 1.8.0 — what works (fab export, gerbers, sexpr), what doesn't (DRC crashes on KiCad 10, no routing), and the CRITICAL: netlist must be imported in KiCad GUI before any routing | implementer, kicad.expert |
 
 ## KB-First Rule
 

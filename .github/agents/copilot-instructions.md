@@ -155,7 +155,8 @@ The `docs/kb/` directory contains pre-loaded domain facts for this project.
 | `docs/kb/esp32-p4-reference.md` | RMII fixed pins (MDC=31, MDIO=52, RST=51), GPIO allocation, PlatformIO config, LEDC 3.x API |
 | `docs/kb/poe-reference.md` | 802.3at class table, power budget |
 | `docs/kb/component-library.md` | All project MPNs, KiCad footprints, datasheet facts |
-| `docs/kb/model-routing.md` | Which model/approach to use for each task type |
+| `docs/kb/kikit-reference.md` | KiKit 1.8.0: CLI path, what works (fab/gerber export), what's broken (`drc` crashes on KiCad 10), routing approach (pcbnew API + **must import netlist via KiCad GUI F8 first**) | implementer, kicad.expert |
+| `docs/kb/Sample-PCB-Sketch.png` | User-approved PCB layout sketch: portrait 42×78mm, ESP32 left column, fans right column | implementer, kicad.expert |
 | `docs/kb/local-ai-setup.md` | Ollama installation and usage for free local inference |
 
 **KB-First rule:** If the answer is in the KB, answer directly — no sub-agent, no web search.
