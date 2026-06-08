@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PoE FanController</title>
+<style>
+  body { font-family: sans-serif; max-width: 640px; margin: 2em auto; padding: 0 1em; background: #f5f5f5; }
+  h1   { color: #333; }
+  .card { background: #fff; border-radius: 6px; padding: 1em 1.5em; margin: 1em 0; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { padding: .4em .6em; border-bottom: 1px solid #eee; text-align: left; }
+  th { color: #666; font-weight: normal; width: 50%; }
+  .badge-ok     { color: #2a9d2a; font-weight: bold; }
+  .badge-absent { color: #999; }
+  .badge-read   { color: #d4830a; }
+  footer { text-align: center; font-size: .8em; color: #999; margin-top: 2em; }
+</style>
+</head>
+<body>
+<h1>PoE FanController</h1>
+
+<div class="card">
+  <h2>System</h2>
+  <table>
+    <tr><th>IP Address</th>      <td id="ip">—</td></tr>
+    <tr><th>Link speed</th>      <td id="link">—</td></tr>
+    <tr><th>NTC temp</th>        <td id="temp_c">—</td></tr>
+    <tr><th>Probe temp (DS18B20)</th><td id="probe_temp_c">—</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>Fans</h2>
+  <table>
+    <thead><tr><th>Fan</th><th>Duty</th><th>RPM</th></tr></thead>
+    <tbody id="fans"></tbody>
+  </table>
+</div>
+
+<footer>Refreshes every 2 s</footer>
+
+<script>
+  async function refresh() {
+    try {
+      const r = await fetch('/api/v1/status');
+      if (!r.ok) return;
+      const d = await r.json();
+
+      document.getElementById('ip').textContent   = d.ip   || '—';
+      document.getElementById('link').textContent =
+        d.link_mbps != null ? d.link_mbps + ' Mbps (' + (d.full_duplex ? 'full' : 'half') + '-duplex)' : '—';
+      document.getElementById('temp_c').textContent =
+        d.temp_c != null ? d.temp_c.toFixed(1) + ' °C' : '—';
+
+      // DS18B20 probe — null means absent
+      const probeEl = document.getElementById('probe_temp_c');
+      if (d.probe_temp_c == null) {
+        probeEl.innerHTML = '<span class="badge-absent">— (not connected)</span>';
+      } else {
+        probeEl.innerHTML = '<span class="badge-ok">' + d.probe_temp_c.toFixed(1) + ' °C</span>';
+      }
+
+      // Fans table
+      const tbody = document.getElementById('fans');
+      tbody.innerHTML = '';
+      (d.fans || []).forEach((f, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>Fan ' + (i + 1) + '</td>' +
+          '<td>' + Math.round(f.duty / 2.55) + ' % (' + f.duty + '/255)</td>' +
+          '<td>' + (f.rpm || 0) + ' RPM</td>';
+        tbody.appendChild(tr);
+      });
+    } catch (e) {
+      console.error('Status fetch error:', e);
+    }
+  }
+
+  refresh();
+  setInterval(refresh, 2000);
+</script>
+</body>
+</html>
