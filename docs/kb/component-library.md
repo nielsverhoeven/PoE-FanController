@@ -1,24 +1,25 @@
 # Component Library
 
-<!-- Last updated: 2026-06-07 (session 2) | Source: constitution v1.3.0, BOM, expert consultations -->
+<!-- Last updated: 2026-06-08 (session 3) | Source: constitution v3.1.0, BOM, expert consultations -->
 <!-- All MPNs are BOM-locked unless noted. Changes require MAJOR or MINOR amendment. -->
 
 ---
 
-## BOM-Locked Components
+## Current BOM — Daughter Board (v3.1.0)
 
-| Ref | MPN | Manufacturer | Package | KiCad Symbol | KiCad Footprint | Amendment required |
-|---|---|---|---|---|---|---|
-| U1 | Ag9905M | Silvertel | 2×4 pin header 2.54 mm | Custom:Ag9905M | Custom:Ag9905M | MAJOR |
-| U2 | LM2596S-3.3/NOPB | TI | D2PAK (TO-263-5) | Custom:LM2596S | Package_TO_SOT_SMD:TO-263-5 | MAJOR |
-| U3 | ESP32-P4-MINI-1U-N16R8 | Espressif | LGA-56 castellation | Custom:ESP32-P4-MINI-1U | Custom:ESP32-P4-MINI-1 (must author) | MAJOR |
-| U4 | CH340C | WCH | SOIC-16 | Custom:CH340C | Package_SO:SOIC-16_3.9x9.9mm_P1.27mm | MAJOR |
-| U5 | LAN8720A-CP-TR | Microchip | QFN-24 | Custom:LAN8720A | Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm ✅ | MAJOR |
-| J1 | 615008144521 | Würth | RJ45 horizontal | Custom:RJ45_PoE_PHY | Custom:Wuerth_615008144521 | MAJOR |
-| J2–J5 | 47053-1000 | Molex | 4-pin 2.54 mm | Custom:FAN_HEADER | Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical | MAJOR |
-| J6 | USB4085-GF-A | GCT | USB-C THT | Custom:USB_C | Custom:GCT_USB4085 | MAJOR |
-| L1 | SRR5028-680Y | Bourns | Axial THT 68 µH | Custom:L_SRR5028 | Inductor_THT:L_Axial_L13.0mm_D6.0mm_P20.32mm | MAJOR |
-| D1 | 1N5822 | Various | DO-201AD THT | Device:D_Schottky | Diode_THT:D_DO-201AD_P12.70mm_Horizontal | MAJOR |
+The custom PCB is now a **daughter board** for the Waveshare ESP32-P4-POE-ETH (SKU 32088).
+PoE, Ethernet, ESP32, USB-C are all on the Waveshare board. The daughter board is SELV-only.
+
+| Ref | MPN / Value | Manufacturer | Package | KiCad Footprint | Role |
+|---|---|---|---|---|---|
+| **J8** | Female 2×20 pin socket, 2.54mm pitch, **15.38mm row spacing** | — | THT | `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` | Daughter board ↔ Waveshare ESP32-P4-POE-ETH interface; row spacing = 21mm board − 2×2.81mm edge offsets |
+| **U_BOOST** | LM2587-12 (fixed 12V) | TI | TO-220-3 Vertical | `Package_TO_SOT_THT:TO-220-3_Vertical` | 5V→12V boost converter for fan rail |
+| **J2–J5** | 47053-1000 | Molex | 4-pin 2.54mm | `Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical` | 4-wire 12V PWM fan headers — on right zone of daughter board |
+| **R3** | 330Ω | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | LED current limit |
+| **R4** | 10kΩ | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | NTC voltage divider (top resistor) |
+| **R5–R8** | 10kΩ | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | TACH pull-ups to +3.3V |
+| **LED1** | Green LED | — | LED_D3.0mm THT | `LED_THT:LED_D3.0mm` | Status LED (GPIO2 via J8) |
+| **NTC1** | 10kΩ B=3950 NTC | — | Axial THT | `Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` | Temperature sensing |
 
 ---
 
