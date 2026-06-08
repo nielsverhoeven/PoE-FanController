@@ -13,3 +13,5 @@ R4,10k,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,Yageo,MFR
 NTC1,NTC10K_B3950,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,1,Murata,NCP15XH103F03RC,"10kΩ NTC thermistor B=3380, axial THT",https://www.murata.com/en-us/products/productdetail?partid=NCP15XH103F03RC
 R3,330R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,Yageo,MFR-25FBF52-330R,330Ω 1/4W 1% axial THT — status LED current limit,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf
 LED1,LED_GREEN,LED_THT:LED_D3.0mm,1,Wurth,150060GS75000,"Green 3mm THT LED, 565nm — GPIO status indicator",https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000
+R13,330R,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,Yageo,MFR-25FBF52-330R,330Ω 1/4W 1% axial THT — prog LED current limit,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf
+LED2,LED_ORANGE,LED_THT:LED_D3.0mm,1,Wurth,150060AS75000,"Orange 3mm THT LED, 605nm — firmware-write / OTA activity indicator",https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060AS75000

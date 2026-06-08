@@ -217,9 +217,10 @@ def build_schematic():
     #   FAN_CY0         = 32G       = 81.28              mm  (J2 centre)
     #   FAN_STEP        = 12G       = 30.48              mm  (spacing J2->J3->J4->J5)
     #   LED_CY          = 90G       = 228.60             mm  (status LED row)
+    #   PROG_LED_CY     = 97G       = 246.38             mm  (prog/OTA LED row, between status and NTC)
     #   NTC_CY          = 104G      = 264.16             mm  (NTC sensor row)
-    #   SMALL_CX        = 62G       = 157.48             mm  (R3, R4 left of LED/NTC pair)
-    #   LARGE_CX        = 76G       = 193.04             mm  (LED1, NTC1 right of pair)
+    #   SMALL_CX        = 62G       = 157.48             mm  (R3, R4, R13 left of LED/NTC pair)
+    #   LARGE_CX        = 76G       = 193.04             mm  (LED1, LED2, NTC1 right of pair)
     #
     # Schematic spans x=22..350 mm, y=55..270 mm — fits well within A2 portrait.
     # -----------------------------------------------------------------------
@@ -232,6 +233,7 @@ def build_schematic():
     FAN_CY0             = 32*G          # 81.28 — J2
     FAN_STEP            = 12*G          # 30.48
     LED_CY              = 90*G          # 228.60
+    PROG_LED_CY         = 97*G          # 246.38
     NTC_CY              = 104*G         # 264.16
     SMALL_CX            = 62*G          # 157.48 — R3 / R4
     LARGE_CX            = 76*G          # 193.04 — LED1 / NTC1
@@ -383,6 +385,22 @@ def build_schematic():
     s.power("GND",   *p1["2"])              # right pin
 
     # -----------------------------------------------------------------------
+    # PROG LED circuit: firmware-write / OTA activity indicator
+    # GPIO15 (J8 pin 22) → PROG_LED net → R13 → PROG_LED_A → LED2 → GND
+    # LED2 is an orange 3mm THT LED placed next to LED1 on the PCB.
+    # -----------------------------------------------------------------------
+    s.text("Prog LED (OTA)", 128, 233, size=2.54, bold=True, color=BLUE)
+    p1 = s.component("Custom:R", "R13", "330R", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+                     SMALL_CX, PROG_LED_CY)
+    s.global_label("PROG_LED", *p1["1"], shape="input", angle=180)  # left pin
+    s.label("PROG_LED_A",      *p1["2"])                             # right pin
+
+    p1 = s.component("Custom:LED", "LED2", "LED_ORANGE", "LED_THT:LED_D3.0mm",
+                     LARGE_CX, PROG_LED_CY)
+    s.label("PROG_LED_A", *p1["1"], angle=180)  # left pin (anode)
+    s.power("GND",        *p1["2"])             # right pin (cathode)
+
+    # -----------------------------------------------------------------------
     # NTC temperature sensor voltage divider (R4 + NTC1)
     # +3V3 -> R4 -> NTC_ADC node -> NTC1 -> GND
     # Both sides of the node are labelled NTC_ADC (global_label) so the net is
@@ -453,7 +471,8 @@ def build_schematic():
     s.global_label("FAN4_TACH", *p["16"], shape="input")              # GPIO11
     # pin 18: NC
     s.power("GND", *p["20"])
-    # pins 22,24,26,28,30,32,34,36: NC
+    s.global_label("PROG_LED", *p["22"], shape="output")             # GPIO15 — prog/OTA LED
+    # pins 24,26,28,30,32,34,36: NC
     s.power("GND", *p["38"])
     # pin 40: NC
 

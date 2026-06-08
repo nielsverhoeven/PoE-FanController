@@ -76,6 +76,8 @@ POWER_NETS = {
     ('D3', '2'): 'GND',
     ('D4', '2'): 'GND',
     ('D5', '2'): 'GND',
+    # Prog/OTA LED: LED2 cathode → GND, R13 pin 1 → PROG_LED (from netlist via J8 pin 22)
+    ('LED2', '2'): 'GND',
 }
 
 # ── Step 1: Parse netlist → {(ref, pin): net_name} ──────────────────────────

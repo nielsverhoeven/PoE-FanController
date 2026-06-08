@@ -27,6 +27,7 @@
 void fan_init();
 void temp_init();
 void web_init();
+void ota_init();
 void ota_register(void* server);
 
 // ---------------------------------------------------------------------------
@@ -70,6 +71,7 @@ void setup()
     // P-FW-05: Set fans to 100% immediately, before config is loaded
     fan_init();
     temp_init();
+    ota_init();  // Initialise prog LED (GPIO15) — held LOW until OTA starts
 
     // Register Ethernet event handler
     Network.onEvent(on_eth_event);
