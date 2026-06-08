@@ -1,8 +1,8 @@
 /**
  * @file main.cpp
- * @brief PoE FanController v0.3 — Waveshare ESP32-P4-ETH HAT carrier board.
+ * @brief PoE FanController v0.3 — Waveshare ESP32-P4-POE-ETH HAT carrier board.
  *
- * Network: wired 100BASE-T via LAN8720A built into Waveshare board.
+ * Network: wired 100BASE-T via LAN8720A built into Waveshare board (SKU 32088).
  * Serial:  via Waveshare's CH343P USB bridge (USB-C on Waveshare board).
  * OTA:     HTTP POST /api/v1/ota (see ota.cpp).
  *
@@ -13,9 +13,8 @@
  *   4. Load config from NVS; apply fan curves.
  *   5. Start web server.
  *
- * ⚠️ ETH.begin() parameters: Verify ETH_PHY_MDC/ETH_PHY_MDIO against Waveshare
- *    ESP32-P4-ETH schematic (https://www.waveshare.com/wiki/ESP32-P4-ETH).
- *    Current values (GPIO31/GPIO28) match Espressif reference design; likely correct.
+ * ETH PHY pins (confirmed from Waveshare Kconfig defaults):
+ *   MDC=GPIO31, MDIO=GPIO52, RST=GPIO51, RMII fixed GPIO32-37+50.
  */
 
 #include <Arduino.h>
@@ -76,15 +75,15 @@ void setup()
     // Register Ethernet event handler
     Network.onEvent(on_eth_event);
 
-    // Waveshare ESP32-P4-ETH has LAN8720A built in.
+    // Waveshare ESP32-P4-POE-ETH (SKU 32088) has LAN8720A built in.
     // RMII fixed pins GPIO32–37 + GPIO50 assigned automatically by ETH.begin().
-    // MDC = GPIO31, MDIO = GPIO28 — verify against Waveshare schematic.
+    // MDC=GPIO31, MDIO=GPIO52, RST=GPIO51 — confirmed from Waveshare Kconfig.
     ETH.begin(
         ETH_PHY_LAN8720,         // PHY type
-        ETH_PHY_ADDR,            // PHY address 0 (ADDR0/ADDR1 tied low on LAN8720A)
-        ETH_PHY_MDC,             // MDC  pin (GPIO31) — from build_flags
-        ETH_PHY_MDIO,            // MDIO pin (GPIO28) — from build_flags
-        -1,                      // PHY power pin (-1 = not used)
+        ETH_PHY_ADDR,            // PHY address (set via build flag, default 1)
+        ETH_PHY_MDC,             // MDC  pin — GPIO31
+        ETH_PHY_MDIO,            // MDIO pin — GPIO52
+        ETH_PHY_RST,             // RST  pin — GPIO51
         ETH_CLK_MODE             // ETH_CLOCK_GPIO50_OUT — 50 MHz from MCU
     );
 
