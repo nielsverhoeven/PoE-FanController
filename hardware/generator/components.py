@@ -138,7 +138,7 @@ def build_schematic():
                  ("NC",        "21", "no_connect"),    # GPIO14
                  ("NTC_ADC",   "23", "input"),         # GPIO16 ADC
                  ("GND",       "25", "passive"),
-                 ("NC",        "27", "no_connect"),    # GPIO19
+                 ("DS18B20_DATA", "27", "bidirectional"), # GPIO19 — 1-Wire data
                  ("GND",       "29", "passive"),
                  ("NC",        "31", "no_connect"),    # GPIO22
                  ("GND",       "33", "passive"),
@@ -161,7 +161,7 @@ def build_schematic():
                  ("NC",        "22", "no_connect"),    # GPIO15
                  ("NC",        "24", "no_connect"),    # GPIO17
                  ("NC",        "26", "no_connect"),    # GPIO18
-                 ("NC",        "28", "no_connect"),    # GPIO20
+                 ("PROBE_LED",  "28", "output"),          # GPIO20 — probe health LED
                  ("NC",        "30", "no_connect"),    # GPIO21
                  ("NC",        "32", "no_connect"),    # GPIO26
                  ("NC",        "34", "no_connect"),    # GPIO27
@@ -207,6 +207,20 @@ def build_schematic():
              pins_left=[("1",  "1", "passive")],
              pins_right=[("2", "2", "passive")])
 
+    # 3-pin Molex KK 254 connector — J6 DS18B20 temperature probe header
+    # Pin 1: GND, Pin 2: DS18B20_DATA (1-Wire), Pin 3: +3V3 (power to probe)
+    # Molex 22-01-3037 / KK-254 3-position housing
+    s.define("Custom:Conn_1x03", "J", "Connector_1x03",
+             "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical",
+             "https://www.molex.com/molex/products/part-detail/crimp_housings/0022013037",
+             body_w=10.16, body_h=7.62,
+             pins_left=[
+                 ("GND",  "1", "passive"),
+                 ("DATA", "2", "passive"),
+                 ("VCC",  "3", "passive"),
+             ],
+             pins_right=[])
+
     # -----------------------------------------------------------------------
     # Component placement — all centres on G=2.54 mm grid
     #
@@ -237,8 +251,10 @@ def build_schematic():
     LED_CY              = 90*G          # 228.60
     PROG_LED_CY         = 97*G          # 246.38
     NTC_CY              = 104*G         # 264.16
-    SMALL_CX            = 62*G          # 157.48 — R3 / R4
-    LARGE_CX            = 76*G          # 193.04 — LED1 / NTC1
+    SMALL_CX            = 62*G          # 157.48 — R3 / R4 / R13 / R15
+    LARGE_CX            = 76*G          # 193.04 — LED1 / LED2 / NTC1 / LED6
+    PROBE_LED_CY        = 111*G         # 281.94 — probe health LED row (R15, LED6)
+    PROBE_SENSOR_CY     = 119*G         # 302.26 — DS18B20 sensor row (R14, J6)
 
     # -----------------------------------------------------------------------
     # U1 — 5V->12V boost converter (LM2587-12) + external passives
@@ -421,6 +437,54 @@ def build_schematic():
     s.power("GND",            *p1["2"])                               # right pin
 
     # -----------------------------------------------------------------------
+    # DS18B20 Temperature Probe  (J6 / R14 / R15 / LED6)
+    #
+    # Probe connector J6 (Molex KK-254, 3-pin):
+    #   Pin 1 → GND
+    #   Pin 2 → DS18B20_DATA (1-Wire bus, GPIO19 via J8 left pin 27)
+    #   Pin 3 → +3V3 (power supply to probe)
+    #
+    # R14 (4.7 kΩ): pull-up from DS18B20_DATA to +3V3 (required by 1-Wire spec)
+    #   Left pin  → +3V3
+    #   Right pin → DS18B20_DATA (global_label)
+    #
+    # Probe health indicator LED6 (green 3mm THT, Status_LED_5):
+    #   GPIO20 (J8 right pin 28) → PROBE_LED net → R15 (330 Ω) → PROBE_LED_A → LED6 → GND
+    # -----------------------------------------------------------------------
+    s.text("DS18B20 Temperature Probe  (J6 / R14 / R15 / LED6)",
+           128, 269, size=2.54, bold=True, color=BLUE)
+
+    # R15 — 330 Ω current-limit for probe health LED6 (GPIO20 → LED6 anode)
+    p1 = s.component("Custom:R", "R15", "330R",
+                     "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+                     SMALL_CX, PROBE_LED_CY)
+    s.global_label("PROBE_LED", *p1["1"], shape="input", angle=180)  # left pin
+    s.label("PROBE_LED_A",      *p1["2"])                             # right pin
+
+    # LED6 — green 3mm THT, probe health indicator (Status_LED_5)
+    p1 = s.component("Custom:LED", "LED6", "LED_GREEN",
+                     "LED_THT:LED_D3.0mm",
+                     LARGE_CX, PROBE_LED_CY)
+    s.label("PROBE_LED_A", *p1["1"], angle=180)  # left pin (anode)
+    s.power("GND",         *p1["2"])             # right pin (cathode)
+
+    # R14 — 4.7 kΩ pull-up resistor DS18B20_DATA to +3V3
+    p1 = s.component("Custom:R", "R14", "4k7",
+                     "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+                     SMALL_CX, PROBE_SENSOR_CY)
+    s.power("+3V3",                *p1["1"])                              # left  pin
+    s.global_label("DS18B20_DATA", *p1["2"], shape="bidirectional")       # right pin
+
+    # J6 — Molex KK-254 3-pin temp probe connector
+    J6_CX = LARGE_CX + 8*G   # 213.36 — offset right of R14/LED6 column
+    p1 = s.component("Custom:Conn_1x03", "J6", "Molex_KK254_3pin",
+                     "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical",
+                     J6_CX, PROBE_SENSOR_CY)
+    s.power("GND",                *p1["1"])                                   # pin 1 — GND
+    s.global_label("DS18B20_DATA",*p1["2"], shape="bidirectional", angle=180) # pin 2 — DATA
+    s.power("+3V3",               *p1["3"])                                   # pin 3 — +3V3
+
+    # -----------------------------------------------------------------------
     # J8 — Waveshare ESP32-P4-POE-ETH Interface (2x20 female PinSocket)
     #
     # Power in from Waveshare (OQ-02 RESOLVED — confirmed from schematic):
@@ -456,9 +520,9 @@ def build_schematic():
     s.global_label("FAN3_TACH", *p["15"], shape="input",  angle=180)  # GPIO10
     s.power("+3V3", *p["17"], pin_type="power_out")                   # +3V3 duplicate
     # pins 19,21: NC
-    s.global_label("NTC_ADC",   *p["23"], shape="input",  angle=180)  # GPIO16
+    s.global_label("NTC_ADC",      *p["23"], shape="input",  angle=180)  # GPIO16
     s.power("GND", *p["25"])
-    # pin 27: NC
+    s.global_label("DS18B20_DATA", *p["27"], shape="bidirectional", angle=180)  # GPIO19
     s.power("GND", *p["29"])
     # pin 31: NC
     s.power("GND", *p["33"])
@@ -475,8 +539,9 @@ def build_schematic():
     s.global_label("FAN4_TACH", *p["16"], shape="input")              # GPIO11
     # pin 18: NC
     s.power("GND", *p["20"])
-    s.global_label("PROG_LED", *p["22"], shape="output")             # GPIO15 — prog/OTA LED
-    # pins 24,26,28,30,32,34,36: NC
+    s.global_label("PROG_LED",  *p["22"], shape="output")             # GPIO15 — prog/OTA LED
+    s.global_label("PROBE_LED", *p["28"], shape="output")             # GPIO20 — probe health LED
+    # pins 24,26,30,32,34,36: NC
     s.power("GND", *p["38"])
     s.power("+5V", *p["40"], pin_type="power_out")                    # VBUS — USB +5V
 
