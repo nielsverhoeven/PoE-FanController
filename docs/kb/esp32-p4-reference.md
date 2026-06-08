@@ -200,7 +200,7 @@ Use the maintained fork — original repo is unmaintained for IDF 5.x:
 | RJ45 | Integrated — carries **both** PoE power + Ethernet data | 🟢 HIGH |
 | USB-C | Yes — for firmware flash/debug; fallback power when no PoE | 🟢 HIGH |
 | BOOT/RST buttons | On-board | 🟢 HIGH |
-| GPIO header | 2×20 (40 pins), 2.54 mm pitch, Raspberry Pi HAT layout | 🟢 HIGH |
+| GPIO header | 2×20 (40 pins), 2.54 mm pitch, PICO-2×20 layout | 🟢 HIGH |
 
 ### 9.2 Board Dimensions (MUST VERIFY)
 
@@ -208,7 +208,7 @@ Use the maintained fork — original repo is unmaintained for IDF 5.x:
 |---|---|---|---|
 | Length (L) | **≈ 85.6 mm** | 🟡 MEDIUM | Check wiki "Dimensions" section |
 | Width (W) | **≈ 56 mm** | 🟡 MEDIUM | Check wiki "Dimensions" section |
-| Mounting holes | 4× M2.5 at Raspberry Pi HAT positions | 🟡 MEDIUM | Check mechanical drawing |
+| Mounting holes | 4× M2.5 | 🟡 MEDIUM | Check mechanical drawing |
 
 **Daughter board implication:** Daughter board matches SKU 32088 in LENGTH; wider in WIDTH to place fan headers on the side edge (exact width TBD from architecture decision).
 
@@ -217,13 +217,14 @@ Use the maintained fork — original repo is unmaintained for IDF 5.x:
 | Pin(s) | Signal | Voltage | Notes |
 |---|---|---|---|
 | 1, 17 | 3.3V | 3.3V | From onboard LDO; safe for pull-ups and NTC divider |
-| 2, 4 | **5V** | **5V** | From onboard PoE PD module (most likely) — **MUST VERIFY** |
-| 6, 9, 14, 20, 25, 30, 34, 39 | GND | 0V | Secondary common GND |
+| **39** | **5V (VSYS)** | **5V** | PoE module output — main 5V rail — confirmed from schematic |
+| **40** | **5V (VBUS)** | **5V** | USB 5V — confirmed from schematic |
+| 6, 9, 14, 20, 25, 30, 34, 38 | GND | 0V | Secondary common GND |
 | All others | GPIO (3.3V logic) | 3.3V | ESP32-P4 GPIO signals |
 
-> ⚠️ **V2 verification required (BLOCKING):** Confirm that header pins 2 & 4 carry 5V (not 12V, not raw PoE).
-> If confirmed as 5V: daughter board MUST include a 5V→12V boost converter for 12V fans.
-> If confirmed as 12V: daughter board fans can be powered directly (simpler design).
+> ✅ **Verified:** +5V is on header pins 39 (VSYS) and 40 (VBUS), confirmed from Waveshare
+> schematic Interface section. **Pins 2 and 4 are NOT power pins on this board.**
+> Daughter board boost converter must source from pin 39 (VSYS).
 
 ### 9.4 Header Pinout — GPIO Assignments (Unverified)
 

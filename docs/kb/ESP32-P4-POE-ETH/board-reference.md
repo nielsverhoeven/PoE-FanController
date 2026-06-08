@@ -23,7 +23,7 @@
 | RJ45 | Single port — carries **both** PoE power + Ethernet data | 🟢 HIGH |
 | USB-C | Type-C for power, programming, and debugging | 🟢 HIGH |
 | BOOT/RST buttons | On-board | 🟢 HIGH |
-| GPIO header | 2×20 (40 pins), 2.54 mm pitch, Raspberry Pi layout | 🟢 HIGH |
+| GPIO header | 2×20 (40 pins), 2.54 mm pitch, PICO-2×20 layout | 🟢 HIGH |
 | Exposed GPIOs | **27 programmable GPIOs** on header (13 pins are power/GND) | 🟢 HIGH |
 | TF card | SDIO 3.0 interface | 🟢 HIGH |
 | Audio | SMD microphone + MX1.25 2P speaker connector | 🟢 HIGH |
@@ -89,7 +89,7 @@ GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52
 | Row 1 centre (odd pins) | 2.81 mm from one long edge | 🟢 HIGH |
 | Row 2 centre (even pins) | 18.19 mm from same long edge (= 2.81 mm from other edge) | 🟢 HIGH |
 | First pin offset | **4.67 mm** from right short edge (in landscape orientation) | 🟢 HIGH — shown in dimension drawing |
-| Mounting holes | 4× M2.5, Raspberry Pi HAT pattern | 🟡 MEDIUM |
+| Mounting holes | 4× M2.5 | 🟡 MEDIUM |
 
 > ⚠️ **Row spacing is 15.38 mm, NOT 2.81 mm.**
 > The 2.81 mm dimension in the drawing is the **edge-to-pin-centre distance** (how far each row is from the board edge).
@@ -114,7 +114,7 @@ GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52
 > text). Table below compiled from: docs page description + ESP32-P4 TRM + Waveshare examples.
 > **Verify against the schematic PDF in this folder before firmware commit.**
 
-The header is 2×20 (40 pins), Raspberry Pi HAT layout:
+The header is 2×20 (40 pins), PICO-2×20 layout (labeled "PICO-2*20 IO" on the Waveshare schematic):
 - Odd pins (1,3,5,...,39): left column
 - Even pins (2,4,6,...,40): right column
 - Pin 1: top-left
@@ -124,12 +124,13 @@ The header is 2×20 (40 pins), Raspberry Pi HAT layout:
 | Pin(s) | Signal | Voltage | Current limit | Confidence |
 |---|---|---|---|---|
 | 1, 17 | +3.3V | 3.3V | ~800 mA total (shared with board) | 🟡 MEDIUM |
-| 2, 4 | **+5V** | **5V** | From PoE module — ~2–3A (TBC) | 🟡 MEDIUM |
-| 6, 9, 14, 20, 25, 30, 34, 39 | GND | 0V | — | 🟢 HIGH (RPi standard) |
+| **39** | **+5V (VSYS)** | **5V** | PoE module output — main 5V rail | 🟢 HIGH — confirmed from schematic |
+| **40** | **+5V (VBUS)** | **5V** | USB 5V — secondary source | 🟢 HIGH — confirmed from schematic |
+| 6, 9, 14, 20, 25, 30, 34, 38 | GND | 0V | — | 🟢 HIGH |
 
-> ⚠️ **BLOCKING verification required:** Confirm exact +5V current available on header pins 2/4
-> from the onboard PoE module. The daughter board U_BOOST (5V→12V) draws up to ~2A from these pins.
-> Check schematic PDF `ESP32-P4-ETH-datasheet.pdf` in this folder.
+> ✅ **OQ-02 RESOLVED:** +5V is available on header pins 39 (VSYS) and 40 (VBUS), confirmed from
+> Waveshare ESP32-P4-ETH schematic Interface section. Pins 2 and 4 are **NOT** power pins on this board.
+> Daughter board U_BOOST (+5V→12V) must draw from pin 39 (VSYS).
 
 ### 4.2 GPIO signal assignments used by this project
 
@@ -269,7 +270,7 @@ build_flags =
 | ID | Question | Blocking? | How to resolve |
 |---|---|---|---|
 | OQ-01 | ~~Exact board dimensions L × W mm~~ | ✅ RESOLVED: 78.00 × 21.00 mm | From dimension drawing |
-| OQ-02 | Exact voltage and max current on header pins 2,4 (+5V?) | ✅ Yes (U_BOOST sizing) | Open schematic PDF in this folder |
+| OQ-02 | ~~Exact voltage and max current on header pins 2,4 (+5V?)~~ | ✅ RESOLVED: +5V is on pins 39 (VSYS) and 40 (VBUS) — pins 2,4 are NOT power | Confirmed from Waveshare schematic Interface section |
 | OQ-03 | PHY address (ADDR0/1 pins on LAN8720A) | Yes (firmware) | Open schematic PDF |
 | OQ-04 | GPIO physical pin positions on 40-pin header (verify pin 3=GPIO2, etc.) | Yes (schematic) | Open pinout image from wiki or schematic PDF |
 | OQ-05 | Whether GPIO2 drives onboard LED (conflict with STATUS_LED use) | Yes | Check schematic |

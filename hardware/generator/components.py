@@ -11,6 +11,7 @@ header) that receives +5V and GPIO signals from the Waveshare board's male heade
 
 Daughter board provides:
   - J8      2x20 female header (PinSocket_2x20_P2.54mm_Vertical) receiving +5V
+            on pins 39 (VSYS, PoE PD output) and 40 (VBUS, USB) — confirmed OQ-02
             and GPIO signals from Waveshare ESP32-P4-POE-ETH (SKU 32088)
    # U1 (formerly U_BOOST) — 5V->12V boost converter (TI LM2587-12, TO-220-3)
   - J2-J5   4-pin fan headers (12V PWM, side-edge placement)
@@ -19,7 +20,7 @@ Daughter board provides:
   - R3/LED1 status LED circuit (GPIO2 via J8)
 
 Power chain:
-  J8 pins 2,4 (+5V from Waveshare ESP32-P4-POE-ETH PoE PD module)
+  J8 pins 39 (VSYS, PoE PD output), 40 (VBUS, USB) — +5V to U_BOOST VIN
     # U1 (LM2587-12, 5V -> 12V boost converter)
       -> +12V rail -> fans J2-J5
   J8 pins 1,17 (+3V3 from Waveshare on-board LDO)
@@ -113,7 +114,8 @@ def build_schematic():
     # Board dimensions confirmed: 78.00 x 21.00 mm; pin pitch 2.54mm, row pitch 2.81mm.
     # Custom footprint: Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical (in Custom.pretty)
     #
-    # OQ-02 PENDING: Confirm +5V on pins 2,4 from Waveshare SKU 32088 schematic.
+    # OQ-02 RESOLVED: +5V is on pins 39 (VSYS, PoE PD output) and 40 (VBUS, USB).
+    #                  Pins 2 and 4 are NOT power pins — confirmed from Waveshare schematic.
     # OQ-03 PENDING: Confirm GPIO4-7/8-11/16/2 positions on SKU 32088 header.
     # Row spacing: 15.38mm = 21.00mm board width - 2x2.81mm edge offsets (see P-HW-04)
     # body_w = 10 * 2.54 = 25.4 mm,  body_h = 20 * 2.54 = 50.8 mm
@@ -142,12 +144,12 @@ def build_schematic():
                  ("GND",       "33", "passive"),
                  ("NC",        "35", "no_connect"),    # GPIO28 ETH_MDIO (NC)
                  ("NC",        "37", "no_connect"),    # GPIO29
-                 ("NC",        "39", "no_connect"),    # VSYS
+                 ("+5V",       "39", "power_out"),    # VSYS — +5V PoE PD output (confirmed OQ-02)
              ],
              pins_right=[
                  # Even pads 2,4,6,...,40  (top-to-bottom)
-                 ("+5V",       "2",  "power_out"),     # +5V from Waveshare PoE PD
-                 ("+5V",       "4",  "power_out"),     # +5V duplicate
+                 ("NC",        "2",  "no_connect"),    # NOT a power pin (confirmed OQ-02)
+                 ("NC",        "4",  "no_connect"),    # NOT a power pin (confirmed OQ-02)
                  ("GND",       "6",  "passive"),
                  ("FAN2_PWM",  "8",  "output"),        # GPIO5 LEDC CH1
                  ("FAN3_PWM",  "10", "output"),        # GPIO6 LEDC CH2
@@ -165,7 +167,7 @@ def build_schematic():
                  ("NC",        "34", "no_connect"),    # GPIO27
                  ("NC",        "36", "no_connect"),    # 3V3_EN/RUN
                  ("GND",       "38", "passive"),
-                 ("NC",        "40", "no_connect"),    # VBUS
+                 ("+5V",       "40", "power_out"),    # VBUS — +5V USB source (confirmed OQ-02)
              ])
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)
@@ -421,8 +423,10 @@ def build_schematic():
     # -----------------------------------------------------------------------
     # J8 — Waveshare ESP32-P4-POE-ETH Interface (2x20 female PinSocket)
     #
-    # Power in from Waveshare (right pins, angle=0):
-    #   pins 2,4 -> +5V -> U_BOOST VIN
+    # Power in from Waveshare (OQ-02 RESOLVED — confirmed from schematic):
+    #   pin 39 (VSYS) -> +5V -> U_BOOST VIN   (PoE PD main 5V output)
+    #   pin 40 (VBUS) -> +5V duplicate         (USB 5V source)
+    #   pins 2,4 are NOT power pins — leave NC
     #   pins 6,14,20,38 + left pins 9,25,29,33 -> GND
     #   pins 1,17 (left) -> +3V3 -> TACH pull-ups + NTC divider
     #
@@ -458,11 +462,11 @@ def build_schematic():
     s.power("GND", *p["29"])
     # pin 31: NC
     s.power("GND", *p["33"])
-    # pins 35,37,39: NC
+    # pins 35,37: NC
+    s.power("+5V", *p["39"], pin_type="power_out")                    # VSYS — PoE PD +5V
 
     # --- Right pins (even) — use angle=0 for global_labels ---
-    s.power("+5V", *p["2"])                                           # +5V from Waveshare PoE
-    s.power("+5V", *p["4"])                                           # +5V duplicate
+    # pins 2,4: NC (NOT power pins — confirmed OQ-02)
     s.power("GND", *p["6"])
     s.global_label("FAN2_PWM",  *p["8"],  shape="output")             # GPIO5
     s.global_label("FAN3_PWM",  *p["10"], shape="output")             # GPIO6
@@ -474,6 +478,6 @@ def build_schematic():
     s.global_label("PROG_LED", *p["22"], shape="output")             # GPIO15 — prog/OTA LED
     # pins 24,26,28,30,32,34,36: NC
     s.power("GND", *p["38"])
-    # pin 40: NC
+    s.power("+5V", *p["40"], pin_type="power_out")                    # VBUS — USB +5V
 
     return s
