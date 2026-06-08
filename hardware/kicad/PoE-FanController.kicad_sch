@@ -498,14 +498,14 @@
     )
   )
 
-  (text "5V -> 12V Boost  (U_BOOST)" (at 156.2100 54.6100 0)
+  (text "5V -> 12V Boost  (U1 / LM2587-12)" (at 156.2100 54.6100 0)
     (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "00000001-0001-0001-0001-000000000001"))
 
   (symbol (lib_id "Custom:Boost_Converter") (at 203.2000 71.1200 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
     (uuid "00000005-0005-0005-0005-000000000005")
-    (property "Reference" "U_BOOST"
+    (property "Reference" "U1"
       (at 204.4700 69.8500 0)
       (effects (font (size 1.27 1.27))))
     (property "Value" "LM2587-12"
@@ -522,7 +522,7 @@
     (pin "1" (uuid "00000002-0002-0002-0002-000000000002"))
     (pin "2" (uuid "00000003-0003-0003-0003-000000000003"))
     (pin "3" (uuid "00000004-0004-0004-0004-000000000004"))
-    (instances (project "PoE-FanController" (path "/" (reference "U_BOOST") (unit 1))))
+    (instances (project "PoE-FanController" (path "/" (reference "U1") (unit 1))))
   )
 
   (symbol (lib_id "power:+5V") (at 195.5800 68.5800 0)

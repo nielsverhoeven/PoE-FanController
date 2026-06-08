@@ -2356,7 +2356,7 @@
 		(at 30 6)
 		(descr "TO-220-3, Vertical, RM 2.54mm, see https://www.vishay.com/docs/66542/to-220-1.pdf")
 		(tags "TO-220-3 Vertical RM 2.54mm")
-		(property "Reference" "U_BOOST"
+		(property "Reference" "U1"
 			(at 2.54 -4.1 0)
 			(layer "F.SilkS")
 			(uuid "5e0dc704-9365-4d85-8087-e4d6e712b508")

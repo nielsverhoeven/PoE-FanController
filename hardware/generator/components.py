@@ -12,7 +12,7 @@ header) that receives +5V and GPIO signals from the Waveshare board's male heade
 Daughter board provides:
   - J8      2x20 female header (PinSocket_2x20_P2.54mm_Vertical) receiving +5V
             and GPIO signals from Waveshare ESP32-P4-POE-ETH (SKU 32088)
-  - U_BOOST 5V->12V boost converter (TI LM2587-12, TO-220-3)
+   # U1 (formerly U_BOOST) — 5V->12V boost converter (TI LM2587-12, TO-220-3)
   - J2-J5   4-pin fan headers (12V PWM, side-edge placement)
   - R5-R8   TACH pull-up resistors (10kOhm to 3.3V from Waveshare via J8)
   - R4/NTC1 NTC temperature sensing (10kOhm NTC + 10kOhm divider)
@@ -20,7 +20,7 @@ Daughter board provides:
 
 Power chain:
   J8 pins 2,4 (+5V from Waveshare ESP32-P4-POE-ETH PoE PD module)
-    -> U_BOOST (TI LM2587-12, 5V -> 12V boost converter)
+    # U1 (LM2587-12, 5V -> 12V boost converter)
       -> +12V rail -> fans J2-J5
   J8 pins 1,17 (+3V3 from Waveshare on-board LDO)
     -> TACH pull-ups R5-R8
@@ -28,7 +28,7 @@ Power chain:
 
 Schematic layout (A2 portrait, 420x594mm):
   Column A (x~91):   J8  Waveshare interface header (2x20, 50.8mm tall body)
-  Column B (x~203):  U_BOOST 5V->12V converter
+  Column B (x~203):  U1 (LM2587-12) 5V->12V converter
   Column C (x~279):  TACH pull-up resistors R5-R8
   Column D (x~330):  Fan headers J2-J5
 
@@ -203,12 +203,13 @@ def build_schematic():
     LARGE_CX            = 76*G          # 193.04 — LED1 / NTC1
 
     # -----------------------------------------------------------------------
-    # U_BOOST — 5V->12V boost converter
+    # U1 — 5V->12V boost converter (LM2587-12)
     # Input:  +5V net (from J8 pins 2,4)
     # Output: +12V net (drives all four fan headers J2-J5)
+    # Reference U1 follows KiCad annotation convention (U<number>).
     # -----------------------------------------------------------------------
-    s.text("5V -> 12V Boost  (U_BOOST)", 156, 55, size=2.54, bold=True, color=BLUE)
-    p = s.component("Custom:Boost_Converter", "U_BOOST", "LM2587-12",
+    s.text("5V -> 12V Boost  (U1 / LM2587-12)", 156, 55, size=2.54, bold=True, color=BLUE)
+    p = s.component("Custom:Boost_Converter", "U1", "LM2587-12",
                     "Package_TO_SOT_THT:TO-220-3_Vertical",
                     BOOST_CX, BOOST_CY)
     s.power("+5V",  *p["1"])                      # left  pin 1 — VIN
