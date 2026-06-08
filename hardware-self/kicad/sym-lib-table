@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name "Custom")(type "KiCad")(uri "${KIPRJMOD}/symbols/Custom.kicad_sym")(options "")(descr "Custom project symbols for PoE FanController daughter board"))
-)
