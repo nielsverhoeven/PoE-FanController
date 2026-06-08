@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 1.3.0 | Last amended: 2026-06-07 -->
+<!-- Version: 2.0.0 | Last amended: 2026-06-08 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -44,17 +44,23 @@ All entries in this table are **locked**. Changes require a MINOR or MAJOR amend
 
 These component selections are locked. Substitutions require a MAJOR amendment.
 
+> **v2.0.0 Architecture note:** The custom PCB is now a **carrier/HAT board** for the
+> **Waveshare ESP32-P4-ETH** development board (SKU 32086). The Waveshare module (mounted on J8)
+> integrates the ESP32-P4NRW32 SoC, LAN8720A PHY, CH343P USB bridge, USB-C, RESET/BOOT buttons,
+> 32 MB flash, and 32 MB stacked PSRAM. Components previously discrete on the custom PCB
+> (U3, U4, U5, J6, SW1, SW2, R1, R2, R9–R15, C3–C11) have been removed as they are now
+> provided by the Waveshare board.
+
 | Ref | Value / MPN | Package | Role |
 |---|---|---|---|
 | U1 | Ag9905M (Silvertel) | 2×4 pin header (2.54 mm) | PoE+ 802.3at PD module — provides isolated 12 V / 1.67 A output |
-| U2 | LM2596S-3.3/NOPB (TI) | D2PAK (TO-263-5) | Fixed 3.3 V, 3 A buck regulator (12 V → 3.3 V for logic) |
-| U3 | ESP32-WROOM-32D (Espressif) | RF module | Main MCU — dual-core, WiFi, BT, 4 MB flash |
-| U4 | CH340C (WCH) | SOIC-16 | USB-UART bridge with internal oscillator (no external crystal) |
-| J1 | 615008144521 (Würth) | RJ45 horizontal | PoE input with integrated magnetics and shield |
+| U2 | LM2596S-5.0/NOPB (TI) | D2PAK (TO-263-5) | Fixed 5.0 V, 3 A buck regulator (12 V → 5 V for Waveshare board) |
+| J1 | 615008144521 (Würth) | RJ45 horizontal | PoE **power** input only — MDI secondary winding is NC; Waveshare's own RJ45 handles data |
 | J2–J5 | 47053-1000 (Molex) | 4-pin 2.54 mm | 12 V PWM fan headers (4-wire Intel spec) |
-| J6 | USB4085-GF-A (GCT) | USB-C through-hole | USB-C debug / programming receptacle |
+| J8 | Sullins PREC020DAAN-RC **or** Würth 61304021821 | 2×20 pin header, 2.54 mm pitch, through-hole | HAT header — carrier PCB ↔ Waveshare ESP32-P4-ETH; Waveshare's female socket mates on top |
 | L1 | SRR5028-680Y (Bourns) 68 µH | Axial THT | LM2596 buck inductor |
 | D1 | 1N5822 | DO-201AD THT | LM2596 Schottky catch diode (3 A / 40 V) |
+| D2 | 1N5822 | DO-201AD THT | USB back-feed protection Schottky — series between LM2596 +5V output and J8 +5V_HAT rail; prevents back-feeding PC USB host when Waveshare is programmed via USB-C while PoE is live |
 
 ### 2.3 Firmware
 
@@ -70,7 +76,7 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 | Temperature sensing | ADC + Steinhart-Hart | — | NTC1 10 kΩ B=3950 on GPIO32 |
 | Persistent config | NVS (Non-Volatile Storage) | — | Survives power cycles |
 | OTA updates | ArduinoOTA | — | Over local WiFi only |
-| Serial debug | UART0 (GPIO1/GPIO3) | 115200 baud | Via U4 CH340C → J6 USB-C |
+| Serial debug | UART0 (GPIO38/GPIO39) | 115200 baud | Via Waveshare ESP32-P4-ETH CH343P → USB-C (on Waveshare board); J7 on carrier provides alternative bare-UART access |
 
 ### 2.4 Web UI
 
@@ -97,7 +103,7 @@ No component footprint may have pads or courtyard on B.Cu.
 This rule is absolute: it simplifies hand assembly, visual inspection, and conformal coating.
 
 **P-HW-03 — Single board-edge connector rule (CRITICAL).**
-All external connectors **(J1, J2–J5, J6)** MUST be placed on the **same board edge**.
+All primary external connectors **(J1, J2–J5)** MUST be placed on the **same board edge**.
 The designated edge is the **top edge at y ≈ 5 mm**.
 This ensures all cable connections are accessible from one side and prevents cable routing conflicts.
 
@@ -108,11 +114,22 @@ This ensures all cable connections are accessible from one side and prevents cab
 >    user-facing, or present on production labels.
 > 2. J7 has no locked MPN (§2.2 does not list it); no BOM amendment is triggered.
 > 3. J7 physically cannot fit on the top-edge secondary rail: the 53.5 mm secondary rail is
->    fully consumed by J2–J5 + J6 (51.64 mm used, 1.86 mm margin), leaving a 5.76 mm
->    shortfall for J7's 7.62 mm body width.
+>    fully consumed by J2–J5 (previously also J6 — now removed), leaving insufficient margin for J7.
 > 4. J7 is entirely within the secondary (SELV) domain (x > 38 mm); its right-edge
 >    position introduces no isolation risk.
+> 5. J7 global labels (ESP_TX/ESP_RX) connect via J8 to Waveshare UART0 (GPIO38/GPIO39 → CH343P),
+>    providing an alternative bare-UART bench debug access point.
 > Amendment: v1.0.1, 2026-06-06 — architect, feature pcb-connector-edge.
+
+> **Documented exception — J8 (2×20 HAT header):**
+> J8 (`Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical`) is placed **centrally on
+> the PCB** (not on a board edge) and faces **downward** toward the Waveshare ESP32-P4-ETH board
+> which mounts HAT-style on top.
+> 1. J8 is a board-to-board mating header, not an external cable connector; board-edge placement
+>    is not applicable.
+> 2. Central placement is required to align with the Waveshare module's mechanical footprint.
+> 3. J8 is entirely within the secondary (SELV) domain; it introduces no isolation concern.
+> Amendment: v2.0.0, 2026-06-08 — architect + poe.expert + esp32.expert + kicad.expert.
 
 **P-HW-04 — Fixed board outline.**
 Board outline is 90 × 70 mm on Edge.Cuts. This must not change without a MAJOR amendment affecting fabrication quotes.
@@ -153,18 +170,19 @@ Firmware is structured into the following independent modules. Each module owns 
 **P-FW-02 — Peripheral ownership.**
 Each ESP32 peripheral is owned by exactly one firmware module. No peripheral may be accessed from two modules without a documented interface.
 
-| ESP32 Peripheral | Owner module | Pins |
-|---|---|---|
-| LEDC channels 0–3 | `fan` | GPIO25 (FAN1), GPIO26 (FAN2), GPIO27 (FAN3), GPIO14 (FAN4) |
-| GPIO interrupts (TACH) | `fan` | GPIO34, GPIO35, GPIO36, GPIO39 |
-| ADC1 CH4 | `temp` | GPIO32 (NTC) |
-| UART0 | `main` / debug | GPIO1 (TXD0), GPIO3 (RXD0) |
-| GPIO output | `main` | GPIO2 (status LED) |
-| GPIO input | `main` | GPIO0 (BOOT), EN (RESET via R1/SW1) |
-| LittleFS | `web`, `config` | — |
-| NVS | `config` | — |
-| WiFi / TCP stack | `web`, `ota` | — |
-| I2C (SDA/SCL) | reserved | GPIO21, GPIO22 (not populated v0.1) |
+All GPIO assignments are routed through J8 (2×20 HAT header) to the Waveshare ESP32-P4-ETH board unless otherwise noted.
+
+| ESP32 Peripheral | Owner module | Pins | Notes |
+|---|---|---|---|
+| LEDC channels 0–3 | `fan` | GPIO4 (FAN1), GPIO5 (FAN2), GPIO6 (FAN3), GPIO7 (FAN4) | Via J8 |
+| GPIO interrupts (TACH) | `fan` | GPIO8, GPIO9, GPIO10, GPIO11 | Via J8 |
+| ADC (SAR ADC) | `temp` | GPIO16 (NTC) | Via J8 |
+| UART0 | `main` / debug | GPIO38 (TXD0), GPIO39 (RXD0) | Via Waveshare CH343P USB-C; also accessible via J7 bare-UART header |
+| GPIO output | `main` | GPIO2 (status LED) | Via J8 |
+| LittleFS | `web`, `config` | — | |
+| NVS | `config` | — | |
+| Ethernet MAC/RMII | `main` | GPIO32–37 (fixed), GPIO50 (REF_CLK), GPIO28 (MDIO), GPIO31 (MDC) | Internally connected to Waveshare's LAN8720A; not routed to J8 |
+| I2C (SDA/SCL) | reserved | GPIO21, GPIO22 | Available on J8 if needed |
 
 **P-FW-03 — PWM specification.**
 Fan PWM frequency is **25 kHz**, 8-bit resolution. This must not change; 4-wire PC fans require 21–28 kHz per Intel fan spec.
@@ -185,33 +203,50 @@ Default PWM duty cycle at boot must be **100 %** (full speed) until configuratio
 [Ethernet cable — 802.3at PoE+]
         │  37–57 V DC (PoE pairs)
         ▼
-   J1  RJ45 (Würth 615008144521)
-        │  with integrated magnetics
+   J1  RJ45 (Würth 615008144521) — PoE power only; MDI secondary NC
+        │  PoE centre-tap pairs
         ▼
    U1  Ag9905M PoE+ PD module
         │  Isolated 12 V DC, max 1.67 A (20 W)
-        ├──────────────────────────────► J2–J5  Fan headers (+12 V, up to 4 × 0.25 A)
+        ├──────────────────────────────► J2–J5  Fan headers (+12 V)
         │
         ▼
-   U2  LM2596S-3.3 buck regulator          (12 V → 3.3 V, 3 A)
-        │  3.3 V DC
-        ├──► U3 ESP32-WROOM-32
-        ├──► U4 CH340C
-        └──► Decoupling network (C3–C7)
+   U2  LM2596S-5.0/NOPB buck regulator  (12 V → 5 V, 3 A rated)
+        │  +5V
+        ▼
+   D2  1N5822 Schottky diode (USB back-feed protection, Vf ≈ 0.35 V)
+        │  +5V_HAT (~4.65 V)
+        ▼
+   J8  2×20 HAT header → Waveshare ESP32-P4-ETH board
+        │  (internal 5V→3.3V LDO on Waveshare)
+        ├──► +3V3 back to carrier via J8 pin 1/17
+        │     └──► R5–R8 TACH pull-ups, R4 NTC divider
+        └──► ESP32-P4NRW32 + LAN8720A + PSRAM + Flash
 ```
+
+> **PSE Note:** The PoE switch port connected to J1 must be set to **"force PoE"** mode
+> (power regardless of link state), because J1's MDI secondary is NC and no 802.3 Ethernet
+> link is visible on that port. PoE power extraction via J1 centre-tap pairs is electrically
+> independent of the MDI secondary; leaving it NC creates no isolation concern. Ethernet
+> data connectivity is provided by the Waveshare board's own built-in RJ45 on a separate cable.
 
 ### 5.2 Power Budget
 
-| Consumer | Rail | Max current | Max power |
+| Consumer | Rail | Current | Power |
 |---|---|---|---|
-| 4 × PWM fan (max) | 12 V | 4 × 0.25 A = 1.0 A | 12.0 W |
-| LM2596 losses (est.) | — | — | ~1.5 W |
-| ESP32-WROOM-32 (WiFi peak) | 3.3 V | 0.35 A | 1.15 W |
-| CH340C + logic | 3.3 V | 0.10 A | 0.33 W |
+| 4 × PWM fan (max) | 12 V | ≤1.0 A | ≤12.0 W |
+| LM2596S-5.0 conversion loss (~88% eff.) | 12→5V | — | ~0.55 W |
+| D2 diode drop loss | — | — | ~0.35 W |
+| Waveshare ESP32-P4-ETH board | 5V (via J8) | ~800 mA | ~4.0 W |
+| NTC + TACH pull-ups (passive) | 3.3V | <5 mA | ~0.02 W |
 | Ag9905M losses (est.) | — | — | ~2.0 W |
-| **Total** | | | **~17 W** |
-| **802.3at Class 4 budget** | | | **25.5 W** |
-| **Margin** | | | **~8.5 W** |
+| **Total** | | | **~18.9 W** |
+| **802.3at Class 4 budget (Ag9905M)** | | | **20.0 W** |
+| **Margin** | | | **~1.1 W (5.5%)** |
+
+> **⚠ Tight margin warning:** The 5.5% power margin is significantly tighter than the previous
+> design (v0.2 had ~8.5 W margin). The Ag9905M's 20 W (1.67 A × 12 V) output is the hard cap.
+> **Do not add further 12 V loads without a full power budget re-evaluation and poe.expert consultation.**
 
 ### 5.3 PoE Standards
 
@@ -383,11 +418,18 @@ The PlatformIO native test suite must pass in the GitHub Actions CI pipeline on 
 The following sequence must be completed (and results logged) for every new board revision:
 
 1. **No-load power test**: Measure Ag9905M output → expect 12.0 ± 0.3 V DC.
-2. **3.3 V rail test**: Measure LM2596 output → expect 3.30 ± 0.05 V DC.
-3. **USB enumeration**: Connect J6 USB-C → CH340C must enumerate as a serial device.
-4. **Firmware flash**: `pio run -e esp32dev --target upload` via CH340C at 115200 baud.
-5. **Fan PWM test**: Drive one fan at 50 % duty; confirm audible speed change and TACH signal.
-6. **Full-load thermal test**: All 4 fans at 100 % for 10 min; check component temperatures.
+2. **5V rail test**: Measure LM2596S-5.0 output (before D2) → expect 5.0 ± 0.2 V DC.
+3. **5V_HAT rail test**: Measure J8 pin 2 (after D2) → expect ≥ 4.5 V DC.
+4. **Seat Waveshare board**: Plug Waveshare ESP32-P4-ETH onto J8.
+5. **Waveshare power test**: Confirm Waveshare's status LED illuminates.
+6. **3.3V rail test**: Measure J8 pin 1 → expect 3.30 ± 0.05 V DC from Waveshare's internal LDO.
+7. **Firmware flash**: Connect USB-C to Waveshare board → CH343P enumerates → `pio run -e esp32-p4-eth --target upload`.
+8. **Ethernet connectivity**: Connect Ethernet cable to Waveshare's RJ45 → ping `poe-fanctrl.local`.
+9. **Fan PWM test**: Drive one fan at 50% duty; confirm audible speed change and TACH signal.
+10. **Full-load thermal test**: All 4 fans at 100% for 10 min; check power consumption vs 20 W budget.
+
+> **PSE Note:** The PoE switch port connected to J1 must be set to **"force PoE"** mode
+> (not link-dependent) because J1's MDI secondary is NC and no 802.3 link is visible on that port.
 
 ### 8.5 CI Gate Principles
 
@@ -465,3 +507,4 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | 1.1.0 | 2026-06-06 | MINOR — P-CI-01 (new): ERC and DRC must be enforced in CI for every PR touching `hardware/`; zero-error ERC, zero-above-baseline DRC; graceful-skip fallbacks forbidden; job must fail if KiCad environment is unavailable. Feature: ci-fixes (#33). | architect |
 | 1.1.0 | 2026-06-06 | MINOR — P-CI-02 (new): Release workflow must DRC-gate Gerber export with zero-tolerance threshold independent of PR gate; release must produce GitHub Release with Gerbers, drill file, BOM CSV, and schematic PDF. Feature: ci-fixes (#33). | architect |
 | 1.3.0 | 2026-06-07 | MINOR-001 — generator refactored to `hardware/generator/` package; PCB layout transitioned to KiCad GUI. Affected: §2.1 (schematic source of truth row updated to package reference; `.kicad_pcb` explicitly excluded from generator scope); P-HW-05 (scoped to `.kicad_sch` only; package reference); P-KI-04 (scoped to `.kicad_sch` only; thin-wrapper pattern; rule renamed to reflect package); §7A preamble (package reference). New: P-KI-07 — `.kicad_pcb` is KiCad GUI territory; no script may write to or regenerate it; CI generator step regenerates `.kicad_sch` and `bom.csv` only. Reason: monolithic generator impedes PCB routing which requires KiCad interactive router. Status: APPROVED (user-initiated). Feature: generator-refactor (#62). | architect |
+| 2.0.0 | 2026-06-08 | MAJOR — Waveshare ESP32-P4-ETH carrier board redesign. Custom PCB transitions from standalone design to carrier/HAT board for Waveshare ESP32-P4-ETH (SKU 32086). **Removed components**: U3 (ESP32-P4-MINI-1U-N16R8), U4 (CH340C), U5 (LAN8720A-CP-TR), J6 (USB4085-GF-A USB-C), SW1/SW2 (RESET/BOOT), R1/R2 (EN/BOOT pull-ups), R9/R10 (USB-C CC resistors), R11–R15 (LAN8720A passives), C3–C11 (decoupling caps) — all now integrated on Waveshare board. **Added**: J8 (Sullins PREC020DAAN-RC / Würth 61304021821, 2×20 HAT header), D2 (1N5822 USB back-feed protection Schottky). **U2 changed**: LM2596S-3.3/NOPB → LM2596S-5.0/NOPB (same D2PAK package, drop-in; 12V→5V for Waveshare). **J1 role clarified**: PoE power only; MDI secondary NC; PSE must use force-PoE mode. **Power chain updated**: 12V → LM2596S-5.0 → +5V → D2 → +5V_HAT (~4.65V) → J8 → Waveshare (internal 3.3V LDO) → +3V3 back to carrier for TACH pull-ups and NTC divider. **GPIO assignments unchanged** (GPIO4–11, GPIO16, GPIO2 all available on Waveshare J8 header). **§2.3 Serial debug** updated: UART0 GPIO38/GPIO39 via Waveshare CH343P. **§4 P-FW-02** peripheral table replaced with ESP32-P4 assignments. **§5.1 power chain** and **§5.2 budget** replaced (new total ~18.9W, margin ~1.1W vs 20W hard cap — tighter than prior design). **§8.4 bring-up checklist** updated for carrier-board assembly sequence. **§3.1 P-HW-03** J8 placement exception documented. PlatformIO env renamed `esp32-p4` → `esp32-p4-eth`; board JSON: `firmware/boards/waveshare-esp32-p4-eth.json` (32MB flash, 32MB PSRAM). All expert consultations completed: poe.expert (Decision 1: J1 MDI NC, Decision 2: D2 protection + power chain), esp32.expert (Decision 4: GPIO unchanged, Decision 6: board JSON), kicad.expert (Decision 3: J8 MPN/footprint). | architect + poe.expert + esp32.expert + kicad.expert |
