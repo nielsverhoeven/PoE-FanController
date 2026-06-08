@@ -66,6 +66,16 @@ POWER_NETS = {
     # C2: output filter cap — +12V / GND
     ('C2', '1'): '+12V',
     ('C2', '2'): 'GND',
+    # Per-fan power indicator resistors R9-R12: pin 1 → +12V
+    ('R9',  '1'): '+12V',
+    ('R10', '1'): '+12V',
+    ('R11', '1'): '+12V',
+    ('R12', '1'): '+12V',
+    # Per-fan power indicator LEDs D2-D5: pin 2 (cathode) → GND
+    ('D2', '2'): 'GND',
+    ('D3', '2'): 'GND',
+    ('D4', '2'): 'GND',
+    ('D5', '2'): 'GND',
 }
 
 # ── Step 1: Parse netlist → {(ref, pin): net_name} ──────────────────────────

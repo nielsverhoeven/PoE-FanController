@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\repos-github\\PoE-FanController\\hardware\\kicad\\PoE-FanController.kicad_sch")
-		(date "2026-06-08T17:09:49")
+		(date "2026-06-08T17:54:44")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -178,6 +178,190 @@
 				(tstamps "/")
 			)
 			(tstamps "0000001f-001f-001f-001f-00000000001f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D2")
+			(value "LED_RED")
+			(footprint "LED_SMD:LED_0805_2012Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED_SMD")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000078-0078-0078-0078-000000000078")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D3")
+			(value "LED_RED")
+			(footprint "LED_SMD:LED_0805_2012Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED_SMD")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000084-0084-0084-0084-000000000084")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D4")
+			(value "LED_RED")
+			(footprint "LED_SMD:LED_0805_2012Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED_SMD")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000090-0090-0090-0090-000000000090")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D5")
+			(value "LED_RED")
+			(footprint "LED_SMD:LED_0805_2012Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED_SMD")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000009c-009c-009c-009c-00000000009c")
 			(units
 				(unit
 					(name "A")
@@ -431,7 +615,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000b1-00b1-00b1-00b1-0000000000b1")
+			(tstamps "000000e2-00e2-00e2-00e2-0000000000e2")
 			(units
 				(unit
 					(name "A")
@@ -637,7 +821,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000077-0077-0077-0077-000000000077")
+			(tstamps "000000a8-00a8-00a8-00a8-0000000000a8")
 			(units
 				(unit
 					(name "A")
@@ -683,7 +867,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000084-0084-0084-0084-000000000084")
+			(tstamps "000000b5-00b5-00b5-00b5-0000000000b5")
 			(units
 				(unit
 					(name "A")
@@ -729,7 +913,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000072-0072-0072-0072-000000000072")
+			(tstamps "000000a3-00a3-00a3-00a3-0000000000a3")
 			(units
 				(unit
 					(name "A")
@@ -775,7 +959,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000007e-007e-007e-007e-00000000007e")
+			(tstamps "000000af-00af-00af-00af-0000000000af")
 			(units
 				(unit
 					(name "A")
@@ -960,6 +1144,190 @@
 				(tstamps "/")
 			)
 			(tstamps "0000006b-006b-006b-006b-00000000006b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R9")
+			(value "1k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000072-0072-0072-0072-000000000072")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R10")
+			(value "1k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000007e-007e-007e-007e-00000000007e")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R11")
+			(value "1k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000008a-008a-008a-008a-00000000008a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R12")
+			(value "1k")
+			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000096-0096-0096-0096-000000000096")
 			(units
 				(unit
 					(name "A")
@@ -1460,6 +1828,36 @@
 		)
 		(libpart
 			(lib "Custom")
+			(part "LED_SMD")
+			(docs "~")
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "LED_RED")
+				(field
+					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "K")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
 			(part "NTC")
 			(docs "~")
 			(fields
@@ -1557,6 +1955,74 @@
 		)
 		(net
 			(code "2")
+			(name "/FAN1_IND")
+			(class "Default")
+			(node
+				(ref "D2")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R9")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "/FAN2_IND")
+			(class "Default")
+			(node
+				(ref "D3")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R10")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "4")
+			(name "/FAN3_IND")
+			(class "Default")
+			(node
+				(ref "D4")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R11")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "5")
+			(name "/FAN4_IND")
+			(class "Default")
+			(node
+				(ref "D5")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R12")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "6")
 			(name "/LED_A")
 			(class "Default")
 			(node
@@ -1573,7 +2039,7 @@
 			)
 		)
 		(net
-			(code "3")
+			(code "7")
 			(name "FAN1_PWM")
 			(class "Default")
 			(node
@@ -1590,7 +2056,7 @@
 			)
 		)
 		(net
-			(code "4")
+			(code "8")
 			(name "FAN1_TACH")
 			(class "Default")
 			(node
@@ -1613,7 +2079,7 @@
 			)
 		)
 		(net
-			(code "5")
+			(code "9")
 			(name "FAN2_PWM")
 			(class "Default")
 			(node
@@ -1630,7 +2096,7 @@
 			)
 		)
 		(net
-			(code "6")
+			(code "10")
 			(name "FAN2_TACH")
 			(class "Default")
 			(node
@@ -1653,7 +2119,7 @@
 			)
 		)
 		(net
-			(code "7")
+			(code "11")
 			(name "FAN3_PWM")
 			(class "Default")
 			(node
@@ -1670,7 +2136,7 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "12")
 			(name "FAN3_TACH")
 			(class "Default")
 			(node
@@ -1693,7 +2159,7 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "13")
 			(name "FAN4_PWM")
 			(class "Default")
 			(node
@@ -1710,7 +2176,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "14")
 			(name "FAN4_TACH")
 			(class "Default")
 			(node
@@ -1733,7 +2199,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "15")
 			(name "NTC_ADC")
 			(class "Default")
 			(node
@@ -1756,7 +2222,7 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "16")
 			(name "STATUS_LED")
 			(class "Default")
 			(node
