@@ -5,6 +5,10 @@
  * Replaces ArduinoOTA (WiFi UDP) with HTTP POST /api/v1/ota over wired Ethernet.
  * Uses ESPAsyncWebServer streaming upload pattern — no delay() in callbacks (P-FW-04).
  *
+ * LED2 (orange, GPIO15 / PROG_LED_PIN) flickers during firmware write:
+ *   - Toggles on every chunk write to give visual feedback.
+ *   - Held HIGH while update is running, driven LOW on completion/error.
+ *
  * Client usage:
  *   curl -X POST http://<device-ip>/api/v1/ota --data-binary @firmware.bin
  *   HTTP 200 "OK"  → update applied, device rebooting
@@ -14,6 +18,7 @@
 #include <Arduino.h>
 #include <Update.h>
 #include <ESPAsyncWebServer.h>
+#include "pins.h"
 
 // ---------------------------------------------------------------------------
 // Internal upload callback — no blocking, no delay() (P-FW-04)
@@ -28,12 +33,15 @@ static void handle_ota_upload(AsyncWebServerRequest* request,
     if (!index) {
         Serial.printf("[OTA] Start: %s  size: %u bytes\n",
                       filename.c_str(), request->contentLength());
+        digitalWrite(PROG_LED_PIN, HIGH);   // LED on: OTA starting
         if (!Update.begin(UPDATE_SIZE_UNKNOWN)) {
             Serial.printf("[OTA] begin() error: %s\n", Update.errorString());
         }
     }
 
     if (Update.isRunning()) {
+        // Toggle LED on each chunk to produce flicker effect
+        digitalWrite(PROG_LED_PIN, !digitalRead(PROG_LED_PIN));
         if (Update.write(data, len) != len) {
             Serial.printf("[OTA] write() error: %s\n", Update.errorString());
         }
@@ -42,10 +50,21 @@ static void handle_ota_upload(AsyncWebServerRequest* request,
     if (final) {
         if (!Update.end(true)) {
             Serial.printf("[OTA] end() error: %s\n", Update.errorString());
+            digitalWrite(PROG_LED_PIN, LOW);   // LED off: failed
         } else {
             Serial.println("[OTA] Complete — rebooting");
+            digitalWrite(PROG_LED_PIN, HIGH);  // LED steady: success, about to reboot
         }
     }
+}
+
+// ---------------------------------------------------------------------------
+// ota_init() — initialise GPIO and register route; call from setup()
+// ---------------------------------------------------------------------------
+void ota_init()
+{
+    pinMode(PROG_LED_PIN, OUTPUT);
+    digitalWrite(PROG_LED_PIN, LOW);  // off at boot
 }
 
 // ---------------------------------------------------------------------------

@@ -1354,7 +1354,7 @@
 				)
 			)
 		)
-		(path "/000000b5-00b5-00b5-00b5-0000000000b5")
+		(path "/000000c1-00c1-00c1-00c1-0000000000c1")
 		(sheetname "/")
 		(sheetfile "PoE-FanController.kicad_sch")
 		(units
@@ -2370,6 +2370,192 @@
 				(xyz 0 0 0)
 			)
 		)
+	)
+	(footprint "LED_D3.0mm"
+		(layer "F.Cu")
+		(uuid "43fdf0be-691d-4b78-a698-9e90a85e62dd")
+		(at 31 58)
+		(property "Reference" "LED2"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(uuid "862e5250-881c-4ad8-aaeb-e3f30fb3ffea")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LED_ORANGE"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "31d103ac-d91e-49f7-b8c5-8ee5c942bcd2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3a16c5ca-d6e5-4ee5-8221-ee0bf8fd2abf")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c61d989c-96e5-49dc-a4df-128aedfe629e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(path "/000000b4-00b4-00b4-00b4-0000000000b4")
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -0.29 -1.236)
+			(end -0.29 -1.08)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "66b2b652-5f9f-44f0-9176-2d8d03407c09")
+		)
+		(fp_line
+			(start -0.29 1.08)
+			(end -0.29 1.236)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "1ed1b64a-0d76-40ce-8131-962df7974b3e")
+		)
+		(fp_arc
+			(start -0.29 -1.235516)
+			(mid 1.36566 -1.987699)
+			(end 2.941437 -1.08)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "8a6698a8-c581-4b9f-a5c0-82b1942c55eb")
+		)
+		(fp_arc
+			(start 0.229039 -1.08)
+			(mid 1.27 -1.5)
+			(end 2.310961 -1.08)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "f848d790-c6a1-4131-9dcf-497e0a2f5c45")
+		)
+		(fp_arc
+			(start 2.310961 1.08)
+			(mid 1.27 1.5)
+			(end 0.229039 1.08)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "05c86cbf-a882-4e5f-9725-eadcc8b7b891")
+		)
+		(fp_arc
+			(start 2.941437 1.08)
+			(mid 1.36566 1.987699)
+			(end -0.29 1.235516)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "4c37ea6e-124d-4047-a68e-6d541ddc280a")
+		)
+		(fp_rect
+			(start -1.15 -2.21)
+			(end 3.69 2.21)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "9b49e7fa-fb83-4320-9eb1-419d7136e8f3")
+		)
+		(fp_line
+			(start -0.23 -1.16619)
+			(end -0.23 1.16619)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "0d441115-7e5c-49d6-8a78-50c43e87c778")
+		)
+		(fp_arc
+			(start -0.23 -1.16619)
+			(mid 3.17 0)
+			(end -0.23 1.16619)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "56214973-1614-4cd9-8f22-7a42010e0903")
+		)
+		(fp_circle
+			(center 1.27 0)
+			(end 2.77 0)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "4d9d8f9a-d31d-4e05-be59-a8e71f8701a1")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 1.27 0 0)
+			(layer "F.Fab")
+			(uuid "94e95a03-e6cd-498f-9847-d6509fe2ac69")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.12)
+				)
+			)
+		)
+		(pad "1" thru_hole rect
+			(at 0 0)
+			(size 1.8 1.8)
+			(drill 0.9)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/PROG_LED_A")
+			(uuid "c782fa23-b567-4980-8204-687962b8eda6")
+		)
+		(pad "2" thru_hole circle
+			(at 2.54 0)
+			(size 1.8 1.8)
+			(drill 0.9)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "GND")
+			(uuid "f495f033-6e3d-4f4d-a67e-06dadfbd4b6f")
+		)
+		(embedded_fonts no)
 	)
 	(footprint "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 		(layer "F.Cu")
@@ -7134,6 +7320,187 @@
 	)
 	(footprint "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 		(layer "F.Cu")
+		(uuid "a374a872-51ad-4ce3-a25e-37db07d11841")
+		(at 25 64)
+		(property "Reference" "R13"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(uuid "a89dcdce-5cc7-4a75-9e35-1b3b6fa9d102")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "330R"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "6ef356c0-7260-4e0c-ac72-291cff2ae8e2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "976a2e46-3425-4026-a6c0-ef65b3452b56")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "99e26a03-e58f-4ee0-b841-7918aa16772f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(path "/000000af-00af-00af-00af-0000000000af")
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start 0.54 -1.37)
+			(end 7.08 -1.37)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "b94e1390-f8d2-46c7-b6a3-ecd1cea06ded")
+		)
+		(fp_line
+			(start 0.54 -1.04)
+			(end 0.54 -1.37)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "d357abf1-b7f6-494a-8b59-e4e5727a4a12")
+		)
+		(fp_line
+			(start 0.54 1.04)
+			(end 0.54 1.37)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "0d76c240-c0c5-40c0-8b20-f0c74b62cb0e")
+		)
+		(fp_line
+			(start 0.54 1.37)
+			(end 7.08 1.37)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "38ac9767-112c-4a5a-8e6e-331af60e4eae")
+		)
+		(fp_line
+			(start 7.08 -1.37)
+			(end 7.08 -1.04)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "2c590f9a-eea7-444b-87cc-a11fc2c38beb")
+		)
+		(fp_line
+			(start 7.08 1.37)
+			(end 7.08 1.04)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "370a6f3b-118f-48b6-97d7-a1ec96203fe1")
+		)
+		(fp_rect
+			(start -1.05 -1.5)
+			(end 8.67 1.5)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "7d7f74df-3e87-4e37-9d00-6e9f86285176")
+		)
+		(fp_line
+			(start 0 0)
+			(end 0.66 0)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "d9b15542-6876-4670-a2c7-85073067b037")
+		)
+		(fp_line
+			(start 7.62 0)
+			(end 6.96 0)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "4ac6ef02-b29a-4ff7-90a6-f71d2903120a")
+		)
+		(fp_rect
+			(start 0.66 -1.25)
+			(end 6.96 1.25)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "3239b704-a573-464a-b3e7-d59a960976c7")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 3.81 0 0)
+			(layer "F.Fab")
+			(uuid "7b99bae4-fc2e-489c-bdf5-6e2321ec02d6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole circle
+			(at 0 0)
+			(size 1.6 1.6)
+			(drill 0.8)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "PROG_LED")
+			(uuid "d8f98f10-33a5-41fd-baed-955303c8190c")
+		)
+		(pad "2" thru_hole circle
+			(at 7.62 0)
+			(size 1.6 1.6)
+			(drill 0.8)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/PROG_LED_A")
+			(uuid "ef977d70-bcbb-4647-98b7-6f56acdc47c4")
+		)
+		(embedded_fonts no)
+	)
+	(footprint "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
+		(layer "F.Cu")
 		(uuid "b5c33fc3-9ddf-4684-8b1d-217760aa47e2")
 		(at 25 20)
 		(descr "Resistor, Axial_DIN0207 series, Axial, Horizontal, pin pitch=7.62mm, 0.25W = 1/4W, length*diameter=6.3*2.5mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf")
@@ -7623,7 +7990,7 @@
 				)
 			)
 		)
-		(path "/000000af-00af-00af-00af-0000000000af")
+		(path "/000000bb-00bb-00bb-00bb-0000000000bb")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -8040,7 +8407,7 @@
 				)
 			)
 		)
-		(path "/000000e2-00e2-00e2-00e2-0000000000e2")
+		(path "/000000ee-00ee-00ee-00ee-0000000000ee")
 		(sheetname "/")
 		(sheetfile "PoE-FanController.kicad_sch")
 		(units

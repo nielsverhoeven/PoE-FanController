@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\repos-github\\PoE-FanController\\hardware\\kicad\\PoE-FanController.kicad_sch")
-		(date "2026-06-08T17:54:44")
+		(date "2026-06-08T20:23:57")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -194,12 +194,12 @@
 		)
 		(comp
 			(ref "D2")
-			(value "LED_RED")
-			(footprint "LED_SMD:LED_0805_2012Metric")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -240,12 +240,12 @@
 		)
 		(comp
 			(ref "D3")
-			(value "LED_RED")
-			(footprint "LED_SMD:LED_0805_2012Metric")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -286,12 +286,12 @@
 		)
 		(comp
 			(ref "D4")
-			(value "LED_RED")
-			(footprint "LED_SMD:LED_0805_2012Metric")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -332,12 +332,12 @@
 		)
 		(comp
 			(ref "D5")
-			(value "LED_RED")
-			(footprint "LED_SMD:LED_0805_2012Metric")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -615,7 +615,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000e2-00e2-00e2-00e2-0000000000e2")
+			(tstamps "000000ee-00ee-00ee-00ee-0000000000ee")
 			(units
 				(unit
 					(name "A")
@@ -837,6 +837,52 @@
 			)
 		)
 		(comp
+			(ref "LED2")
+			(value "LED_ORANGE")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000b4-00b4-00b4-00b4-0000000000b4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "NTC1")
 			(value "NTC10K_B3950")
 			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal")
@@ -867,7 +913,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000b5-00b5-00b5-00b5-0000000000b5")
+			(tstamps "000000c1-00c1-00c1-00c1-0000000000c1")
 			(units
 				(unit
 					(name "A")
@@ -885,11 +931,11 @@
 		(comp
 			(ref "R3")
 			(value "330R")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -931,11 +977,11 @@
 		(comp
 			(ref "R4")
 			(value "10k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -959,7 +1005,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000af-00af-00af-00af-0000000000af")
+			(tstamps "000000bb-00bb-00bb-00bb-0000000000bb")
 			(units
 				(unit
 					(name "A")
@@ -977,11 +1023,11 @@
 		(comp
 			(ref "R5")
 			(value "10k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1023,11 +1069,11 @@
 		(comp
 			(ref "R6")
 			(value "10k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1069,11 +1115,11 @@
 		(comp
 			(ref "R7")
 			(value "10k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1115,11 +1161,11 @@
 		(comp
 			(ref "R8")
 			(value "10k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1161,11 +1207,11 @@
 		(comp
 			(ref "R9")
 			(value "1k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1207,11 +1253,11 @@
 		(comp
 			(ref "R10")
 			(value "1k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1253,11 +1299,11 @@
 		(comp
 			(ref "R11")
 			(value "1k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1299,11 +1345,11 @@
 		(comp
 			(ref "R12")
 			(value "1k")
-			(footprint "Resistor_SMD:R_0402_1005Metric")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1328,6 +1374,52 @@
 				(tstamps "/")
 			)
 			(tstamps "00000096-0096-0096-0096-000000000096")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R13")
+			(value "330R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000af-00af-00af-00af-0000000000af")
 			(units
 				(unit
 					(name "A")
@@ -1834,9 +1926,9 @@
 				(field
 					(name "Reference") "D")
 				(field
-					(name "Value") "LED_RED")
+					(name "Value") "LED_GREEN")
 				(field
-					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
+					(name "Footprint") "LED_THT:LED_D3.0mm")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1896,7 +1988,7 @@
 				(field
 					(name "Value") "R")
 				(field
-					(name "Footprint") "Resistor_SMD:R_0402_1005Metric")
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -2040,6 +2132,23 @@
 		)
 		(net
 			(code "7")
+			(name "/PROG_LED_A")
+			(class "Default")
+			(node
+				(ref "LED2")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R13")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "8")
 			(name "FAN1_PWM")
 			(class "Default")
 			(node
@@ -2056,7 +2165,7 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "9")
 			(name "FAN1_TACH")
 			(class "Default")
 			(node
@@ -2079,7 +2188,7 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "10")
 			(name "FAN2_PWM")
 			(class "Default")
 			(node
@@ -2096,7 +2205,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "11")
 			(name "FAN2_TACH")
 			(class "Default")
 			(node
@@ -2119,7 +2228,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "12")
 			(name "FAN3_PWM")
 			(class "Default")
 			(node
@@ -2136,7 +2245,7 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "13")
 			(name "FAN3_TACH")
 			(class "Default")
 			(node
@@ -2159,7 +2268,7 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "14")
 			(name "FAN4_PWM")
 			(class "Default")
 			(node
@@ -2176,7 +2285,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "15")
 			(name "FAN4_TACH")
 			(class "Default")
 			(node
@@ -2199,7 +2308,7 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "16")
 			(name "NTC_ADC")
 			(class "Default")
 			(node
@@ -2222,7 +2331,18 @@
 			)
 		)
 		(net
-			(code "16")
+			(code "17")
+			(name "PROG_LED")
+			(class "Default")
+			(node
+				(ref "R13")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "18")
 			(name "STATUS_LED")
 			(class "Default")
 			(node

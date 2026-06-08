@@ -40,6 +40,9 @@ def write_bom():
         # Status LED (GPIO-driven)
         ["R3","330R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","1","Yageo","MFR-25FBF52-330R","330Ω 1/4W 1% axial THT — status LED current limit","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf"],
         ["LED1","LED_GREEN","LED_THT:LED_D3.0mm","1","Wurth","150060GS75000","Green 3mm THT LED, 565nm — GPIO status indicator","https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000"],
+        # Prog / OTA LED (GPIO15-driven, flickers during firmware write)
+        ["R13","330R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","1","Yageo","MFR-25FBF52-330R","330Ω 1/4W 1% axial THT — prog LED current limit","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf"],
+        ["LED2","LED_ORANGE","LED_THT:LED_D3.0mm","1","Wurth","150060AS75000","Orange 3mm THT LED, 605nm — firmware-write / OTA activity indicator","https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060AS75000"],
     ]
     p = os.path.join(HW_DIR, "bom", "bom.csv")
     os.makedirs(os.path.dirname(p), exist_ok=True)

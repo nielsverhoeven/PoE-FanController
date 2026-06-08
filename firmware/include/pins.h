@@ -59,7 +59,10 @@
 // Status / control
 // ---------------------------------------------------------------------------
 #ifndef STATUS_LED_PIN
-#define STATUS_LED_PIN  2  ///< GPIO2 — status LED via 330 Ω
+#define STATUS_LED_PIN  2  ///< GPIO2  — green status LED via 330 Ω (R3 / LED1)
+#endif
+#ifndef PROG_LED_PIN
+#define PROG_LED_PIN   15  ///< GPIO15 — orange OTA/prog LED via 330 Ω (R13 / LED2); J8 pin 22
 #endif
 #ifndef BOOT_PIN
 #define BOOT_PIN        0  ///< GPIO0 — strapping / BOOT button
