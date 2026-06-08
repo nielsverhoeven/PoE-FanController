@@ -87,7 +87,7 @@
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "000001d0-01d0-01d0-01d0-0000000001d0")
-		(at 35 12)
+		(at 50 12)
 		(descr "Through hole straight pin header, 1x04, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x04 2.54mm single row")
 		(property "Reference" "J2"
@@ -337,7 +337,7 @@
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "000001d1-01d1-01d1-01d1-0000000001d1")
-		(at 35 30)
+		(at 50 30)
 		(descr "Through hole straight pin header, 1x04, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x04 2.54mm single row")
 		(property "Reference" "J3"
@@ -587,7 +587,7 @@
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "000001d2-01d2-01d2-01d2-0000000001d2")
-		(at 35 48)
+		(at 50 48)
 		(descr "Through hole straight pin header, 1x04, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x04 2.54mm single row")
 		(property "Reference" "J4"
@@ -837,7 +837,7 @@
 	(footprint "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "000001d3-01d3-01d3-01d3-0000000001d3")
-		(at 35 66)
+		(at 50 66)
 		(descr "Through hole straight pin header, 1x04, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x04 2.54mm single row")
 		(property "Reference" "J5"
@@ -1087,7 +1087,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "000001e7-01e7-01e7-01e7-0000000001e7")
-		(at 28 12)
+		(at 43 12)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R5"
@@ -1234,7 +1234,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "000001e8-01e8-01e8-01e8-0000000001e8")
-		(at 28 30)
+		(at 43 30)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R6"
@@ -1381,7 +1381,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "000001e9-01e9-01e9-01e9-0000000001e9")
-		(at 28 48)
+		(at 43 48)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R7"
@@ -1528,7 +1528,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "000001ea-01ea-01ea-01ea-0000000001ea")
-		(at 28 66)
+		(at 43 66)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R8"
@@ -2369,7 +2369,7 @@
 	(footprint "L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC"
 		(layer "F.Cu")
 		(uuid "00aff3d7-84b3-4a95-90d6-d50549e17c33")
-		(at 27 3)
+		(at 33 3)
 		(descr "Inductor, Axial series, Axial, Horizontal, pin pitch=10.16mm, length*diameter=7*3.3mm^2, Fastron, MICC, http://www.fastrongroup.com/image-show/70/MICC.pdf?type=Complete-DataSheet&productType=series")
 		(tags "Inductor Axial series Axial Horizontal pin pitch 10.16mm  length 7mm diameter 3.3mm Fastron MICC")
 		(property "Reference" "L1"
@@ -2549,7 +2549,7 @@
 	(footprint "D_SMA"
 		(layer "F.Cu")
 		(uuid "227471e6-4c0c-4fbf-be0a-6d465b3bc84e")
-		(at 38 6)
+		(at 49 5)
 		(descr "Diode SMA (DO-214AC)")
 		(tags "Diode SMA (DO-214AC)")
 		(property "Reference" "D1"
@@ -3072,7 +3072,7 @@
 	(footprint "CP_Radial_D6.3mm_P2.50mm"
 		(layer "F.Cu")
 		(uuid "702e0953-3f2e-485c-8195-eab26b1dbfa9")
-		(at 24 18)
+		(at 24 15)
 		(descr "CP, Radial series, Radial, pin pitch=2.50mm, diameter=6.3mm, height=7mm, Electrolytic Capacitor")
 		(tags "CP Radial series Radial pin pitch 2.50mm diameter 6.3mm height 7mm Electrolytic Capacitor")
 		(property "Reference" "C1"
@@ -4593,7 +4593,7 @@
 	(footprint "CP_Radial_D6.3mm_P2.50mm"
 		(layer "F.Cu")
 		(uuid "8002f157-5f91-4e49-a2a7-94678b354a3e")
-		(at 24 27)
+		(at 40 18)
 		(descr "CP, Radial series, Radial, pin pitch=2.50mm, diameter=6.3mm, height=7mm, Electrolytic Capacitor")
 		(tags "CP Radial series Radial pin pitch 2.50mm diameter 6.3mm height 7mm Electrolytic Capacitor")
 		(property "Reference" "C2"
@@ -6681,7 +6681,7 @@
 	)
 	(gr_rect
 		(start 0 0)
-		(end 42 78)
+		(end 56 78)
 		(stroke
 			(width 0.05)
 			(type default)
