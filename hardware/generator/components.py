@@ -62,19 +62,47 @@ def build_schematic():
     # -----------------------------------------------------------------------
 
     # 5V->12V boost converter (TI LM2587-12 fixed 12V, TO-220-5).
-    # Represented as 3-terminal block: VIN/GND (left), VOUT (right).
-    # External catch diode + inductor + output cap are placed on PCB.
+    # Pin 1=GND, Pin 2=VIN, Pin 3=OUTPUT (SW switching node), Pin 4=FB, Pin 5=OSC.
+    # For fixed-12V: FB tied to OUTPUT; OSC bypassed with cap to GND (see datasheet).
+    # External circuit: +5V->L1->SW, SW->D1->+12V, C1:+5V/GND, C2:+12V/GND.
     s.define("Custom:Boost_Converter", "U", "LM2587-12",
-             "Package_TO_SOT_THT:TO-220-3_Vertical",
+             "Package_TO_SOT_THT:TO-220-5_Vertical",
              "https://www.ti.com/lit/ds/symlink/lm2587.pdf",
-             body_w=10.16, body_h=7.62,
+             body_w=10.16, body_h=12.70,
              pins_left=[
-                 ("VIN", "1", "power_in"),
-                 ("GND", "2", "power_in"),
+                 ("GND", "1", "power_in"),
+                 ("VIN", "2", "power_in"),
              ],
              pins_right=[
-                 ("VOUT", "3", "power_out"),
+                 ("OUTPUT", "3", "output"),
+                 ("FB",     "4", "input"),
+                 ("OSC",    "5", "input"),
              ])
+
+    # Catch inductor L1 — 100 µH, connects +5V to BOOST_SW switching node.
+    s.define("Custom:Inductor", "L", "100uH",
+             "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC",
+             "~",
+             body_w=7.62, body_h=2.54,
+             pins_left=[("~",  "1", "passive")],
+             pins_right=[("~", "2", "passive")])
+
+    # Schottky catch diode D1 — SS54, BOOST_SW node to +12V output rail.
+    s.define("Custom:Diode_Schottky", "D", "SS54",
+             "Diode_SMD:D_SMA",
+             "~",
+             body_w=5.08, body_h=2.54,
+             pins_left=[("A", "1", "passive")],
+             pins_right=[("K", "2", "passive")])
+
+    # Electrolytic bypass/filter capacitor — 100 µF / 25 V radial.
+    # Used for C1 (+5V input bypass) and C2 (+12V output filter).
+    s.define("Custom:Cap_Elec", "C", "100uF_25V",
+             "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+             "~",
+             body_w=5.08, body_h=2.54,
+             pins_left=[("~",  "1", "passive")],
+             pins_right=[("~", "2", "passive")])
 
     # Waveshare ESP32-P4-POE-ETH (SKU 32088) 2x20 female interface header (J8).
     # Female PinSocket — daughter board sits below Waveshare board; Waveshare
@@ -176,7 +204,8 @@ def build_schematic():
     #
     # Layout anchors:
     #   J8_CX/J8_CY    = (36G, 60G) = (91.44, 152.40) mm
-    #   BOOST_CX/CY    = (80G, 28G) = (203.20, 71.12)  mm
+    #   Boost subcircuit (row y=28G): C1@68G, L1@76G, U1@86G, D1@96G, C2@104G
+    #   Bypass caps row  y=36G (below boost ICs)
     #   FAN_CX          = 130G      = 330.20             mm  (all fan headers)
     #   TACH_RES_CX     = 110G      = 279.40             mm  (TACH pull-up resistors)
     #   FAN_CY0         = 32G       = 81.28              mm  (J2 centre)
@@ -192,7 +221,6 @@ def build_schematic():
     BLUE = (0, 0, 255)
 
     J8_CX,    J8_CY    = 36*G,  60*G   # (91.44, 152.40)
-    BOOST_CX, BOOST_CY = 80*G,  28*G   # (203.20, 71.12)
     FAN_CX              = 130*G         # 330.20
     TACH_RES_CX         = 110*G         # 279.40
     FAN_CY0             = 32*G          # 81.28 — J2
@@ -203,18 +231,71 @@ def build_schematic():
     LARGE_CX            = 76*G          # 193.04 — LED1 / NTC1
 
     # -----------------------------------------------------------------------
-    # U1 — 5V->12V boost converter (LM2587-12)
-    # Input:  +5V net (from J8 pins 2,4)
-    # Output: +12V net (drives all four fan headers J2-J5)
-    # Reference U1 follows KiCad annotation convention (U<number>).
+    # U1 — 5V->12V boost converter (LM2587-12) + external passives
+    #
+    # Correct boost topology:
+    #   +5V ──[C1]── GND                  (input bypass cap)
+    #   +5V ──[L1]──[BOOST_SW]──[D1]── +12V ──[C2]── GND  (boost path)
+    #                    │
+    #               U1 OUTPUT (pin 3)
+    #               U1 FB    (pin 4) tied to OUTPUT (fixed 12V)
+    #               U1 OSC   (pin 5) → 1 nF to GND (not shown, placed on PCB)
+    #
+    # Component layout in schematic (all on BOOST row y=28G..36G):
+    #   C1   at (68G, 36G) — +5V input bypass
+    #   L1   at (76G, 28G) — inductor from +5V to BOOST_SW
+    #   U1   at (86G, 28G) — boost converter IC
+    #   D1   at (94G, 28G) — catch diode BOOST_SW → +12V
+    #   C2   at (102G, 36G) — +12V output filter
     # -----------------------------------------------------------------------
+    BOOST_ROW_Y  = 28*G    # 71.12 mm — main boost row
+    BYPASS_Y     = 36*G    # 91.44 mm — bypass caps below main row
+
+    C1_CX  = 68*G          # 172.72 — input bypass cap
+    L1_CX  = 76*G          # 193.04 — catch inductor
+    U1_CX  = 86*G          # 218.44 — boost IC
+    D1_CX  = 96*G          # 243.84 — catch diode
+    C2_CX  = 104*G         # 264.16 — output filter cap
+
     s.text("5V -> 12V Boost  (U1 / LM2587-12)", 156, 55, size=2.54, bold=True, color=BLUE)
-    p = s.component("Custom:Boost_Converter", "U1", "LM2587-12",
-                    "Package_TO_SOT_THT:TO-220-3_Vertical",
-                    BOOST_CX, BOOST_CY)
-    s.power("+5V",  *p["1"])                      # left  pin 1 — VIN
-    s.power("GND",  *p["2"])                      # left  pin 2 — GND
-    s.power("+12V", *p["3"], pin_type="power_out") # right pin 3 — VOUT
+
+    # C1 — input bypass: +5V (pin 1) to GND (pin 2)
+    pC1 = s.component("Custom:Cap_Elec", "C1", "100uF_25V",
+                      "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+                      C1_CX, BYPASS_Y)
+    s.power("+5V", *pC1["1"])
+    s.power("GND", *pC1["2"])
+
+    # L1 — catch inductor: +5V (pin 1) → BOOST_SW (pin 2)
+    pL1 = s.component("Custom:Inductor", "L1", "100uH",
+                      "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC",
+                      L1_CX, BOOST_ROW_Y)
+    s.power("+5V",          *pL1["1"])
+    s.label("BOOST_SW",     *pL1["2"])   # right pin → switching node
+
+    # U1 — LM2587-12: GND(1) VIN(2) left; OUTPUT(3) FB(4) OSC(5) right
+    pU1 = s.component("Custom:Boost_Converter", "U1", "LM2587-12",
+                      "Package_TO_SOT_THT:TO-220-5_Vertical",
+                      U1_CX, BOOST_ROW_Y)
+    s.power("GND",       *pU1["1"])                         # left  pin 1 — GND
+    s.power("+5V",       *pU1["2"])                         # left  pin 2 — VIN
+    s.label("BOOST_SW",  *pU1["3"])                         # right pin 3 — OUTPUT/SW
+    s.label("BOOST_SW",  *pU1["4"], angle=0)                # right pin 4 — FB tied to OUTPUT
+    s.power("GND",       *pU1["5"])                         # right pin 5 — OSC bypass to GND
+
+    # D1 — catch diode: BOOST_SW (anode/pin 1) → +12V (cathode/pin 2)
+    pD1 = s.component("Custom:Diode_Schottky", "D1", "SS54",
+                      "Diode_SMD:D_SMA",
+                      D1_CX, BOOST_ROW_Y)
+    s.label("BOOST_SW",  *pD1["1"], angle=180)              # left  pin 1 — anode
+    s.power("+12V",      *pD1["2"], pin_type="power_out")   # right pin 2 — cathode → +12V
+
+    # C2 — output filter: +12V (pin 1) to GND (pin 2)
+    pC2 = s.component("Custom:Cap_Elec", "C2", "100uF_25V",
+                      "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm",
+                      C2_CX, BYPASS_Y)
+    s.power("+12V", *pC2["1"])
+    s.power("GND",  *pC2["2"])
 
     # -----------------------------------------------------------------------
     # Fan headers J2-J5  +  TACH pull-up resistors R5-R8

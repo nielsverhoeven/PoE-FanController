@@ -37,7 +37,7 @@ All entries in this table are **locked**. Changes require a MINOR or MAJOR amend
 | PCB layers | 2-layer FR4 | F.Cu / B.Cu | Minimum viable layer count for cost |
 | Board thickness | 1.6 mm | — | Standard FR4 |
 | Copper weight | 1 oz (35 µm) | Both layers | Adequate for ≤3 A traces |
-| Board dimensions | **78.00 mm (length) × ≥42.00 mm (width)** — daughter board portrait layout; length equals ESP32-P4-POE-ETH (confirmed from dimension drawing); width ≥ 2× ESP32 width (2×21mm); see P-HW-04 | — | See §11 |
+| Board dimensions | **78.00 mm (length) × 56.00 mm (width)** — daughter board portrait layout; length equals ESP32-P4-POE-ETH (confirmed from dimension drawing); width widened from 42mm to 56mm to fit boost converter passives without courtyard DRC errors; see P-HW-04 | — | See §11 |
 | Paper size | A4 (PCB), A2 (schematic) | — | As set in project files |
 
 ### 2.2 Key Components (BOM-locked)
@@ -137,7 +137,7 @@ The daughter board uses a **portrait layout** as established by the PCB sketch i
 | Constraint | Value | Source |
 |---|---|---|
 | Maximum board length | **78.00 mm** | Must equal ESP32-P4-POE-ETH board length (confirmed from dimension drawing) |
-| Minimum board width | **42.00 mm** | Must be at least 2× the ESP32-P4-POE-ETH width (2×21.00 mm) |
+| Minimum board width | **56.00 mm** | Widened from 42mm to 56mm to accommodate boost converter passives (L1 axial inductor has 12.3mm courtyard span) without courtyard overlap DRC errors |
 | Orientation | **Portrait** (78mm vertical, width horizontal) | PCB sketch |
 
 **Layout zones (portrait orientation):**
