@@ -11,3 +11,4 @@ docs/reference-samples/DMX_NODE/
 firmware/.pio/
 **/__pycache__/
 *.pyc
+hardware/kicad/~PoE-FanController.kicad_pcb.lck
