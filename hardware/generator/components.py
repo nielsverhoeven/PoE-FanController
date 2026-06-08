@@ -193,8 +193,8 @@ def build_schematic():
              pins_left=[("A",  "1", "passive")],
              pins_right=[("K", "2", "passive")])
 
-    s.define("Custom:LED_SMD", "D", "LED_RED",
-             "LED_SMD:LED_0805_2012Metric", "~",
+    s.define("Custom:LED_SMD", "D", "LED_GREEN",
+             "LED_THT:LED_D3.0mm", "~",
              body_w=5.08, body_h=2.54,
              pins_left=[("A",  "1", "passive")],
              pins_right=[("K", "2", "passive")])
@@ -360,8 +360,8 @@ def build_schematic():
         s.power("+12V",      *pr["1"])             # left  pin → +12V rail
         s.label(ind_net,     *pr["2"])             # right pin → local net to LED anode
 
-        pd = s.component("Custom:LED_SMD", f"D{2+i}", "LED_RED",
-                         "LED_SMD:LED_0805_2012Metric",
+        pd = s.component("Custom:LED_SMD", f"D{2+i}", "LED_GREEN",
+                         "LED_THT:LED_D3.0mm",
                          FAN_IND_D_CX, FJ_CY)
         s.label(ind_net,     *pd["1"], angle=180)  # left  pin — anode
         s.power("GND",       *pd["2"])             # right pin — cathode → GND

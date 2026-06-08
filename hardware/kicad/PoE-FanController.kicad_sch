@@ -481,10 +481,10 @@
     (property "Reference" "D"
       (at 0.0000 -2.5400 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "LED_RED"
+    (property "Value" "LED_GREEN"
       (at 0.0000 2.5400 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "LED_SMD:LED_0805_2012Metric"
+    (property "Footprint" "LED_THT:LED_D3.0mm"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1623,10 +1623,10 @@
     (property "Reference" "D2"
       (at 405.1300 80.0100 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "LED_RED"
+    (property "Value" "LED_GREEN"
       (at 405.1300 82.5500 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "LED_SMD:LED_0805_2012Metric"
+    (property "Footprint" "LED_THT:LED_D3.0mm"
       (at 403.8600 81.2800 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1719,10 +1719,10 @@
     (property "Reference" "D3"
       (at 405.1300 110.4900 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "LED_RED"
+    (property "Value" "LED_GREEN"
       (at 405.1300 113.0300 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "LED_SMD:LED_0805_2012Metric"
+    (property "Footprint" "LED_THT:LED_D3.0mm"
       (at 403.8600 111.7600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1815,10 +1815,10 @@
     (property "Reference" "D4"
       (at 405.1300 140.9700 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "LED_RED"
+    (property "Value" "LED_GREEN"
       (at 405.1300 143.5100 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "LED_SMD:LED_0805_2012Metric"
+    (property "Footprint" "LED_THT:LED_D3.0mm"
       (at 403.8600 142.2400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1911,10 +1911,10 @@
     (property "Reference" "D5"
       (at 405.1300 171.4500 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "LED_RED"
+    (property "Value" "LED_GREEN"
       (at 405.1300 173.9900 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "LED_SMD:LED_0805_2012Metric"
+    (property "Footprint" "LED_THT:LED_D3.0mm"
       (at 403.8600 172.7200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
