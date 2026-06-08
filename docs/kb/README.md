@@ -1,6 +1,6 @@
 # PoE FanController — Knowledge Base
 
-<!-- Last updated: 2026-06-08 -->
+<!-- Last updated: 2026-06-08 (session 9 — DS18B20 probe, pin 39/40 OQ-02 fix, RPi refs removed) -->
 
 This directory contains **pre-loaded domain facts** for this project. All agents MUST
 check here before spawning expert sub-agents or performing web searches. Reading a KB file

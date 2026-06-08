@@ -14,11 +14,15 @@ PoE, Ethernet, ESP32, USB-C are all on the Waveshare board. The daughter board i
 |---|---|---|---|---|---|
 | **J8** | Female 2×20 pin socket, 2.54mm pitch, **15.38mm row spacing** | — | THT | `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` | Daughter board ↔ Waveshare ESP32-P4-POE-ETH interface; row spacing = 21mm board − 2×2.81mm edge offsets |
 | **U_BOOST** | LM2587-12 (fixed 12V) | TI | TO-220-3 Vertical | `Package_TO_SOT_THT:TO-220-3_Vertical` | 5V→12V boost converter for fan rail |
-| **J2–J5** | 47053-1000 | Molex | 4-pin 2.54mm | `Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical` | 4-wire 12V PWM fan headers — on right zone of daughter board |
-| **R3** | 330Ω | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | LED current limit |
+| **J2–J5** | 47053-1000 | Molex | 4-pin 2.54mm | `Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical` | 4-wire 12V PWM fan headers — on right zone; **keyed footprint TBD (issue #100)** |
+| **J6** | 3-pin screw terminal 2.54mm pitch | — | THT | `Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical` | DS18B20 temperature probe (GND / DATA / VCC 3.3V) — right edge, below J5 |
+| **R3** | 330Ω | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | LED current limit (Status_LED_1 / GPIO2) |
+| **R_PROBE** | 4.7 kΩ | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | DS18B20 1-Wire pull-up to +3.3V (mandatory) |
 | **R4** | 10kΩ | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | NTC voltage divider (top resistor) |
 | **R5–R8** | 10kΩ | — | 0402 SMD | `Resistor_SMD:R_0402_1005Metric` | TACH pull-ups to +3.3V |
-| **LED1** | Green LED | — | LED_D3.0mm THT | `LED_THT:LED_D3.0mm` | Status LED (GPIO2 via J8) |
+| **LED1** | Green LED | — | LED_D3.0mm THT | `LED_THT:LED_D3.0mm` | Status LED (GPIO2 via J8) — Status_LED_1 |
+| **LED2–LED5** | Red LED 0805 SMD | — | LED_0805 | `LED_SMD:LED_0805_2012Metric` | Per-fan power indicator LEDs (D2–D5) — passive, +12V-rail driven (not GPIO) |
+| **LED6** | Green LED 0805 SMD | — | LED_0805 | `LED_SMD:LED_0805_2012Metric` | Status_LED_5 — DS18B20 probe status, firmware-driven via GPIO20 |
 | **NTC1** | 10kΩ B=3950 NTC | — | Axial THT | `Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal` | Temperature sensing |
 
 ---

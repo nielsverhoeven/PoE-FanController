@@ -58,6 +58,8 @@
 | FAN4_TACH | GPIO11 | GPIO interrupt | Tach input |
 | NTC_ADC | GPIO16 | ADC | NTC thermistor (Steinhart-Hart) |
 | STATUS_LED | GPIO2 | Output | Status LED via R3 330 Ω (active HIGH) |
+| DS18B20_DATA | GPIO19 | 1-Wire | External temperature probe DATA line (4.7 kΩ pull-up to 3.3 V on daughter board) |
+| PROBE_LED | GPIO20 | Output | Status_LED_5 — probe connector status LED (off=absent, blink=reading, solid=valid) |
 | UART0_TX | GPIO38 | UART0 | To CH340C; IO_MUX default |
 | UART0_RX | GPIO39 | UART0 | From CH340C; IO_MUX default |
 | EMAC_MDIO | GPIO52 | EMAC | PHY management data — **corrected from GPIO28** |
@@ -67,6 +69,9 @@
 | EN | EN pin | — | Module enable (active-high) |
 
 **Forbidden GPIOs (RMII + ETH management):** GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52 — reserved for EMAC, must not be reassigned.
+
+> **Note on per-fan indicator LEDs (D2–D5):** The per-fan power LEDs are passive, +12V-rail-driven
+> (R→LED→GND, no GPIO). Only Status_LED_5 (probe) is firmware-driven via GPIO20.
 
 ---
 
@@ -97,6 +102,8 @@ build_flags =
   -DFAN4_TACH_PIN=11
   -DNTC_ADC_PIN=16
   -DSTATUS_LED_PIN=2
+  -DDS18B20_DATA_PIN=19
+  -DPROBE_LED_PIN=20
   ; RMII config for ETH.h — corrected MDIO=52, added PHY_RST=51
   -DETH_PHY_TYPE=ETH_PHY_LAN8720
   -DETH_PHY_ADDR=1
