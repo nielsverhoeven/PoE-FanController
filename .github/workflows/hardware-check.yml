@@ -33,7 +33,9 @@ jobs:
           python -m py_compile hardware/generator/components.py
           python -m py_compile hardware/generator/pcb_utils.py
           python -m py_compile hardware/generator/bom.py
-          echo "Syntax OK — all 7 modules"
+          python -m py_compile hardware/generator/sync_pcb_paths.py
+          python -m py_compile hardware/generator/import_netlist.py
+          echo "Syntax OK — all 9 modules"
 
   kicad-erc-drc:
     name: KiCad ERC + DRC

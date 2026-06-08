@@ -47,10 +47,10 @@ POWER_NETS = {
     ('LED1', '2'): 'GND',
     # NTC thermistor: NTC1 bottom → GND
     ('NTC1', '2'): 'GND',
-    # U_BOOST: 5V→12V boost converter (TI LM2587-12, TO-220-3_Vertical)
-    ('U_BOOST', '1'): '+5V',   # VIN
-    ('U_BOOST', '2'): 'GND',   # GND
-    ('U_BOOST', '3'): '+12V',  # VOUT
+    # U1: 5V→12V boost converter (TI LM2587-12, TO-220-3_Vertical)
+    ('U1', '1'): '+5V',   # VIN
+    ('U1', '2'): 'GND',   # GND
+    ('U1', '3'): '+12V',  # VOUT
 }
 
 # ── Step 1: Parse netlist → {(ref, pin): net_name} ──────────────────────────
@@ -174,3 +174,13 @@ print(f"\nVerification:")
 print(f"  Signal nets in PCB: {len(nets2)}")
 print(f"  Nets: {sorted(nets2)}")
 print(f"  Unconnected ratsnest items: {unconn}")
+
+# ── Step 6: Sync footprint paths from schematic UUIDs (issue #77) ────────────
+# Sets /{uuid} path on every footprint so KiCad F8 "Update PCB from Schematic"
+# recognises all components as already-placed and never prompts for manual placement.
+print("\nSyncing footprint paths from schematic UUIDs …")
+SCH = 'C:/repos-github/PoE-FanController/hardware/kicad/PoE-FanController.kicad_sch'
+sys.path.insert(0, r'C:/repos-github/PoE-FanController/hardware/generator')
+import sync_pcb_paths
+sync_pcb_paths.sync_paths(SCH, PCB)
+print("Done — all footprints now have schematic UUID paths set.")
