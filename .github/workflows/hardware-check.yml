@@ -89,13 +89,13 @@ jobs:
             --output hardware/kicad/drc_output.json \
             --format json --exit-code-violations || true
 
-      - name: Check DRC violation count (baseline 32)
-        # DRC baseline: 32 pre-existing violations measured in KiCad 10.0.3 Windows.
-        # Breakdown: lib_footprint_issues=26 (symbol-footprint mismatches, pre-existing),
-        # silk_edge_clearance=5, lib_footprint_mismatch=1.
-        # History: v1.0=67, v1.3.0 ESP32-P4 migration=76, v2.0.0 Waveshare carrier redesign=75,
-        #          v2.0.1 PCB cleanup (remove U3/U4/U5/J6/SW1/SW2, add J8)=32.
-        # Local Windows count (KiCad 10.0.3): authoritative for this baseline. Docker may differ slightly.
+      - name: Check DRC violation count (baseline 0)
+        # DRC baseline: 0 violations measured in KiCad 10.0.3 Windows after
+        # Issue #75 daughter board redesign (removed J1/U1/U2/D1/L1/C1-C7
+        # which caused lib_footprint_issues and silk_edge_clearance violations).
+        # History: v1.0=67, v1.3.0 ESP32-P4 migration=76, v2.0.0 carrier=75,
+        #          v2.0.1 PCB cleanup=32, v3.0.0 daughter board (Issue #75)=0.
+        # Allow ≤ 5 to accommodate minor Docker (10.0.2) vs Windows (10.0.3) diff.
         run: |
           python3 -c "
           import json, sys
@@ -103,7 +103,7 @@ jobs:
           violations = d.get('violations', [])
           n = len(violations)
           print(f'DRC: {n} violation(s)')
-          sys.exit(1 if n > 32 else 0)
+          sys.exit(1 if n > 5 else 0)
           "
 
       - name: Upload ERC report
