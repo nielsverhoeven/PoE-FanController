@@ -193,6 +193,12 @@ def build_schematic():
              pins_left=[("A",  "1", "passive")],
              pins_right=[("K", "2", "passive")])
 
+    s.define("Custom:LED_SMD", "D", "LED_GREEN",
+             "LED_THT:LED_D3.0mm", "~",
+             body_w=5.08, body_h=2.54,
+             pins_left=[("A",  "1", "passive")],
+             pins_right=[("K", "2", "passive")])
+
     s.define("Custom:NTC", "NTC", "NTC_10K",
              "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal", "~",
              body_w=5.08, body_h=2.54,
@@ -333,7 +339,34 @@ def build_schematic():
         s.global_label(tach_net, *pr["2"], shape="output")           # right pin -> angle=0
 
     # -----------------------------------------------------------------------
-    # Status LED circuit (R3 current-limit + LED1)
+    # Per-fan power indicator LEDs (D2-D5 + R9-R12)
+    # Passive circuit — no firmware needed.
+    # +12V → R(1kΩ, 0402) → (FAN{n}_IND net) → D(LED_0805 red, anode) → GND
+    # Indicates +12V power flow on each fan rail.
+    # Schematic placement: to the RIGHT of fan headers (same row per fan)
+    # -----------------------------------------------------------------------
+    s.text("Per-fan Power Indicator LEDs  (passive)", 340, 64, size=2.54, bold=True, color=BLUE)
+
+    FAN_IND_R_CX = 147*G   # 373.38 mm — indicator resistors
+    FAN_IND_D_CX = 159*G   # 403.86 mm — indicator LEDs
+
+    for i in range(4):
+        FJ_CY   = FAN_CY0 + i * FAN_STEP
+        ind_net = f"FAN{i+1}_IND"
+
+        pr = s.component("Custom:R", f"R{9+i}", "1k",
+                         "Resistor_SMD:R_0402_1005Metric",
+                         FAN_IND_R_CX, FJ_CY)
+        s.power("+12V",      *pr["1"])             # left  pin → +12V rail
+        s.label(ind_net,     *pr["2"])             # right pin → local net to LED anode
+
+        pd = s.component("Custom:LED_SMD", f"D{2+i}", "LED_GREEN",
+                         "LED_THT:LED_D3.0mm",
+                         FAN_IND_D_CX, FJ_CY)
+        s.label(ind_net,     *pd["1"], angle=180)  # left  pin — anode
+        s.power("GND",       *pd["2"])             # right pin — cathode → GND
+
+    # -----------------------------------------------------------------------
     # STATUS_LED net: J8 pin 3 (GPIO2) -> R3 -> LED1 -> GND
     # R3 left pin: STATUS_LED (global_label, left-side -> angle=180)
     # R3 right pin -> local label LED_A -> LED1 left pin -> LED1 right: GND
