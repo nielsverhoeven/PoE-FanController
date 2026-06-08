@@ -57,6 +57,7 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 | U_BOOST | 5V→12V boost converter (e.g. TI LM2587-12 or TI TPS61085) | SOT-23-6 or D2PAK | Boosts +5V from SKU 32088 header to regulated +12V for fan headers |
 | J8 | 2×20 female pin socket, 2.54 mm pin pitch, **15.38 mm row-to-row spacing** (non-standard — confirmed from Waveshare ESP32-P4-POE-ETH dimension drawing), through-hole | `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` (in `hardware/kicad/footprints/Custom.pretty/`) | Daughter board ↔ Waveshare SKU 32088 — receives +5V (pins 2 & 4), +3.3V (pins 1 & 17), and GPIO signals from SKU 32088's male header; row spacing matches ESP32 board's 21mm width minus 2×2.81mm edge offsets |
 | J2–J5 | 47053-1000 (Molex) | 4-pin 2.54 mm | 12 V PWM fan headers (4-wire Intel spec) — placed on **side** edge for case cut-out access |
+| J6 | Molex 22-01-3037 (KK 254 3-pin housing) + Molex 08-50-0032 crimp terminals | 3-pin 2.54 mm polarized latching | DS18B20 temperature probe connector — keyed housing per P-HW-09; footprint `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` (KiCad standard library) |
 | NTC1 | 10 kΩ B=3950 NTC thermistor | THT | Board temperature sensing |
 | R4 | NTC voltage-divider resistor | THT | Bias resistor for NTC1 |
 | R5–R8 | TACH pull-up resistors | THT | TACH signal pull-ups to +3.3V |

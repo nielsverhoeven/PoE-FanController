@@ -1,7 +1,7 @@
 # Technical Plan: External DS18B20 Temperature Probe Support
 
 <!-- Issue: #97 | Branch: feature/97-ds18b20-temperature-probe | Status: PLANNING -->
-<!-- Constitution reference: v3.1.0 | Plan date: 2026-06-08 -->
+<!-- Constitution reference: v3.3.0 | Plan date: 2026-06-08 | Updated: 2026-06-08 (Stage 3 BLOCKING-01 resolved) -->
 
 ---
 
@@ -54,7 +54,8 @@ are strictly respected:
 | P-HW-03 — Side-edge connectors | J6 placed on right edge, consistent with J2–J5 |
 | P-HW-05 / P-KI-04 — Generator is schematic source | All schematic additions via `hardware/generator/components.py`; no hand-editing `.kicad_sch` |
 | P-HW-07 — Track standards | 1-Wire DATA trace: 0.25 mm signal class; keep away from 12V/PWM traces |
-| P-KI-05 — In-project symbols | No new custom symbol footprint required (screw terminal uses existing KiCad library) |
+| P-HW-09 — Polarized connectors | J6 must use Molex KK 254 22-01-3037 (keyed latching housing); MPN locked in §2.2 v3.3.0 ✅ RESOLVED |
+| P-KI-05 — In-project symbols | Footprint `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` confirmed in KiCad standard library |
 | P-SCH-01 — Global labels | `DS18B20_DATA` net uses a global label across schematic blocks |
 | P-TEST-01/03 — Zero ERC/DRC | Must be verified before any PCB layout submission |
 | P-UI-03 — REST conventions | `probe_temp_c` key follows existing temperature format (float, one decimal, or null) |
@@ -110,7 +111,7 @@ The PCB is modified in KiCad GUI (P-KI-07). Gerbers must be regenerated after la
 
 | Ref | Part | MPN | Footprint | Rationale |
 |---|---|---|---|---|
-| J6 | 3-pin 2.54 mm pitch screw terminal | Phoenix Contact 1714977 (or Wurth 691102510003) | `TerminalBlock_Phoenix_PT-1,5mm_3-pin` | Allows fieldwiring of bare-wire DS18B20 pigtail; robust screw clamp; same pitch as other THT passives |
+| J6 | Molex KK 254 3-pin vertical housing | **Molex 22-01-3037** (housing) + Molex 08-50-0032 (crimp terminals, 22–30 AWG) | `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` | Keyed/latching polarized housing per P-HW-09; 2.54 mm pitch; standard KiCad library footprint; prevents reversed GND/DATA/+3V3 insertion |
 | R14 | 4.7 kΩ 1/4W 1% axial THT | Yageo MFR-25FBF52-4K70 | `Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal` | 4.7 kΩ is the standard 1-Wire pull-up value; same family as R5–R8, R4 |
 | R15 | 330 Ω 1/4W 1% axial THT | Yageo MFR-25FBF52-330R | same as R3, R13 | Limits LED6 current to ≈ 10 mA @ 3.3V; identical to existing LED current-limit resistors |
 | LED6 | 3 mm green THT LED | Wurth 150060GS75000 | `LED_THT:LED_D3.0mm` | Consistent with LED1 (status) and LED2 (prog); all-green palette for board LEDs |

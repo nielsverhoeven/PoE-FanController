@@ -325,10 +325,10 @@ Before Stage 4 (hardware implementation) may begin, the following must be comple
 
 | # | Item | Owner | Status |
 |---|---|---|---|
-| 1 | **BLOCKING-01 resolved**: J6 connector changed to Molex KK 254 or JST XH in plan.md | Spec author | ❌ Outstanding |
-| 2 | `kicad.expert` confirms J6 polarized connector MPN and KiCad footprint | kicad.expert | ❌ Outstanding |
-| 3 | J6 MPN locked in §2.2 of constitution (MINOR amendment) | architect | ❌ Outstanding |
-| 4 | plan.md constitution reference updated to v3.3.0 | Spec author | ❌ Outstanding |
+| 1 | **BLOCKING-01 resolved**: J6 connector changed to Molex KK 254 or JST XH in plan.md | Spec author | ✅ **DONE** — Molex 22-01-3037 (KK 254 3-pin), footprint `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` |
+| 2 | `kicad.expert` confirms J6 polarized connector MPN and KiCad footprint | kicad.expert | ✅ **DONE** — Molex KK 254 3-pin confirmed; footprint verified in KiCad standard library |
+| 3 | J6 MPN locked in §2.2 of constitution (MINOR amendment) | architect | ✅ **DONE** — Added to constitution §2.2 v3.3.0 |
+| 4 | plan.md constitution reference updated to v3.3.0 | Spec author | ✅ **DONE** |
 | 5 | GPIO19/GPIO20 pin positions verified from Waveshare schematic PDF or hardware test (WARNING-01) | Developer | ❌ Outstanding |
 | 6 | Constitution v3.3.0 in effect — GPIO19/GPIO20 in P-FW-02 | architect | ✅ **DONE (Stage 3)** |
 | 7 | Phase 1 (library validation): `pio run -e esp32-p4-eth` passes with stub `probe.cpp` | Developer | ❌ Outstanding |
