@@ -84,18 +84,27 @@ GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52
 | Length | **78.00 mm** | 🟢 HIGH — measured from dimension drawing |
 | Width | **21.00 mm** | 🟢 HIGH — measured from dimension drawing |
 | Pin pitch (within row) | **2.54 mm** | 🟢 HIGH — shown in dimension drawing |
-| Row-to-row spacing | **2.81 mm** | 🟢 HIGH — shown in dimension drawing (⚠️ non-standard!) |
+| Edge-to-pin distance | **2.81 mm** from each long edge | 🟢 HIGH — shown in dimension drawing |
+| **Row-to-row spacing** | **15.38 mm** (= 21.00 − 2×2.81) | 🟢 HIGH — calculated from confirmed edge distance |
+| Row 1 centre (odd pins) | 2.81 mm from one long edge | 🟢 HIGH |
+| Row 2 centre (even pins) | 18.19 mm from same long edge (= 2.81 mm from other edge) | 🟢 HIGH |
+| First pin offset | **4.67 mm** from right short edge (in landscape orientation) | 🟢 HIGH — shown in dimension drawing |
 | Mounting holes | 4× M2.5, Raspberry Pi HAT pattern | 🟡 MEDIUM |
 
-> ⚠️ **Row spacing is 2.81 mm, NOT the standard 2.54 mm.**
-> The KiCad footprint `PinSocket_2x20_P2.54mm_Vertical` is WRONG for this board.
-> Use the custom footprint: `Custom:PinSocket_2x20_P2.54mm_P2.81mm_Vertical`
+> ⚠️ **Row spacing is 15.38 mm, NOT 2.81 mm.**
+> The 2.81 mm dimension in the drawing is the **edge-to-pin-centre distance** (how far each row is from the board edge).
+> The two rows are on OPPOSITE long edges: row 1 at 2.81 mm, row 2 at 21.00−2.81 = 18.19 mm from the same edge.
+> Row-to-row pitch = 18.19 − 2.81 = **15.38 mm**.
+> The KiCad footprint `PinSocket_2x20_P2.54mm_Vertical` AND `PinSocket_2x20_P2.54mm_P2.81mm_Vertical` are BOTH WRONG.
+> Use: `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`
 > (stored in `hardware/kicad/footprints/Custom.pretty/`)
 
-**Daughter board implication:**
-- Daughter board length = ESP32-P4-POE-ETH length = **78.0 mm** (to mate flush)
-- Daughter board width > 21 mm (extra width for side-edge fan headers)
-- Fan headers (J2–J5) must sit on the **long side edge** of the daughter board
+**Daughter board implication (portrait layout — per `docs/kb/Sample-PCB-Sketch.png`):**
+- Daughter board length (Y) = ESP32-P4-POE-ETH length = **≤78.00 mm** (board may not be longer)
+- Daughter board width (X) ≥ **42.00 mm** (= 2× ESP32 width of 21 mm)
+- ESP32-P4-POE-ETH occupies the **left column** (x = 0–21 mm), full height
+- Fan headers (J2–J5) are in the **right column** (x > 21 mm), stacked vertically
+- J8 connector spans Y = 4.67 mm to Y = 52.93 mm (20 pins × 2.54 mm = 48.26 mm span)
 
 ---
 

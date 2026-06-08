@@ -64,7 +64,7 @@
     (property "Value" "Waveshare_ESP32P4POEETH"
       (at 0.0000 26.6700 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Custom:PinSocket_2x20_P2.54mm_P2.81mm_Vertical"
+    (property "Footprint" "Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1391,7 +1391,7 @@
     (property "Value" "Waveshare_ESP32P4POEETH"
       (at 92.7100 153.6700 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Custom:PinSocket_2x20_P2.54mm_P2.81mm_Vertical"
+    (property "Footprint" "Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical"
       (at 91.4400 152.4000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))

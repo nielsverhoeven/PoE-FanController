@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 3.0.0 | Last amended: 2026-06-08 -->
+<!-- Version: 3.1.0 | Last amended: 2026-06-08 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -37,7 +37,7 @@ All entries in this table are **locked**. Changes require a MINOR or MAJOR amend
 | PCB layers | 2-layer FR4 | F.Cu / B.Cu | Minimum viable layer count for cost |
 | Board thickness | 1.6 mm | — | Standard FR4 |
 | Copper weight | 1 oz (35 µm) | Both layers | Adequate for ≤3 A traces |
-| Board dimensions | TBD: ~85.6 × [width] mm (daughter board — see §3.1) | — | Matches SKU 32088 length; width determined by fan header clearance (**⚠ pending wiki verification — see §11**) |
+| Board dimensions | **78.00 mm (length) × ≥42.00 mm (width)** — daughter board portrait layout; length equals ESP32-P4-POE-ETH (confirmed from dimension drawing); width ≥ 2× ESP32 width (2×21mm); see P-HW-04 | — | See §11 |
 | Paper size | A4 (PCB), A2 (schematic) | — | As set in project files |
 
 ### 2.2 Key Components (BOM-locked)
@@ -55,7 +55,7 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 | Ref | Value / MPN | Package | Role |
 |---|---|---|---|
 | U_BOOST | 5V→12V boost converter (e.g. TI LM2587-12 or TI TPS61085) | SOT-23-6 or D2PAK | Boosts +5V from SKU 32088 header to regulated +12V for fan headers |
-| J8 | 2×20 female pin header, 2.54 mm pitch, through-hole | `Connector_PinHeader_2.54mm:PinSocket_2x20_P2.54mm_Vertical` | Daughter board ↔ Waveshare SKU 32088 — receives +5V (pins 2 & 4), +3.3V (pins 1 & 17), and GPIO signals from SKU 32088's male header |
+| J8 | 2×20 female pin socket, 2.54 mm pin pitch, **15.38 mm row-to-row spacing** (non-standard — confirmed from Waveshare ESP32-P4-POE-ETH dimension drawing), through-hole | `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` (in `hardware/kicad/footprints/Custom.pretty/`) | Daughter board ↔ Waveshare SKU 32088 — receives +5V (pins 2 & 4), +3.3V (pins 1 & 17), and GPIO signals from SKU 32088's male header; row spacing matches ESP32 board's 21mm width minus 2×2.81mm edge offsets |
 | J2–J5 | 47053-1000 (Molex) | 4-pin 2.54 mm | 12 V PWM fan headers (4-wire Intel spec) — placed on **side** edge for case cut-out access |
 | NTC1 | 10 kΩ B=3950 NTC thermistor | THT | Board temperature sensing |
 | R4 | NTC voltage-divider resistor | THT | Bias resistor for NTC1 |
@@ -116,27 +116,41 @@ the J8 female header at the board end that mates with the Waveshare SKU 32088.
 > is integrated on the Waveshare ESP32-P4-POE-ETH (SKU 32088) main board and handles both
 > PoE power delivery and Ethernet data on a single cable.
 
-> **Documented exception — J8 (2×20 female header):**
-> J8 (`Connector_PinHeader_2.54mm:PinSocket_2x20_P2.54mm_Vertical`) is placed at **one end of
-> the daughter board** (perpendicular to the side edge) to mate with the Waveshare SKU 32088's
-> male 2×20 header.
-> 1. J8 is a board-to-board mating connector, not an external cable connector; side-edge placement
->    is not applicable.
-> 2. End placement is required to align mechanically with the Waveshare module's header position.
+> **Documented exception — J8 (2×20 female socket):**
+> J8 (`Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`, stored in `hardware/kicad/footprints/Custom.pretty/`) is placed along the **LEFT edge** of the daughter board (running the full 78mm height) to mate with the Waveshare SKU 32088's male 2×20 header.
+> Critical mechanical constraints confirmed from SKU 32088 dimension drawing:
+> - **Row spacing: 15.38 mm** (= board width 21mm − 2×2.81mm edge offsets; NOT standard 2.54mm)
+> - **Row 1 (odd pins)**: at x = 2.81 mm from the left/board edge
+> - **Row 2 (even pins)**: at x = 18.19 mm from the left edge (= 2.81 mm from the far row side)
+> - **Pin pitch**: 2.54 mm along the 78mm axis
+> - **First pin**: 4.67 mm from one short end of the board
+> - 20 positions × 2.54 mm pitch → header spans 4.67 mm to 52.93 mm from the top edge
+> 1. J8 is a board-to-board mating connector, not an external cable connector; side-edge placement is not applicable.
+> 2. Left-edge placement is required to align mechanically with the Waveshare module's header position.
 > 3. J8 is entirely within the secondary (SELV) domain; it introduces no isolation concern.
-> Amendment: v3.0.0, 2026-06-08 — architect + poe.expert + esp32.expert + kicad.expert.
+> Amendment: v3.1.0, 2026-06-08.
 
-**P-HW-04 — Board outline (dimensions TBD — pending verification).**
-Board outline is on Edge.Cuts. The daughter board length must match the Waveshare SKU 32088 length
-(~85.6 mm — **MEDIUM confidence; must be confirmed from Waveshare wiki before PCB fabrication**).
-The daughter board width must be greater than the SKU 32088 width (56 mm) by sufficient margin
-to accommodate side-edge fan headers (J2–J5) with adequate clearance.
-Exact dimensions are TBD. This rule must be updated with confirmed measurements before layout is
-frozen. See §11 (Verification Items) for V1 (dimensions) and V3 (header current).
+**P-HW-04 — Board outline (CONFIRMED — Amendment v3.1.0).**
 
-> Replaces the prior fixed 90 × 70 mm rule. A MAJOR amendment (this one) is required before
-> the PCB outline is changed, which has been recorded here. The fabrication quote must be
-> re-evaluated once final dimensions are confirmed.
+The daughter board uses a **portrait layout** as established by the PCB sketch in `docs/kb/Sample-PCB-Sketch.png`.
+
+| Constraint | Value | Source |
+|---|---|---|
+| Maximum board length | **78.00 mm** | Must equal ESP32-P4-POE-ETH board length (confirmed from dimension drawing) |
+| Minimum board width | **42.00 mm** | Must be at least 2× the ESP32-P4-POE-ETH width (2×21.00 mm) |
+| Orientation | **Portrait** (78mm vertical, width horizontal) | PCB sketch |
+
+**Layout zones (portrait orientation):**
+- **Left zone (x = 0–21 mm):** ESP32-P4-POE-ETH mechanical footprint + J8 header area. No PCB components in this zone except J8 pads.
+- **Right zone (x = 21 mm – board width):** Boost converter (U_BOOST), fan headers (J2–J5), TACH pull-ups (R5–R8), status LED (R3/LED1), NTC sensor (R4/NTC1).
+
+**J8 pin constraints (from ESP32-P4-POE-ETH dimension drawing — HIGH confidence):**
+- First pin: 4.67 mm from top edge of board
+- Header Y span: 4.67 mm to 52.93 mm (20 × 2.54 mm pitch = 48.26 mm)
+- Row 1 centre: x = 2.81 mm from left board edge
+- Row 2 centre: x = 18.19 mm from left board edge
+
+> Source: `docs/kb/ESP32-P4-POE-ETH/ESP32-P4-ETH-details-size-*.webp` + `docs/kb/Sample-PCB-Sketch.png`
 
 **P-HW-05 — Schematic is generated, not hand-edited.**
 The `hardware/generator/` package (invoked via `hardware/generate_project.py`) is the single source of truth for `.kicad_sch` only.
@@ -512,3 +526,5 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | 1.1.0 | 2026-06-06 | MINOR — P-CI-02 (new): Release workflow must DRC-gate Gerber export with zero-tolerance threshold independent of PR gate; release must produce GitHub Release with Gerbers, drill file, BOM CSV, and schematic PDF. Feature: ci-fixes (#33). | architect |
 | 1.3.0 | 2026-06-07 | MINOR-001 — generator refactored to `hardware/generator/` package; PCB layout transitioned to KiCad GUI. Affected: §2.1 (schematic source of truth row updated to package reference; `.kicad_pcb` explicitly excluded from generator scope); P-HW-05 (scoped to `.kicad_sch` only; package reference); P-KI-04 (scoped to `.kicad_sch` only; thin-wrapper pattern; rule renamed to reflect package); §7A preamble (package reference). New: P-KI-07 — `.kicad_pcb` is KiCad GUI territory; no script may write to or regenerate it; CI generator step regenerates `.kicad_sch` and `bom.csv` only. Reason: monolithic generator impedes PCB routing which requires KiCad interactive router. Status: APPROVED (user-initiated). Feature: generator-refactor (#62). | architect |
 | 2.0.0 | 2026-06-08 | MAJOR — Waveshare ESP32-P4-ETH carrier board redesign. Custom PCB transitions from standalone design to carrier/HAT board for Waveshare ESP32-P4-ETH (SKU 32086). **Removed components**: U3 (ESP32-P4-MINI-1U-N16R8), U4 (CH340C), U5 (LAN8720A-CP-TR), J6 (USB4085-GF-A USB-C), SW1/SW2 (RESET/BOOT), R1/R2 (EN/BOOT pull-ups), R9/R10 (USB-C CC resistors), R11–R15 (LAN8720A passives), C3–C11 (decoupling caps) — all now integrated on Waveshare board. **Added**: J8 (Sullins PREC020DAAN-RC / Würth 61304021821, 2×20 HAT header), D2 (1N5822 USB back-feed protection Schottky). **U2 changed**: LM2596S-3.3/NOPB → LM2596S-5.0/NOPB (same D2PAK package, drop-in; 12V→5V for Waveshare). **J1 role clarified**: PoE power only; MDI secondary NC; PSE must use force-PoE mode. **Power chain updated**: 12V → LM2596S-5.0 → +5V → D2 → +5V_HAT (~4.65V) → J8 → Waveshare (internal 3.3V LDO) → +3V3 back to carrier for TACH pull-ups and NTC divider. **GPIO assignments unchanged** (GPIO4–11, GPIO16, GPIO2 all available on Waveshare J8 header). **§2.3 Serial debug** updated: UART0 GPIO38/GPIO39 via Waveshare CH343P. **§4 P-FW-02** peripheral table replaced with ESP32-P4 assignments. **§5.1 power chain** and **§5.2 budget** replaced (new total ~18.9W, margin ~1.1W vs 20W hard cap — tighter than prior design). **§8.4 bring-up checklist** updated for carrier-board assembly sequence. **§3.1 P-HW-03** J8 placement exception documented. PlatformIO env renamed `esp32-p4` → `esp32-p4-eth`; board JSON: `firmware/boards/waveshare-esp32-p4-eth.json` (32MB flash, 32MB PSRAM). All expert consultations completed: poe.expert (Decision 1: J1 MDI NC, Decision 2: D2 protection + power chain), esp32.expert (Decision 4: GPIO unchanged, Decision 6: board JSON), kicad.expert (Decision 3: J8 MPN/footprint). | architect + poe.expert + esp32.expert + kicad.expert |
+| 3.0.0 | 2026-06-08 | MAJOR — Transition from ESP32-P4-ETH (SKU 32086, no PoE) to ESP32-P4-POE-ETH (SKU 32088, onboard PoE). Custom PCB re-scoped from carrier board to **daughter board** (no PoE components on custom PCB — PoE handled entirely by Waveshare board). Removed: J1 (RJ45), U1 (Ag9905M PoE module), U2 (LM2596S buck), D1/D2 (diodes), L1 (inductor), J7 (debug UART header). Added: U_BOOST (LM2587-12, 5V→12V boost for fan rail). Power path: SKU 32088 PoE PD → +5V on J8 pins 2/4 → U_BOOST → +12V → J2–J5 fan headers. Board is now SELV-only; isolation barrier removed. PCB width revised (was 56mm estimate — pending confirmation). §2.1 dimensions row updated to TBD. | architect |
+| 3.1.0 | 2026-06-08 | MINOR — Board dimensions and PCB layout confirmed from Waveshare ESP32-P4-POE-ETH dimension drawing and PCB sketch. **P-HW-04 rewritten**: board is portrait 78mm × ≥42mm; left zone is ESP32 area (0–21mm); right zone is fan/boost area. **P-HW-03 updated**: J8 row spacing corrected to 15.38mm (was 2.81mm — that value is edge-to-pin distance, not row pitch); pin positions documented (row1 at x=2.81mm, row2 at x=18.19mm, first pin 4.67mm from top). **§2.1 dimensions** updated to 78×≥42mm. **§2.2 J8 BOM** footprint updated to `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`. New constitution rules: (1) board never longer than 78mm, (2) board at least 42mm wide, (3) J8 pin positions exactly per dimension drawing, (4) PCB layout per `docs/kb/Sample-PCB-Sketch.png`. | user + architect |
