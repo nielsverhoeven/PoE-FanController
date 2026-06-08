@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 2.0.0 | Last amended: 2026-06-08 -->
+<!-- Version: 3.0.0 | Last amended: 2026-06-08 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -13,8 +13,8 @@
 |---|---|
 | Project name | PoE FanController |
 | Repository | nielsverhoeven/PoE-FanController |
-| Current revision | v0.1 |
-| Purpose | 802.3at PoE-powered, ESP32-controlled 4-channel PWM fan controller with web UI |
+| Current revision | v0.2 |
+| Purpose | 4-channel PWM fan controller using Waveshare ESP32-P4-POE-ETH (SKU 32088) as main board with a custom daughter board providing side-accessible 12V PWM fan headers |
 | Initial constitution date | 2026-06-06 |
 
 ---
@@ -37,30 +37,35 @@ All entries in this table are **locked**. Changes require a MINOR or MAJOR amend
 | PCB layers | 2-layer FR4 | F.Cu / B.Cu | Minimum viable layer count for cost |
 | Board thickness | 1.6 mm | — | Standard FR4 |
 | Copper weight | 1 oz (35 µm) | Both layers | Adequate for ≤3 A traces |
-| Board dimensions | 90 × 70 mm | — | Fixed outline; Edge.Cuts must not move |
+| Board dimensions | TBD: ~85.6 × [width] mm (daughter board — see §3.1) | — | Matches SKU 32088 length; width determined by fan header clearance (**⚠ pending wiki verification — see §11**) |
 | Paper size | A4 (PCB), A2 (schematic) | — | As set in project files |
 
 ### 2.2 Key Components (BOM-locked)
 
 These component selections are locked. Substitutions require a MAJOR amendment.
 
-> **v2.0.0 Architecture note:** The custom PCB is now a **carrier/HAT board** for the
-> **Waveshare ESP32-P4-ETH** development board (SKU 32086). The Waveshare module (mounted on J8)
-> integrates the ESP32-P4NRW32 SoC, LAN8720A PHY, CH343P USB bridge, USB-C, RESET/BOOT buttons,
-> 32 MB flash, and 32 MB stacked PSRAM. Components previously discrete on the custom PCB
-> (U3, U4, U5, J6, SW1, SW2, R1, R2, R9–R15, C3–C11) have been removed as they are now
-> provided by the Waveshare board.
+> **v3.0.0 Architecture note:** The custom PCB is now a **daughter board** for the
+> **Waveshare ESP32-P4-POE-ETH** development board (SKU 32088). The Waveshare module integrates
+> the ESP32-P4 SoC, LAN8720A PHY, onboard PoE PD module (802.3at Class 4), USB-C, RESET/BOOT
+> buttons, 32 MB flash, and 32 MB PSRAM. It provides a single RJ45 for both PoE power and
+> Ethernet data. The daughter board provides power conversion (5V→12V boost) and fan headers.
+> Primary-side circuitry and the isolation barrier reside entirely inside the Waveshare board;
+> the daughter board is wholly in the SELV domain.
 
 | Ref | Value / MPN | Package | Role |
 |---|---|---|---|
-| U1 | Ag9905M (Silvertel) | 2×4 pin header (2.54 mm) | PoE+ 802.3at PD module — provides isolated 12 V / 1.67 A output |
-| U2 | LM2596S-5.0/NOPB (TI) | D2PAK (TO-263-5) | Fixed 5.0 V, 3 A buck regulator (12 V → 5 V for Waveshare board) |
-| J1 | 615008144521 (Würth) | RJ45 horizontal | PoE **power** input only — MDI secondary winding is NC; Waveshare's own RJ45 handles data |
-| J2–J5 | 47053-1000 (Molex) | 4-pin 2.54 mm | 12 V PWM fan headers (4-wire Intel spec) |
-| J8 | Sullins PREC020DAAN-RC **or** Würth 61304021821 | 2×20 pin header, 2.54 mm pitch, through-hole | HAT header — carrier PCB ↔ Waveshare ESP32-P4-ETH; Waveshare's female socket mates on top |
-| L1 | SRR5028-680Y (Bourns) 68 µH | Axial THT | LM2596 buck inductor |
-| D1 | 1N5822 | DO-201AD THT | LM2596 Schottky catch diode (3 A / 40 V) |
-| D2 | 1N5822 | DO-201AD THT | USB back-feed protection Schottky — series between LM2596 +5V output and J8 +5V_HAT rail; prevents back-feeding PC USB host when Waveshare is programmed via USB-C while PoE is live |
+| U_BOOST | 5V→12V boost converter (e.g. TI LM2587-12 or TI TPS61085) | SOT-23-6 or D2PAK | Boosts +5V from SKU 32088 header to regulated +12V for fan headers |
+| J8 | 2×20 female pin header, 2.54 mm pitch, through-hole | `Connector_PinHeader_2.54mm:PinSocket_2x20_P2.54mm_Vertical` | Daughter board ↔ Waveshare SKU 32088 — receives +5V (pins 2 & 4), +3.3V (pins 1 & 17), and GPIO signals from SKU 32088's male header |
+| J2–J5 | 47053-1000 (Molex) | 4-pin 2.54 mm | 12 V PWM fan headers (4-wire Intel spec) — placed on **side** edge for case cut-out access |
+| NTC1 | 10 kΩ B=3950 NTC thermistor | THT | Board temperature sensing |
+| R4 | NTC voltage-divider resistor | THT | Bias resistor for NTC1 |
+| R5–R8 | TACH pull-up resistors | THT | TACH signal pull-ups to +3.3V |
+| R3 | LED current-limit resistor | THT | Series resistor for LED1 |
+| LED1 | Status LED | THT/SMD | Power-on / status indicator |
+
+> **⚠ Verification required before PCB fabrication:** SKU 32088 header pin assignments (especially
+> +5V on pins 2 & 4 and current capacity) are MEDIUM confidence. See §11 for full verification
+> item list.
 
 ### 2.3 Firmware
 
@@ -102,37 +107,36 @@ The bottom copper layer (B.Cu) is reserved exclusively for traces and copper pou
 No component footprint may have pads or courtyard on B.Cu.
 This rule is absolute: it simplifies hand assembly, visual inspection, and conformal coating.
 
-**P-HW-03 — Single board-edge connector rule (CRITICAL).**
-All primary external connectors **(J1, J2–J5)** MUST be placed on the **same board edge**.
-The designated edge is the **top edge at y ≈ 5 mm**.
-This ensures all cable connections are accessible from one side and prevents cable routing conflicts.
+**P-HW-03 — Board-edge connector rule (CRITICAL).**
+All primary external connectors **(J2–J5)** MUST be placed on the **SIDE edge** of the daughter board.
+This provides side-accessible fan cable routing for case cut-outs, and avoids conflict with
+the J8 female header at the board end that mates with the Waveshare SKU 32088.
 
-> **Documented exception — J7 (debug UART header):**
-> J7 (`PinHeader_1x03_P2.54mm`, 3-pin 2.54 mm) is placed on the **right board edge (x = 95 mm)**
-> and is the **sole** named exception to this rule. Rationale:
-> 1. J7 is a development-only debug UART convenience connector; it is not panel-mounted,
->    user-facing, or present on production labels.
-> 2. J7 has no locked MPN (§2.2 does not list it); no BOM amendment is triggered.
-> 3. J7 physically cannot fit on the top-edge secondary rail: the 53.5 mm secondary rail is
->    fully consumed by J2–J5 (previously also J6 — now removed), leaving insufficient margin for J7.
-> 4. J7 is entirely within the secondary (SELV) domain (x > 38 mm); its right-edge
->    position introduces no isolation risk.
-> 5. J7 global labels (ESP_TX/ESP_RX) connect via J8 to Waveshare UART0 (GPIO38/GPIO39 → CH343P),
->    providing an alternative bare-UART bench debug access point.
-> Amendment: v1.0.1, 2026-06-06 — architect, feature pcb-connector-edge.
+> **J1 removal note (v3.0.0):** J1 (RJ45) is no longer present on the custom PCB. The RJ45
+> is integrated on the Waveshare ESP32-P4-POE-ETH (SKU 32088) main board and handles both
+> PoE power delivery and Ethernet data on a single cable.
 
-> **Documented exception — J8 (2×20 HAT header):**
-> J8 (`Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical`) is placed **centrally on
-> the PCB** (not on a board edge) and faces **downward** toward the Waveshare ESP32-P4-ETH board
-> which mounts HAT-style on top.
-> 1. J8 is a board-to-board mating header, not an external cable connector; board-edge placement
+> **Documented exception — J8 (2×20 female header):**
+> J8 (`Connector_PinHeader_2.54mm:PinSocket_2x20_P2.54mm_Vertical`) is placed at **one end of
+> the daughter board** (perpendicular to the side edge) to mate with the Waveshare SKU 32088's
+> male 2×20 header.
+> 1. J8 is a board-to-board mating connector, not an external cable connector; side-edge placement
 >    is not applicable.
-> 2. Central placement is required to align with the Waveshare module's mechanical footprint.
+> 2. End placement is required to align mechanically with the Waveshare module's header position.
 > 3. J8 is entirely within the secondary (SELV) domain; it introduces no isolation concern.
-> Amendment: v2.0.0, 2026-06-08 — architect + poe.expert + esp32.expert + kicad.expert.
+> Amendment: v3.0.0, 2026-06-08 — architect + poe.expert + esp32.expert + kicad.expert.
 
-**P-HW-04 — Fixed board outline.**
-Board outline is 90 × 70 mm on Edge.Cuts. This must not change without a MAJOR amendment affecting fabrication quotes.
+**P-HW-04 — Board outline (dimensions TBD — pending verification).**
+Board outline is on Edge.Cuts. The daughter board length must match the Waveshare SKU 32088 length
+(~85.6 mm — **MEDIUM confidence; must be confirmed from Waveshare wiki before PCB fabrication**).
+The daughter board width must be greater than the SKU 32088 width (56 mm) by sufficient margin
+to accommodate side-edge fan headers (J2–J5) with adequate clearance.
+Exact dimensions are TBD. This rule must be updated with confirmed measurements before layout is
+frozen. See §11 (Verification Items) for V1 (dimensions) and V3 (header current).
+
+> Replaces the prior fixed 90 × 70 mm rule. A MAJOR amendment (this one) is required before
+> the PCB outline is changed, which has been recorded here. The fabrication quote must be
+> re-evaluated once final dimensions are confirmed.
 
 **P-HW-05 — Schematic is generated, not hand-edited.**
 The `hardware/generator/` package (invoked via `hardware/generate_project.py`) is the single source of truth for `.kicad_sch` only.
@@ -149,7 +153,7 @@ All schematic symbol origins and pin endpoints must land on the 2.54 mm grid (sn
 | Power (+12 V, GND) | 1.0 mm | 0.8 mm | 0.4 mm |
 
 **P-HW-08 — Ground copper pour on both layers.**
-Both F.Cu and B.Cu carry a GND copper pour. The pour must be split at the isolation barrier (x = 38 mm) so that primary-side and secondary-side ground planes are never directly connected through a copper pour.
+Both F.Cu and B.Cu carry a GND copper pour. There is only **one** ground domain on the daughter board: `GND` (SELV secondary). The primary-side isolation barrier (previously at x = 38 mm) is no longer present on the daughter board — it resides inside the Waveshare SKU 32088. No split of the ground pour is required on the daughter board.
 
 ---
 
