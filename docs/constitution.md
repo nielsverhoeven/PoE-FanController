@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 3.1.0 | Last amended: 2026-06-08 -->
+<!-- Version: 3.3.0 | Last amended: 2026-06-08 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -169,6 +169,21 @@ All schematic symbol origins and pin endpoints must land on the 2.54 mm grid (sn
 **P-HW-08 — Ground copper pour on both layers.**
 Both F.Cu and B.Cu carry a GND copper pour. There is only **one** ground domain on the daughter board: `GND` (SELV secondary). The primary-side isolation barrier (previously at x = 38 mm) is no longer present on the daughter board — it resides inside the Waveshare SKU 32088. No split of the ground pour is required on the daughter board.
 
+**P-HW-09 — All external cable connectors shall use polarized (keyed) housings. (Amendment v3.2.0)**
+Any connector that accepts a cable assembly from an external device (fan, temperature probe, or similar) **must** use a mechanically keyed or polarized housing that physically prevents incorrect plug orientation. Generic unpolarized pin headers (e.g. `PinHeader_1x04_P2.54mm_Vertical`) are **not** permitted for external cable connectors.
+
+- **Applies to:** J2–J5 (fan headers), J6 (temperature probe header), and any future external cable connectors added to the daughter board.
+- **Does not apply to:** J8 (board-to-board mating connector — keying is provided by the Waveshare SKU 32088 alignment; no field cable is attached).
+- **Recommended connector family:** Molex KK 254 (2.54 mm pitch, latching housing, keyed) or equivalent polarized 2.54 mm housing confirmed by `kicad.expert`. JST XH (2.5 mm pitch) is also acceptable if the KiCad footprint pitch matches PCB pads.
+- **Footprint source:** KiCad standard `Connector_Molex` or `Connector_JST` library (via global library table). If the required footprint is absent from the standard library, it must be created in `hardware/kicad/footprints/Custom.pretty/` per P-KI-05.
+- **BOM entry:** The specific polarized connector MPN for J2–J5 is locked in §2.2. Any future external cable connector MPN must be locked in §2.2 before PCB layout begins.
+
+> Amendment rationale: Issue #97 (Fan Header Footprint Redesign) identified that all four existing
+> fan headers (J2–J5) use unpolarized generic pin headers, making incorrect fan cable insertion
+> possible. Polarized housings eliminate this mis-insertion risk. This principle generalises
+> the requirement to all current and future external cable connectors on the daughter board.
+> Amendment: v3.2.0, 2026-06-08.
+
 ---
 
 ## 4. Firmware Architecture Principles
@@ -196,11 +211,14 @@ All GPIO assignments are routed through J8 (2×20 HAT header) to the Waveshare E
 | GPIO interrupts (TACH) | `fan` | GPIO8, GPIO9, GPIO10, GPIO11 | Via J8 |
 | ADC (SAR ADC) | `temp` | GPIO16 (NTC) | Via J8 |
 | UART0 | `main` / debug | GPIO38 (TXD0), GPIO39 (RXD0) | Via Waveshare CH343P USB-C; also accessible via J7 bare-UART header |
-| GPIO output | `main` | GPIO2 (status LED) | Via J8 |
+| GPIO output (board status LED) | `main` | GPIO2 (STATUS_LED → R3 → LED1 green 3mm THT) | Via J8 left pin 3 |
+| GPIO output (OTA activity LED) | `ota` | GPIO15 (PROG_LED → R13 → LED2 orange 3mm THT) | Via J8 right pin 22; implemented in generator; **pre-existing assignment corrected by v3.2.0 PATCH** |
+| 1-Wire bus (DS18B20 probe DATA) | `probe` | GPIO19 (DS18B20_DATA → R14 4.7kΩ pull-up → J6 pin 2) | Via J8 left pin 27; 4.7kΩ pull-up resistor R14 to +3V3 on daughter board; confirmed available (not strapping, not EMAC, not UART); **assigned by v3.3.0 MINOR — issue #97** |
+| GPIO output (probe status LED) | `probe` | GPIO20 (PROBE_LED → R15 330Ω → LED6 green 3mm THT) | Via J8 right pin 28; Status_LED_5 probe health indicator; confirmed available; **assigned by v3.3.0 MINOR — issue #97** |
 | LittleFS | `web`, `config` | — | |
 | NVS | `config` | — | |
 | Ethernet MAC/RMII | `main` | GPIO32–37 (fixed), GPIO50 (REF_CLK), GPIO28 (MDIO), GPIO31 (MDC) | Internally connected to Waveshare's LAN8720A; not routed to J8 |
-| I2C (SDA/SCL) | reserved | GPIO21, GPIO22 | Available on J8 if needed |
+| I2C (SDA/SCL) | reserved | GPIO21, GPIO22 | Available on J8 if needed — **note: GPIO21 reclassified from "reserved I2C" to "available" pending P-FW-02 update; GPIO22 confirmed available; consult esp32.expert before assigning** |
 
 **P-FW-03 — PWM specification.**
 Fan PWM frequency is **25 kHz**, 8-bit resolution. This must not change; 4-wire PC fans require 21–28 kHz per Intel fan spec.
@@ -528,3 +546,6 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | 2.0.0 | 2026-06-08 | MAJOR — Waveshare ESP32-P4-ETH carrier board redesign. Custom PCB transitions from standalone design to carrier/HAT board for Waveshare ESP32-P4-ETH (SKU 32086). **Removed components**: U3 (ESP32-P4-MINI-1U-N16R8), U4 (CH340C), U5 (LAN8720A-CP-TR), J6 (USB4085-GF-A USB-C), SW1/SW2 (RESET/BOOT), R1/R2 (EN/BOOT pull-ups), R9/R10 (USB-C CC resistors), R11–R15 (LAN8720A passives), C3–C11 (decoupling caps) — all now integrated on Waveshare board. **Added**: J8 (Sullins PREC020DAAN-RC / Würth 61304021821, 2×20 HAT header), D2 (1N5822 USB back-feed protection Schottky). **U2 changed**: LM2596S-3.3/NOPB → LM2596S-5.0/NOPB (same D2PAK package, drop-in; 12V→5V for Waveshare). **J1 role clarified**: PoE power only; MDI secondary NC; PSE must use force-PoE mode. **Power chain updated**: 12V → LM2596S-5.0 → +5V → D2 → +5V_HAT (~4.65V) → J8 → Waveshare (internal 3.3V LDO) → +3V3 back to carrier for TACH pull-ups and NTC divider. **GPIO assignments unchanged** (GPIO4–11, GPIO16, GPIO2 all available on Waveshare J8 header). **§2.3 Serial debug** updated: UART0 GPIO38/GPIO39 via Waveshare CH343P. **§4 P-FW-02** peripheral table replaced with ESP32-P4 assignments. **§5.1 power chain** and **§5.2 budget** replaced (new total ~18.9W, margin ~1.1W vs 20W hard cap — tighter than prior design). **§8.4 bring-up checklist** updated for carrier-board assembly sequence. **§3.1 P-HW-03** J8 placement exception documented. PlatformIO env renamed `esp32-p4` → `esp32-p4-eth`; board JSON: `firmware/boards/waveshare-esp32-p4-eth.json` (32MB flash, 32MB PSRAM). All expert consultations completed: poe.expert (Decision 1: J1 MDI NC, Decision 2: D2 protection + power chain), esp32.expert (Decision 4: GPIO unchanged, Decision 6: board JSON), kicad.expert (Decision 3: J8 MPN/footprint). | architect + poe.expert + esp32.expert + kicad.expert |
 | 3.0.0 | 2026-06-08 | MAJOR — Transition from ESP32-P4-ETH (SKU 32086, no PoE) to ESP32-P4-POE-ETH (SKU 32088, onboard PoE). Custom PCB re-scoped from carrier board to **daughter board** (no PoE components on custom PCB — PoE handled entirely by Waveshare board). Removed: J1 (RJ45), U1 (Ag9905M PoE module), U2 (LM2596S buck), D1/D2 (diodes), L1 (inductor), J7 (debug UART header). Added: U_BOOST (LM2587-12, 5V→12V boost for fan rail). Power path: SKU 32088 PoE PD → +5V on J8 pins 2/4 → U_BOOST → +12V → J2–J5 fan headers. Board is now SELV-only; isolation barrier removed. PCB width revised (was 56mm estimate — pending confirmation). §2.1 dimensions row updated to TBD. | architect |
 | 3.1.0 | 2026-06-08 | MINOR — Board dimensions and PCB layout confirmed from Waveshare ESP32-P4-POE-ETH dimension drawing and PCB sketch. **P-HW-04 rewritten**: board is portrait 78mm × ≥42mm; left zone is ESP32 area (0–21mm); right zone is fan/boost area. **P-HW-03 updated**: J8 row spacing corrected to 15.38mm (was 2.81mm — that value is edge-to-pin distance, not row pitch); pin positions documented (row1 at x=2.81mm, row2 at x=18.19mm, first pin 4.67mm from top). **§2.1 dimensions** updated to 78×≥42mm. **§2.2 J8 BOM** footprint updated to `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`. New constitution rules: (1) board never longer than 78mm, (2) board at least 42mm wide, (3) J8 pin positions exactly per dimension drawing, (4) PCB layout per `docs/kb/Sample-PCB-Sketch.png`. | user + architect |
+| 3.2.0 | 2026-06-08 | PATCH — **P-FW-02 corrected**: GPIO15 (J8 right pin 22, PROG_LED → R13 → LED2 orange 3mm THT, OTA activity indicator, owned by `ota` module) was already implemented in `hardware/generator/components.py` but absent from the P-FW-02 peripheral ownership table. Row added. GPIO2 entry clarified with full signal path. I2C reserved row annotated with availability note pending esp32.expert confirmation. Pre-existing omission; no new technology choice. Feature: fan-header-footprint-redesign (#97). | architect |
+| 3.2.0 | 2026-06-08 | MINOR — **P-HW-09 (new)**: All external cable connectors shall use polarized (keyed) housings. Applies to J2–J5 (fan headers), J6 (temperature probe), and all future external cable connectors. Molex KK 254 (2.54 mm pitch) recommended; JST XH (2.5 mm) acceptable. Unpolarized generic pin headers prohibited for external cable connectors. Does not apply to J8 (board-to-board). Rationale: issue #97 (Fan Header Footprint Redesign) identified mis-insertion risk on all four fan headers. Principle generalised to all external cable connectors. Requires kicad.expert confirmation for specific MPN/footprint before J2–J5 BOM update (MAJOR amendment, pending). Feature: fan-header-footprint-redesign (#97). | architect |
+| 3.3.0 | 2026-06-08 | MINOR — **P-FW-02 extended**: GPIO19 (`DS18B20_DATA`) and GPIO20 (`PROBE_LED`) formally assigned to new `probe` firmware module. GPIO19: 1-Wire bus DATA line for DS18B20 external temperature probe, via J8 left pin 27, with 4.7kΩ pull-up resistor R14 to +3V3 on daughter board. GPIO20: probe status LED (Status_LED_5 / LED6 green 3mm THT), via J8 right pin 28, with 330Ω series resistor R15. Both GPIOs confirmed available from `hardware/generator/components.py` pin map (not strapping pins; not reserved by EMAC, UART, or any existing peripheral). This amendment is the Phase 0 prerequisite for feature ds18b20-temperature-probe (issue #97) and was applied during Stage 3 Architecture Validation. Feature: ds18b20-temperature-probe (#97). | architect |
