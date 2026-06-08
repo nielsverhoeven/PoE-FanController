@@ -109,6 +109,37 @@ kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb
 
 <!-- MANUAL ADDITIONS START -->
 
+## Windows-First Tool Rules (CRITICAL — violations cause wasted retries)
+
+This project runs on **Windows**. Always use Windows-native commands:
+
+| ❌ Unix (will fail) | ✅ Windows replacement |
+|---|---|
+| `pio run` | `python -m platformio run` (or check `where.exe platformio` first) |
+| `head -N file` | `Get-Content file \| Select-Object -First N` |
+| `tail -N file` | `Get-Content file \| Select-Object -Last N` |
+| `cat file` | `Get-Content file` |
+| `grep pattern file` | Use the `grep` tool (ripgrep-based) |
+| `which tool` | `where.exe tool` |
+| `kicad-cli` | `C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe` |
+
+**Before running any CLI tool**: verify it is on the Windows PATH with `where.exe <tool>` rather than assuming Unix defaults exist.
+
+## GitHub Auth Rule
+
+**Never run `gh auth login --web`** — it blocks the shell indefinitely waiting for browser interaction.
+
+If `gh auth status` shows "not logged in":
+1. Use `ask_user` to request the user provide a `GH_TOKEN`
+2. Set it: `$env:GH_TOKEN = '<value>'` — then `gh` commands work immediately
+
+## Session Store Query Discipline
+
+When using `session_store_sql`:
+1. If unsure of column names, query `information_schema.columns WHERE table_name = '...'` **first**
+2. After **2 consecutive queries returning 0 rows**, stop — the data is not available; report that and move on
+3. Never ILIKE-scan large tables (`turns`, `events`) without a `WHERE timestamp >` time filter
+
 ## Knowledge Base (KB) — Read Before Spending Cloud Credits
 
 The `docs/kb/` directory contains pre-loaded domain facts for this project.
