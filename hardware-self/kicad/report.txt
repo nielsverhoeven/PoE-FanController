@@ -1,0 +1,774 @@
+Info: Processing symbol 'C1:Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm'.
+Info: Processing symbol 'L1:Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC'.
+Info: Processing symbol 'R3:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'J6:Connector_USB:USB_C_Receptacle_GCT_USB4085'.
+Info: Processing symbol 'R11:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R4:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'J1:Custom:RJ45_Wuerth_615008144521'.
+Info: Processing symbol 'J5:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'NTC1:Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal'.
+Info: Processing symbol 'R10:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'C5:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C8:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'R9:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'C2:Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm'.
+Info: Processing symbol 'J4:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'R8:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'C11:Capacitor_SMD:C_0805_2012Metric'.
+Info: Processing symbol 'R7:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R1:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R2:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'J3:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'LED1:LED_THT:LED_D3.0mm'.
+Info: Processing symbol 'J7:Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical'.
+Info: Processing symbol 'R14:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'C6:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'R13:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'C3:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C9:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'U5:Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm'.
+Info: Processing symbol 'U4:Package_SO:SOIC-16_3.9x9.9mm_P1.27mm'.
+Info: Processing symbol 'U3:Custom:ESP32-P4-MINI-1'.
+Info: Processing symbol 'U2:Package_TO_SOT_SMD:TO-263-5_TabPin3'.
+Info: Processing symbol 'D1:Diode_THT:D_DO-201AD_P12.70mm_Horizontal'.
+Info: Processing symbol 'U1:Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical'.
+Info: Processing symbol 'SW2:Button_Switch_THT:SW_PUSH_6mm'.
+Info: Processing symbol 'SW1:Button_Switch_THT:SW_PUSH_6mm'.
+Info: Processing symbol 'R12:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'J2:Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical'.
+Info: Processing symbol 'C7:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C4:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'R6:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R5:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'C10:Capacitor_SMD:C_0402_1005Metric'.
+Added C1 (footprint 'Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm').
+Changed REF** reference designator to C1.
+Changed C1 value from C_Radial_D8.0mm_H11.5mm_P3.50mm to 100uF/25V.
+Updated C1 symbol association from  to /00000044-0044-0044-0044-000000000044.
+Updated C1 fields.
+Updated C1 sheetname to '/'.
+Updated C1 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C1-~-Pad1).
+Connected C1 pin 1 to Net-(C1-~-Pad1).
+Add net Net-(C1-~-Pad2).
+Connected C1 pin 2 to Net-(C1-~-Pad2).
+Updated C1 unit metadata.
+Added C2 (footprint 'Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm').
+Changed REF** reference designator to C2.
+Changed C2 value from C_Radial_D8.0mm_H11.5mm_P3.50mm to 100uF/10V.
+Updated C2 symbol association from  to /0000004b-004b-004b-004b-00000000004b.
+Updated C2 fields.
+Updated C2 sheetname to '/'.
+Updated C2 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C2-~-Pad2).
+Connected C2 pin 2 to Net-(C2-~-Pad2).
+Add net Net-(C2-~-Pad1).
+Connected C2 pin 1 to Net-(C2-~-Pad1).
+Updated C2 unit metadata.
+Added C3 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C3.
+Changed C3 value from C_0402_1005Metric to 100nF.
+Updated C3 symbol association from  to /00000052-0052-0052-0052-000000000052.
+Updated C3 fields.
+Updated C3 sheetname to '/'.
+Updated C3 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C3-~-Pad2).
+Connected C3 pin 2 to Net-(C3-~-Pad2).
+Add net Net-(C3-~-Pad1).
+Connected C3 pin 1 to Net-(C3-~-Pad1).
+Updated C3 unit metadata.
+Added C4 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C4.
+Changed C4 value from C_0402_1005Metric to 100nF.
+Updated C4 symbol association from  to /00000059-0059-0059-0059-000000000059.
+Updated C4 fields.
+Updated C4 sheetname to '/'.
+Updated C4 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C4-~-Pad2).
+Connected C4 pin 2 to Net-(C4-~-Pad2).
+Add net Net-(C4-~-Pad1).
+Connected C4 pin 1 to Net-(C4-~-Pad1).
+Updated C4 unit metadata.
+Added C5 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C5.
+Changed C5 value from C_0402_1005Metric to 100nF.
+Updated C5 symbol association from  to /00000060-0060-0060-0060-000000000060.
+Updated C5 fields.
+Updated C5 sheetname to '/'.
+Updated C5 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C5-~-Pad2).
+Connected C5 pin 2 to Net-(C5-~-Pad2).
+Add net Net-(C5-~-Pad1).
+Connected C5 pin 1 to Net-(C5-~-Pad1).
+Updated C5 unit metadata.
+Added C6 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C6.
+Changed C6 value from C_0402_1005Metric to 100nF.
+Updated C6 symbol association from  to /00000067-0067-0067-0067-000000000067.
+Updated C6 fields.
+Updated C6 sheetname to '/'.
+Updated C6 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C6-~-Pad2).
+Connected C6 pin 2 to Net-(C6-~-Pad2).
+Add net Net-(C6-~-Pad1).
+Connected C6 pin 1 to Net-(C6-~-Pad1).
+Updated C6 unit metadata.
+Added C7 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C7.
+Changed C7 value from C_0402_1005Metric to 100nF.
+Updated C7 symbol association from  to /000001b7-01b7-01b7-01b7-0000000001b7.
+Updated C7 fields.
+Updated C7 sheetname to '/'.
+Updated C7 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C7-~-Pad2).
+Connected C7 pin 2 to Net-(C7-~-Pad2).
+Add net /CH340_V3.
+Connected C7 pin 1 to /CH340_V3.
+Updated C7 unit metadata.
+Added C8 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C8.
+Changed C8 value from C_0402_1005Metric to 100nF.
+Updated C8 symbol association from  to /00000116-0116-0116-0116-000000000116.
+Updated C8 fields.
+Updated C8 sheetname to '/'.
+Updated C8 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C8-~-Pad2).
+Connected C8 pin 2 to Net-(C8-~-Pad2).
+Add net Net-(C8-~-Pad1).
+Connected C8 pin 1 to Net-(C8-~-Pad1).
+Updated C8 unit metadata.
+Added C9 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C9.
+Changed C9 value from C_0402_1005Metric to 100nF.
+Updated C9 symbol association from  to /0000011d-011d-011d-011d-00000000011d.
+Updated C9 fields.
+Updated C9 sheetname to '/'.
+Updated C9 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C9-~-Pad2).
+Connected C9 pin 2 to Net-(C9-~-Pad2).
+Add net Net-(C9-~-Pad1).
+Connected C9 pin 1 to Net-(C9-~-Pad1).
+Updated C9 unit metadata.
+Added C10 (footprint 'Capacitor_SMD:C_0402_1005Metric').
+Changed REF** reference designator to C10.
+Changed C10 value from C_0402_1005Metric to 100nF.
+Updated C10 symbol association from  to /00000124-0124-0124-0124-000000000124.
+Updated C10 fields.
+Updated C10 sheetname to '/'.
+Updated C10 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C10-~-Pad2).
+Connected C10 pin 2 to Net-(C10-~-Pad2).
+Add net Net-(C10-~-Pad1).
+Connected C10 pin 1 to Net-(C10-~-Pad1).
+Updated C10 unit metadata.
+Added C11 (footprint 'Capacitor_SMD:C_0805_2012Metric').
+Changed REF** reference designator to C11.
+Changed C11 value from C_0805_2012Metric to 10uF/10V.
+Updated C11 symbol association from  to /0000012b-012b-012b-012b-00000000012b.
+Updated C11 fields.
+Updated C11 sheetname to '/'.
+Updated C11 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(C11-~-Pad1).
+Connected C11 pin 1 to Net-(C11-~-Pad1).
+Add net Net-(C11-~-Pad2).
+Connected C11 pin 2 to Net-(C11-~-Pad2).
+Updated C11 unit metadata.
+Added D1 (footprint 'Diode_THT:D_DO-201AD_P12.70mm_Horizontal').
+Changed REF** reference designator to D1.
+Changed D1 value from D_DO-201AD_P12.70mm_Horizontal to 1N5822.
+Updated D1 symbol association from  to /00000038-0038-0038-0038-000000000038.
+Updated D1 fields.
+Updated D1 sheetname to '/'.
+Updated D1 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net /+3V3_SW.
+Connected D1 pin 1 to /+3V3_SW.
+Add net Net-(D1-K).
+Connected D1 pin 2 to Net-(D1-K).
+Updated D1 unit metadata.
+Added J1 (footprint 'Custom:RJ45_Wuerth_615008144521').
+Changed REF** reference designator to J1.
+Changed J1 value from RJ45_Wuerth_615008144521 to RJ45_PoE_PHY.
+Updated J1 symbol association from  to /0000000a-000a-000a-000a-00000000000a.
+Updated J1 fields.
+Updated J1 sheetname to '/'.
+Updated J1 sheetfile to 'PoE-FanController.kicad_sch'.
+Changed U5 value from QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm to LAN8720A-CP-TR.
+Updated U5 symbol association from  to /000000e7-00e7-00e7-00e7-0000000000e7.
+Updated U5 fields.
+Updated U5 sheetname to '/'.
+Updated U5 sheetfile to 'PoE-FanController.kicad_sch'.
+Updated U5 unit metadata.
+Removed unused net GND.
+Updated J1 unit metadata.
+Added J2 (footprint 'Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical').
+Changed REF** reference designator to J2.
+Changed J2 value from PinHeader_1x04_P2.54mm_Vertical to FAN1.
+Updated J2 symbol association from  to /00000135-0135-0135-0135-000000000135.
+Updated J2 fields.
+Updated J2 sheetname to '/'.
+Updated J2 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net FAN1_PWM.
+Connected J2 pin 4 to FAN1_PWM.
+Add net Net-(J2-VCC_FAN).
+Connected J2 pin 2 to Net-(J2-VCC_FAN).
+Add net Net-(J2-GND).
+Connected J2 pin 1 to Net-(J2-GND).
+Add net FAN1_TACH.
+Connected J2 pin 3 to FAN1_TACH.
+Updated J2 unit metadata.
+Added J3 (footprint 'Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical').
+Changed REF** reference designator to J3.
+Changed J3 value from PinHeader_1x04_P2.54mm_Vertical to FAN2.
+Updated J3 symbol association from  to /00000146-0146-0146-0146-000000000146.
+Updated J3 fields.
+Updated J3 sheetname to '/'.
+Updated J3 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(J3-GND).
+Connected J3 pin 1 to Net-(J3-GND).
+Add net Net-(J3-VCC_FAN).
+Connected J3 pin 2 to Net-(J3-VCC_FAN).
+Add net FAN2_PWM.
+Connected J3 pin 4 to FAN2_PWM.
+Add net FAN2_TACH.
+Connected J3 pin 3 to FAN2_TACH.
+Updated J3 unit metadata.
+Added J4 (footprint 'Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical').
+Changed REF** reference designator to J4.
+Changed J4 value from PinHeader_1x04_P2.54mm_Vertical to FAN3.
+Updated J4 symbol association from  to /00000157-0157-0157-0157-000000000157.
+Updated J4 fields.
+Updated J4 sheetname to '/'.
+Updated J4 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(J4-VCC_FAN).
+Connected J4 pin 2 to Net-(J4-VCC_FAN).
+Add net FAN3_PWM.
+Connected J4 pin 4 to FAN3_PWM.
+Add net Net-(J4-GND).
+Connected J4 pin 1 to Net-(J4-GND).
+Add net FAN3_TACH.
+Connected J4 pin 3 to FAN3_TACH.
+Updated J4 unit metadata.
+Added J5 (footprint 'Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical').
+Changed REF** reference designator to J5.
+Changed J5 value from PinHeader_1x04_P2.54mm_Vertical to FAN4.
+Updated J5 symbol association from  to /00000168-0168-0168-0168-000000000168.
+Updated J5 fields.
+Updated J5 sheetname to '/'.
+Updated J5 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net FAN4_TACH.
+Connected J5 pin 3 to FAN4_TACH.
+Add net Net-(J5-VCC_FAN).
+Connected J5 pin 2 to Net-(J5-VCC_FAN).
+Add net Net-(J5-GND).
+Connected J5 pin 1 to Net-(J5-GND).
+Add net FAN4_PWM.
+Connected J5 pin 4 to FAN4_PWM.
+Updated J5 unit metadata.
+Added J6 (footprint 'Connector_USB:USB_C_Receptacle_GCT_USB4085').
+Changed REF** reference designator to J6.
+Changed J6 value from USB_C_Receptacle_GCT_USB4085 to USB_C_2.0.
+Updated J6 symbol association from  to /0000017d-017d-017d-017d-00000000017d.
+Updated J6 fields.
+Updated J6 sheetname to '/'.
+Updated J6 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net unconnected-(J6-SHLD-PadSH).
+Connected J6 pin SH to unconnected-(J6-SHLD-PadSH).
+Add net USB_DN.
+Connected J6 pin A7 to USB_DN.
+Add net unconnected-(J6-SHLD-PadSH)_1.
+Connected J6 pin SH to unconnected-(J6-SHLD-PadSH)_1.
+Add net unconnected-(J6-VBUS-PadA4).
+Connected J6 pin A4 to unconnected-(J6-VBUS-PadA4).
+Add net USB_DP.
+Connected J6 pin A6 to USB_DP.
+Add net unconnected-(J6-SHLD-PadSH)_2.
+Connected J6 pin SH to unconnected-(J6-SHLD-PadSH)_2.
+Add net Net-(J6-GND).
+Connected J6 pin A1 to Net-(J6-GND).
+Add net /CC2.
+Connected J6 pin B5 to /CC2.
+Add net /CC1.
+Connected J6 pin A5 to /CC1.
+Add net unconnected-(J6-SHLD-PadSH)_3.
+Connected J6 pin SH to unconnected-(J6-SHLD-PadSH)_3.
+Updated J6 unit metadata.
+Added J7 (footprint 'Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical').
+Changed REF** reference designator to J7.
+Changed J7 value from PinHeader_1x03_P2.54mm_Vertical to Debug_UART.
+Updated J7 symbol association from  to /000001be-01be-01be-01be-0000000001be.
+Updated J7 fields.
+Updated J7 sheetname to '/'.
+Updated J7 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(J7-GND).
+Connected J7 pin 1 to Net-(J7-GND).
+Add net ESP_RX.
+Connected J7 pin 3 to ESP_RX.
+Add net ESP_TX.
+Connected J7 pin 2 to ESP_TX.
+Updated J7 unit metadata.
+Added L1 (footprint 'Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC').
+Changed REF** reference designator to L1.
+Changed L1 value from L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC to 68uH.
+Updated L1 symbol association from  to /0000003e-003e-003e-003e-00000000003e.
+Updated L1 fields.
+Updated L1 sheetname to '/'.
+Updated L1 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected L1 pin 1 to /+3V3_SW.
+Add net Net-(L1-~-Pad2).
+Connected L1 pin 2 to Net-(L1-~-Pad2).
+Updated L1 unit metadata.
+Added LED1 (footprint 'LED_THT:LED_D3.0mm').
+Changed REF** reference designator to LED1.
+Changed LED1 value from LED_D3.0mm to LED_GREEN.
+Updated LED1 symbol association from  to /000000c4-00c4-00c4-00c4-0000000000c4.
+Updated LED1 fields.
+Updated LED1 sheetname to '/'.
+Updated LED1 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(LED1-K).
+Connected LED1 pin 2 to Net-(LED1-K).
+Add net /LED_A.
+Connected LED1 pin 1 to /LED_A.
+Updated LED1 unit metadata.
+Added NTC1 (footprint 'Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal').
+Changed REF** reference designator to NTC1.
+Changed NTC1 value from R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal to NTC10K_B3950.
+Updated NTC1 symbol association from  to /000000d0-00d0-00d0-00d0-0000000000d0.
+Updated NTC1 fields.
+Updated NTC1 sheetname to '/'.
+Updated NTC1 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(NTC1-Pad2).
+Connected NTC1 pin 2 to Net-(NTC1-Pad2).
+Add net NTC_ADC.
+Connected NTC1 pin 1 to NTC_ADC.
+Updated NTC1 unit metadata.
+Added R1 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R1.
+Changed R1 value from R_0402_1005Metric to 10k.
+Updated R1 symbol association from  to /000000a7-00a7-00a7-00a7-0000000000a7.
+Updated R1 fields.
+Updated R1 sheetname to '/'.
+Updated R1 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(R1-~-Pad1).
+Connected R1 pin 1 to Net-(R1-~-Pad1).
+Add net ESP_EN.
+Connected R1 pin 2 to ESP_EN.
+Updated R1 unit metadata.
+Added R2 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R2.
+Changed R2 value from R_0402_1005Metric to 10k.
+Updated R2 symbol association from  to /000000b3-00b3-00b3-00b3-0000000000b3.
+Updated R2 fields.
+Updated R2 sheetname to '/'.
+Updated R2 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(R2-~-Pad1).
+Connected R2 pin 1 to Net-(R2-~-Pad1).
+Add net BOOT.
+Connected R2 pin 2 to BOOT.
+Updated R2 unit metadata.
+Added R3 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R3.
+Changed R3 value from R_0402_1005Metric to 330R.
+Updated R3 symbol association from  to /000000bf-00bf-00bf-00bf-0000000000bf.
+Updated R3 fields.
+Updated R3 sheetname to '/'.
+Updated R3 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net /GPIO2.
+Connected R3 pin 1 to /GPIO2.
+Connected R3 pin 2 to /LED_A.
+Updated R3 unit metadata.
+Added R4 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R4.
+Changed R4 value from R_0402_1005Metric to 10k.
+Updated R4 symbol association from  to /000000ca-00ca-00ca-00ca-0000000000ca.
+Updated R4 fields.
+Updated R4 sheetname to '/'.
+Updated R4 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected R4 pin 2 to NTC_ADC.
+Add net Net-(R4-~-Pad1).
+Connected R4 pin 1 to Net-(R4-~-Pad1).
+Updated R4 unit metadata.
+Added R5 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R5.
+Changed R5 value from R_0402_1005Metric to 10k.
+Updated R5 symbol association from  to /0000013e-013e-013e-013e-00000000013e.
+Updated R5 fields.
+Updated R5 sheetname to '/'.
+Updated R5 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected R5 pin 2 to FAN1_TACH.
+Add net Net-(R5-~-Pad1).
+Connected R5 pin 1 to Net-(R5-~-Pad1).
+Updated R5 unit metadata.
+Added R6 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R6.
+Changed R6 value from R_0402_1005Metric to 10k.
+Updated R6 symbol association from  to /0000014f-014f-014f-014f-00000000014f.
+Updated R6 fields.
+Updated R6 sheetname to '/'.
+Updated R6 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected R6 pin 2 to FAN2_TACH.
+Add net Net-(R6-~-Pad1).
+Connected R6 pin 1 to Net-(R6-~-Pad1).
+Updated R6 unit metadata.
+Added R7 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R7.
+Changed R7 value from R_0402_1005Metric to 10k.
+Updated R7 symbol association from  to /00000160-0160-0160-0160-000000000160.
+Updated R7 fields.
+Updated R7 sheetname to '/'.
+Updated R7 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected R7 pin 2 to FAN3_TACH.
+Add net Net-(R7-~-Pad1).
+Connected R7 pin 1 to Net-(R7-~-Pad1).
+Updated R7 unit metadata.
+Added R8 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R8.
+Changed R8 value from R_0402_1005Metric to 10k.
+Updated R8 symbol association from  to /00000171-0171-0171-0171-000000000171.
+Updated R8 fields.
+Updated R8 sheetname to '/'.
+Updated R8 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected R8 pin 2 to FAN4_TACH.
+Add net Net-(R8-~-Pad1).
+Connected R8 pin 1 to Net-(R8-~-Pad1).
+Updated R8 unit metadata.
+Added R9 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R9.
+Changed R9 value from R_0402_1005Metric to 5.1k.
+Updated R9 symbol association from  to /00000188-0188-0188-0188-000000000188.
+Updated R9 fields.
+Updated R9 sheetname to '/'.
+Updated R9 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected R9 pin 1 to /CC1.
+Connected R9 pin 2 to /CC2.
+Updated R9 unit metadata.
+Added R10 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R10.
+Changed R10 value from R_0402_1005Metric to 5.1k.
+Updated R10 symbol association from  to /0000018e-018e-018e-018e-00000000018e.
+Updated R10 fields.
+Updated R10 sheetname to '/'.
+Updated R10 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected R10 pin 1 to /CC2.
+Add net Net-(R10-~-Pad2).
+Connected R10 pin 2 to Net-(R10-~-Pad2).
+Updated R10 unit metadata.
+Added R11 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R11.
+Changed R11 value from R_0402_1005Metric to 49R9.
+Updated R11 symbol association from  to /00000102-0102-0102-0102-000000000102.
+Updated R11 fields.
+Updated R11 sheetname to '/'.
+Updated R11 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net ETH_TD_P_IN.
+Connected R11 pin 1 to ETH_TD_P_IN.
+Add net ETH_TD_P.
+Connected R11 pin 2 to ETH_TD_P.
+Updated R11 unit metadata.
+Added R12 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R12.
+Changed R12 value from R_0402_1005Metric to 49R9.
+Updated R12 symbol association from  to /00000107-0107-0107-0107-000000000107.
+Updated R12 fields.
+Updated R12 sheetname to '/'.
+Updated R12 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net ETH_TD_N.
+Connected R12 pin 2 to ETH_TD_N.
+Add net ETH_TD_N_IN.
+Connected R12 pin 1 to ETH_TD_N_IN.
+Updated R12 unit metadata.
+Added R13 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R13.
+Changed R13 value from R_0402_1005Metric to 49R9.
+Updated R13 symbol association from  to /0000010c-010c-010c-010c-00000000010c.
+Updated R13 fields.
+Updated R13 sheetname to '/'.
+Updated R13 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net ETH_RD_P.
+Connected R13 pin 2 to ETH_RD_P.
+Add net ETH_RD_P_IN.
+Connected R13 pin 1 to ETH_RD_P_IN.
+Updated R13 unit metadata.
+Added R14 (footprint 'Resistor_SMD:R_0402_1005Metric').
+Changed REF** reference designator to R14.
+Changed R14 value from R_0402_1005Metric to 49R9.
+Updated R14 symbol association from  to /00000111-0111-0111-0111-000000000111.
+Updated R14 fields.
+Updated R14 sheetname to '/'.
+Updated R14 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net ETH_RD_N_IN.
+Connected R14 pin 1 to ETH_RD_N_IN.
+Add net ETH_RD_N.
+Connected R14 pin 2 to ETH_RD_N.
+Updated R14 unit metadata.
+Added SW1 (footprint 'Button_Switch_THT:SW_PUSH_6mm').
+Changed REF** reference designator to SW1.
+Changed SW1 value from SW_PUSH_6mm to RESET.
+Updated SW1 symbol association from  to /000000ad-00ad-00ad-00ad-0000000000ad.
+Updated SW1 fields.
+Updated SW1 sheetname to '/'.
+Updated SW1 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected SW1 pin 1 to ESP_EN.
+Add net Net-(SW1-Pad2).
+Connected SW1 pin 2 to Net-(SW1-Pad2).
+Connected SW1 pin 1 to ESP_EN.
+Connected SW1 pin 2 to Net-(SW1-Pad2).
+Updated SW1 unit metadata.
+Added SW2 (footprint 'Button_Switch_THT:SW_PUSH_6mm').
+Changed REF** reference designator to SW2.
+Changed SW2 value from SW_PUSH_6mm to BOOT.
+Updated SW2 symbol association from  to /000000b9-00b9-00b9-00b9-0000000000b9.
+Updated SW2 fields.
+Updated SW2 sheetname to '/'.
+Updated SW2 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(SW2-Pad2).
+Connected SW2 pin 2 to Net-(SW2-Pad2).
+Connected SW2 pin 1 to BOOT.
+Connected SW2 pin 1 to BOOT.
+Connected SW2 pin 2 to Net-(SW2-Pad2).
+Updated SW2 unit metadata.
+Added U1 (footprint 'Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical').
+Changed REF** reference designator to U1.
+Changed U1 value from PinHeader_2x04_P2.54mm_Vertical to Ag9905M.
+Updated U1 symbol association from  to /0000001b-001b-001b-001b-00000000001b.
+Updated U1 fields.
+Updated U1 sheetname to '/'.
+Updated U1 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net /POE_B+.
+Connected U1 pin 3 to /POE_B+.
+Add net Net-(U1-VOUT_P).
+Connected U1 pin 5 to Net-(U1-VOUT_P).
+Add net Net-(U1-VOUT_N).
+Connected U1 pin 6 to Net-(U1-VOUT_N).
+Add net unconnected-(U1-FLT-Pad8).
+Connected U1 pin 8 to unconnected-(U1-FLT-Pad8).
+Add net /POE_B-.
+Connected U1 pin 4 to /POE_B-.
+Add net unconnected-(U1-/SD-Pad7).
+Connected U1 pin 7 to unconnected-(U1-/SD-Pad7).
+Add net /POE_A-.
+Connected U1 pin 2 to /POE_A-.
+Add net /POE_A+.
+Connected U1 pin 1 to /POE_A+.
+Updated U1 unit metadata.
+Added U2 (footprint 'Package_TO_SOT_SMD:TO-263-5_TabPin3').
+Changed REF** reference designator to U2.
+Changed U2 value from TO-263-5_TabPin3 to LM2596-3.3.
+Updated U2 symbol association from  to /0000002c-002c-002c-002c-00000000002c.
+Updated U2 fields.
+Updated U2 sheetname to '/'.
+Updated U2 sheetfile to 'PoE-FanController.kicad_sch'.
+Add net Net-(U2-GND).
+Connected U2 pin 3 to Net-(U2-GND).
+Add net Net-(U2-IN).
+Connected U2 pin 1 to Net-(U2-IN).
+Connected U2 pin 2 to /+3V3_SW.
+Add net Net-(U2-FB).
+Connected U2 pin 4 to Net-(U2-FB).
+Add net Net-(U2-/ON).
+Connected U2 pin 5 to Net-(U2-/ON).
+Connected U2 pin 3 to Net-(U2-GND).
+Updated U2 unit metadata.
+Added U3 (footprint 'Custom:ESP32-P4-MINI-1').
+Changed U reference designator to U3.
+Updated U3 symbol association from  to /00000087-0087-0087-0087-000000000087.
+Updated U3 fields.
+Updated U3 sheetname to '/'.
+Updated U3 sheetfile to 'PoE-FanController.kicad_sch'.
+Updated U3 unit metadata.
+Added U4 (footprint 'Package_SO:SOIC-16_3.9x9.9mm_P1.27mm').
+Changed REF** reference designator to U4.
+Changed U4 value from SOIC-16_3.9x9.9mm_P1.27mm to CH340C.
+Updated U4 symbol association from  to /000001a2-01a2-01a2-01a2-0000000001a2.
+Updated U4 fields.
+Updated U4 sheetname to '/'.
+Updated U4 sheetfile to 'PoE-FanController.kicad_sch'.
+Connected U4 pin 2 to ESP_RX.
+Connected U4 pin 15 to BOOT.
+Connected U4 pin 6 to USB_DN.
+Add net unconnected-(U4-CKO-Pad9).
+Connected U4 pin 9 to unconnected-(U4-CKO-Pad9).
+Add net Net-(U4-GND).
+Connected U4 pin 1 to Net-(U4-GND).
+Connected U4 pin 3 to ESP_TX.
+Connected U4 pin 5 to USB_DP.
+Add net unconnected-(U4-CTS-Pad13).
+Connected U4 pin 13 to unconnected-(U4-CTS-Pad13).
+Add net Net-(U4-VCC).
+Connected U4 pin 16 to Net-(U4-VCC).
+Add net unconnected-(U4-XO-Pad8).
+Connected U4 pin 8 to unconnected-(U4-XO-Pad8).
+Add net unconnected-(U4-DSR-Pad12).
+Connected U4 pin 12 to unconnected-(U4-DSR-Pad12).
+Add net unconnected-(U4-XI-Pad7).
+Connected U4 pin 7 to unconnected-(U4-XI-Pad7).
+Connected U4 pin 14 to ESP_EN.
+Connected U4 pin 4 to /CH340_V3.
+Add net unconnected-(U4-DCD-Pad10).
+Connected U4 pin 10 to unconnected-(U4-DCD-Pad10).
+Add net unconnected-(U4-RI-Pad11).
+Connected U4 pin 11 to unconnected-(U4-RI-Pad11).
+Updated U4 unit metadata.
+Added U5 (footprint 'Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm').
+Changed REF** reference designator to U5.
+Warning: No net found for component J1 pad 2 (no pin 2 in symbol).
+Warning: No net found for component J1 pad 4 (no pin 4 in symbol).
+Warning: No net found for component J1 pad SH (no pin SH in symbol).
+Warning: No net found for component J1 pad 12 (no pin 12 in symbol).
+Warning: No net found for component J1 pad 9 (no pin 9 in symbol).
+Warning: No net found for component J1 pad 6 (no pin 6 in symbol).
+Warning: No net found for component J1 pad 11 (no pin 11 in symbol).
+Warning: No net found for component U3 pad 28 (no pin 28 in symbol).
+Warning: No net found for component U3 pad 12 (no pin 12 in symbol).
+Warning: No net found for component U3 pad 27 (no pin 27 in symbol).
+Warning: No net found for component U3 pad 17 (no pin 17 in symbol).
+Warning: No net found for component U3 pad 55 (no pin 55 in symbol).
+Warning: No net found for component U3 pad 10 (no pin 10 in symbol).
+Warning: No net found for component U3 pad 4 (no pin 4 in symbol).
+Warning: No net found for component U3 pad 47 (no pin 47 in symbol).
+Warning: No net found for component U3 pad 35 (no pin 35 in symbol).
+Warning: No net found for component U3 pad 11 (no pin 11 in symbol).
+Warning: No net found for component U3 pad 13 (no pin 13 in symbol).
+Warning: No net found for component U3 pad 23 (no pin 23 in symbol).
+Warning: No net found for component U3 pad 30 (no pin 30 in symbol).
+Warning: No net found for component U3 pad 56 (no pin 56 in symbol).
+Warning: No net found for component U3 pad 15 (no pin 15 in symbol).
+Warning: No net found for component U3 pad 6 (no pin 6 in symbol).
+Warning: No net found for component U3 pad 36 (no pin 36 in symbol).
+Warning: No net found for component U3 pad 49 (no pin 49 in symbol).
+Warning: No net found for component U3 pad 38 (no pin 38 in symbol).
+Warning: No net found for component U3 pad 51 (no pin 51 in symbol).
+Warning: No net found for component U3 pad 48 (no pin 48 in symbol).
+Warning: No net found for component U3 pad 52 (no pin 52 in symbol).
+Warning: No net found for component U3 pad 34 (no pin 34 in symbol).
+Warning: No net found for component U3 pad 46 (no pin 46 in symbol).
+Warning: No net found for component U3 pad 39 (no pin 39 in symbol).
+Warning: No net found for component U3 pad 2 (no pin 2 in symbol).
+Warning: No net found for component U3 pad 22 (no pin 22 in symbol).
+Warning: No net found for component U3 pad 20 (no pin 20 in symbol).
+Warning: No net found for component J6 pad B12 (no pin B12 in symbol).
+Warning: No net found for component J1 pad SH (no pin SH in symbol).
+Warning: No net found for component J6 pad B7 (no pin B7 in symbol).
+Warning: No net found for component J1 pad 8 (no pin 8 in symbol).
+Warning: No net found for component J1 pad 7 (no pin 7 in symbol).
+Warning: No net found for component J6 pad B9 (no pin B9 in symbol).
+Warning: No net found for component J1 pad 1 (no pin 1 in symbol).
+Warning: No net found for component J6 pad A9 (no pin A9 in symbol).
+Warning: No net found for component J6 pad B8 (no pin B8 in symbol).
+Warning: No net found for component J1 pad 3 (no pin 3 in symbol).
+Warning: No net found for component J6 pad B6 (no pin B6 in symbol).
+Warning: No net found for component J6 pad B4 (no pin B4 in symbol).
+Warning: No net found for component J6 pad A8 (no pin A8 in symbol).
+Warning: No net found for component J6 pad B1 (no pin B1 in symbol).
+Warning: No net found for component J6 pad A12 (no pin A12 in symbol).
+Warning: No net found for component J1 pad 5 (no pin 5 in symbol).
+Warning: No net found for component U3 pad 33 (no pin 33 in symbol).
+Warning: No net found for component U3 pad 14 (no pin 14 in symbol).
+Warning: No net found for component U3 pad 42 (no pin 42 in symbol).
+Warning: No net found for component U3 pad 3 (no pin 3 in symbol).
+Warning: No net found for component U3 pad 31 (no pin 31 in symbol).
+Warning: No net found for component U3 pad 21 (no pin 21 in symbol).
+Warning: No net found for component U3 pad 45 (no pin 45 in symbol).
+Warning: No net found for component U3 pad 41 (no pin 41 in symbol).
+Warning: No net found for component U3 pad 25 (no pin 25 in symbol).
+Warning: No net found for component U3 pad 24 (no pin 24 in symbol).
+Warning: No net found for component U3 pad 54 (no pin 54 in symbol).
+Warning: No net found for component U3 pad 37 (no pin 37 in symbol).
+Warning: No net found for component U3 pad 1 (no pin 1 in symbol).
+Warning: No net found for component U3 pad 7 (no pin 7 in symbol).
+Warning: No net found for component U3 pad 8 (no pin 8 in symbol).
+Warning: No net found for component U3 pad 19 (no pin 19 in symbol).
+Warning: No net found for component U3 pad 9 (no pin 9 in symbol).
+Warning: No net found for component U3 pad 43 (no pin 43 in symbol).
+Warning: No net found for component U3 pad 5 (no pin 5 in symbol).
+Warning: No net found for component J1 pad 10 (no pin 10 in symbol).
+Warning: No net found for component U3 pad 40 (no pin 40 in symbol).
+Warning: No net found for component U3 pad 44 (no pin 44 in symbol).
+Warning: No net found for component U3 pad 29 (no pin 29 in symbol).
+Warning: No net found for component U3 pad 32 (no pin 32 in symbol).
+Warning: No net found for component U3 pad 16 (no pin 16 in symbol).
+Warning: No net found for component U3 pad 18 (no pin 18 in symbol).
+Warning: No net found for component U3 pad 50 (no pin 50 in symbol).
+Warning: No net found for component U5 pad 14 (no pin 14 in symbol).
+Warning: No net found for component U5 pad 8 (no pin 8 in symbol).
+Warning: No net found for component U5 pad 19 (no pin 19 in symbol).
+Warning: No net found for component U5 pad 23 (no pin 23 in symbol).
+Warning: No net found for component U5 pad 1 (no pin 1 in symbol).
+Warning: No net found for component U5 pad 25 (no pin 25 in symbol).
+Warning: No net found for component U5 pad 5 (no pin 5 in symbol).
+Warning: No net found for component U5 pad 9 (no pin 9 in symbol).
+Warning: No net found for component U5 pad 24 (no pin 24 in symbol).
+Warning: No net found for component U5 pad 12 (no pin 12 in symbol).
+Warning: No net found for component U5 pad 13 (no pin 13 in symbol).
+Warning: No net found for component U5 pad 17 (no pin 17 in symbol).
+Warning: No net found for component U5 pad 3 (no pin 3 in symbol).
+Warning: No net found for component U5 pad 10 (no pin 10 in symbol).
+Warning: No net found for component U5 pad 16 (no pin 16 in symbol).
+Warning: No net found for component U5 pad 7 (no pin 7 in symbol).
+Warning: No net found for component U5 pad 2 (no pin 2 in symbol).
+Warning: No net found for component U5 pad 6 (no pin 6 in symbol).
+Warning: No net found for component U5 pad 18 (no pin 18 in symbol).
+Warning: No net found for component U5 pad 11 (no pin 11 in symbol).
+Warning: No net found for component U5 pad 22 (no pin 22 in symbol).
+Warning: No net found for component U5 pad 21 (no pin 21 in symbol).
+Warning: No net found for component U5 pad 20 (no pin 20 in symbol).
+Warning: No net found for component U5 pad 4 (no pin 4 in symbol).
+Warning: No net found for component U5 pad 15 (no pin 15 in symbol).
+Warning: No net found for component U3 pad 53 (no pin 53 in symbol).
+Warning: Copper zone 'GND_TOP' has no pads connected.
+Warning: Copper zone 'GND_BOT' has no pads connected.
+Warning: No net found for component U3 pad 26 (no pin 26 in symbol).
+Error: J1 pad PA- not found in Custom:RJ45_Wuerth_615008144521.
+Error: J1 pad PB+ not found in Custom:RJ45_Wuerth_615008144521.
+Error: J1 pad PB- not found in Custom:RJ45_Wuerth_615008144521.
+Error: J1 pad RDN not found in Custom:RJ45_Wuerth_615008144521.
+Error: J1 pad RDP not found in Custom:RJ45_Wuerth_615008144521.
+Error: J1 pad TDN not found in Custom:RJ45_Wuerth_615008144521.
+Error: J1 pad TDP not found in Custom:RJ45_Wuerth_615008144521.
+Error: U3 pad G2 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G0 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G34 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G50 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G32 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G33 not found in Custom:ESP32-P4-MINI-1.
+Error: J1 pad PA+ not found in Custom:RJ45_Wuerth_615008144521.
+Error: U3 pad G36 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G37 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad EN not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G39 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G38 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G31 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G28 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G4 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G8 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G5 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G9 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G6 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G10 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G7 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G11 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G16 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad GND1 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad GND2 not found in Custom:ESP32-P4-MINI-1.
+Error: U3 pad G35 not found in Custom:ESP32-P4-MINI-1.
+Error: U5 pad CRDV not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad RCLK not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad RXD0 not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad RXD1 not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad TXD0 not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad TXD1 not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad TXEN not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad MDC not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad MDIO not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad RXN not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad RXP not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad TXN not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad TXP not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad NRST not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad EP not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad GND not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad VDD not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U5 pad VDDIO not found in Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm.
+Error: U3 pad VDD not found in Custom:ESP32-P4-MINI-1.
+
+
+Info: Total warnings: 107, errors: 52.
