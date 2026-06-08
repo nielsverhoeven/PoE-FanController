@@ -182,7 +182,7 @@ def build_schematic():
 
     # Generic passive 2-terminal resistor (pin 1 left, pin 2 right)
     s.define("Custom:R", "R", "R",
-             "Resistor_SMD:R_0402_1005Metric", "~",
+             "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal", "~",
              body_w=5.08, body_h=2.54,
              pins_left=[("~",  "1", "passive")],
              pins_right=[("~", "2", "passive")])
@@ -333,7 +333,7 @@ def build_schematic():
         # TACH pull-up R5-R8: +3V3 -> TACH net
         FR_CY = p["3"][1]   # same y as TACH pin of this fan header
         pr = s.component("Custom:R", f"R{5+i}", "10k",
-                         "Resistor_SMD:R_0402_1005Metric",
+                         "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
                          TACH_RES_CX, FR_CY)
         s.power("+3V3",          *pr["1"])                           # left  pin
         s.global_label(tach_net, *pr["2"], shape="output")           # right pin -> angle=0
@@ -355,7 +355,7 @@ def build_schematic():
         ind_net = f"FAN{i+1}_IND"
 
         pr = s.component("Custom:R", f"R{9+i}", "1k",
-                         "Resistor_SMD:R_0402_1005Metric",
+                         "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
                          FAN_IND_R_CX, FJ_CY)
         s.power("+12V",      *pr["1"])             # left  pin → +12V rail
         s.label(ind_net,     *pr["2"])             # right pin → local net to LED anode
@@ -372,7 +372,7 @@ def build_schematic():
     # R3 right pin -> local label LED_A -> LED1 left pin -> LED1 right: GND
     # -----------------------------------------------------------------------
     s.text("Status LED", 128, 215, size=2.54, bold=True, color=BLUE)
-    p1 = s.component("Custom:R", "R3", "330R", "Resistor_SMD:R_0402_1005Metric",
+    p1 = s.component("Custom:R", "R3", "330R", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
                      SMALL_CX, LED_CY)
     s.global_label("STATUS_LED", *p1["1"], shape="input", angle=180)  # left pin
     s.label("LED_A",             *p1["2"])                             # right pin
@@ -389,7 +389,7 @@ def build_schematic():
     # visible at both R4 (right pin) and NTC1 (left pin).
     # -----------------------------------------------------------------------
     s.text("NTC Temperature Sensor", 128, 251, size=2.54, bold=True, color=BLUE)
-    p1 = s.component("Custom:R", "R4", "10k", "Resistor_SMD:R_0402_1005Metric",
+    p1 = s.component("Custom:R", "R4", "10k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
                      SMALL_CX, NTC_CY)
     s.power("+3V3",            *p1["1"])                              # left  pin
     s.global_label("NTC_ADC", *p1["2"], shape="output")              # right pin -> angle=0

@@ -412,7 +412,7 @@
     (property "Value" "R"
       (at 0.0000 2.5400 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1084,7 +1084,7 @@
     (property "Value" "10k"
       (at 280.6700 82.5500 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 279.4000 81.2800 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1229,7 +1229,7 @@
     (property "Value" "10k"
       (at 280.6700 113.0300 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 279.4000 111.7600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1374,7 +1374,7 @@
     (property "Value" "10k"
       (at 280.6700 143.5100 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 279.4000 142.2400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1519,7 +1519,7 @@
     (property "Value" "10k"
       (at 280.6700 173.9900 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 279.4000 172.7200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1578,7 +1578,7 @@
     (property "Value" "1k"
       (at 374.6500 82.5500 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 373.3800 81.2800 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1674,7 +1674,7 @@
     (property "Value" "1k"
       (at 374.6500 113.0300 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 373.3800 111.7600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1770,7 +1770,7 @@
     (property "Value" "1k"
       (at 374.6500 143.5100 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 373.3800 142.2400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1866,7 +1866,7 @@
     (property "Value" "1k"
       (at 374.6500 173.9900 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 373.3800 172.7200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1966,7 +1966,7 @@
     (property "Value" "330R"
       (at 158.7500 229.8700 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 157.4800 228.6000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -2055,7 +2055,7 @@
     (property "Value" "10k"
       (at 158.7500 265.4300 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
       (at 157.4800 264.1600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
