@@ -1,7 +1,8 @@
 # ESP32-P4 Reference
 
 <!-- Last updated: 2026-06-08 | Source: esp32.expert consultation + architecture.md | GPIO2 corrected: feature/40-replace-esp32-with-esp32-p4 -->
-<!-- Verified against: Espressif ESP32-P4 TRM, arduino-esp32 3.x docs, Waveshare wiki (SKU 32088 section pending live verification) -->
+<!-- Verified against: Espressif ESP32-P4 TRM, arduino-esp32 3.x docs, Waveshare official examples repo (SKU 32088 EMAC pins corrected 2026-06-08) -->
+<!-- IMPORTANT: For full board-specific reference including dimensions, pinout, and PoE specs see docs/kb/ESP32-P4-POE-ETH/board-reference.md -->
 
 ---
 
@@ -23,7 +24,8 @@
 
 ## 2. RMII Fixed Pin Assignments (VERIFIED — cannot be remapped)
 
-> ⚠️ OQ-01: Implementer MUST cross-verify against ESP32-P4 TRM §EMAC Table "EMAC Signal Overview" before schematic work.
+> ⚠️ Verified from official Waveshare ESP32-P4 platform examples Kconfig.
+> Source: https://github.com/waveshareteam/esp32-p4-platform/blob/main/examples/esp-idf/11_ethernetbasic/components/ethernet_init/Kconfig.projbuild
 
 | Signal | GPIO | Direction | Notes |
 |---|---|---|---|
@@ -34,10 +36,11 @@
 | EMAC_TXD1 | GPIO36 | Output | Fixed by IO_MUX |
 | EMAC_TX_EN | GPIO37 | Output | Fixed by IO_MUX |
 | EMAC_REF_CLK | GPIO50 | Output | 50 MHz REF_CLK to PHY |
-| EMAC_MDIO | GPIO28 | Bidirectional | Flexible (MDIO data) |
-| EMAC_MDC | GPIO31 | Output | Flexible (MDIO clock) |
+| EMAC_MDIO | **GPIO52** | Bidirectional | **Corrected 2026-06-08** — was GPIO28 (ESP32 classic value, incorrect for P4) |
+| EMAC_MDC | GPIO31 | Output | Confirmed from Waveshare Kconfig |
+| PHY_RST | GPIO51 | Output | LAN8720A reset — confirmed from Waveshare Kconfig |
 
-**Critical constraint:** GPIO32–37 and GPIO50 cannot be used for any other function.
+**Critical constraint:** GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52 cannot be used for any other function.
 
 ---
 
@@ -57,12 +60,13 @@
 | STATUS_LED | GPIO2 | Output | Status LED via R3 330 Ω (active HIGH) |
 | UART0_TX | GPIO38 | UART0 | To CH340C; IO_MUX default |
 | UART0_RX | GPIO39 | UART0 | From CH340C; IO_MUX default |
-| EMAC_MDIO | GPIO28 | EMAC | PHY management data |
+| EMAC_MDIO | GPIO52 | EMAC | PHY management data — **corrected from GPIO28** |
 | EMAC_MDC | GPIO31 | EMAC | PHY management clock |
+| PHY_RST | GPIO51 | Output | LAN8720A hardware reset |
 | BOOT | GPIO0 | Strapping | Pull low to enter download mode |
 | EN | EN pin | — | Module enable (active-high) |
 
-**Forbidden GPIOs (RMII):** GPIO32–37, GPIO50 — reserved for EMAC, must not be reassigned.
+**Forbidden GPIOs (RMII + ETH management):** GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52 — reserved for EMAC, must not be reassigned.
 
 ---
 
@@ -93,11 +97,12 @@ build_flags =
   -DFAN4_TACH_PIN=11
   -DNTC_ADC_PIN=16
   -DSTATUS_LED_PIN=2
-  ; RMII config for ETH.h
+  ; RMII config for ETH.h — corrected MDIO=52, added PHY_RST=51
   -DETH_PHY_TYPE=ETH_PHY_LAN8720
-  -DETH_PHY_ADDR=0
+  -DETH_PHY_ADDR=1
   -DETH_PHY_MDC=31
-  -DETH_PHY_MDIO=28
+  -DETH_PHY_MDIO=52
+  -DETH_PHY_RST=51
   -DETH_CLK_MODE=ETH_CLOCK_GPIO50_OUT
 ```
 
@@ -114,13 +119,14 @@ build_flags =
 
 void setup() {
   // LAN8720A on RMII with REF_CLK output from GPIO50
+  // Pin assignments verified from Waveshare esp32-p4-platform Kconfig (2026-06-08)
   ETH.begin(
-    ETH_PHY_LAN8720,  // PHY type
-    0,                 // PHY address (ADDR0/ADDR1 pins on LAN8720A)
-    ETH_PHY_MDC,      // MDC pin (GPIO31)
-    ETH_PHY_MDIO,     // MDIO pin (GPIO28)
-    -1,                // PHY power pin (-1 = not used)
-    ETH_CLOCK_GPIO50_OUT  // REF_CLK output from EMAC
+    ETH_PHY_LAN8720,        // PHY type
+    1,                       // PHY address (verify from schematic)
+    31,                      // MDC pin (GPIO31)
+    52,                      // MDIO pin (GPIO52 — NOT GPIO28)
+    51,                      // PHY reset pin (GPIO51)
+    ETH_CLOCK_GPIO50_OUT    // REF_CLK output from EMAC
   );
 }
 ```
