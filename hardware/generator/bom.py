@@ -33,7 +33,7 @@ def write_bom():
         ["R5,R6,R7,R8","10k","Resistor_SMD:R_0402_1005Metric","4","Yageo","RC0402FR-0710KL","10kΩ 0402 1% — fan TACH pull-up resistors (3.3V from J8)","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
         # Per-fan Power Indicator LEDs (passive: +12V → R → LED → GND)
         ["R9,R10,R11,R12","1k","Resistor_SMD:R_0402_1005Metric","4","Yageo","RC0402FR-071KL","1kΩ 0402 1% — per-fan LED current limiting resistors","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
-        ["D2,D3,D4,D5","LED_RED","LED_SMD:LED_0805_2012Metric","4","Wurth","150080RS75000","Red 0805 SMD LED — per-fan power indicator (lights when +12V on fan header)","https://www.we-online.com/en/components/products/LED/SMD_LED/WL-SMRW/150080RS75000"],
+        ["D2,D3,D4,D5","LED_GREEN","LED_THT:LED_D3.0mm","4","Wurth","150060GS75000","Green 3mm THT LED, 565nm — per-fan power indicator (lights when +12V on fan header)","https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000"],
         # Temperature Sensing
         ["R4","10k","Resistor_SMD:R_0402_1005Metric","1","Yageo","RC0402FR-0710KL","10kΩ 0402 1% — NTC divider pull-up (3.3V from J8)","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
         ["NTC1","NTC10K_B3950","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","1","Murata","NCP15XH103F03RC","10kΩ NTC thermistor B=3380, axial THT","https://www.murata.com/en-us/products/productdetail?partid=NCP15XH103F03RC"],
