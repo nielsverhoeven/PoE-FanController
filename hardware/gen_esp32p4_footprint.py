@@ -1,3 +1,7 @@
+# NOTE: This footprint generator is deprecated as of v2.0.0 (2026-06-08).
+# The ESP32-P4-MINI-1U module (U3) has been removed from the design.
+# The custom PCB now uses the Waveshare ESP32-P4-ETH board via J8 (2×20 header).
+# This file is retained for reference only.
 """
 Generate ESP32-P4-MINI-1.kicad_mod for KiCad 10.
 Land pattern derived from Espressif ESP32-P4-MINI-1U module datasheet.
