@@ -641,7 +641,7 @@
         "uuid": "00000000-0000-0000-0000-000000000000"
       }
     ],
-    "used_designators": "#PWR101-130,R101-106,J101-105,LED101,U_BOOST101,NTC101",
+    "used_designators": "U_BOOST101",
     "variants": []
   },
   "sheets": [],
