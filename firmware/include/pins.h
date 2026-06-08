@@ -69,6 +69,17 @@
 #endif
 
 // ---------------------------------------------------------------------------
+// DS18B20 external temperature probe (Issue #97, constitution v3.3.0)
+// J8 left pin 27 = DS18B20_DATA (GPIO19), J8 right pin 28 = PROBE_LED (GPIO20)
+// ---------------------------------------------------------------------------
+#ifndef DS18B20_DATA_PIN
+#define DS18B20_DATA_PIN  19  ///< GPIO19 — 1-Wire DATA, J8 left pin 27; 4.7 kΩ pull-up R14 on PCB
+#endif
+#ifndef PROBE_LED_PIN
+#define PROBE_LED_PIN     20  ///< GPIO20 — Status_LED_5 (probe health), J8 right pin 28; 330 Ω series R15
+#endif
+
+// ---------------------------------------------------------------------------
 // Ethernet management (MDC/MDIO/RST — confirmed from Waveshare Kconfig defaults)
 // Source: github.com/waveshareteam/esp32-p4-platform Kconfig.projbuild
 // ---------------------------------------------------------------------------

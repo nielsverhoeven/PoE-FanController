@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\repos-github\\PoE-FanController\\hardware\\kicad\\PoE-FanController.kicad_sch")
-		(date "2026-06-08T20:23:57")
+		(date "2026-06-09T00:31:46")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -585,6 +585,55 @@
 			)
 		)
 		(comp
+			(ref "J6")
+			(value "Molex_KK254_3pin")
+			(footprint "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Conn_1x03")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000da-00da-00da-00da-0000000000da")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "J8")
 			(value "Waveshare_ESP32P4POEETH")
 			(footprint "Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical")
@@ -615,7 +664,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000ee-00ee-00ee-00ee-0000000000ee")
+			(tstamps "00000109-0109-0109-0109-000000000109")
 			(units
 				(unit
 					(name "A")
@@ -868,6 +917,52 @@
 				(tstamps "/")
 			)
 			(tstamps "000000b4-00b4-00b4-00b4-0000000000b4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "LED6")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000cd-00cd-00cd-00cd-0000000000cd")
 			(units
 				(unit
 					(name "A")
@@ -1435,6 +1530,98 @@
 			)
 		)
 		(comp
+			(ref "R14")
+			(value "4k7")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000d3-00d3-00d3-00d3-0000000000d3")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R15")
+			(value "330R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000c8-00c8-00c8-00c8-0000000000c8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "U1")
 			(value "LM2587-12")
 			(footprint "Package_TO_SOT_THT:TO-220-5_Vertical")
@@ -1570,6 +1757,41 @@
 		)
 		(libpart
 			(lib "Custom")
+			(part "Conn_1x03")
+			(docs "https://www.molex.com/molex/products/part-detail/crimp_housings/0022013037")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Connector_1x03")
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "https://www.molex.com/molex/products/part-detail/crimp_housings/0022013037")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "DATA")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "VCC")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
 			(part "Diode_Schottky")
 			(docs "~")
 			(fields
@@ -1693,8 +1915,8 @@
 				)
 				(pin
 					(num "2")
-					(name "+5V")
-					(type "power_out")
+					(name "NC")
+					(type "no_connect")
 				)
 				(pin
 					(num "3")
@@ -1703,8 +1925,8 @@
 				)
 				(pin
 					(num "4")
-					(name "+5V")
-					(type "power_out")
+					(name "NC")
+					(type "no_connect")
 				)
 				(pin
 					(num "5")
@@ -1818,13 +2040,13 @@
 				)
 				(pin
 					(num "27")
-					(name "NC")
-					(type "no_connect")
+					(name "DS18B20_DATA")
+					(type "bidirectional")
 				)
 				(pin
 					(num "28")
-					(name "NC")
-					(type "no_connect")
+					(name "PROBE_LED")
+					(type "output")
 				)
 				(pin
 					(num "29")
@@ -1878,13 +2100,13 @@
 				)
 				(pin
 					(num "39")
-					(name "NC")
-					(type "no_connect")
+					(name "+5V")
+					(type "power_out")
 				)
 				(pin
 					(num "40")
-					(name "NC")
-					(type "no_connect")
+					(name "+5V")
+					(type "power_out")
 				)
 			)
 		)
@@ -2132,6 +2354,23 @@
 		)
 		(net
 			(code "7")
+			(name "/PROBE_LED_A")
+			(class "Default")
+			(node
+				(ref "LED6")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R15")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "8")
 			(name "/PROG_LED_A")
 			(class "Default")
 			(node
@@ -2148,7 +2387,30 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "9")
+			(name "DS18B20_DATA")
+			(class "Default")
+			(node
+				(ref "J6")
+				(pin "2")
+				(pinfunction "DATA_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J8")
+				(pin "27")
+				(pinfunction "DS18B20_DATA_27")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "R14")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "10")
 			(name "FAN1_PWM")
 			(class "Default")
 			(node
@@ -2165,7 +2427,7 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "11")
 			(name "FAN1_TACH")
 			(class "Default")
 			(node
@@ -2188,7 +2450,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "12")
 			(name "FAN2_PWM")
 			(class "Default")
 			(node
@@ -2205,7 +2467,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "13")
 			(name "FAN2_TACH")
 			(class "Default")
 			(node
@@ -2228,7 +2490,7 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "14")
 			(name "FAN3_PWM")
 			(class "Default")
 			(node
@@ -2245,7 +2507,7 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "15")
 			(name "FAN3_TACH")
 			(class "Default")
 			(node
@@ -2268,7 +2530,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "16")
 			(name "FAN4_PWM")
 			(class "Default")
 			(node
@@ -2285,7 +2547,7 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "17")
 			(name "FAN4_TACH")
 			(class "Default")
 			(node
@@ -2308,7 +2570,7 @@
 			)
 		)
 		(net
-			(code "16")
+			(code "18")
 			(name "NTC_ADC")
 			(class "Default")
 			(node
@@ -2331,7 +2593,24 @@
 			)
 		)
 		(net
-			(code "17")
+			(code "19")
+			(name "PROBE_LED")
+			(class "Default")
+			(node
+				(ref "J8")
+				(pin "28")
+				(pinfunction "PROBE_LED_28")
+				(pintype "output")
+			)
+			(node
+				(ref "R15")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "20")
 			(name "PROG_LED")
 			(class "Default")
 			(node
@@ -2342,7 +2621,7 @@
 			)
 		)
 		(net
-			(code "18")
+			(code "21")
 			(name "STATUS_LED")
 			(class "Default")
 			(node

@@ -16,7 +16,8 @@ PCB     = 'C:/repos-github/PoE-FanController/hardware/kicad/PoE-FanController.ki
 NETLIST = 'C:/repos-github/PoE-FanController/hardware/kicad/netlist.kicad_net'
 
 # ── Power net assignments (sourced directly from components.py schematic def) ──
-# NC pins on J8: 5,18,19,21,22,24,26,27,28,30,31,32,34,35,36,37,39,40 — left with no net
+# NC pins on J8: 5,18,19,21,22,24,26,30,31,32,34,35,36,37,39,40 — left with no net
+# Note: pins 27 (DS18B20_DATA/GPIO19) and 28 (PROBE_LED/GPIO20) updated for Issue #97
 POWER_NETS = {
     # J8 — Waveshare ESP32-P4-POE-ETH header
     ('J8', '1'):  '+3V3',  # 3.3V from Waveshare LDO
@@ -28,6 +29,8 @@ POWER_NETS = {
     ('J8', '17'): '+3V3',  # 3.3V duplicate
     ('J8', '20'): 'GND',
     ('J8', '25'): 'GND',
+    ('J8', '27'): 'DS18B20_DATA',  # GPIO19 — 1-Wire DATA (Issue #97)
+    ('J8', '28'): 'PROBE_LED',     # GPIO20 — probe health LED (Issue #97)
     ('J8', '29'): 'GND',
     ('J8', '33'): 'GND',
     ('J8', '38'): 'GND',
@@ -78,6 +81,16 @@ POWER_NETS = {
     ('D5', '2'): 'GND',
     # Prog/OTA LED: LED2 cathode → GND, R13 pin 1 → PROG_LED (from netlist via J8 pin 22)
     ('LED2', '2'): 'GND',
+    # DS18B20 temperature probe components (Issue #97)
+    ('R14', '1'): '+3V3',          # pull-up resistor: +3V3 → DS18B20_DATA
+    ('R14', '2'): 'DS18B20_DATA',  # pull-up resistor: DS18B20_DATA → R14
+    ('R15', '1'): 'PROBE_LED',     # current-limit resistor: GPIO20 → LED6
+    ('R15', '2'): '/PROBE_LED_A',  # current-limit resistor: → LED6 anode
+    ('LED6', '1'): '/PROBE_LED_A', # probe health LED: anode
+    ('LED6', '2'): 'GND',          # probe health LED: cathode → GND
+    ('J6', '1'): 'GND',            # DS18B20 probe connector: GND
+    ('J6', '2'): 'DS18B20_DATA',   # DS18B20 probe connector: 1-Wire data
+    ('J6', '3'): '+3V3',           # DS18B20 probe connector: +3V3 power
 }
 
 # ── Step 1: Parse netlist → {(ref, pin): net_name} ──────────────────────────

@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-06-08T21:42:58",
+    "date": "2026-06-09T00:48:54",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -25,7 +25,8 @@
         }
     ],
     "included_severities": [
-        "error"
+        "error",
+        "warning"
     ],
     "kicad_version": "10.0.3",
     "schematic_parity": [],
@@ -81,52 +82,6 @@
             "description": "Missing connection between items",
             "items": [
                 {
-                    "description": "PTH pad 25 [GND] of J8",
-                    "pos": {
-                        "x": 2.81,
-                        "y": 22.45
-                    },
-                    "uuid": "63c4de65-ea0a-4f0d-a9dd-2e3ed9d26399"
-                },
-                {
-                    "description": "PTH pad 20 [GND] of J8",
-                    "pos": {
-                        "x": 18.19,
-                        "y": 30.07
-                    },
-                    "uuid": "eee02d48-7244-4eaf-b38c-77978fbd80e5"
-                }
-            ],
-            "severity": "error",
-            "type": "unconnected_items"
-        },
-        {
-            "description": "Missing connection between items",
-            "items": [
-                {
-                    "description": "PTH pad 9 [GND] of J8",
-                    "pos": {
-                        "x": 2.81,
-                        "y": 42.77
-                    },
-                    "uuid": "609a8d3a-7c71-4c28-9892-716212aac86c"
-                },
-                {
-                    "description": "PTH pad 14 [GND] of J8",
-                    "pos": {
-                        "x": 18.19,
-                        "y": 37.69
-                    },
-                    "uuid": "6a26a807-8a09-49ec-8a09-7c45ad179a68"
-                }
-            ],
-            "severity": "error",
-            "type": "unconnected_items"
-        },
-        {
-            "description": "Missing connection between items",
-            "items": [
-                {
                     "description": "PTH pad 38 [GND] of J8",
                     "pos": {
                         "x": 18.19,
@@ -150,43 +105,20 @@
             "description": "Missing connection between items",
             "items": [
                 {
+                    "description": "PTH pad 14 [GND] of J8",
+                    "pos": {
+                        "x": 18.19,
+                        "y": 37.69
+                    },
+                    "uuid": "6a26a807-8a09-49ec-8a09-7c45ad179a68"
+                },
+                {
                     "description": "PTH pad 20 [GND] of J8",
                     "pos": {
                         "x": 18.19,
                         "y": 30.07
                     },
                     "uuid": "eee02d48-7244-4eaf-b38c-77978fbd80e5"
-                },
-                {
-                    "description": "PTH pad 14 [GND] of J8",
-                    "pos": {
-                        "x": 18.19,
-                        "y": 37.69
-                    },
-                    "uuid": "6a26a807-8a09-49ec-8a09-7c45ad179a68"
-                }
-            ],
-            "severity": "error",
-            "type": "unconnected_items"
-        },
-        {
-            "description": "Missing connection between items",
-            "items": [
-                {
-                    "description": "PTH pad 14 [GND] of J8",
-                    "pos": {
-                        "x": 18.19,
-                        "y": 37.69
-                    },
-                    "uuid": "6a26a807-8a09-49ec-8a09-7c45ad179a68"
-                },
-                {
-                    "description": "PTH pad 6 [GND] of J8",
-                    "pos": {
-                        "x": 18.19,
-                        "y": 47.85
-                    },
-                    "uuid": "14a0f2d0-56f2-4533-9e3a-eed66ed5ccdf"
                 }
             ],
             "severity": "error",
@@ -204,12 +136,35 @@
                     "uuid": "14a0f2d0-56f2-4533-9e3a-eed66ed5ccdf"
                 },
                 {
-                    "description": "PTH pad 2 [GND] of LED1",
+                    "description": "PTH pad 14 [GND] of J8",
                     "pos": {
-                        "x": 27.54,
-                        "y": 58.0
+                        "x": 18.19,
+                        "y": 37.69
                     },
-                    "uuid": "44b287a9-6253-4eee-8f55-972b4a1f10e6"
+                    "uuid": "6a26a807-8a09-49ec-8a09-7c45ad179a68"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 6 [GND] of J8",
+                    "pos": {
+                        "x": 18.19,
+                        "y": 47.85
+                    },
+                    "uuid": "14a0f2d0-56f2-4533-9e3a-eed66ed5ccdf"
+                },
+                {
+                    "description": "PTH pad 9 [GND] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 42.77
+                    },
+                    "uuid": "609a8d3a-7c71-4c28-9892-716212aac86c"
                 }
             ],
             "severity": "error",
@@ -233,6 +188,52 @@
                         "y": 7.21
                     },
                     "uuid": "c038f175-e415-4c9c-8beb-0877dade251b"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [GND] of LED1",
+                    "pos": {
+                        "x": 27.54,
+                        "y": 58.0
+                    },
+                    "uuid": "44b287a9-6253-4eee-8f55-972b4a1f10e6"
+                },
+                {
+                    "description": "PTH pad 2 [GND] of LED2",
+                    "pos": {
+                        "x": 33.54,
+                        "y": 58.0
+                    },
+                    "uuid": "f495f033-6e3d-4f4d-a67e-06dadfbd4b6f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [GND] of LED1",
+                    "pos": {
+                        "x": 27.54,
+                        "y": 58.0
+                    },
+                    "uuid": "44b287a9-6253-4eee-8f55-972b4a1f10e6"
+                },
+                {
+                    "description": "PTH pad 6 [GND] of J8",
+                    "pos": {
+                        "x": 18.19,
+                        "y": 47.85
+                    },
+                    "uuid": "14a0f2d0-56f2-4533-9e3a-eed66ed5ccdf"
                 }
             ],
             "severity": "error",
@@ -311,20 +312,66 @@
             "description": "Missing connection between items",
             "items": [
                 {
-                    "description": "PTH pad 2 [GND] of LED2",
+                    "description": "PTH pad 2 [GND] of LED6",
                     "pos": {
-                        "x": 33.54,
-                        "y": 58.0
+                        "x": 37.54,
+                        "y": 75.0
                     },
-                    "uuid": "f495f033-6e3d-4f4d-a67e-06dadfbd4b6f"
+                    "uuid": "41d10e60-0d73-4612-b40c-2b35adb1dae8"
                 },
                 {
-                    "description": "PTH pad 2 [GND] of LED1",
+                    "description": "PTH pad 2 [GND] of NTC1",
                     "pos": {
-                        "x": 27.54,
-                        "y": 58.0
+                        "x": 32.16,
+                        "y": 70.0
                     },
-                    "uuid": "44b287a9-6253-4eee-8f55-972b4a1f10e6"
+                    "uuid": "a086d7f2-b013-4055-91bb-5ee566cd5486"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [GND] of LED6",
+                    "pos": {
+                        "x": 37.54,
+                        "y": 75.0
+                    },
+                    "uuid": "41d10e60-0d73-4612-b40c-2b35adb1dae8"
+                },
+                {
+                    "description": "PTH pad 1 [GND] of J6",
+                    "pos": {
+                        "x": 40.0,
+                        "y": 82.0
+                    },
+                    "uuid": "7ed6acb2-139e-4ec2-a722-46bcfa1548a0"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [GND] of C2",
+                    "pos": {
+                        "x": 42.5,
+                        "y": 18.0
+                    },
+                    "uuid": "512fd1da-2ca4-4a6d-9179-2503f604fb46"
+                },
+                {
+                    "description": "PTH pad 1 [GND] of J2",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 12.0
+                    },
+                    "uuid": "b059fb0f-aab5-4bd3-8575-cf22f13fd5e8"
                 }
             ],
             "severity": "error",
@@ -388,12 +435,12 @@
                     "uuid": "b059fb0f-aab5-4bd3-8575-cf22f13fd5e8"
                 },
                 {
-                    "description": "PTH pad 2 [GND] of C2",
+                    "description": "PTH pad 2 [GND] of D2",
                     "pos": {
-                        "x": 42.5,
-                        "y": 18.0
+                        "x": 52.54,
+                        "y": 7.0
                     },
-                    "uuid": "512fd1da-2ca4-4a6d-9179-2503f604fb46"
+                    "uuid": "d2ed8c2c-d3d6-4350-8e98-2107ab080042"
                 }
             ],
             "severity": "error",
@@ -434,12 +481,12 @@
                     "uuid": "874ae172-88b9-41f1-a53f-9c5b4b6ebe6e"
                 },
                 {
-                    "description": "PTH pad 2 [GND] of D5",
+                    "description": "PTH pad 2 [GND] of D4",
                     "pos": {
                         "x": 52.54,
-                        "y": 62.0
+                        "y": 44.0
                     },
-                    "uuid": "ca22b09e-bd69-4fa0-8274-75c574d525d4"
+                    "uuid": "2e3dd8c7-2626-436b-8e39-435d3d1576ea"
                 }
             ],
             "severity": "error",
@@ -472,43 +519,20 @@
             "description": "Missing connection between items",
             "items": [
                 {
-                    "description": "PTH pad 2 [GND] of D2",
-                    "pos": {
-                        "x": 52.54,
-                        "y": 7.0
-                    },
-                    "uuid": "d2ed8c2c-d3d6-4350-8e98-2107ab080042"
-                },
-                {
-                    "description": "PTH pad 1 [GND] of J2",
+                    "description": "PTH pad 1 [GND] of J5",
                     "pos": {
                         "x": 50.0,
-                        "y": 12.0
+                        "y": 66.0
                     },
-                    "uuid": "b059fb0f-aab5-4bd3-8575-cf22f13fd5e8"
-                }
-            ],
-            "severity": "error",
-            "type": "unconnected_items"
-        },
-        {
-            "description": "Missing connection between items",
-            "items": [
-                {
-                    "description": "PTH pad 2 [GND] of D4",
-                    "pos": {
-                        "x": 52.54,
-                        "y": 44.0
-                    },
-                    "uuid": "2e3dd8c7-2626-436b-8e39-435d3d1576ea"
+                    "uuid": "da6f868e-cb8c-47e5-9882-873d22c13d68"
                 },
                 {
-                    "description": "PTH pad 1 [GND] of J4",
+                    "description": "PTH pad 2 [GND] of LED6",
                     "pos": {
-                        "x": 50.0,
-                        "y": 48.0
+                        "x": 37.54,
+                        "y": 75.0
                     },
-                    "uuid": "874ae172-88b9-41f1-a53f-9c5b4b6ebe6e"
+                    "uuid": "41d10e60-0d73-4612-b40c-2b35adb1dae8"
                 }
             ],
             "severity": "error",
@@ -532,6 +556,29 @@
                         "y": 30.0
                     },
                     "uuid": "471b1ea2-5c14-45bf-941a-bb9560472f73"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 2 [GND] of D5",
+                    "pos": {
+                        "x": 52.54,
+                        "y": 62.0
+                    },
+                    "uuid": "ca22b09e-bd69-4fa0-8274-75c574d525d4"
+                },
+                {
+                    "description": "PTH pad 1 [GND] of J4",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 48.0
+                    },
+                    "uuid": "874ae172-88b9-41f1-a53f-9c5b4b6ebe6e"
                 }
             ],
             "severity": "error",
@@ -1392,6 +1439,29 @@
             "description": "Missing connection between items",
             "items": [
                 {
+                    "description": "PTH pad 1 [+3V3] of R14",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 82.0
+                    },
+                    "uuid": "08e5e073-6cba-4542-8ae7-fe6e003cf63d"
+                },
+                {
+                    "description": "PTH pad 1 [+3V3] of R8",
+                    "pos": {
+                        "x": 35.0,
+                        "y": 66.0
+                    },
+                    "uuid": "af3b73d9-b8b1-40e8-8cad-1781580f496f"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
                     "description": "PTH pad 1 [+3V3] of R5",
                     "pos": {
                         "x": 35.0,
@@ -1415,6 +1485,29 @@
             "description": "Missing connection between items",
             "items": [
                 {
+                    "description": "PTH pad 1 [+3V3] of R6",
+                    "pos": {
+                        "x": 35.0,
+                        "y": 30.0
+                    },
+                    "uuid": "c891d7f3-975b-4583-9a12-4dc8190c8c0a"
+                },
+                {
+                    "description": "PTH pad 1 [+3V3] of R7",
+                    "pos": {
+                        "x": 35.0,
+                        "y": 48.0
+                    },
+                    "uuid": "7465e808-dfd7-4d50-8910-79615870fa2e"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
                     "description": "PTH pad 1 [+3V3] of R7",
                     "pos": {
                         "x": 35.0,
@@ -1423,12 +1516,12 @@
                     "uuid": "7465e808-dfd7-4d50-8910-79615870fa2e"
                 },
                 {
-                    "description": "PTH pad 1 [+3V3] of R6",
+                    "description": "PTH pad 1 [+3V3] of R8",
                     "pos": {
                         "x": 35.0,
-                        "y": 30.0
+                        "y": 66.0
                     },
-                    "uuid": "c891d7f3-975b-4583-9a12-4dc8190c8c0a"
+                    "uuid": "af3b73d9-b8b1-40e8-8cad-1781580f496f"
                 }
             ],
             "severity": "error",
@@ -1446,12 +1539,12 @@
                     "uuid": "af3b73d9-b8b1-40e8-8cad-1781580f496f"
                 },
                 {
-                    "description": "PTH pad 1 [+3V3] of R7",
+                    "description": "PTH pad 3 [+3V3] of J6",
                     "pos": {
-                        "x": 35.0,
-                        "y": 48.0
+                        "x": 45.08,
+                        "y": 82.0
                     },
-                    "uuid": "7465e808-dfd7-4d50-8910-79615870fa2e"
+                    "uuid": "8a099f12-4a14-4db8-b9f3-75b334524854"
                 }
             ],
             "severity": "error",
@@ -1484,6 +1577,29 @@
             "description": "Missing connection between items",
             "items": [
                 {
+                    "description": "PTH pad 27 [DS18B20_DATA] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 19.91
+                    },
+                    "uuid": "c8a395ef-7e3a-41e8-9d85-ef2bb729c857"
+                },
+                {
+                    "description": "Track [DS18B20_DATA] on F.Cu, length 3,0000 mm",
+                    "pos": {
+                        "x": 32.619999,
+                        "y": 82.0
+                    },
+                    "uuid": "2093e370-7429-4c6b-b7f4-b51a9d709616"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
                     "description": "PTH pad 2 [/FAN1_IND] of R9",
                     "pos": {
                         "x": 43.62,
@@ -1498,6 +1614,29 @@
                         "y": 7.0
                     },
                     "uuid": "736bc52d-1c94-4784-9347-06649b124808"
+                }
+            ],
+            "severity": "error",
+            "type": "unconnected_items"
+        },
+        {
+            "description": "Missing connection between items",
+            "items": [
+                {
+                    "description": "PTH pad 28 [PROBE_LED] of J8",
+                    "pos": {
+                        "x": 18.19,
+                        "y": 19.91
+                    },
+                    "uuid": "3a3e2878-30eb-4aa2-930d-13c679a1925c"
+                },
+                {
+                    "description": "PTH pad 1 [PROBE_LED] of R15",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 75.0
+                    },
+                    "uuid": "b95f6480-d790-4cf2-822a-5d84ea0afbee"
                 }
             ],
             "severity": "error",
@@ -1527,5 +1666,642 @@
             "type": "unconnected_items"
         }
     ],
-    "violations": []
+    "violations": [
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
+                },
+                {
+                    "description": "Reference field of L1",
+                    "pos": {
+                        "x": 38.08,
+                        "y": 0.23
+                    },
+                    "uuid": "c7c439d7-cc1e-46dd-a25d-7c2fb9028f08"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
+                },
+                {
+                    "description": "Reference field of D1",
+                    "pos": {
+                        "x": 48.0,
+                        "y": 0.0
+                    },
+                    "uuid": "d4dff346-909e-4405-926c-87f882932b5a"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
+                },
+                {
+                    "description": "Reference field of J6",
+                    "pos": {
+                        "x": 42.54,
+                        "y": 77.88
+                    },
+                    "uuid": "029c8da0-63ef-4f92-a866-d6808769b29b"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "Silkscreen clipped by board edge",
+            "items": [
+                {
+                    "description": "Rectangle on Edge.Cuts",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
+                },
+                {
+                    "description": "Reference field of J8",
+                    "pos": {
+                        "x": 0.31,
+                        "y": 28.8
+                    },
+                    "uuid": "6bf051ed-7aa1-4ea2-b1c5-eb3893f85218"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_edge_clearance"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Logos'",
+            "items": [
+                {
+                    "description": "Footprint G***",
+                    "pos": {
+                        "x": 10.5,
+                        "y": 65.5
+                    },
+                    "uuid": "c83c7609-bdc2-4bfe-a66b-7f33c54c15f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Segment of D3 on F.Silkscreen",
+                    "pos": {
+                        "x": 49.71,
+                        "y": 27.08
+                    },
+                    "uuid": "76c83466-c3c4-40be-859c-da03f0f16a31"
+                },
+                {
+                    "description": "Reference field of J3",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 27.62
+                    },
+                    "uuid": "cc9889cd-9ce0-4657-bf6e-1e0af4e02883"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Arc of D3 on F.Silkscreen",
+                    "pos": {
+                        "x": 51.27,
+                        "y": 26.0
+                    },
+                    "uuid": "14cac6b1-6a6f-4883-8f5a-b4cbd0a4e7ab"
+                },
+                {
+                    "description": "Reference field of J3",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 27.62
+                    },
+                    "uuid": "cc9889cd-9ce0-4657-bf6e-1e0af4e02883"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Arc of D3 on F.Silkscreen",
+                    "pos": {
+                        "x": 51.27,
+                        "y": 26.0
+                    },
+                    "uuid": "6881f573-bb4c-4471-8856-9cb398b04118"
+                },
+                {
+                    "description": "Reference field of J3",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 27.62
+                    },
+                    "uuid": "cc9889cd-9ce0-4657-bf6e-1e0af4e02883"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of J4",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 45.62
+                    },
+                    "uuid": "21e2e1cc-2a55-431a-9c05-05ca12498928"
+                },
+                {
+                    "description": "Segment of D4 on F.Silkscreen",
+                    "pos": {
+                        "x": 49.71,
+                        "y": 45.08
+                    },
+                    "uuid": "6617922f-873f-4546-b42e-6d1604c17f63"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Arc of D4 on F.Silkscreen",
+                    "pos": {
+                        "x": 51.27,
+                        "y": 44.0
+                    },
+                    "uuid": "18392b6c-55cf-4b5a-af96-28810d10338e"
+                },
+                {
+                    "description": "Reference field of J4",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 45.62
+                    },
+                    "uuid": "21e2e1cc-2a55-431a-9c05-05ca12498928"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of J4",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 45.62
+                    },
+                    "uuid": "21e2e1cc-2a55-431a-9c05-05ca12498928"
+                },
+                {
+                    "description": "Arc of D4 on F.Silkscreen",
+                    "pos": {
+                        "x": 51.27,
+                        "y": 44.0
+                    },
+                    "uuid": "bc0c20cf-1bd5-4fa5-92c6-db8c1f971a6d"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Arc of D5 on F.Silkscreen",
+                    "pos": {
+                        "x": 51.27,
+                        "y": 62.0
+                    },
+                    "uuid": "286f1b54-de33-4f0f-ab76-443c077f4b7e"
+                },
+                {
+                    "description": "Reference field of J5",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 63.62
+                    },
+                    "uuid": "f7ebb3b4-f9d6-4e1a-9f52-1249f5c415e2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Segment of D5 on F.Silkscreen",
+                    "pos": {
+                        "x": 49.71,
+                        "y": 63.08
+                    },
+                    "uuid": "a1bfc816-ca09-450b-a924-13e7eca4a929"
+                },
+                {
+                    "description": "Reference field of J5",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 63.62
+                    },
+                    "uuid": "f7ebb3b4-f9d6-4e1a-9f52-1249f5c415e2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Arc of D5 on F.Silkscreen",
+                    "pos": {
+                        "x": 51.27,
+                        "y": 62.0
+                    },
+                    "uuid": "e3db8ddc-2613-4d22-8bc0-8266265ad24f"
+                },
+                {
+                    "description": "Reference field of J5",
+                    "pos": {
+                        "x": 50.0,
+                        "y": 63.62
+                    },
+                    "uuid": "f7ebb3b4-f9d6-4e1a-9f52-1249f5c415e2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of R9",
+                    "pos": {
+                        "x": 39.81,
+                        "y": 4.63
+                    },
+                    "uuid": "c941a49b-6dd0-48ef-be4b-007787ec4d03"
+                },
+                {
+                    "description": "Rectangle of L1 on F.Silkscreen",
+                    "pos": {
+                        "x": 34.46,
+                        "y": 1.23
+                    },
+                    "uuid": "ffcaa057-68f4-4672-90f1-441a575d5cfc"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of C2",
+                    "pos": {
+                        "x": 41.25,
+                        "y": 13.6
+                    },
+                    "uuid": "1e6fdf4a-22e3-43e1-9276-1da76abd49ba"
+                },
+                {
+                    "description": "Segment of R5 on F.Silkscreen",
+                    "pos": {
+                        "x": 35.54,
+                        "y": 13.37
+                    },
+                    "uuid": "4e29801a-f407-4f6b-bfc7-3accdcdc3e50"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of C2",
+                    "pos": {
+                        "x": 41.25,
+                        "y": 13.6
+                    },
+                    "uuid": "1e6fdf4a-22e3-43e1-9276-1da76abd49ba"
+                },
+                {
+                    "description": "Segment of R5 on F.Silkscreen",
+                    "pos": {
+                        "x": 42.08,
+                        "y": 13.37
+                    },
+                    "uuid": "e671fc36-7e3a-46a2-8fa4-29c1667c212c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of R4",
+                    "pos": {
+                        "x": 28.81,
+                        "y": 21.63
+                    },
+                    "uuid": "0e2f47e7-33f6-4ba7-81a9-b4ccf91a5e7c"
+                },
+                {
+                    "description": "Segment of R3 on F.Silkscreen",
+                    "pos": {
+                        "x": 25.54,
+                        "y": 21.37
+                    },
+                    "uuid": "fb68df0f-1784-44a9-bed9-ff0aec2ddcc2"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen",
+                    "pos": {
+                        "x": 21.0,
+                        "y": 77.0
+                    },
+                    "uuid": "000001c8-01c8-01c8-01c8-0000000001c8"
+                },
+                {
+                    "description": "Segment of R15 on F.Silkscreen",
+                    "pos": {
+                        "x": 25.54,
+                        "y": 76.37
+                    },
+                    "uuid": "467925f0-f4c5-44f5-aa00-1238cc12f625"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen",
+                    "pos": {
+                        "x": 21.0,
+                        "y": 77.0
+                    },
+                    "uuid": "000001c8-01c8-01c8-01c8-0000000001c8"
+                },
+                {
+                    "description": "Arc of LED6 on F.Silkscreen",
+                    "pos": {
+                        "x": 36.27,
+                        "y": 75.0
+                    },
+                    "uuid": "7703807a-f600-468f-a39e-e729bfb7568e"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen",
+                    "pos": {
+                        "x": 21.0,
+                        "y": 77.0
+                    },
+                    "uuid": "000001c8-01c8-01c8-01c8-0000000001c8"
+                },
+                {
+                    "description": "Arc of LED6 on F.Silkscreen",
+                    "pos": {
+                        "x": 36.27,
+                        "y": 75.0
+                    },
+                    "uuid": "6b308807-0ac0-4f82-b05d-4fb98de75320"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of J8 on F.Silkscreen",
+                    "pos": {
+                        "x": 1.61,
+                        "y": 52.43
+                    },
+                    "uuid": "e06a1b04-9704-47db-8662-9ef2848b06fe"
+                },
+                {
+                    "description": "PTH pad 1 [+3V3] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 52.93
+                    },
+                    "uuid": "cd3b3fec-7fbe-47a3-8fc4-10569c440218"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Segment of J8 on F.Silkscreen",
+                    "pos": {
+                        "x": 1.61,
+                        "y": 53.43
+                    },
+                    "uuid": "65f7b509-3c4c-457b-ae61-b6a3718bd696"
+                },
+                {
+                    "description": "PTH pad 1 [+3V3] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 52.93
+                    },
+                    "uuid": "cd3b3fec-7fbe-47a3-8fc4-10569c440218"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "pos": {
+                        "x": 21.0,
+                        "y": 75.0
+                    },
+                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                },
+                {
+                    "description": "PTH pad 1 [PROBE_LED] of R15",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 75.0
+                    },
+                    "uuid": "b95f6480-d790-4cf2-822a-5d84ea0afbee"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "pos": {
+                        "x": 21.0,
+                        "y": 75.0
+                    },
+                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                },
+                {
+                    "description": "PTH pad 2 [/PROBE_LED_A] of R15",
+                    "pos": {
+                        "x": 32.62,
+                        "y": 75.0
+                    },
+                    "uuid": "51bf47fb-d4f3-4326-8515-308c9bf40c74"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of LED2",
+                    "pos": {
+                        "x": 31.0,
+                        "y": 58.0
+                    },
+                    "uuid": "862e5250-881c-4ad8-aaeb-e3f30fb3ffea"
+                },
+                {
+                    "description": "PTH pad 1 [/PROG_LED_A] of LED2",
+                    "pos": {
+                        "x": 31.0,
+                        "y": 58.0
+                    },
+                    "uuid": "c782fa23-b567-4980-8204-687962b8eda6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of LED2",
+                    "pos": {
+                        "x": 31.0,
+                        "y": 58.0
+                    },
+                    "uuid": "862e5250-881c-4ad8-aaeb-e3f30fb3ffea"
+                },
+                {
+                    "description": "PTH pad 2 [GND] of LED2",
+                    "pos": {
+                        "x": 33.54,
+                        "y": 58.0
+                    },
+                    "uuid": "f495f033-6e3d-4f4d-a67e-06dadfbd4b6f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Reference field of R13",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 64.0
+                    },
+                    "uuid": "a89dcdce-5cc7-4a75-9e35-1b3b6fa9d102"
+                },
+                {
+                    "description": "PTH pad 1 [PROG_LED] of R13",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 64.0
+                    },
+                    "uuid": "d8f98f10-33a5-41fd-baed-955303c8190c"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        }
+    ]
 }
