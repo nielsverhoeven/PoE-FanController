@@ -47,10 +47,25 @@ POWER_NETS = {
     ('LED1', '2'): 'GND',
     # NTC thermistor: NTC1 bottom → GND
     ('NTC1', '2'): 'GND',
-    # U1: 5V→12V boost converter (TI LM2587-12, TO-220-3_Vertical)
-    ('U1', '1'): '+5V',   # VIN
-    ('U1', '2'): 'GND',   # GND
-    ('U1', '3'): '+12V',  # VOUT
+    # U1: 5V→12V boost converter (TI LM2587-12, TO-220-5_Vertical)
+    # Pin 1=GND, Pin 2=VIN(+5V), Pin 3=OUTPUT/SW, Pin 4=FB(tied to OUTPUT), Pin 5=OSC/GND
+    ('U1', '1'): 'GND',       # GND
+    ('U1', '2'): '+5V',       # VIN
+    ('U1', '3'): 'BOOST_SW',  # OUTPUT / switching node
+    ('U1', '4'): 'BOOST_SW',  # FB tied to OUTPUT (fixed 12V)
+    ('U1', '5'): 'GND',       # OSC bypass to GND
+    # L1: catch inductor — +5V → BOOST_SW
+    ('L1', '1'): '+5V',
+    ('L1', '2'): 'BOOST_SW',
+    # D1: Schottky catch diode — BOOST_SW anode → +12V cathode
+    ('D1', '1'): 'BOOST_SW',
+    ('D1', '2'): '+12V',
+    # C1: input bypass cap — +5V / GND
+    ('C1', '1'): '+5V',
+    ('C1', '2'): 'GND',
+    # C2: output filter cap — +12V / GND
+    ('C2', '1'): '+12V',
+    ('C2', '2'): 'GND',
 }
 
 # ── Step 1: Parse netlist → {(ref, pin): net_name} ──────────────────────────
