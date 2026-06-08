@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-06-08T20:36:16",
+    "date": "2026-06-08T20:43:33",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -1599,188 +1599,188 @@
             "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 77.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c8-01c8-01c8-01c8-0000000001c8"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
-                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "description": "Reference field of #G1",
                     "pos": {
-                        "x": 12.9999,
-                        "y": 76.6684
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "693fcf21-9838-43c6-92b7-d3015ca7115c"
+                    "uuid": "23e576e7-bd83-44b8-bf33-7096ac2b8afb"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 75.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
                     "description": "Polygon of #G1 on F.Silkscreen",
                     "pos": {
-                        "x": 8.1902,
-                        "y": 75.6741
+                        "x": 3.450722,
+                        "y": 4.528928
                     },
-                    "uuid": "d7aadb97-736d-4e2e-b465-3057b51fbf83"
+                    "uuid": "4778b88e-df2a-4c11-b305-ddd1f3e66e95"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 75.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
                     "description": "Polygon of #G1 on F.Silkscreen",
                     "pos": {
-                        "x": 8.2895,
-                        "y": 75.5833
+                        "x": 1.315436,
+                        "y": 6.888905
                     },
-                    "uuid": "d8a653de-ac25-4cea-bf1e-35aaa414ecad"
+                    "uuid": "3db13fe1-b83c-4d94-bea2-4b3cfb77f200"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 75.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
                     "description": "Polygon of #G1 on F.Silkscreen",
                     "pos": {
-                        "x": 8.36,
-                        "y": 75.822
+                        "x": 0.641222,
+                        "y": 6.373824
                     },
-                    "uuid": "a2ff5b8f-a0b1-40ba-8cc5-a3fc90872534"
+                    "uuid": "d18a2742-8139-4551-ba6c-c018566db182"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 75.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
                     "description": "Polygon of #G1 on F.Silkscreen",
                     "pos": {
-                        "x": 8.9581,
-                        "y": 74.5818
+                        "x": 9.999846,
+                        "y": -3.037063
                     },
-                    "uuid": "cf095708-cc95-4c04-a35c-99a38fabfecd"
+                    "uuid": "f1afd744-0082-4303-b837-4265e76afc80"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 75.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
                     "description": "Polygon of #G1 on F.Silkscreen",
                     "pos": {
-                        "x": 8.9583,
-                        "y": 74.8926
+                        "x": 7.226451,
+                        "y": -0.009765
                     },
-                    "uuid": "12d67e3f-7c5c-422f-9c8b-e7c581d5c150"
+                    "uuid": "32694f4d-c44f-4d79-affe-7871d5db4d30"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 75.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
                     "description": "Polygon of #G1 on F.Silkscreen",
                     "pos": {
-                        "x": 8.7201,
-                        "y": 74.9305
+                        "x": -0.504895,
+                        "y": 3.35981
                     },
-                    "uuid": "f7e0ff60-cb0f-4f72-9f62-86caf151d2b8"
+                    "uuid": "c62a89ff-a5b6-4c43-b304-28162a11f087"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
-            "description": "Silkscreen clearance",
+            "description": "Silkscreen clipped by board edge",
             "items": [
                 {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
+                    "description": "Rectangle on Edge.Cuts",
                     "pos": {
-                        "x": 21.0,
-                        "y": 75.0
+                        "x": 0.0,
+                        "y": 0.0
                     },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
+                    "uuid": "a1498c12-0392-42aa-b488-0180c3fa152f"
                 },
                 {
                     "description": "Polygon of #G1 on F.Silkscreen",
                     "pos": {
-                        "x": 8.3289,
-                        "y": 74.9091
+                        "x": -0.113781,
+                        "y": 3.019382
                     },
-                    "uuid": "f10b13a2-b03f-4bce-a699-d80982acaf20"
+                    "uuid": "639ad0a5-d162-4d09-9073-cda69fbf8a0b"
                 }
             ],
             "severity": "warning",
-            "type": "silk_overlap"
+            "type": "silk_edge_clearance"
         },
         {
             "description": "Silkscreen clearance",
@@ -1800,259 +1800,6 @@
                         "y": 63.62
                     },
                     "uuid": "f7ebb3b4-f9d6-4e1a-9f52-1249f5c415e2"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 11.4509,
-                        "y": 75.427
-                    },
-                    "uuid": "e2540568-47f0-43bb-8b3f-5f177d0ed8b9"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 8.1172,
-                        "y": 75.4853
-                    },
-                    "uuid": "47d4c09b-4858-4d13-89f0-a78b30dc290e"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 12.9999,
-                        "y": 76.6684
-                    },
-                    "uuid": "693fcf21-9838-43c6-92b7-d3015ca7115c"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 9.8466,
-                        "y": 75.5967
-                    },
-                    "uuid": "92da8f7a-b621-4562-ab86-a67824e976d2"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 9.7219,
-                        "y": 75.8287
-                    },
-                    "uuid": "c2d8a8ca-b0fc-4d74-9395-3ff65e345bfa"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 10.764,
-                        "y": 74.9814
-                    },
-                    "uuid": "00168f45-2216-4de0-b0c3-384dba3be82d"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 10.6907,
-                        "y": 75.0924
-                    },
-                    "uuid": "ccb98753-3a1d-4b27-9711-4e150fdd5baf"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 11.1683,
-                        "y": 75.8276
-                    },
-                    "uuid": "e58380cf-7453-4a44-b6bd-bc948459fae2"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 11.3289,
-                        "y": 75.0923
-                    },
-                    "uuid": "e35ee658-6d7f-4fa0-8699-f38e4003f718"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 11.2393,
-                        "y": 74.9113
-                    },
-                    "uuid": "1fe965ad-e136-4660-a112-3b1d0f137499"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 21.0,
-                        "y": 75.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of #G1 on F.Silkscreen",
-                    "pos": {
-                        "x": 11.0865,
-                        "y": 75.3609
-                    },
-                    "uuid": "4d212c62-26fa-4ccf-bcbb-a65c20f3ccf2"
                 }
             ],
             "severity": "warning",
@@ -2335,6 +2082,29 @@
             "type": "silk_overlap"
         },
         {
+            "description": "Silkscreen clearance",
+            "items": [
+                {
+                    "description": "Reference field of #G1",
+                    "pos": {
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "uuid": "23e576e7-bd83-44b8-bf33-7096ac2b8afb"
+                },
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 9.999846,
+                        "y": -3.037063
+                    },
+                    "uuid": "f1afd744-0082-4303-b837-4265e76afc80"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_overlap"
+        },
+        {
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
@@ -2444,6 +2214,236 @@
                         "y": 52.93
                     },
                     "uuid": "cd3b3fec-7fbe-47a3-8fc4-10569c440218"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 1.530037,
+                        "y": 6.368651
+                    },
+                    "uuid": "79803932-ef92-4c86-9f54-53bd006a0e97"
+                },
+                {
+                    "description": "PTH pad 37 [unconnected-(J8-NC-Pad37)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 7.21
+                    },
+                    "uuid": "5c2aff98-7793-4ca4-b270-49ba435ef11f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 2.553869,
+                        "y": 5.388604
+                    },
+                    "uuid": "9bb20240-0a15-4cd7-ba29-3b29dcf74cda"
+                },
+                {
+                    "description": "PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 4.67
+                    },
+                    "uuid": "9bfe7ef0-e541-42c2-967b-6f1c72c33572"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 3.718272,
+                        "y": 5.238838
+                    },
+                    "uuid": "bbb294fb-b9ba-439a-b5b6-a36f46d6362d"
+                },
+                {
+                    "description": "PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 4.67
+                    },
+                    "uuid": "9bfe7ef0-e541-42c2-967b-6f1c72c33572"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 3.450722,
+                        "y": 4.528928
+                    },
+                    "uuid": "4778b88e-df2a-4c11-b305-ddd1f3e66e95"
+                },
+                {
+                    "description": "PTH pad 35 [unconnected-(J8-NC-Pad35)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 9.75
+                    },
+                    "uuid": "43e14750-a4f2-42b2-8da3-bbf6dcde00b6"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 3.450722,
+                        "y": 4.528928
+                    },
+                    "uuid": "4778b88e-df2a-4c11-b305-ddd1f3e66e95"
+                },
+                {
+                    "description": "PTH pad 37 [unconnected-(J8-NC-Pad37)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 7.21
+                    },
+                    "uuid": "5c2aff98-7793-4ca4-b270-49ba435ef11f"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 3.450722,
+                        "y": 4.528928
+                    },
+                    "uuid": "4778b88e-df2a-4c11-b305-ddd1f3e66e95"
+                },
+                {
+                    "description": "PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 4.67
+                    },
+                    "uuid": "9bfe7ef0-e541-42c2-967b-6f1c72c33572"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 1.839705,
+                        "y": 4.941796
+                    },
+                    "uuid": "62b9cc9b-291b-4cfd-94f8-f766b95d7364"
+                },
+                {
+                    "description": "PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 4.67
+                    },
+                    "uuid": "9bfe7ef0-e541-42c2-967b-6f1c72c33572"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 2.929642,
+                        "y": 5.068281
+                    },
+                    "uuid": "15a3a8c1-a138-40d6-91ae-9ef11187fdcb"
+                },
+                {
+                    "description": "PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 4.67
+                    },
+                    "uuid": "9bfe7ef0-e541-42c2-967b-6f1c72c33572"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 4.039763,
+                        "y": 5.053633
+                    },
+                    "uuid": "a9b1eaa8-d864-4dd1-adad-7f6d9af88f07"
+                },
+                {
+                    "description": "PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 4.67
+                    },
+                    "uuid": "9bfe7ef0-e541-42c2-967b-6f1c72c33572"
+                }
+            ],
+            "severity": "warning",
+            "type": "silk_over_copper"
+        },
+        {
+            "description": "Silkscreen clipped by solder mask",
+            "items": [
+                {
+                    "description": "Polygon of #G1 on F.Silkscreen",
+                    "pos": {
+                        "x": 9.999846,
+                        "y": -3.037063
+                    },
+                    "uuid": "f1afd744-0082-4303-b837-4265e76afc80"
+                },
+                {
+                    "description": "PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8",
+                    "pos": {
+                        "x": 2.81,
+                        "y": 4.67
+                    },
+                    "uuid": "9bfe7ef0-e541-42c2-967b-6f1c72c33572"
                 }
             ],
             "severity": "warning",
