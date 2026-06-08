@@ -1,27 +1,16 @@
 Reference,Value,Footprint,Qty,Manufacturer,MPN,Description,Datasheet
-J1,RJ45_PoE,Custom:RJ45_Wuerth_615008144521,1,Wuerth,615008144521,Shielded RJ45 with integrated magnetics,https://www.we-online.com/en/components/products/WR-MJ/615008144521
+J1,RJ45_PoE,Custom:RJ45_Wuerth_615008144521,1,Wuerth,615008144521,"Shielded RJ45 with integrated magnetics — PoE power only, MDI secondary NC",https://www.we-online.com/en/components/products/WR-MJ/615008144521
 U1,Ag9905M,Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical,1,Silvertel,Ag9905M,"PoE+ 802.3at PD module, 12V 1.67A isolated",https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf
-U2,LM2596-3.3,Package_TO_SOT_SMD:TO-263-5_TabPin3,1,TI,LM2596S-3.3/NOPB,"3A 150kHz buck regulator, 3.3V fixed, D2PAK",https://www.ti.com/lit/ds/symlink/lm2596.pdf
-U3,ESP32-P4-MINI-1U-N16R8,Custom:ESP32-P4-MINI-1,1,Espressif,ESP32-P4-MINI-1U-N16R8,"ESP32-P4 MCU module 16MB flash/8MB PSRAM, RMII Ethernet",https://www.espressif.com/sites/default/files/documentation/esp32-p4-mini-1u_datasheet_en.pdf
-U5,LAN8720A-CP-TR,Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm,1,Microchip,LAN8720A-CP-TR,"Ethernet PHY, RMII, QFN-24",https://ww1.microchip.com/downloads/en/DeviceDoc/00002165B.pdf
-"R11,R12,R13,R14",49R9,Resistor_SMD:R_0402_1005Metric,4,Yageo,RC0402FR-0749R9L,49.9Ω 1% 0402 — MDI termination resistors,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
-"C8,C9,C10",100nF,Capacitor_SMD:C_0402_1005Metric,3,Samsung,CL05B104KO5NNNC,100nF 0402 16V X5R — LAN8720A VDD decoupling,https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp
-C11,10uF/10V,Capacitor_SMD:C_0805_2012Metric,1,Samsung,CL21A106KAYNNNE,10µF 0805 10V X5R — LAN8720A bulk decoupling,https://www.samsungsem.com/global/product/passive-component/mlcc/CL21A106KAYNNNE.jsp
-U4,CH340C,Package_SO:SOIC-16_3.9x9.9mm_P1.27mm,1,WCH,CH340C,"USB-UART bridge, internal oscillator",https://www.wch-ic.com/downloads/CH340DS1_PDF.html
-"J2,J3,J4,J5",Fan_Header,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,4,Molex,47053-1000,4-pin 2.54mm 12V PWM fan header,~
-J6,USB_C_2.0,Connector_USB:USB_C_Receptacle_GCT_USB4085,1,GCT,USB4085-GF-A,"USB Type-C receptacle, through-hole",~
-J7,Debug_UART,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,1,,,3-pin debug UART header,~
+U2,LM2596-5.0,Package_TO_SOT_SMD:TO-263-5_TabPin3,1,TI,LM2596S-5.0/NOPB,"3A 150kHz buck regulator, 5.0V fixed, D2PAK — 12V→5V for Waveshare board",https://www.ti.com/lit/ds/symlink/lm2596.pdf
 L1,68uH,Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC,1,Bourns,SRR5028-680Y,68uH 3A shielded power inductor,~
-D1,1N5822,Diode_THT:D_DO-201AD_P12.70mm_Horizontal,1,ON Semi,1N5822,3A 40V Schottky diode,~
+D1,1N5822,Diode_THT:D_DO-201AD_P12.70mm_Horizontal,1,ON Semi,1N5822,3A 40V Schottky diode — LM2596 freewheeling,~
+D2,1N5822,Diode_THT:D_DO-201AD_P12.70mm_Horizontal,1,ON Semi,1N5822,3A 40V Schottky diode — USB back-feed protection (5V to Waveshare HAT),~
 C1,100uF/25V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 input bulk capacitor,~
-C2,100uF/10V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 output bulk capacitor,~
-"C3,C4,C5,C6",100nF,Capacitor_SMD:C_0402_1005Metric,4,Samsung,CL05B104KO5NNNC,100nF 0402 16V X5R decoupling capacitors,https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp
-C7,100nF,Capacitor_SMD:C_0402_1005Metric,1,Samsung,CL05B104KO5NNNC,100nF 0402 16V X5R — CH340C V3 decoupling,https://www.samsungsem.com/global/product/passive-component/mlcc/CL05B104KO5NNNC.jsp
-"R1,R2,R4",10k,Resistor_SMD:R_0402_1005Metric,3,Yageo,RC0402FR-0710KL,"10kΩ 0402 1% — EN, BOOT, NTC divider pull-up",https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
-R3,330R,Resistor_SMD:R_0402_1005Metric,1,Yageo,RC0402FR-07330RL,330Ω 0402 1% — status LED current limit,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
-"R5,R6,R7,R8",10k,Resistor_SMD:R_0402_1005Metric,4,Yageo,RC0402FR-0710KL,10kΩ 0402 1% — fan TACH pull-up resistors,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
-"R9,R10",5.1k,Resistor_SMD:R_0402_1005Metric,2,Yageo,RC0402FR-075K1L,5.1kΩ 0402 1% — USB-C CC pull-down resistors,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
-LED1,LED_GREEN,LED_THT:LED_D3.0mm,1,Wurth,150060GS75000,"Green 3mm THT LED, 565nm",https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000
-SW1,RESET,Button_Switch_THT:SW_PUSH_6mm,1,C&K,PTS636 SK43 SMTR LFS,"6mm tactile pushbutton, THT, 4.3mm height",https://www.ckswitches.com/products/switches/product-details/Tactile/PTS636/
-SW2,BOOT,Button_Switch_THT:SW_PUSH_6mm,1,C&K,PTS636 SK43 SMTR LFS,"6mm tactile pushbutton, THT, 4.3mm height",https://www.ckswitches.com/products/switches/product-details/Tactile/PTS636/
+C2,100uF/16V,Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm,1,,,LM2596 output bulk capacitor (5V rail),~
+J8,Waveshare_HAT,Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical,1,Sullins / Würth,PREC020DAAN-RC / 61304021821,2×20 2.54mm male THT pin header — carrier PCB ↔ Waveshare ESP32-P4-ETH HAT interface,https://www.waveshare.com/wiki/ESP32-P4-ETH
+"J2,J3,J4,J5",Fan_Header,Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical,4,Molex,47053-1000,4-pin 2.54mm 12V PWM fan header,~
+"R5,R6,R7,R8",10k,Resistor_SMD:R_0402_1005Metric,4,Yageo,RC0402FR-0710KL,10kΩ 0402 1% — fan TACH pull-up resistors (3.3V from J8),https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+R4,10k,Resistor_SMD:R_0402_1005Metric,1,Yageo,RC0402FR-0710KL,10kΩ 0402 1% — NTC divider pull-up (3.3V from J8),https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
 NTC1,NTC10K_B3950,Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,1,Murata,NCP15XH103F03RC,"10kΩ NTC thermistor B=3380, axial THT",https://www.murata.com/en-us/products/productdetail?partid=NCP15XH103F03RC
+R3,330R,Resistor_SMD:R_0402_1005Metric,1,Yageo,RC0402FR-07330RL,330Ω 0402 1% — status LED current limit,https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf
+LED1,LED_GREEN,LED_THT:LED_D3.0mm,1,Wurth,150060GS75000,"Green 3mm THT LED, 565nm",https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000

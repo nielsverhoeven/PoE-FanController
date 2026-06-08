@@ -1,0 +1,44 @@
+"""
+generator.bom — write_bom() for PoE FanController v0.3 (Waveshare ESP32-P4-ETH carrier).
+
+Writes hardware/bom/bom.csv with all components for the carrier board.
+The Waveshare ESP32-P4-ETH module itself is not listed here (purchased separately).
+"""
+
+import csv
+import os
+
+from .utils import HW_DIR
+
+
+def write_bom():
+    """Write the bill of materials to hardware/bom/bom.csv."""
+    rows = [
+        ["Reference","Value","Footprint","Qty","Manufacturer","MPN","Description","Datasheet"],
+        # PoE Power Input
+        ["J1","RJ45_PoE","Custom:RJ45_Wuerth_615008144521","1","Wuerth","615008144521","Shielded RJ45 with integrated magnetics — PoE power only, MDI secondary NC","https://www.we-online.com/en/components/products/WR-MJ/615008144521"],
+        ["U1","Ag9905M","Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical","1","Silvertel","Ag9905M","PoE+ 802.3at PD module, 12V 1.67A isolated","https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf"],
+        # Power Regulation
+        ["U2","LM2596-5.0","Package_TO_SOT_SMD:TO-263-5_TabPin3","1","TI","LM2596S-5.0/NOPB","3A 150kHz buck regulator, 5.0V fixed, D2PAK — 12V→5V for Waveshare board","https://www.ti.com/lit/ds/symlink/lm2596.pdf"],
+        ["L1","68uH","Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC","1","Bourns","SRR5028-680Y","68uH 3A shielded power inductor","~"],
+        ["D1","1N5822","Diode_THT:D_DO-201AD_P12.70mm_Horizontal","1","ON Semi","1N5822","3A 40V Schottky diode — LM2596 freewheeling","~"],
+        ["D2","1N5822","Diode_THT:D_DO-201AD_P12.70mm_Horizontal","1","ON Semi","1N5822","3A 40V Schottky diode — USB back-feed protection (5V to Waveshare HAT)","~"],
+        ["C1","100uF/25V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 input bulk capacitor","~"],
+        ["C2","100uF/16V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 output bulk capacitor (5V rail)","~"],
+        # Waveshare ESP32-P4-ETH Interface
+        ["J8","Waveshare_HAT","Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical","1","Sullins / Würth","PREC020DAAN-RC / 61304021821","2×20 2.54mm male THT pin header — carrier PCB ↔ Waveshare ESP32-P4-ETH HAT interface","https://www.waveshare.com/wiki/ESP32-P4-ETH"],
+        # Fan Headers
+        ["J2,J3,J4,J5","Fan_Header","Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical","4","Molex","47053-1000","4-pin 2.54mm 12V PWM fan header","~"],
+        ["R5,R6,R7,R8","10k","Resistor_SMD:R_0402_1005Metric","4","Yageo","RC0402FR-0710KL","10kΩ 0402 1% — fan TACH pull-up resistors (3.3V from J8)","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        # Temperature Sensing
+        ["R4","10k","Resistor_SMD:R_0402_1005Metric","1","Yageo","RC0402FR-0710KL","10kΩ 0402 1% — NTC divider pull-up (3.3V from J8)","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        ["NTC1","NTC10K_B3950","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","1","Murata","NCP15XH103F03RC","10kΩ NTC thermistor B=3380, axial THT","https://www.murata.com/en-us/products/productdetail?partid=NCP15XH103F03RC"],
+        # Status LED
+        ["R3","330R","Resistor_SMD:R_0402_1005Metric","1","Yageo","RC0402FR-07330RL","330Ω 0402 1% — status LED current limit","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],
+        ["LED1","LED_GREEN","LED_THT:LED_D3.0mm","1","Wurth","150060GS75000","Green 3mm THT LED, 565nm","https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000"],
+    ]
+    p = os.path.join(HW_DIR, "bom", "bom.csv")
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    with open(p, "w", newline="", encoding="utf-8") as f:
+        csv.writer(f).writerows(rows)
+    print(f"  wrote {p}")

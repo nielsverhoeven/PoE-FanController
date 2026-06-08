@@ -44,6 +44,14 @@ ollama pull llama3.1:8b
 **Minimum hardware recommendation:** 16 GB RAM, 8 GB GPU VRAM (RTX 3060 or better).
 CPU-only inference works but is 5-10× slower.
 
+### Currently installed (as of 2026-06-08)
+
+| Model | Status | Best for |
+|---|---|---|
+| `qwen2.5-coder:7b` | ✅ Installed | Code, KiCad S-expr, Python, C++ |
+
+Check current state: `Invoke-RestMethod http://localhost:11434/api/tags | Select-Object -ExpandProperty models`
+
 ---
 
 ## 3. Use Cases for This Project
@@ -84,18 +92,47 @@ ollama run qwen2.5-coder:14b "Write Unity test stubs for all public functions in
 
 ---
 
-## 4. OpenAI-Compatible API (for tool integration)
+## 4. PowerShell Integration (Primary Method on Windows)
 
-Ollama exposes an OpenAI-compatible REST API:
+**Always use `Invoke-RestMethod` — not `curl`, not `ollama run` (CLI hangs in PowerShell).**
 
-```bash
-# Test the API
-curl http://localhost:11434/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "qwen2.5-coder:7b",
-    "messages": [{"role": "user", "content": "Hello"}]
-  }'
+### Single-shot generation
+```powershell
+function Invoke-Ollama {
+    param([string]$Prompt, [string]$Model = "qwen2.5-coder:7b")
+    $body = @{ model = $Model; prompt = $Prompt; stream = $false } | ConvertTo-Json
+    (Invoke-RestMethod http://localhost:11434/api/generate -Method POST `
+        -ContentType "application/json" -Body $body).response
+}
+
+# Usage:
+Invoke-Ollama "Draft a git commit message for: added 2x20 header J8 for ESP32-P4-ETH"
+```
+
+### Read file → generate → use result
+```powershell
+$code = Get-Content firmware/src/fan.cpp -Raw
+$result = Invoke-Ollama "Write a one-paragraph summary of what this firmware module does: $code"
+Write-Host $result
+```
+
+### Check Ollama is running before calling
+```powershell
+try { Invoke-RestMethod http://localhost:11434/api/tags | Out-Null; $true }
+catch { Write-Warning "Ollama not running. Start with: Start-Process ollama serve"; $false }
+```
+
+## 4b. OpenAI-Compatible API (for tool integration)
+
+Ollama also exposes an OpenAI-compatible REST API:
+
+```powershell
+$body = @{
+    model = "qwen2.5-coder:7b"
+    messages = @(@{ role = "user"; content = "Hello" })
+} | ConvertTo-Json -Depth 5
+Invoke-RestMethod http://localhost:11434/v1/chat/completions `
+    -Method POST -ContentType "application/json" -Body $body
 ```
 
 This means any tool that accepts an OpenAI endpoint can point to `http://localhost:11434/v1`

@@ -1,12 +1,17 @@
 /**
  * @file pins.h
- * @brief GPIO pin constants for PoE FanController v0.2 (ESP32-P4-MINI-1U-N16R8)
+ * @brief GPIO pin constants for PoE FanController v0.3 (Waveshare ESP32-P4-ETH)
  *
- * All assignments verified against ESP32-P4 TRM §EMAC (OQ-01 resolved 2026-06-07).
- * RMII fixed pins GPIO32–37 + GPIO50 are handled automatically by ETH.begin()
- * and are listed here for documentation only — do NOT re-use them for other functions.
+ * MCU: ESP32-P4NRW32 on Waveshare ESP32-P4-ETH board (SKU 32086)
+ * Connected to custom carrier PCB via 2×20 HAT header (J8).
  *
- * Architecture: docs/features/esp32-p4-migration/architecture.md §4
+ * GPIO4–11, GPIO16, GPIO2 are available on Waveshare's 2×20 header (RPi Pico compatible).
+ * RMII fixed pins GPIO32–37 + GPIO50 are handled internally by Waveshare's LAN8720A.
+ * MDC/MDIO: GPIO31/GPIO28 — connected to Waveshare's internal LAN8720A (not on J8 header).
+ * UART0: GPIO38 (TX), GPIO39 (RX) — via Waveshare's CH343P USB-C (not on J8 header).
+ *
+ * ⚠️ VERIFY MDC/MDIO pin numbers against Waveshare schematic at:
+ *    https://www.waveshare.com/wiki/ESP32-P4-ETH
  */
 #pragma once
 

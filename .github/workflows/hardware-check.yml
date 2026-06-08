@@ -28,8 +28,16 @@ jobs:
       - name: Install generator dependencies
         run: pip install --quiet sexpdata 2>/dev/null || true
 
-      - name: Syntax check generator
-        run: python -m py_compile hardware/generate_project.py && echo "Syntax OK"
+      - name: Syntax check generator (entry point + all modules)
+        run: |
+          python -m py_compile hardware/generate_project.py
+          python -m py_compile hardware/generator/__init__.py
+          python -m py_compile hardware/generator/utils.py
+          python -m py_compile hardware/generator/schematic.py
+          python -m py_compile hardware/generator/components.py
+          python -m py_compile hardware/generator/pcb_utils.py
+          python -m py_compile hardware/generator/bom.py
+          echo "Syntax OK — all 7 modules"
 
   kicad-erc-drc:
     name: KiCad ERC + DRC
@@ -43,10 +51,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run PCB generator
+      - name: Store PCB checksum (P-KI-07 guard baseline)
+        run: sha256sum hardware/kicad/PoE-FanController.kicad_pcb > /tmp/pcb_before.sha256
+
+      - name: Regenerate schematic from Python
         run: |
           cd hardware
           KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py
+
+      - name: Guard — kicad_pcb must not be modified by generator (P-KI-07)
+        run: |
+          sha256sum --check /tmp/pcb_before.sha256 || \
+            (echo "ERROR: kicad_pcb was modified by generator — P-KI-07 violation" && exit 1)
 
       - name: Run ERC
         run: |
@@ -73,16 +89,13 @@ jobs:
             --output hardware/kicad/drc_output.json \
             --format json --exit-code-violations || true
 
-      - name: Check DRC violation count (baseline 76)
-        # DRC baseline: 76 pre-existing violations measured in KiCad 10.0.2 Docker/Linux.
-        # Root cause: Docker fp-lib-table does not list ANY standard library; every footprint
-        # generates 1 'lib_footprint_issues' violation ("library not configured").
-        # Breakdown: 43 lib_footprint_issues (1 per component = 43 BOM footprints in Docker),
-        #            28 solder_mask_bridge (J6 USB-C, pre-existing),
-        #             5 silk_edge_clearance (pre-existing).
-        # Local Windows count (KiCad 10.0.3): 36. Docker is authoritative.
-        # +9 vs previous baseline 67: reflects 9 new components added by ESP32-P4 migration
-        # (U5 LAN8720A, R11-R14, C8-C11). See issue #39 to fix fp-lib-table and drive to zero.
+      - name: Check DRC violation count (baseline 32)
+        # DRC baseline: 32 pre-existing violations measured in KiCad 10.0.3 Windows.
+        # Breakdown: lib_footprint_issues=26 (symbol-footprint mismatches, pre-existing),
+        # silk_edge_clearance=5, lib_footprint_mismatch=1.
+        # History: v1.0=67, v1.3.0 ESP32-P4 migration=76, v2.0.0 Waveshare carrier redesign=75,
+        #          v2.0.1 PCB cleanup (remove U3/U4/U5/J6/SW1/SW2, add J8)=32.
+        # Local Windows count (KiCad 10.0.3): authoritative for this baseline. Docker may differ slightly.
         run: |
           python3 -c "
           import json, sys
@@ -90,7 +103,7 @@ jobs:
           violations = d.get('violations', [])
           n = len(violations)
           print(f'DRC: {n} violation(s)')
-          sys.exit(1 if n > 76 else 0)
+          sys.exit(1 if n > 32 else 0)
           "
 
       - name: Upload ERC report

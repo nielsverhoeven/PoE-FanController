@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-06-07T12:26:21",
+    "date": "2026-06-08T10:20:56",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -26,657 +26,14 @@
     ],
     "included_severities": [
         "error",
-        "warning"
+        "warning",
+        "exclusion"
     ],
     "kicad_version": "10.0.3",
     "schematic_parity": [],
     "source": "PoE-FanController.kicad_pcb",
     "unconnected_items": [],
     "violations": [
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B1 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.95,
-                        "y": 7.41
-                    },
-                    "uuid": "065ce6fb-d3bc-4f0f-8c50-2d505cb1962b"
-                },
-                {
-                    "description": "PTH pad B4 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 7.41
-                    },
-                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B1 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.95,
-                        "y": 7.41
-                    },
-                    "uuid": "065ce6fb-d3bc-4f0f-8c50-2d505cb1962b"
-                },
-                {
-                    "description": "PTH pad B4 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 7.41
-                    },
-                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B4 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 7.41
-                    },
-                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
-                },
-                {
-                    "description": "PTH pad B5 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 7.41
-                    },
-                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B4 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 7.41
-                    },
-                    "uuid": "99ccba2d-a49d-486f-9691-c7fdd26402cf"
-                },
-                {
-                    "description": "PTH pad B5 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 7.41
-                    },
-                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B5 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 7.41
-                    },
-                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
-                },
-                {
-                    "description": "PTH pad B6 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 7.41
-                    },
-                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B5 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 7.41
-                    },
-                    "uuid": "e119bdb8-7639-43f7-8432-92c041d6914b"
-                },
-                {
-                    "description": "PTH pad B6 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 7.41
-                    },
-                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B6 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 7.41
-                    },
-                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
-                },
-                {
-                    "description": "PTH pad B7 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 7.41
-                    },
-                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B6 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 7.41
-                    },
-                    "uuid": "fab6ff1c-b2f6-4f20-bc26-9ec338d77b24"
-                },
-                {
-                    "description": "PTH pad B7 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 7.41
-                    },
-                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B7 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 7.41
-                    },
-                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
-                },
-                {
-                    "description": "PTH pad B8 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 7.41
-                    },
-                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B7 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 7.41
-                    },
-                    "uuid": "60bcd0e0-3717-4c6b-b499-416004cfd7c6"
-                },
-                {
-                    "description": "PTH pad B8 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 7.41
-                    },
-                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B8 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 7.41
-                    },
-                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
-                },
-                {
-                    "description": "PTH pad B9 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 7.41
-                    },
-                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B8 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 7.41
-                    },
-                    "uuid": "e3838170-a370-4746-a3b2-9aaf15ea5082"
-                },
-                {
-                    "description": "PTH pad B9 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 7.41
-                    },
-                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B9 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 7.41
-                    },
-                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
-                },
-                {
-                    "description": "PTH pad B12 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.0,
-                        "y": 7.41
-                    },
-                    "uuid": "0ab0e897-5d63-4ef1-9ee6-3700773a5942"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad B9 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 7.41
-                    },
-                    "uuid": "8d976016-b965-4db1-817f-1974b76ce035"
-                },
-                {
-                    "description": "PTH pad B12 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.0,
-                        "y": 7.41
-                    },
-                    "uuid": "0ab0e897-5d63-4ef1-9ee6-3700773a5942"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A1 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.0,
-                        "y": 6.06
-                    },
-                    "uuid": "973433db-dbe2-4b63-a2c7-f47e00988053"
-                },
-                {
-                    "description": "PTH pad A4 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 6.06
-                    },
-                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A1 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.0,
-                        "y": 6.06
-                    },
-                    "uuid": "973433db-dbe2-4b63-a2c7-f47e00988053"
-                },
-                {
-                    "description": "PTH pad A4 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 6.06
-                    },
-                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A4 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 6.06
-                    },
-                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
-                },
-                {
-                    "description": "PTH pad A5 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 6.06
-                    },
-                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A4 [<no net>] of J6",
-                    "pos": {
-                        "x": 85.85,
-                        "y": 6.06
-                    },
-                    "uuid": "99d6436b-fa55-4f52-8e98-47cec3bfc02d"
-                },
-                {
-                    "description": "PTH pad A5 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 6.06
-                    },
-                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A5 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 6.06
-                    },
-                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
-                },
-                {
-                    "description": "PTH pad A6 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 6.06
-                    },
-                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A5 [<no net>] of J6",
-                    "pos": {
-                        "x": 86.7,
-                        "y": 6.06
-                    },
-                    "uuid": "8f0ab270-50b1-4135-8a7e-b7c59f6e45ee"
-                },
-                {
-                    "description": "PTH pad A6 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 6.06
-                    },
-                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A6 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 6.06
-                    },
-                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
-                },
-                {
-                    "description": "PTH pad A7 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 6.06
-                    },
-                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A6 [<no net>] of J6",
-                    "pos": {
-                        "x": 87.55,
-                        "y": 6.06
-                    },
-                    "uuid": "68d6c6ab-c45c-499e-82bd-63b20a3129a8"
-                },
-                {
-                    "description": "PTH pad A7 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 6.06
-                    },
-                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A7 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 6.06
-                    },
-                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
-                },
-                {
-                    "description": "PTH pad A8 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 6.06
-                    },
-                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A7 [<no net>] of J6",
-                    "pos": {
-                        "x": 88.4,
-                        "y": 6.06
-                    },
-                    "uuid": "b8d12c18-f03d-4993-a88e-e1b6720ba265"
-                },
-                {
-                    "description": "PTH pad A8 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 6.06
-                    },
-                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A8 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 6.06
-                    },
-                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
-                },
-                {
-                    "description": "PTH pad A9 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 6.06
-                    },
-                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A8 [<no net>] of J6",
-                    "pos": {
-                        "x": 89.25,
-                        "y": 6.06
-                    },
-                    "uuid": "41cc4085-e8d1-4114-876c-ebd9daa78a9f"
-                },
-                {
-                    "description": "PTH pad A9 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 6.06
-                    },
-                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Front solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A9 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 6.06
-                    },
-                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
-                },
-                {
-                    "description": "PTH pad A12 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.95,
-                        "y": 6.06
-                    },
-                    "uuid": "013f0886-478f-4df3-843e-83c45ed19dd1"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
-        {
-            "description": "Rear solder mask aperture bridges items with different nets",
-            "items": [
-                {
-                    "description": "PTH pad A9 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.1,
-                        "y": 6.06
-                    },
-                    "uuid": "ff3ac5f8-191a-4b29-9c51-26f675661566"
-                },
-                {
-                    "description": "PTH pad A12 [<no net>] of J6",
-                    "pos": {
-                        "x": 90.95,
-                        "y": 6.06
-                    },
-                    "uuid": "013f0886-478f-4df3-843e-83c45ed19dd1"
-                }
-            ],
-            "severity": "error",
-            "type": "solder_mask_bridge"
-        },
         {
             "description": "Silkscreen clipped by board edge",
             "items": [
@@ -694,7 +51,7 @@
                         "x": 46.1,
                         "y": 5.24
                     },
-                    "uuid": "5218b0af-6098-4d6f-8cc9-2a8f20655bb0"
+                    "uuid": "a02b73eb-6438-40c9-ad54-62614f955b8b"
                 }
             ],
             "severity": "warning",
@@ -717,7 +74,7 @@
                         "x": 56.8,
                         "y": 5.24
                     },
-                    "uuid": "9a4e5d4e-db85-4b5f-a899-8cd2237b9bbf"
+                    "uuid": "cc9889cd-9ce0-4657-bf6e-1e0af4e02883"
                 }
             ],
             "severity": "warning",
@@ -740,7 +97,7 @@
                         "x": 67.4,
                         "y": 5.24
                     },
-                    "uuid": "d57c7e50-69c9-49d8-b9a5-836f2d024864"
+                    "uuid": "21e2e1cc-2a55-431a-9c05-05ca12498928"
                 }
             ],
             "severity": "warning",
@@ -763,7 +120,7 @@
                         "x": 78.1,
                         "y": 5.24
                     },
-                    "uuid": "f8a8caeb-74b1-4e7d-b8e3-0609cf752cf1"
+                    "uuid": "f7ebb3b4-f9d6-4e1a-9f52-1249f5c415e2"
                 }
             ],
             "severity": "warning",
@@ -786,14 +143,14 @@
                         "x": 8.75,
                         "y": 62.0
                     },
-                    "uuid": "1d3470af-45a6-4fda-954c-931d6a1371df"
+                    "uuid": "c545d617-ada2-44c7-b161-d7c9ccccb137"
                 }
             ],
             "severity": "warning",
             "type": "silk_edge_clearance"
         },
         {
-            "description": "The current configuration does not include the footprint library 'Custom'",
+            "description": "Footprint 'RJ45_Wuerth_615008144521' does not match copy in library 'Custom'",
             "items": [
                 {
                     "description": "Footprint REF**",
@@ -805,10 +162,70 @@
                 }
             ],
             "severity": "warning",
+            "type": "lib_footprint_mismatch"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+                {
+                    "description": "Footprint J2",
+                    "pos": {
+                        "x": 46.1,
+                        "y": 7.62
+                    },
+                    "uuid": "000001d0-01d0-01d0-01d0-0000000001d0"
+                }
+            ],
+            "severity": "warning",
             "type": "lib_footprint_issues"
         },
         {
-            "description": "Footprint 'PinHeader_1x03_P2.54mm_Vertical' does not match copy in library 'Connector_PinHeader_2.54mm'",
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+                {
+                    "description": "Footprint J3",
+                    "pos": {
+                        "x": 56.8,
+                        "y": 7.62
+                    },
+                    "uuid": "000001d1-01d1-01d1-01d1-0000000001d1"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+                {
+                    "description": "Footprint J4",
+                    "pos": {
+                        "x": 67.4,
+                        "y": 7.62
+                    },
+                    "uuid": "000001d2-01d2-01d2-01d2-0000000001d2"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
+            "items": [
+                {
+                    "description": "Footprint J5",
+                    "pos": {
+                        "x": 78.1,
+                        "y": 7.62
+                    },
+                    "uuid": "000001d3-01d3-01d3-01d3-0000000001d3"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
             "items": [
                 {
                     "description": "Footprint J7",
@@ -820,18 +237,318 @@
                 }
             ],
             "severity": "warning",
-            "type": "lib_footprint_mismatch"
+            "type": "lib_footprint_issues"
         },
         {
-            "description": "The current configuration does not include the footprint library 'Custom'",
+            "description": "The current configuration does not include the footprint library 'Connector_PinHeader_2.54mm'",
             "items": [
                 {
-                    "description": "Footprint U3",
+                    "description": "Footprint U1",
                     "pos": {
-                        "x": 65.0,
+                        "x": 21.0,
+                        "y": 32.0
+                    },
+                    "uuid": "000001d6-01d6-01d6-01d6-0000000001d6"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Package_TO_SOT_SMD'",
+            "items": [
+                {
+                    "description": "Footprint U2",
+                    "pos": {
+                        "x": 27.0,
+                        "y": 57.0
+                    },
+                    "uuid": "000001d7-01d7-01d7-01d7-0000000001d7"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Inductor_THT'",
+            "items": [
+                {
+                    "description": "Footprint L1",
+                    "pos": {
+                        "x": 8.0,
+                        "y": 46.0
+                    },
+                    "uuid": "000001d8-01d8-01d8-01d8-0000000001d8"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Diode_THT'",
+            "items": [
+                {
+                    "description": "Footprint D1",
+                    "pos": {
+                        "x": 16.0,
+                        "y": 67.0
+                    },
+                    "uuid": "000001d9-01d9-01d9-01d9-0000000001d9"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+                {
+                    "description": "Footprint C1",
+                    "pos": {
+                        "x": 8.0,
+                        "y": 32.0
+                    },
+                    "uuid": "000001da-01da-01da-01da-0000000001da"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Capacitor_THT'",
+            "items": [
+                {
+                    "description": "Footprint C2",
+                    "pos": {
+                        "x": 7.0,
+                        "y": 62.0
+                    },
+                    "uuid": "000001db-01db-01db-01db-0000000001db"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R5",
+                    "pos": {
+                        "x": 51.5,
+                        "y": 19.5
+                    },
+                    "uuid": "000001e7-01e7-01e7-01e7-0000000001e7"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R6",
+                    "pos": {
+                        "x": 62.1,
+                        "y": 19.5
+                    },
+                    "uuid": "000001e8-01e8-01e8-01e8-0000000001e8"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R7",
+                    "pos": {
+                        "x": 72.8,
+                        "y": 19.5
+                    },
+                    "uuid": "000001e9-01e9-01e9-01e9-0000000001e9"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R8",
+                    "pos": {
+                        "x": 92.0,
+                        "y": 19.5
+                    },
+                    "uuid": "000001ea-01ea-01ea-01ea-0000000001ea"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R1",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 47.0
+                    },
+                    "uuid": "000001eb-01eb-01eb-01eb-0000000001eb"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R2",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 50.0
+                    },
+                    "uuid": "000001ec-01ec-01ec-01ec-0000000001ec"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R3",
+                    "pos": {
+                        "x": 45.0,
                         "y": 53.0
                     },
-                    "uuid": "000001dc-01dc-01dc-01dc-0000000001dc"
+                    "uuid": "000001ed-01ed-01ed-01ed-0000000001ed"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint R4",
+                    "pos": {
+                        "x": 45.0,
+                        "y": 56.0
+                    },
+                    "uuid": "000001ee-01ee-01ee-01ee-0000000001ee"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint C3",
+                    "pos": {
+                        "x": 43.0,
+                        "y": 47.0
+                    },
+                    "uuid": "000001ef-01ef-01ef-01ef-0000000001ef"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint C4",
+                    "pos": {
+                        "x": 43.0,
+                        "y": 50.0
+                    },
+                    "uuid": "000001f0-01f0-01f0-01f0-0000000001f0"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint C5",
+                    "pos": {
+                        "x": 43.0,
+                        "y": 53.0
+                    },
+                    "uuid": "000001f1-01f1-01f1-01f1-0000000001f1"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint C6",
+                    "pos": {
+                        "x": 43.0,
+                        "y": 56.0
+                    },
+                    "uuid": "000001f2-01f2-01f2-01f2-0000000001f2"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Capacitor_SMD'",
+            "items": [
+                {
+                    "description": "Footprint C7",
+                    "pos": {
+                        "x": 80.0,
+                        "y": 65.0
+                    },
+                    "uuid": "000001f3-01f3-01f3-01f3-0000000001f3"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'LED_THT'",
+            "items": [
+                {
+                    "description": "Footprint LED1",
+                    "pos": {
+                        "x": 64.0,
+                        "y": 68.5
+                    },
+                    "uuid": "000001f8-01f8-01f8-01f8-0000000001f8"
+                }
+            ],
+            "severity": "warning",
+            "type": "lib_footprint_issues"
+        },
+        {
+            "description": "The current configuration does not include the footprint library 'Resistor_THT'",
+            "items": [
+                {
+                    "description": "Footprint NTC1",
+                    "pos": {
+                        "x": 70.0,
+                        "y": 68.5
+                    },
+                    "uuid": "000001f9-01f9-01f9-01f9-0000000001f9"
                 }
             ],
             "severity": "warning",

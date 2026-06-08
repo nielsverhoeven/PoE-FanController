@@ -35,13 +35,21 @@ These tasks do NOT require cloud credits:
 | YAML / JSON syntax validation | `qwen2.5-coder:7b` | Fast, accurate for structured data |
 | Python syntax check | `qwen2.5-coder:7b` | Equivalent to `py_compile` but with context |
 | Grep / file search by pattern | `qwen2.5-coder:7b` | Or just use grep directly |
-| Simple text formatting / README edits | `llama3.2:3b` | Very fast |
-| Changelog generation from commit list | `llama3.2:3b` | Templated, no reasoning needed |
-| Summarizing a file you've already read | `llama3.2:3b` | Context already loaded |
-| Boilerplate code generation (known patterns) | `qwen2.5-coder:14b` | Standard patterns from KB |
-| Unit test stubs from function signatures | `qwen2.5-coder:14b` | Deterministic output |
+| Simple text formatting / README edits | `qwen2.5-coder:7b` | Very fast |
+| Changelog generation from commit list | `qwen2.5-coder:7b` | Templated, no reasoning needed |
+| Summarizing a file you've already read | `qwen2.5-coder:7b` | Context already loaded |
+| **Git commit message drafts** | `qwen2.5-coder:7b` | Provide diff/description, get conventional commit |
+| **Issue/PR summaries** | `qwen2.5-coder:7b` | Draft text to review, not final output |
+| Boilerplate code generation (known patterns) | `qwen2.5-coder:7b` | Standard patterns from KB |
+| Unit test stubs from function signatures | `qwen2.5-coder:7b` | Deterministic output |
 | BOM table formatting / sorting | `qwen2.5-coder:7b` | Structured data |
-| KiCad S-expression generation (from KB template) | `qwen2.5-coder:14b` | Use KB template, fill in values |
+| KiCad S-expression generation (from KB template) | `qwen2.5-coder:7b` | Use KB template, fill in values |
+
+**How to call Ollama from PowerShell** (always use REST, not CLI — `ollama run` hangs):
+```powershell
+$body = @{ model = "qwen2.5-coder:7b"; prompt = "YOUR PROMPT"; stream = $false } | ConvertTo-Json
+(Invoke-RestMethod http://localhost:11434/api/generate -Method POST -ContentType "application/json" -Body $body).response
+```
 
 ### 🟡 Cloud Haiku (cheap — ~10× cheaper than Sonnet)
 

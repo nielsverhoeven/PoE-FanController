@@ -1,0 +1,36 @@
+{
+  "name": "Waveshare ESP32-P4-ETH",
+  "vendor": "Waveshare",
+  "url": "https://www.waveshare.com/wiki/ESP32-P4-ETH",
+  "frameworks": ["arduino"],
+  "platform": "espressif32",
+  "build": {
+    "mcu": "esp32p4",
+    "f_cpu": "400000000L",
+    "core": "esp32",
+    "extra_flags": "-DARDUINO_ESP32P4_DEV -DESP32P4 -DBOARD_HAS_PSRAM",
+    "flash_mode": "qio",
+    "flash_freq": "80m",
+    "flash_size": "32MB",
+    "boot": "qio_opi",
+    "partitions": "default_16MB.csv",
+    "arduino": {
+      "ldscript": "esp32p4_out.ld"
+    }
+  },
+  "connectivity": ["ethernet"],
+  "debug": {
+    "openocd_target": "esp32p4.cfg"
+  },
+  "upload": {
+    "maximum_size": 33554432,
+    "maximum_ram_size": 786432,
+    "speed": 921600,
+    "protocol": "esptool",
+    "require_upload_port": true
+  },
+  "memory": [
+    {"type": "flash", "start": "0x0",        "size": "0x2000000"},
+    {"type": "ram",   "start": "0x40000000", "size": "0xC0000"}
+  ]
+}

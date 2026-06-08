@@ -138,6 +138,21 @@ Every response must include:
 - If a footprint or symbol is not in the standard KiCad libraries, recommend how to create it or where to source it (e.g., KiCad library from manufacturer, SnapEDA, Ultra Librarian).
 - Always verify isolation requirements with `poe.expert` before finalising any design near the PoE input stage.
 
+## CRITICAL Rules (learned from project experience)
+
+### Pin number = Pad number — non-negotiable
+KiCad "Update PCB from Schematic" matches symbol pin **numbers** (not names) to footprint pad **numbers** by string equality.
+Using functional names as pin numbers (e.g. `"TXEN"`, `"GPIO4"`) when the footprint uses `"1"`, `"2"` etc. → every pad receives NO net — the chip is placed but entirely non-functional on PCB.
+**Always check: symbol pin numbers must exactly match footprint pad numbers in both string format and value.**
+
+### fp-lib-table required for Custom.pretty
+Every KiCad project using custom footprints needs `hardware/kicad/fp-lib-table` to register Custom.pretty.
+Without it, every custom footprint causes "Cannot add XN (footprint not found)" during "Update PCB from Schematic".
+Format documented in `docs/kb/kicad-10-reference.md §8`.
+
+### LAN8720A RBIAS mandatory
+Pin 4 (RBIAS) of LAN8720A requires 6.04 kΩ to GND. Without it the PHY has no internal current reference and will not operate. Currently implemented as R15 in this project.
+
 ---
 
 ## Schematic Readability Standards (project-specific)

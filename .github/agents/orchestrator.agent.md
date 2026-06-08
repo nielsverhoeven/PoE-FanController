@@ -197,6 +197,7 @@ When a feature requires violating or extending a constitution principle:
 - **Always create a branch (Stage -1) before any planning, clarification, or implementation work begins.** No feature work — including plan.md and tasks.md — may be committed to main.
 - ERC must pass (zero errors) after any schematic change before proceeding to layout.
 - DRC must pass (zero errors) after any layout change before proceeding to CI or testing.
+- **Merge all prerequisite PRs into main and pull before creating any new feature branch.** A branch created before a prerequisite is merged silently inherits the old codebase and causes regressions that are very hard to rebase away. If a required PR is not yet merged, block Stage -1 until it is.
 
 ---
 

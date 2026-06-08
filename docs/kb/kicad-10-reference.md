@@ -1,6 +1,6 @@
 # KiCad 10 Reference
 
-<!-- Last updated: 2026-06-07 | Source: session experience + KiCad 10.0.3 -->
+<!-- Last updated: 2026-06-07 (session 2) | Source: session experience + KiCad 10.0.3 -->
 <!-- Verified against: KiCad 10.0.3 (Windows), kicad/kicad:10.0.2 (Docker/Linux) -->
 
 ---
@@ -172,16 +172,164 @@ kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb \
 ```
 hardware/kicad/footprints/Custom.pretty/
 ```
-- ESP32-P4-MINI-1U custom footprint: `ESP32-P4-MINI-1.kicad_mod` (must be authored from Espressif datasheet)
+- ESP32-P4-MINI-1U custom footprint: `ESP32-P4-MINI-1.kicad_mod` — 56 pads, see §10 for pin mapping
 - LAN8720A: use standard `Package_DFN_QFN:QFN-24-1EP_4x4mm_P0.5mm_EP2.6x2.6mm` ✅
+- RJ45: `Custom:RJ45_Wuerth_615008144521` — custom footprint in Custom.pretty
+
+### fp-lib-table — REQUIRED for custom footprints
+
+Every KiCad project must have `hardware/kicad/fp-lib-table` to register Custom.pretty.
+**Without it, any `Custom:` footprint generates "Cannot add XN (footprint not found)" in Update PCB.**
+
+```sexp
+(fp_lib_table
+  (version 7)
+  (lib (name "Custom")(type "KiCad")(uri "${KIPRJMOD}/footprints/Custom.pretty")(options "")(descr "Custom project footprints")))
+```
+
+`${KIPRJMOD}` resolves to the directory containing the `.kicad_pro` file (i.e. `hardware/kicad/`).
 
 ---
 
-## 9. Generator Script
+## 9. Symbol Pin Number ↔ Footprint Pad Number — CRITICAL RULE
 
-**Source of truth:** `hardware/generate_project.py`
-- Regenerates `.kicad_sch` and `.kicad_pcb` from scratch
-- Manual edits to KiCad files are **forbidden** (overwritten on next run)
+**KiCad matches symbol pins to footprint pads by NUMBER, not by name.**
+
+When you run "Update PCB from Schematic":
+- KiCad looks at each footprint pad number (e.g. `"1"`, `"TXEN"`, `"A1"`)
+- It searches the symbol for a pin whose **number** (second field in the pin tuple) matches exactly
+- **If no match: "No net found for component X pad Y (no pin Y in symbol)"** → pad gets no net → chip is non-functional on PCB
+
+### Consequences of mismatch
+- Using functional names as pin numbers (e.g. `"G4"`, `"TXEN"`) when the footprint uses `"1"`, `"2"` etc. → ALL pads unconnected
+- Every chip shows 100% of pads as "no net" — board is completely non-functional
+- The generator MUST use the actual pad numbers from the footprint as the symbol's pin number field
+
+### Rule for generator
+In `s.define(...)` calls:
+```python
+# WRONG — functional name as pin number:
+("GPIO4", "G4", "output")    # pin name="GPIO4", pin number="G4"
+
+# CORRECT — actual footprint pad number:
+("GPIO4", "6", "output")     # pin name="GPIO4", pin number="6" (matches footprint pad "6")
+```
+
+### Handling multi-pad chips (all pads must be in symbol)
+- Every footprint pad must have a matching symbol pin
+- Unused pads: add as `("NC", "pad_number", "no_connect")` — no wire needed, prevents warnings
+- Multiple GND pads: each must have a unique pin number, can share net via schematic wires
+
+---
+
+## 10. Generator Script
+
+**Source of truth:** `hardware/generate_project.py` (thin wrapper over `hardware/generator/` package)
+- Regenerates `.kicad_sch` and `bom.csv` only — **never writes `.kicad_pcb`** (P-KI-07)
 - Run: `cd hardware && python3 generate_project.py`
 - CI runs: `KICAD_FP_BASE=/usr/share/kicad/footprints python3 generate_project.py`
 - Syntax check: `python -m py_compile hardware/generate_project.py`
+
+### Generator package structure
+```
+hardware/
+  generate_project.py     # thin entry point (≤40 lines)
+  generator/
+    __init__.py           # re-exports build_schematic, write_bom
+    utils.py              # constants, _uuid, snap, _pt, write_pro
+    schematic.py          # class Schematic (S-expression builder)
+    components.py         # build_schematic() — ALL component placement logic
+    pcb_utils.py          # embed_footprint(), embed_custom_footprint() (P-KI-07 compliant)
+    bom.py                # write_bom()
+```
+
+---
+
+## 11. ESP32-P4-MINI-1U Physical Pad Mapping (BEST ESTIMATE — verify vs Espressif HW Design Guide)
+
+The custom `ESP32-P4-MINI-1.kicad_mod` footprint has 56 pads numbered 1–56:
+
+| Physical position | Pads | Assigned signals |
+|---|---|---|
+| Bottom row, left→right | 1–20 | 1=GND, 2=GPIO0, 3=NC, 4=GPIO2, 5=NC, 6–13=GPIO4–11, 14–17=NC, 18=GPIO16, 19=NC, 20=VDD |
+| Right column, bottom→top | 21–28 | 21–27=NC, 28=GND |
+| Top row, right→left | 29–48 | 29–32=NC, 33=GPIO28, 34–35=NC, 36=GPIO31, 37=GPIO32, 38=GPIO33, 39=GPIO34, 40=GPIO35, 41=GPIO36, 42=GPIO37, 43=GPIO38, 44=GPIO39, 45–47=NC, 48=GND |
+| Left column, top→bottom | 49–56 | 49–54=NC, 55=GPIO50, 56=EN |
+
+⚠️ **This mapping is a generator best-estimate.** Verify against Espressif ESP32-P4-MINI-1U Hardware Design Guide before PCB fabrication.
+
+---
+
+## 12. LAN8720A QFN-24 Pin Numbering (VERIFIED — Microchip DS00001913C)
+
+| Pin | Signal | Notes |
+|---|---|---|
+| 1 | TXEN | TX enable (input from MAC) |
+| 2 | TXD[1] | TX data bit 1 |
+| 3 | TXD[0] | TX data bit 0 |
+| **4** | **RBIAS** | **Requires 6.04 kΩ to GND — MANDATORY for operation** |
+| 5 | RXD[0] | RX data bit 0 |
+| 6 | RXD[1] | RX data bit 1 |
+| 7 | CRS_DV | Carrier sense / data valid |
+| 8 | RXERR | RX error (can be NC in simple designs) |
+| 9 | CLKOUT | 50 MHz REF_CLK output → ESP32-P4 GPIO50 |
+| 10 | nINTSEL | Pull to 3.3V (no interrupt in our design) |
+| 11 | LED2/nINTSEL | Pull to 3.3V → MODE[1]=1 (100BASE-TX full-duplex) |
+| 12 | LED1/REGOFF | Pull to 3.3V → MODE[0]=1 |
+| 13 | MDIO | Management data I/O |
+| 14 | MDC | Management data clock |
+| 15 | nRST | Active-low reset |
+| 16 | GND | LDO ground |
+| 17 | VDD33A | Analog 3.3V supply |
+| 18 | VDD33D | Digital 3.3V supply |
+| 19 | VDDIO | I/O 3.3V supply |
+| 20 | MDIP (TX+) | MDI transmit positive |
+| 21 | MDIN (TX−) | MDI transmit negative |
+| 22 | MDIP (RX+) | MDI receive positive |
+| 23 | MDIN (RX−) | MDI receive negative |
+| 24 | GND | Analog ground |
+| EP (25) | GND | Exposed pad (must connect to GND plane) |
+
+### Missing RBIAS — design-critical
+Without RBIAS (6.04 kΩ from pin 4 to GND), the LAN8720A internal current reference is broken and the chip will not operate. Currently implemented as **R15** in the schematic.
+
+---
+
+## 13. USB-C GCT USB4085 Pad Numbering
+
+All pads in the `Connector_USB:USB_C_Receptacle_GCT_USB4085` footprint must be in the symbol:
+
+| Pad | Signal | Notes |
+|---|---|---|
+| A1, A12, B1, B12 | GND | 4× GND pads — all must connect to GND net |
+| A4, A9, B4, B9 | VBUS | 4× VBUS pads — all must connect to VBUS net |
+| A5 | CC1 | Configuration channel 1 |
+| A6, B7 | D+ | USB data positive (both sides) |
+| A7, B6 | D− | USB data negative (both sides) |
+| A8, B8 | SBU1/SBU2 | Sideband use — NC in USB 2.0 only designs |
+| B5 | CC2 | Configuration channel 2 |
+| SH | Shield | Connect to GND or chassis |
+
+---
+
+## 14. CI Docker Constraints
+
+### `git diff` does not work inside kicad/kicad:10.0.2 container
+The Docker container has no git repo context. `git diff --exit-code` exits with:
+`"Not a git repository. Use --no-index to compare two paths outside a working tree"`
+
+**Fix:** Use `sha256sum` for file integrity checks in CI:
+```yaml
+- name: Store PCB checksum (P-KI-07 guard baseline)
+  run: sha256sum hardware/kicad/PoE-FanController.kicad_pcb > /tmp/pcb_before.sha256
+
+- name: Guard — kicad_pcb must not be modified by generator (P-KI-07)
+  run: |
+    sha256sum --check /tmp/pcb_before.sha256 || \
+      (echo "ERROR: P-KI-07 violation — kicad_pcb modified by generator" && exit 1)
+```
+
+### DRC baseline formula (Docker authoritative)
+`baseline = count(unique footprints in BOM)`  — one `lib_footprint_issues` per footprint in Docker  
+Current baseline: **76** (post ESP32-P4 migration + RBIAS R15 = 77 if R15 adds a new footprint type)
+Update `hardware-check.yml` whenever new BOM components are added.
