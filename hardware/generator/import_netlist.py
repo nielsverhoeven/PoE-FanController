@@ -174,3 +174,13 @@ print(f"\nVerification:")
 print(f"  Signal nets in PCB: {len(nets2)}")
 print(f"  Nets: {sorted(nets2)}")
 print(f"  Unconnected ratsnest items: {unconn}")
+
+# ── Step 6: Sync footprint paths from schematic UUIDs (issue #77) ────────────
+# Sets /{uuid} path on every footprint so KiCad F8 "Update PCB from Schematic"
+# recognises all components as already-placed and never prompts for manual placement.
+print("\nSyncing footprint paths from schematic UUIDs …")
+SCH = 'C:/repos-github/PoE-FanController/hardware/kicad/PoE-FanController.kicad_sch'
+sys.path.insert(0, r'C:/repos-github/PoE-FanController/hardware/generator')
+import sync_pcb_paths
+sync_pcb_paths.sync_paths(SCH, PCB)
+print("Done — all footprints now have schematic UUID paths set.")

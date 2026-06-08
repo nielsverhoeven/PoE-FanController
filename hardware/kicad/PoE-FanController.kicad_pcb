@@ -146,6 +146,7 @@
 				)
 			)
 		)
+		(path "/00000011-0011-0011-0011-000000000011")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -391,6 +392,7 @@
 				)
 			)
 		)
+		(path "/00000022-0022-0022-0022-000000000022")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -636,6 +638,7 @@
 				)
 			)
 		)
+		(path "/00000033-0033-0033-0033-000000000033")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -881,6 +884,7 @@
 				)
 			)
 		)
+		(path "/00000044-0044-0044-0044-000000000044")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1126,6 +1130,7 @@
 				)
 			)
 		)
+		(path "/0000001a-001a-001a-001a-00000000001a")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1272,6 +1277,7 @@
 				)
 			)
 		)
+		(path "/0000002b-002b-002b-002b-00000000002b")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1418,6 +1424,7 @@
 				)
 			)
 		)
+		(path "/0000003c-003c-003c-003c-00000000003c")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1564,6 +1571,7 @@
 				)
 			)
 		)
+		(path "/0000004d-004d-004d-004d-00000000004d")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1710,6 +1718,7 @@
 				)
 			)
 		)
+		(path "/00000054-0054-0054-0054-000000000054")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1856,6 +1865,7 @@
 				)
 			)
 		)
+		(path "/00000060-0060-0060-0060-000000000060")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2002,6 +2012,7 @@
 				)
 			)
 		)
+		(path "/00000059-0059-0059-0059-000000000059")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2221,6 +2232,7 @@
 				)
 			)
 		)
+		(path "/00000066-0066-0066-0066-000000000066")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2400,6 +2412,7 @@
 				)
 			)
 		)
+		(path "/00000005-0005-0005-0005-000000000005")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2625,6 +2638,7 @@
 				)
 			)
 		)
+		(path "/00000093-0093-0093-0093-000000000093")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
