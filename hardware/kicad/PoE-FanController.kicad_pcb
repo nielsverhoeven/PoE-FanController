@@ -101,7 +101,7 @@
 				)
 			)
 		)
-		(property "Value" "Fan_Header"
+		(property "Value" "FAN1"
 			(at 0 10 0)
 			(layer "F.Fab")
 			(uuid "f935379c-795b-4cf9-ad0f-3831d8c1acbd")
@@ -112,7 +112,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -134,19 +134,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "connector/pin_header_socket"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "9c5ba000-5b1c-482d-a09d-86774a60618c")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000011-0011-0011-0011-000000000011")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4")
 			)
 		)
-		(path "/00000011-0011-0011-0011-000000000011")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -287,7 +283,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J2-GND)")
+			(pinfunction "GND_1")
+			(pintype "passive")
 			(uuid "b059fb0f-aab5-4bd3-8575-cf22f13fd5e8")
 		)
 		(pad "2" thru_hole circle
@@ -296,7 +294,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+12V")
+			(net "Net-(J2-VCC_FAN)")
+			(pinfunction "VCC_FAN_2")
+			(pintype "power_in")
 			(uuid "37d62cec-876d-477f-af48-e20af4f699c5")
 		)
 		(pad "3" thru_hole circle
@@ -306,6 +306,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN1_TACH")
+			(pinfunction "TACH_3")
+			(pintype "output")
 			(uuid "f7fadae7-6341-41a1-8f36-5f3e6bcab541")
 		)
 		(pad "4" thru_hole circle
@@ -315,6 +317,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN1_PWM")
+			(pinfunction "PWM_4")
+			(pintype "input")
 			(uuid "0bc4737d-59d3-4933-bfd7-8f7149152dc1")
 		)
 		(embedded_fonts no)
@@ -347,7 +351,7 @@
 				)
 			)
 		)
-		(property "Value" "Fan_Header"
+		(property "Value" "FAN2"
 			(at 0 10 0)
 			(layer "F.Fab")
 			(uuid "6e8c25fd-d70f-4d6a-94f0-69c45caf371e")
@@ -358,7 +362,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -380,19 +384,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "connector/pin_header_socket"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "05979b83-5919-4ef5-87cd-7120a643226f")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000022-0022-0022-0022-000000000022")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4")
 			)
 		)
-		(path "/00000022-0022-0022-0022-000000000022")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -533,7 +533,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J3-GND)")
+			(pinfunction "GND_1")
+			(pintype "passive")
 			(uuid "471b1ea2-5c14-45bf-941a-bb9560472f73")
 		)
 		(pad "2" thru_hole circle
@@ -542,7 +544,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+12V")
+			(net "Net-(J3-VCC_FAN)")
+			(pinfunction "VCC_FAN_2")
+			(pintype "power_in")
 			(uuid "6425b4ec-033f-4163-a2ca-a4de004d54b4")
 		)
 		(pad "3" thru_hole circle
@@ -552,6 +556,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN2_TACH")
+			(pinfunction "TACH_3")
+			(pintype "output")
 			(uuid "fb9a2377-e86e-4dc6-96a9-b52abc5f3e22")
 		)
 		(pad "4" thru_hole circle
@@ -561,6 +567,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN2_PWM")
+			(pinfunction "PWM_4")
+			(pintype "input")
 			(uuid "6a084f92-0c06-43de-81cd-20980a9a074a")
 		)
 		(embedded_fonts no)
@@ -593,7 +601,7 @@
 				)
 			)
 		)
-		(property "Value" "Fan_Header"
+		(property "Value" "FAN3"
 			(at 0 10 0)
 			(layer "F.Fab")
 			(uuid "8713153c-8028-457c-9017-84e66c816f17")
@@ -604,7 +612,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -626,19 +634,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "connector/pin_header_socket"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "1f23d319-558f-4cc4-a016-f44fc6d06e1b")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000033-0033-0033-0033-000000000033")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4")
 			)
 		)
-		(path "/00000033-0033-0033-0033-000000000033")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -779,7 +783,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J4-GND)")
+			(pinfunction "GND_1")
+			(pintype "passive")
 			(uuid "874ae172-88b9-41f1-a53f-9c5b4b6ebe6e")
 		)
 		(pad "2" thru_hole circle
@@ -788,7 +794,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+12V")
+			(net "Net-(J4-VCC_FAN)")
+			(pinfunction "VCC_FAN_2")
+			(pintype "power_in")
 			(uuid "d92bfc11-b3d2-465c-82d2-e1d0061bc3f2")
 		)
 		(pad "3" thru_hole circle
@@ -798,6 +806,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN3_TACH")
+			(pinfunction "TACH_3")
+			(pintype "output")
 			(uuid "8990dd01-fa7e-45f1-adf3-b1a7b9a952eb")
 		)
 		(pad "4" thru_hole circle
@@ -807,6 +817,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN3_PWM")
+			(pinfunction "PWM_4")
+			(pintype "input")
 			(uuid "d51c9666-7466-4f31-8b5b-d16060729804")
 		)
 		(embedded_fonts no)
@@ -839,7 +851,7 @@
 				)
 			)
 		)
-		(property "Value" "Fan_Header"
+		(property "Value" "FAN4"
 			(at 0 10 0)
 			(layer "F.Fab")
 			(uuid "a269a31a-9470-4747-859a-c278ffbdb27c")
@@ -850,7 +862,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -872,19 +884,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "connector/pin_header_socket"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "742c2628-f460-448e-8ad4-748f2517ed44")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000044-0044-0044-0044-000000000044")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4")
 			)
 		)
-		(path "/00000044-0044-0044-0044-000000000044")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1025,7 +1033,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J5-GND)")
+			(pinfunction "GND_1")
+			(pintype "passive")
 			(uuid "da6f868e-cb8c-47e5-9882-873d22c13d68")
 		)
 		(pad "2" thru_hole circle
@@ -1034,7 +1044,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+12V")
+			(net "Net-(J5-VCC_FAN)")
+			(pinfunction "VCC_FAN_2")
+			(pintype "power_in")
 			(uuid "800bb506-e73a-4a8f-b184-2fb4fa26fb76")
 		)
 		(pad "3" thru_hole circle
@@ -1044,6 +1056,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN4_TACH")
+			(pinfunction "TACH_3")
+			(pintype "output")
 			(uuid "9cdd8adb-bda2-4ff3-b1c2-b688a5b44372")
 		)
 		(pad "4" thru_hole circle
@@ -1053,6 +1067,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN4_PWM")
+			(pinfunction "PWM_4")
+			(pintype "input")
 			(uuid "0513acf7-f0f7-41cc-93c3-e99cf0a2c694")
 		)
 		(embedded_fonts no)
@@ -1096,7 +1112,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1118,19 +1134,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "45409c91-a7e0-4975-ab01-3b1ef7386f81")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/0000001a-001a-001a-001a-00000000001a")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/0000001a-001a-001a-001a-00000000001a")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1191,7 +1203,9 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "+3V3")
+			(net "Net-(R5-~-Pad1)")
+			(pinfunction "~_1")
+			(pintype "passive")
 			(uuid "1c6a8c1e-fb94-47ad-923d-8289c930e0e2")
 		)
 		(pad "2" smd roundrect
@@ -1200,6 +1214,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "FAN1_TACH")
+			(pinfunction "~_2")
+			(pintype "passive")
 			(uuid "136f5537-95c7-44b9-84b4-80eb4884634e")
 		)
 		(embedded_fonts no)
@@ -1243,7 +1259,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1265,19 +1281,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "31df3ec6-0ba1-475e-8bc8-012f4361375c")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/0000002b-002b-002b-002b-00000000002b")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/0000002b-002b-002b-002b-00000000002b")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1338,7 +1350,9 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "+3V3")
+			(net "Net-(R6-~-Pad1)")
+			(pinfunction "~_1")
+			(pintype "passive")
 			(uuid "b0135fcd-cd0d-48a4-90cf-81da6b8c667f")
 		)
 		(pad "2" smd roundrect
@@ -1347,6 +1361,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "FAN2_TACH")
+			(pinfunction "~_2")
+			(pintype "passive")
 			(uuid "d6dc85eb-f6da-4ccc-87aa-d52df862e439")
 		)
 		(embedded_fonts no)
@@ -1390,7 +1406,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1412,19 +1428,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "3787869b-1917-43ac-9382-1630e348c4bf")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/0000003c-003c-003c-003c-00000000003c")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/0000003c-003c-003c-003c-00000000003c")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1485,7 +1497,9 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "+3V3")
+			(net "Net-(R7-~-Pad1)")
+			(pinfunction "~_1")
+			(pintype "passive")
 			(uuid "ab52dcee-aaac-4472-897a-09dda9abb00d")
 		)
 		(pad "2" smd roundrect
@@ -1494,6 +1508,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "FAN3_TACH")
+			(pinfunction "~_2")
+			(pintype "passive")
 			(uuid "5b72e8af-9502-4541-9cd7-ae16cfff762e")
 		)
 		(embedded_fonts no)
@@ -1537,7 +1553,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1559,19 +1575,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "b78a7e02-dfeb-40f1-a928-cc37a5f4baf2")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/0000004d-004d-004d-004d-00000000004d")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/0000004d-004d-004d-004d-00000000004d")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1632,7 +1644,9 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "+3V3")
+			(net "Net-(R8-~-Pad1)")
+			(pinfunction "~_1")
+			(pintype "passive")
 			(uuid "62d952df-90f8-438b-b378-cb2a0fe2a10e")
 		)
 		(pad "2" smd roundrect
@@ -1641,6 +1655,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "FAN4_TACH")
+			(pinfunction "~_2")
+			(pintype "passive")
 			(uuid "59c21934-3294-44ef-b0a5-92a529344f35")
 		)
 		(embedded_fonts no)
@@ -1684,7 +1700,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1706,19 +1722,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "10137b6e-736f-4a7f-8aca-6b9e452aebbe")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000054-0054-0054-0054-000000000054")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/00000054-0054-0054-0054-000000000054")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1780,6 +1792,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "STATUS_LED")
+			(pinfunction "~_1")
+			(pintype "passive")
 			(uuid "7aefb096-1d2b-4853-ae23-c7a02dcf234e")
 		)
 		(pad "2" smd roundrect
@@ -1788,6 +1802,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "/LED_A")
+			(pinfunction "~_2")
+			(pintype "passive")
 			(uuid "ef851474-e4bc-47b0-b2f2-ed81091a2674")
 		)
 		(embedded_fonts no)
@@ -1831,7 +1847,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1853,19 +1869,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "d1a3f523-193a-49fa-b895-632fbbf22e93")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000060-0060-0060-0060-000000000060")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/00000060-0060-0060-0060-000000000060")
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1926,7 +1938,9 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "+3V3")
+			(net "Net-(R4-~-Pad1)")
+			(pinfunction "~_1")
+			(pintype "passive")
 			(uuid "23885285-e00d-49f2-bfa0-3660fd3d35bd")
 		)
 		(pad "2" smd roundrect
@@ -1935,6 +1949,8 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(net "NTC_ADC")
+			(pinfunction "~_2")
+			(pintype "passive")
 			(uuid "325f571b-db3b-4efd-8546-24c29916d16a")
 		)
 		(embedded_fonts no)
@@ -1967,7 +1983,7 @@
 				)
 			)
 		)
-		(property "Value" "LED_Green"
+		(property "Value" "LED_GREEN"
 			(at 1.27 2.96 0)
 			(layer "F.Fab")
 			(uuid "dafa36de-89ad-4ccd-8368-43c21351e5ba")
@@ -1978,7 +1994,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2000,19 +2016,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "LED/THT"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "4715e29c-116f-4b51-8c83-3f71ab994f4e")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000059-0059-0059-0059-000000000059")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/00000059-0059-0059-0059-000000000059")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2146,6 +2158,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/LED_A")
+			(pinfunction "A_1")
+			(pintype "passive")
 			(uuid "248ba22b-0fe5-4ee7-969a-fa2ea1d311f6")
 		)
 		(pad "2" thru_hole circle
@@ -2154,7 +2168,9 @@
 			(drill 0.9)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(LED1-K)")
+			(pinfunction "K_2")
+			(pintype "passive")
 			(uuid "44b287a9-6253-4eee-8f55-972b4a1f10e6")
 		)
 		(embedded_fonts no)
@@ -2187,7 +2203,7 @@
 				)
 			)
 		)
-		(property "Value" "NTC_10k"
+		(property "Value" "NTC10K_B3950"
 			(at 5.08 2.37 0)
 			(layer "F.Fab")
 			(uuid "eaeda05b-0da1-4633-b7b2-97262d9c4702")
@@ -2198,7 +2214,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2220,19 +2236,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "resistor/THT"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "44bbe53c-f25e-45ac-a5d6-512f4edfbab6")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000066-0066-0066-0066-000000000066")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
 			)
 		)
-		(path "/00000066-0066-0066-0066-000000000066")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2326,6 +2338,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "NTC_ADC")
+			(pinfunction "1_1")
+			(pintype "passive")
 			(uuid "6efa38ee-a60f-473f-862d-b784aab8bee7")
 		)
 		(pad "2" thru_hole circle
@@ -2334,7 +2348,9 @@
 			(drill 0.8)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(NTC1-Pad2)")
+			(pinfunction "2_2")
+			(pintype "passive")
 			(uuid "a086d7f2-b013-4055-91bb-5ee566cd5486")
 		)
 		(embedded_fonts no)
@@ -2350,7 +2366,7 @@
 			)
 		)
 	)
-	(footprint "TO-220-3_Vertical"
+	(footprint "Package_TO_SOT_THT:TO-220-3_Vertical"
 		(layer "F.Cu")
 		(uuid "7c1e41a5-7b69-4604-a7f2-ea7aa6388157")
 		(at 30 6)
@@ -2378,7 +2394,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2400,19 +2416,15 @@
 				)
 			)
 		)
-		(property "KiLib_Generator" "package/TO_SOT/THT"
-			(at 0 0 0)
-			(layer "F.SilkS")
-			(hide yes)
-			(uuid "1984e97a-6232-4771-b4e0-23bb83e2f202")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
+		(path "/00000005-0005-0005-0005-000000000005")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3")
 			)
 		)
-		(path "/00000005-0005-0005-0005-000000000005")
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2554,7 +2566,9 @@
 			(drill 1.1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+5V")
+			(net "Net-(U1-VIN)")
+			(pinfunction "VIN_1")
+			(pintype "power_in")
 			(uuid "3de20a7b-7a28-4b94-ae8a-627a53f192dc")
 		)
 		(pad "2" thru_hole oval
@@ -2563,7 +2577,9 @@
 			(drill 1.1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(U1-GND)")
+			(pinfunction "GND_2")
+			(pintype "power_in")
 			(uuid "b827d7c9-53d8-4cef-8581-a95aad21cd58")
 		)
 		(pad "3" thru_hole oval
@@ -2572,7 +2588,9 @@
 			(drill 1.1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+12V")
+			(net "Net-(U1-VOUT)")
+			(pinfunction "VOUT_3")
+			(pintype "power_out")
 			(uuid "976f3e63-961e-46b6-99f5-c918e63c8238")
 		)
 		(embedded_fonts no)
@@ -2588,14 +2606,14 @@
 			)
 		)
 	)
-	(footprint "PinSocket_2x20_P2.54mm_P15.38mm_Vertical"
+	(footprint "Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical"
 		(layer "F.Cu")
 		(uuid "d66e3b12-b1d3-4c9d-bef3-79312675d057")
 		(at 10.5 28.8 90)
 		(descr "2x20 Female Pin Socket, 2.54mm pin pitch, 15.38mm row spacing - Waveshare ESP32-P4-POE-ETH (SKU 32088). Row1 at 2.81mm, Row2 at 18.19mm from board long edge.")
 		(tags "connector female socket 2x20 2.54mm 15.38mm waveshare esp32-p4 poe-eth sku32088")
 		(property "Reference" "J8"
-			(at 0 -2.5 90)
+			(at 0 -10.19 90)
 			(layer "F.SilkS")
 			(uuid "6bf051ed-7aa1-4ea2-b1c5-eb3893f85218")
 			(effects
@@ -2605,7 +2623,7 @@
 				)
 			)
 		)
-		(property "Value" "PinSocket_2x20_P2.54mm_P15.38mm_Vertical"
+		(property "Value" "Waveshare_ESP32P4POEETH"
 			(at 0 10.19 90)
 			(layer "F.Fab")
 			(uuid "8ac2b53b-d540-41fa-8c1d-b2a24d4284ec")
@@ -2616,7 +2634,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "~"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2639,6 +2657,17 @@
 			)
 		)
 		(path "/00000093-0093-0093-0093-000000000093")
+		(sheetname "/")
+		(sheetfile "PoE-FanController.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "3" "5" "7" "9" "11" "13" "15" "17" "19" "21" "23" "25" "27"
+					"29" "31" "33" "35" "37" "39" "2" "4" "6" "8" "10" "12" "14" "16" "18"
+					"20" "22" "24" "26" "28" "30" "32" "34" "36" "38" "40"
+				)
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2699,7 +2728,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+3V3")
+			(net "Net-(J8-+3V3-Pad1)")
+			(pinfunction "+3V3_1")
+			(pintype "power_out")
 			(uuid "cd3b3fec-7fbe-47a3-8fc4-10569c440218")
 		)
 		(pad "2" thru_hole rect
@@ -2708,7 +2739,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+5V")
+			(net "Net-(J8-+5V-Pad2)")
+			(pinfunction "+5V_2")
+			(pintype "power_out")
 			(uuid "bf6c9e8e-3fa2-431f-aedd-0f0282b72f8e")
 		)
 		(pad "3" thru_hole circle
@@ -2718,6 +2751,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "STATUS_LED")
+			(pinfunction "LED_3")
+			(pintype "bidirectional")
 			(uuid "e4dcafe0-78e6-4438-b7a2-c44414e00593")
 		)
 		(pad "4" thru_hole circle
@@ -2726,7 +2761,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+5V")
+			(net "Net-(J8-+5V-Pad4)")
+			(pinfunction "+5V_4")
+			(pintype "power_out")
 			(uuid "824ac0bc-004c-4be1-bbab-c8a23ba38b97")
 		)
 		(pad "5" thru_hole circle
@@ -2735,6 +2772,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad5)")
+			(pinfunction "NC_5")
+			(pintype "no_connect")
 			(uuid "8a853416-7857-4f09-a0a5-e8cc923d8333")
 		)
 		(pad "6" thru_hole circle
@@ -2743,7 +2783,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad6)")
+			(pinfunction "GND_6")
+			(pintype "passive")
 			(uuid "14a0f2d0-56f2-4533-9e3a-eed66ed5ccdf")
 		)
 		(pad "7" thru_hole circle
@@ -2753,6 +2795,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN1_PWM")
+			(pinfunction "FAN1_PWM_7")
+			(pintype "output")
 			(uuid "95556706-1f45-4591-908d-585ff8920303")
 		)
 		(pad "8" thru_hole circle
@@ -2762,6 +2806,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN2_PWM")
+			(pinfunction "FAN2_PWM_8")
+			(pintype "output")
 			(uuid "935061b4-5c23-4163-b818-42eaee5e8604")
 		)
 		(pad "9" thru_hole circle
@@ -2770,7 +2816,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad9)")
+			(pinfunction "GND_9")
+			(pintype "passive")
 			(uuid "609a8d3a-7c71-4c28-9892-716212aac86c")
 		)
 		(pad "10" thru_hole circle
@@ -2780,6 +2828,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN3_PWM")
+			(pinfunction "FAN3_PWM_10")
+			(pintype "output")
 			(uuid "04ae5e58-4c74-4da2-8203-53320d1fef8a")
 		)
 		(pad "11" thru_hole circle
@@ -2789,6 +2839,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN4_PWM")
+			(pinfunction "FAN4_PWM_11")
+			(pintype "output")
 			(uuid "204c8bb9-f89c-4145-85a3-545c499479e2")
 		)
 		(pad "12" thru_hole circle
@@ -2798,6 +2850,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN1_TACH")
+			(pinfunction "FAN1_TACH_12")
+			(pintype "input")
 			(uuid "9d632d3b-077a-440c-9901-405b829c95ce")
 		)
 		(pad "13" thru_hole circle
@@ -2807,6 +2861,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN2_TACH")
+			(pinfunction "FAN2_TACH_13")
+			(pintype "input")
 			(uuid "42b2c968-2dd6-427e-8807-094588858f22")
 		)
 		(pad "14" thru_hole circle
@@ -2815,7 +2871,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad14)")
+			(pinfunction "GND_14")
+			(pintype "passive")
 			(uuid "6a26a807-8a09-49ec-8a09-7c45ad179a68")
 		)
 		(pad "15" thru_hole circle
@@ -2825,6 +2883,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN3_TACH")
+			(pinfunction "FAN3_TACH_15")
+			(pintype "input")
 			(uuid "2170e51e-fd6b-40c2-ae88-1611ef8f3dc2")
 		)
 		(pad "16" thru_hole circle
@@ -2834,6 +2894,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "FAN4_TACH")
+			(pinfunction "FAN4_TACH_16")
+			(pintype "input")
 			(uuid "fb28e5c6-22e0-4155-9c23-d4cc47b691ef")
 		)
 		(pad "17" thru_hole circle
@@ -2842,7 +2904,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+3V3")
+			(net "Net-(J8-+3V3-Pad17)")
+			(pinfunction "+3V3_17")
+			(pintype "power_out")
 			(uuid "297e1cf6-1af0-4bb8-b353-2971bfab2cf4")
 		)
 		(pad "18" thru_hole circle
@@ -2851,6 +2915,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad18)")
+			(pinfunction "NC_18")
+			(pintype "no_connect")
 			(uuid "02363ca4-a65e-4955-938b-06d0d63bea2b")
 		)
 		(pad "19" thru_hole circle
@@ -2859,6 +2926,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad19)")
+			(pinfunction "NC_19")
+			(pintype "no_connect")
 			(uuid "6f388a31-513b-46df-89e0-83322749f607")
 		)
 		(pad "20" thru_hole circle
@@ -2867,7 +2937,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad20)")
+			(pinfunction "GND_20")
+			(pintype "passive")
 			(uuid "eee02d48-7244-4eaf-b38c-77978fbd80e5")
 		)
 		(pad "21" thru_hole circle
@@ -2876,6 +2948,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad21)")
+			(pinfunction "NC_21")
+			(pintype "no_connect")
 			(uuid "f5e6fac1-9a7a-457b-be6c-f06ada293192")
 		)
 		(pad "22" thru_hole circle
@@ -2884,6 +2959,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad22)")
+			(pinfunction "NC_22")
+			(pintype "no_connect")
 			(uuid "dab2e3ca-e5b7-44ee-9d76-cbdebb616ca2")
 		)
 		(pad "23" thru_hole circle
@@ -2893,6 +2971,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "NTC_ADC")
+			(pinfunction "NTC_ADC_23")
+			(pintype "input")
 			(uuid "d3d4a2bf-99b4-4659-a6a6-b967616513f6")
 		)
 		(pad "24" thru_hole circle
@@ -2901,6 +2981,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad24)")
+			(pinfunction "NC_24")
+			(pintype "no_connect")
 			(uuid "c2752ede-57bd-418e-8f78-c2112f5ca2bc")
 		)
 		(pad "25" thru_hole circle
@@ -2909,7 +2992,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad25)")
+			(pinfunction "GND_25")
+			(pintype "passive")
 			(uuid "63c4de65-ea0a-4f0d-a9dd-2e3ed9d26399")
 		)
 		(pad "26" thru_hole circle
@@ -2918,6 +3003,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad26)")
+			(pinfunction "NC_26")
+			(pintype "no_connect")
 			(uuid "c60c4596-bebb-41e6-88be-22bac2111a7d")
 		)
 		(pad "27" thru_hole circle
@@ -2926,6 +3014,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad27)")
+			(pinfunction "NC_27")
+			(pintype "no_connect")
 			(uuid "c8a395ef-7e3a-41e8-9d85-ef2bb729c857")
 		)
 		(pad "28" thru_hole circle
@@ -2934,6 +3025,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad28)")
+			(pinfunction "NC_28")
+			(pintype "no_connect")
 			(uuid "3a3e2878-30eb-4aa2-930d-13c679a1925c")
 		)
 		(pad "29" thru_hole circle
@@ -2942,7 +3036,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad29)")
+			(pinfunction "GND_29")
+			(pintype "passive")
 			(uuid "d62a47f8-7dc0-4e47-8f73-183e62b3e2d7")
 		)
 		(pad "30" thru_hole circle
@@ -2951,6 +3047,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad30)")
+			(pinfunction "NC_30")
+			(pintype "no_connect")
 			(uuid "eb061248-4c4b-4a84-aa54-55b57e482c56")
 		)
 		(pad "31" thru_hole circle
@@ -2959,6 +3058,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad31)")
+			(pinfunction "NC_31")
+			(pintype "no_connect")
 			(uuid "967f2ac1-f91a-40a3-a1a4-05573762f6a8")
 		)
 		(pad "32" thru_hole circle
@@ -2967,6 +3069,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad32)")
+			(pinfunction "NC_32")
+			(pintype "no_connect")
 			(uuid "4871bc91-dad7-41d1-ab05-6fb082c78c10")
 		)
 		(pad "33" thru_hole circle
@@ -2975,7 +3080,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad33)")
+			(pinfunction "GND_33")
+			(pintype "passive")
 			(uuid "0c01e367-de34-45b6-a3a6-3f108bc63b47")
 		)
 		(pad "34" thru_hole circle
@@ -2984,6 +3091,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad34)")
+			(pinfunction "NC_34")
+			(pintype "no_connect")
 			(uuid "25f16d81-d738-4510-bc31-f973dd5cc3c5")
 		)
 		(pad "35" thru_hole circle
@@ -2992,6 +3102,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad35)")
+			(pinfunction "NC_35")
+			(pintype "no_connect")
 			(uuid "43e14750-a4f2-42b2-8da3-bbf6dcde00b6")
 		)
 		(pad "36" thru_hole circle
@@ -3000,6 +3113,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad36)")
+			(pinfunction "NC_36")
+			(pintype "no_connect")
 			(uuid "830d4c43-bf60-4029-8c1f-29ee74cb8266")
 		)
 		(pad "37" thru_hole circle
@@ -3008,6 +3124,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad37)")
+			(pinfunction "NC_37")
+			(pintype "no_connect")
 			(uuid "5c2aff98-7793-4ca4-b270-49ba435ef11f")
 		)
 		(pad "38" thru_hole circle
@@ -3016,7 +3135,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "GND")
+			(net "Net-(J8-GND-Pad38)")
+			(pinfunction "GND_38")
+			(pintype "passive")
 			(uuid "c038f175-e415-4c9c-8beb-0877dade251b")
 		)
 		(pad "39" thru_hole circle
@@ -3025,6 +3146,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad39)")
+			(pinfunction "NC_39")
+			(pintype "no_connect")
 			(uuid "9bfe7ef0-e541-42c2-967b-6f1c72c33572")
 		)
 		(pad "40" thru_hole circle
@@ -3033,6 +3157,9 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "unconnected-(J8-NC-Pad40)")
+			(pinfunction "NC_40")
+			(pintype "no_connect")
 			(uuid "e897775d-5fad-4a33-a2dd-5e45cce54458")
 		)
 		(embedded_fonts no)
@@ -3114,7 +3241,7 @@
 		)
 	)
 	(zone
-		(net "GND")
+		(net "Net-(U1-GND)")
 		(layer "F.Cu")
 		(uuid "000001ce-01ce-01ce-01ce-0000000001ce")
 		(name "GND_TOP")
@@ -3135,7 +3262,7 @@
 		)
 	)
 	(zone
-		(net "GND")
+		(net "Net-(U1-GND)")
 		(layer "B.Cu")
 		(uuid "000001cd-01cd-01cd-01cd-0000000001cd")
 		(name "GND_BOT")
