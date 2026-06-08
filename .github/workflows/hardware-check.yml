@@ -1,10 +1,6 @@
 name: Hardware Check (ERC + DRC)
 
 on:
-  push:
-    paths:
-      - 'hardware/**'
-      - '.github/workflows/hardware-check.yml'
   pull_request:
     paths:
       - 'hardware/**'
