@@ -333,3 +333,93 @@ The Docker container has no git repo context. `git diff --exit-code` exits with:
 `baseline = count(unique footprints in BOM)`  — one `lib_footprint_issues` per footprint in Docker  
 Current baseline: **76** (post ESP32-P4 migration + RBIAS R15 = 77 if R15 adds a new footprint type)
 Update `hardware-check.yml` whenever new BOM components are added.
+
+---
+
+## 15. pcbnew Python API — Surgical PCB Edits (Windows)
+
+Use when the KiCad GUI is not available but targeted changes are needed (board resize, component repositioning). Always prefer KiCad GUI for routing.
+
+```python
+import sys
+sys.path.insert(0, r'C:/Users/Niels/AppData/Local/Programs/KiCad/10.0/bin')
+import pcbnew
+
+board = pcbnew.LoadBoard('C:/path/to/PoE-FanController.kicad_pcb')
+
+# Coordinates in nanometres — always use FromMM()
+def mm(x): return pcbnew.FromMM(x)
+
+# Replace Edge.Cuts with new board outline
+for d in list(board.GetDrawings()):
+    if d.GetLayer() == pcbnew.Edge_Cuts:
+        board.Delete(d)
+
+seg = pcbnew.PCB_SHAPE(board)
+seg.SetShape(pcbnew.SHAPE_T_RECT)
+seg.SetStart(pcbnew.VECTOR2I(mm(0), mm(0)))
+seg.SetEnd(pcbnew.VECTOR2I(mm(42), mm(78)))
+seg.SetLayer(pcbnew.Edge_Cuts)
+seg.SetWidth(mm(0.05))
+board.Add(seg)
+
+# Move a footprint
+fp = board.FindFootprintByReference('J8')
+fp.SetPosition(pcbnew.VECTOR2I(mm(10.50), mm(28.80)))
+fp.SetOrientationDegrees(90)   # 90° rotation for J8 (runs along board height)
+
+# ALWAYS call both before saving
+board.BuildConnectivity()
+board.Save('C:/path/to/PoE-FanController.kicad_pcb')
+```
+
+### Critical gotchas
+- **Forward slashes only in file paths** — backslashes cause unicode errors in pcbnew
+- `board.BuildConnectivity()` is mandatory before `board.Save()`
+- `SetOrientationDegrees(90)` — positive angle = CCW in KiCad's coordinate system
+- For J8 (2×20, 15.38mm row spacing, runs vertically): place at (10.50, 28.80)mm, rotate 90°
+
+---
+
+## 16. Custom Footprint Generation Pattern
+
+When a connector has non-standard row spacing (e.g. J8's 15.38mm), generate the `.kicad_mod` file programmatically.
+
+**Template:** see `hardware/generator/gen_footprint_j8.py`
+
+Key parameters for `PinSocket_2x20_P2.54mm_P15.38mm_Vertical`:
+```python
+PITCH = 2.54          # pin-to-pin within a row
+ROW_SPACING = 15.38   # between the two rows (= 21.00 - 2*2.81 for Waveshare ESP32-P4-POE-ETH)
+N_POS = 20            # positions per row (40 pads total)
+PAD_SIZE = 1.7        # pad diameter (mm)
+DRILL = 1.0           # drill diameter (mm)
+
+row1_y = -ROW_SPACING / 2  # -7.69 mm
+row2_y =  ROW_SPACING / 2  # +7.69 mm
+x_start = -(N_POS - 1) / 2.0 * PITCH  # -24.13 mm (centre at x=0)
+```
+
+Pad numbering convention:
+- Odd pads (1,3,5,...,39): row 1 at `y = row1_y`
+- Even pads (2,4,6,...,40): row 2 at `y = row2_y`
+- Pin 1 and pin 2 use `shape="rect"` (orientation marker); all others `shape="circle"`
+
+Always output with `newline="\n"` (not Windows CRLF) and add to `Custom.pretty/`.
+
+### J8 PCB placement (daughter board constitution v3.1.0)
+- Footprint: `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`
+- PCB origin: X=10.50mm, Y=28.80mm (centre between rows, centre of pin span)
+- Rotation: 90° (so pin span runs along board Y=4.67..52.93mm)
+- After 90° rotation: row1 at X=2.81mm, row2 at X=18.19mm from board left edge ✓
+
+---
+
+## 17. DRC Baseline — Current (v3.1.0, daughter board, 0 routing)
+
+| Environment | Violations | Breakdown |
+|---|---|---|
+| Windows local KiCad 10.0.3 | **4** | 2× silk_overlap (title text near J5), 2× silk_over_copper (J8 pin-1 marker clipped by mask) |
+| All violations | **severity=warning** | 0 errors, 0 unconnected — safe to proceed |
+
+**CI threshold:** ≤5 violations (set in `.github/workflows/hardware-check.yml`)

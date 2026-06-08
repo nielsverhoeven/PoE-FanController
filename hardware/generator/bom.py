@@ -1,8 +1,13 @@
 """
-generator.bom — write_bom() for PoE FanController v0.3 (Waveshare ESP32-P4-ETH carrier).
+generator.bom — write_bom() for PoE FanController v0.4 (daughter board for SKU 32088).
 
-Writes hardware/bom/bom.csv with all components for the carrier board.
-The Waveshare ESP32-P4-ETH module itself is not listed here (purchased separately).
+Writes hardware/bom/bom.csv with all components for the daughter board.
+
+The Waveshare ESP32-P4-POE-ETH (SKU 32088) main board is purchased separately and
+not listed here. It provides PoE PD, Ethernet PHY, RJ45, ESP32-P4, USB-C, and the
+2×20 male header that mates with J8 on this daughter board.
+
+Power chain: J8 pins 2,4 (+5V from Waveshare) → U_BOOST (5V→12V) → fans J2–J5.
 """
 
 import csv
@@ -15,18 +20,10 @@ def write_bom():
     """Write the bill of materials to hardware/bom/bom.csv."""
     rows = [
         ["Reference","Value","Footprint","Qty","Manufacturer","MPN","Description","Datasheet"],
-        # PoE Power Input
-        ["J1","RJ45_PoE","Custom:RJ45_Wuerth_615008144521","1","Wuerth","615008144521","Shielded RJ45 with integrated magnetics — PoE power only, MDI secondary NC","https://www.we-online.com/en/components/products/WR-MJ/615008144521"],
-        ["U1","Ag9905M","Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical","1","Silvertel","Ag9905M","PoE+ 802.3at PD module, 12V 1.67A isolated","https://silvertel.com/images/datasheets/Ag9900-Datasheet.pdf"],
-        # Power Regulation
-        ["U2","LM2596-5.0","Package_TO_SOT_SMD:TO-263-5_TabPin3","1","TI","LM2596S-5.0/NOPB","3A 150kHz buck regulator, 5.0V fixed, D2PAK — 12V→5V for Waveshare board","https://www.ti.com/lit/ds/symlink/lm2596.pdf"],
-        ["L1","68uH","Inductor_THT:L_Axial_L11.0mm_D4.5mm_P15.24mm_Horizontal_Fastron_MECC","1","Bourns","SRR5028-680Y","68uH 3A shielded power inductor","~"],
-        ["D1","1N5822","Diode_THT:D_DO-201AD_P12.70mm_Horizontal","1","ON Semi","1N5822","3A 40V Schottky diode — LM2596 freewheeling","~"],
-        ["D2","1N5822","Diode_THT:D_DO-201AD_P12.70mm_Horizontal","1","ON Semi","1N5822","3A 40V Schottky diode — USB back-feed protection (5V to Waveshare HAT)","~"],
-        ["C1","100uF/25V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 input bulk capacitor","~"],
-        ["C2","100uF/16V","Capacitor_THT:C_Radial_D8.0mm_H11.5mm_P3.50mm","1","","","LM2596 output bulk capacitor (5V rail)","~"],
-        # Waveshare ESP32-P4-ETH Interface
-        ["J8","Waveshare_HAT","Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical","1","Sullins / Würth","PREC020DAAN-RC / 61304021821","2×20 2.54mm male THT pin header — carrier PCB ↔ Waveshare ESP32-P4-ETH HAT interface","https://www.waveshare.com/wiki/ESP32-P4-ETH"],
+        # Waveshare ESP32-P4-POE-ETH Interface (2×20 female PinSocket)
+        ["J8","Waveshare_HAT","Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical","1","Sullins","PPPC202LFBN-RC","2×20 2.54mm female THT pin socket — daughter board ↔ Waveshare ESP32-P4-POE-ETH (SKU 32088) interface","https://www.waveshare.com/wiki/ESP32-P4-POE-ETH"],
+        # 5V→12V Boost Converter
+        ["U_BOOST","LM2587-12","Package_TO_SOT_THT:TO-220-3_Vertical","1","TI","LM2587T-12/NOPB","5V→12V fixed boost converter, TO-220-5, 1.5A — powers fan headers J2–J5","https://www.ti.com/lit/ds/symlink/lm2587.pdf"],
         # Fan Headers
         ["J2,J3,J4,J5","Fan_Header","Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical","4","Molex","47053-1000","4-pin 2.54mm 12V PWM fan header","~"],
         ["R5,R6,R7,R8","10k","Resistor_SMD:R_0402_1005Metric","4","Yageo","RC0402FR-0710KL","10kΩ 0402 1% — fan TACH pull-up resistors (3.3V from J8)","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-RC_Group_51_RoHS_L_12.pdf"],

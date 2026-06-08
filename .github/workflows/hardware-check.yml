@@ -1,10 +1,6 @@
 name: Hardware Check (ERC + DRC)
 
 on:
-  push:
-    paths:
-      - 'hardware/**'
-      - '.github/workflows/hardware-check.yml'
   pull_request:
     paths:
       - 'hardware/**'
@@ -89,21 +85,33 @@ jobs:
             --output hardware/kicad/drc_output.json \
             --format json --exit-code-violations || true
 
-      - name: Check DRC violation count (baseline 32)
-        # DRC baseline: 32 pre-existing violations measured in KiCad 10.0.3 Windows.
-        # Breakdown: lib_footprint_issues=26 (symbol-footprint mismatches, pre-existing),
-        # silk_edge_clearance=5, lib_footprint_mismatch=1.
-        # History: v1.0=67, v1.3.0 ESP32-P4 migration=76, v2.0.0 Waveshare carrier redesign=75,
-        #          v2.0.1 PCB cleanup (remove U3/U4/U5/J6/SW1/SW2, add J8)=32.
-        # Local Windows count (KiCad 10.0.3): authoritative for this baseline. Docker may differ slightly.
+      - name: Check DRC violation count (baseline 0)
+        # Gate: zero severity=error DRC violations (excluding unconnected items).
+        # Unconnected items are expected until PCB routing is complete (Issue #75).
+        # Silk warnings are cosmetic and do not block merge.
+        # Note: KiCad 10.0.2 (Docker) may include unconnected_items inside the
+        # violations[] array; we filter by type so the gate is version-stable.
+        # History: v1.0=67, v1.3.0=76, v2.0.0=75, v2.0.1=32, v3.0.0=0, v3.1.0=0 errors
         run: |
           python3 -c "
           import json, sys
           d = json.load(open('hardware/kicad/drc_output.json'))
-          violations = d.get('violations', [])
-          n = len(violations)
-          print(f'DRC: {n} violation(s)')
-          sys.exit(1 if n > 32 else 0)
+          all_violations = d.get('violations', [])
+          unconnected    = d.get('unconnected_items', [])
+          footprint_errs = d.get('footprint_errors', [])
+          # Errors: severity=error AND not an unconnected_items type violation
+          errors   = [v for v in all_violations
+                      if v.get('severity') == 'error'
+                      and v.get('type', '') != 'unconnected_items']
+          warnings = [v for v in all_violations if v.get('severity') == 'warning']
+          # Also count unconnected from violations[] (KiCad 10.0.2 format)
+          unconn_in_v = [v for v in all_violations if v.get('type','') == 'unconnected_items']
+          total_unconn = len(unconnected) + len(unconn_in_v)
+          print(f'DRC: {len(errors)} error(s), {len(warnings)} warning(s), {total_unconn} unconnected (routing pending)')
+          if errors:
+              for e in errors:
+                  print(f'  ERROR [{e.get(\"type\",\"?\")}]: {e.get(\"description\",\"\")}')
+          sys.exit(1 if errors else 0)
           "
 
       - name: Upload ERC report

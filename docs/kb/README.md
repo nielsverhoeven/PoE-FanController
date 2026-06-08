@@ -1,6 +1,6 @@
 # PoE FanController — Knowledge Base
 
-<!-- Last updated: 2026-06-07 -->
+<!-- Last updated: 2026-06-08 -->
 
 This directory contains **pre-loaded domain facts** for this project. All agents MUST
 check here before spawning expert sub-agents or performing web searches. Reading a KB file
@@ -10,12 +10,14 @@ costs far less than a sub-agent invocation.
 
 | File | Contents | Primary consumers |
 |---|---|---|
-| `kicad-10-reference.md` | KiCad 10 S-expression format, ERC/DRC rules, known-good patterns | implementer, kicad.expert |
-| `esp32-p4-reference.md` | ESP32-P4 RMII fixed pins, GPIO allocation, PlatformIO config, arduino-esp32 3.x APIs | implementer, esp32.expert |
-| `poe-reference.md` | 802.3af/at/bt class table, Ag9905M specs, power budget, EMC rules | implementer, poe.expert |
-| `component-library.md` | All project MPNs, KiCad footprints, key datasheet facts | implementer, kicad.expert |
+| `ESP32-P4-POE-ETH/board-reference.md` | **Read first for any J8/connector question** — confirmed board dimensions (78×21mm), J8 row spacing (15.38mm, NOT 2.81mm), exact pin positions (row1=2.81mm, row2=18.19mm from edge, first pin 4.67mm from end), EMAC pins, power budget, GPIO pinout, OQ list | implementer, kicad.expert, esp32.expert |
+| `kicad-10-reference.md` | KiCad 10 format, ERC/DRC baselines, schematic conventions, pcbnew API, custom footprint generation pattern, DRC baseline (4 silk warnings) | implementer, kicad.expert |
+| `esp32-p4-reference.md` | ESP32-P4 RMII fixed pins (MDC=31, MDIO=**52**, RST=**51**), GPIO allocation, PlatformIO config, arduino-esp32 3.x APIs | implementer, esp32.expert |
+| `poe-reference.md` | 802.3at class table, power budget for daughter board (≈16.6W at 12V for fans) | implementer, poe.expert |
+| `component-library.md` | Current BOM (daughter board v3.1.0): J8, U_BOOST, J2–J5, R3–R8, LED1, NTC1; KiCad footprints | implementer, kicad.expert |
 | `model-routing.md` | Decision guide: when to use local Ollama vs cloud Haiku vs cloud Sonnet | all agents, orchestrator |
 | `local-ai-setup.md` | Ollama installation + recommended models for this project | developer setup |
+| `kikit-reference.md` | KiKit 1.8.0 — what works (fab export, gerbers, sexpr), what doesn't (DRC crashes on KiCad 10, no routing), and the CRITICAL: netlist must be imported in KiCad GUI before any routing | implementer, kicad.expert |
 
 ## KB-First Rule
 
