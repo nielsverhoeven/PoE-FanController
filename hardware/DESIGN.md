@@ -1,68 +1,93 @@
 # PoE FanController – Hardware Design Notes
 
-<!-- Last updated: 2026-06-07 | Updated: feature/62-split-generator-kicad-gui-pcb -->
+<!-- Last updated: 2026-06-08 | Updated: feature/62-refactor-generator-esp32p4 -->
 
 ## Overview
-A PoE 802.3at (PoE+) powered device that controls up to 4 PWM fans via an
-ESP32-WROOM-32 microcontroller and exposes a web-based configuration interface.
+A PoE 802.3at (PoE+) powered device that controls up to 4 PWM fans via the
+**Waveshare ESP32-P4-ETH** development board (SKU 32086), mounted HAT-style on a
+custom carrier PCB.  The carrier handles PoE power extraction, 12 V fan outputs,
+and sensor/LED circuitry; the Waveshare module integrates the ESP32-P4NRW32 SoC,
+LAN8720A PHY, CH343P USB-UART bridge, USB-C connector, RESET/BOOT buttons,
+32 MB flash, and 32 MB stacked PSRAM.
 
 ## Block Diagram
 ```
 [Ethernet cable / PoE+]
+       │ 37–57 V DC (PoE pairs)
+   ┌───▼──────────────────────────────────┐
+   │  J1  RJ45 Würth 615008144521          │  ← PoE power-only port; MDI secondary NC
+   └───┬──────────────────────────────────┘    (Waveshare's own RJ45 carries Ethernet data)
+       │ PoE centre-tap pairs                  ⚠ PSE port must be set to "force PoE" mode
+   ┌───▼──────────────────────────────────┐
+   │  U1  Ag9905M PoE+ PD module           │  ← 802.3at Class 4 PD; isolated flyback
+   └───┬──────────────────────────────────┘
+       │ +12 V, 1.67 A (20 W max)
+       ├──────────────────────────────────────► J2–J5  Fan headers (12 V PWM, 4-wire Intel)
        │
-   ┌───▼────────────────┐
-   │  J1  RJ45 + magnetics │  ← Shielded, PoE-capable
-   └───┬────────────────┘
-       │ 37–57 V DC (PoE pair)
-   ┌───▼────────────────┐
-   │  U1  Ag9905M module │  ← PoE PD negotiation + isolated flyback
-   └───┬────────────────┘
-       │ 12 V, 1.67 A (20 W)
-       ├──────────────────────────────► J2-J5  Fan headers (12 V PWM)
-       │
-   ┌───▼────────────────┐
-   │  U2  LM2596-3.3    │  ← 12 V → 3.3 V, 3 A step-down
-   └───┬────────────────┘
-       │ 3.3 V
-       ├──── U3 ESP32-WROOM-32
-       ├──── U4 CH340C
-       └──── Logic decoupling caps
+   ┌───▼──────────────────────────────────┐
+   │  U2  LM2596S-5.0 buck regulator       │  ← 12 V → 5 V, 3 A rated
+   └───┬──────────────────────────────────┘
+       │ +5 V
+   ┌───▼──────────────────────────────────┐
+   │  D2  1N5822 Schottky (back-feed prot) │  ← Vf ≈ 0.35 V; prevents USB back-feed
+   └───┬──────────────────────────────────┘    when Waveshare programmed via USB-C
+       │ +5V_HAT (~4.65 V)
+   ┌───▼──────────────────────────────────┐
+   │  J8  2×20 HAT header                  │  ← Carrier ↔ Waveshare ESP32-P4-ETH interface
+   └───┬──────────────────────────────────┘
+       │ Waveshare board (mounted on top)
+       │  ├─ ESP32-P4NRW32 SoC (dual-core RISC-V 400 MHz, 32 MB flash, 32 MB PSRAM)
+       │  ├─ LAN8720A Ethernet PHY (RMII, internal to Waveshare)
+       │  ├─ CH343P USB-UART bridge → USB-C (programming & debug)
+       │  ├─ RESET + BOOT buttons
+       │  └─ Internal 5 V → 3.3 V LDO
+       │        └─ +3V3 back to carrier via J8 pins 1,17
+       │              └─ R4 NTC voltage divider, R5–R8 TACH pull-ups
+       └── GPIO4–7 (PWM), GPIO8–11 (TACH), GPIO16 (NTC), GPIO2 (LED) routed via J8
 ```
 
-## Power Budget (802.3at PoE+ = 25.5 W at PD)
+## Power Budget (802.3at Class 4 = 20 W at PD)
 
-| Consumer          | Voltage | Current  | Power  |
-|-------------------|---------|----------|--------|
-| 4 × 12 V fan (max)| 12 V   | 4×0.25 A | 12 W   |
-| ESP32 (peak WiFi) | 3.3 V   | 0.35 A   | 1.15 W |
-| CH340C + logic    | 3.3 V   | 0.10 A   | 0.33 W |
-| LM2596 losses     | –       | –        | ~1.5 W |
-| Ag9905M losses    | –       | –        | ~2.0 W |
-| **Total**         |         |          |**~17 W**|
+> ⚠ **Tight margin warning:** Only ~5.5% headroom. Do not add further 12 V loads without
+> a full re-evaluation and `poe.expert` consultation (constitution §5.2).
 
-Available margin: 25.5 − 17 = 8.5 W.  Safe for 802.3at Class 4.
+| Consumer                              | Rail    | Current   | Power    |
+|---------------------------------------|---------|-----------|----------|
+| 4 × 12 V fan (max, all channels)     | 12 V    | ≤1.0 A    | ≤12.0 W  |
+| LM2596S-5.0 conversion loss (~88% η) | 12→5 V  | —         | ~0.55 W  |
+| D2 diode drop loss                    | —       | —         | ~0.35 W  |
+| Waveshare ESP32-P4-ETH board          | 5 V (via J8) | ~800 mA | ~4.0 W |
+| NTC + TACH pull-ups (passive)         | 3.3 V   | < 5 mA   | ~0.02 W  |
+| Ag9905M conversion losses (est.)      | —       | —         | ~2.0 W   |
+| **Total**                             |         |           | **~18.9 W** |
+| **Ag9905M hard cap (802.3at Class 4)**|         |           | **20.0 W** |
+| **Margin**                            |         |           | **~1.1 W (5.5%)** |
 
-## ESP32 GPIO Allocation
+## GPIO Allocation (ESP32-P4NRW32 on Waveshare board → carrier via J8)
 
-| GPIO   | Function         | Direction | Notes                          |
-|--------|------------------|-----------|--------------------------------|
-| GPIO0  | BOOT             | Input     | Pull-up R2; BOOT button SW2    |
-| GPIO2  | Status LED       | Output    | Active HIGH, R3 330 Ω          |
-| GPIO4  | (reserved)       | –         | 1-Wire or I2C SDA alternative  |
-| GPIO14 | FAN4 PWM         | Output    | LEDC channel 3, 25 kHz         |
-| GPIO21 | I2C SDA (future) | I/O       | Not populated on v0.1          |
-| GPIO22 | I2C SCL (future) | I/O       | Not populated on v0.1          |
-| GPIO25 | FAN1 PWM         | Output    | LEDC channel 0, 25 kHz         |
-| GPIO26 | FAN2 PWM         | Output    | LEDC channel 1, 25 kHz         |
-| GPIO27 | FAN3 PWM         | Output    | LEDC channel 2, 25 kHz         |
-| GPIO32 | NTC ADC          | ADC Input | 12-bit ADC, voltage divider    |
-| GPIO34 | FAN1 TACH        | Input     | Input-only pin, pull-up R5     |
-| GPIO35 | FAN2 TACH        | Input     | Input-only pin, pull-up R6     |
-| GPIO36 | FAN3 TACH        | Input     | Input-only pin, pull-up R7     |
-| GPIO39 | FAN4 TACH        | Input     | Input-only pin, pull-up R8     |
-| GPIO1  | TXD0 (UART0)     | Output    | To CH340C RXD                  |
-| GPIO3  | RXD0 (UART0)     | Input     | From CH340C TXD                |
-| EN     | Reset            | Input     | Pull-up R1; RESET button SW1   |
+All carrier-facing signals are routed through J8 (2×20 HAT header).
+Ethernet MAC/PHY pins (GPIO28, GPIO31, GPIO32–37, GPIO50) are internal to the
+Waveshare board and are **not** connected to J8 carrier pads.
+
+| GPIO        | Function           | Direction | J8 Pad | Notes                                            |
+|-------------|--------------------|-----------|---------|-------------------------------------------------|
+| GPIO0       | BOOT strapping     | Input     | —       | On Waveshare board (BOOT button); not on J8     |
+| GPIO2       | Status LED         | Output    | 3       | Active HIGH; R3 330 Ω in series on carrier      |
+| GPIO4       | FAN1 PWM           | Output    | 7       | LEDC CH0, 25 kHz, 8-bit                         |
+| GPIO5       | FAN2 PWM           | Output    | 8       | LEDC CH1                                        |
+| GPIO6       | FAN3 PWM           | Output    | 10      | LEDC CH2                                        |
+| GPIO7       | FAN4 PWM           | Output    | 11      | LEDC CH3                                        |
+| GPIO8       | FAN1 TACH          | Input     | 12      | GPIO interrupt (ISR); 10 kΩ pull-up R5 to +3V3  |
+| GPIO9       | FAN2 TACH          | Input     | 13      | 10 kΩ pull-up R6 to +3V3                        |
+| GPIO10      | FAN3 TACH          | Input     | 15      | 10 kΩ pull-up R7 to +3V3                        |
+| GPIO11      | FAN4 TACH          | Input     | 16      | 10 kΩ pull-up R8 to +3V3                        |
+| GPIO16      | NTC ADC            | ADC Input | 23      | 12-bit ADC; voltage divider R4 + NTC1           |
+| GPIO28      | ETH_MDIO           | Bidir.    | —       | Internal to Waveshare LAN8720A; NC on J8        |
+| GPIO31      | ETH_MDC            | Output    | —       | Internal to Waveshare; NC on J8                 |
+| GPIO32–37   | RMII EMAC          | I/O       | —       | Fixed IO_MUX; internal to Waveshare             |
+| GPIO38      | UART0 TXD          | Output    | —       | Via Waveshare CH343P → USB-C; also J7 bare-UART |
+| GPIO39      | UART0 RXD          | Input     | —       | Via Waveshare CH343P → USB-C; also J7 bare-UART |
+| GPIO50      | EMAC REF_CLK       | Output    | —       | 50 MHz to LAN8720A; internal to Waveshare       |
 
 ## Safety & Isolation Requirements (CRITICAL)
 
@@ -75,12 +100,12 @@ Available margin: 25.5 − 17 = 8.5 W.  Safe for 802.3at Class 4.
 
 ## Fan Header Pinout (J2–J5, all identical)
 
-| Pin | Signal   | Notes                              |
-|-----|----------|------------------------------------|
-| 1   | GND      | Ground                             |
-| 2   | +12V     | Fan supply (12 V from Ag9905M)     |
-| 3   | TACH     | Tachometer output from fan, 10k pull-up to 3.3V |
-| 4   | PWM      | 25 kHz PWM input from ESP32 LEDC  |
+| Pin | Signal   | Notes                                                |
+|-----|----------|------------------------------------------------------|
+| 1   | GND      | Ground                                               |
+| 2   | +12V     | Fan supply (12 V from Ag9905M)                       |
+| 3   | TACH     | Tachometer output from fan; 10 kΩ pull-up to +3V3    |
+| 4   | PWM      | 25 kHz PWM input from ESP32 LEDC via J8              |
 
 Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
 
@@ -91,82 +116,74 @@ Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
 - **Via**: 0.8 mm diameter, 0.4 mm drill
 - **Ground pour**: Both layers (GND). Split at isolation barrier.
 - **Component placement priority**:
-  1. **All external connectors on top board edge** (y = 5 mm, per constitution P-HW-03):
-     | Ref | Part | Centre X | Side | Notes |
-     |-----|------|----------|------|-------|
-     | J1 | RJ45 Amphenol 54602 | 20.0 mm | Primary (x < 38 mm) | rot=180°, port exits top edge |
-     | J2 | Fan header 1×4 | 46.1 mm | Secondary | Courtyard left ≥ 41.0 mm (3 mm creepage) |
-     | J3 | Fan header 1×4 | 56.8 mm | Secondary | |
-     | J4 | Fan header 1×4 | 67.4 mm | Secondary | |
-     | J5 | Fan header 1×4 | 78.1 mm | Secondary | |
-     | J6 | USB-C GCT USB4085 | 85.0 mm | Secondary | Port faces top edge (rot=0°) |
-     | J7 | Debug UART 1×3 | 91.0 mm | Right edge | Documented exception P-HW-03 v1.0.1; rot=90° |
-  2. U1 (Ag9905M) close to J1, primary-side power traces (≈ x=20, y=40)
-  3. Isolation gap/slot at x=38 mm, y=10–70 mm, 1.0 mm wide (P-ISO-04)
-  4. U2 (LM2596) + L1 + D1 grouped together, primary side (≈ x=15–32, y=55–62)
-  5. U3 (ESP32) on secondary side (≈ x=65, y=42)
-  6. U4 (CH340C) near J6 on secondary side (≈ x=82, y=58)
-  7. Passive components — 19 footprints placed across three zones (see **Passive Component Placement Zones** below)
+  1. **External cable connectors on top board edge** (y ≈ 5 mm, per P-HW-03):
+     | Ref | Part | Notes |
+     |-----|------|-------|
+     | J1 | RJ45 Würth 615008144521 | Primary side (x < 38 mm); PoE power only |
+     | J2 | Fan header Molex 47053-1000 | Secondary side; courtyard left ≥ 41.0 mm (3 mm creepage) |
+     | J3 | Fan header Molex 47053-1000 | Secondary side |
+     | J4 | Fan header Molex 47053-1000 | Secondary side |
+     | J5 | Fan header Molex 47053-1000 | Secondary side |
+     | J7 | Debug UART 1×3 2.54 mm | Right board edge — documented exception P-HW-03 v1.0.1 |
+  2. U1 (Ag9905M) close to J1, primary-side power traces (x < 38 mm)
+  3. Isolation gap/slot at x = 38 mm (P-ISO-04)
+  4. U2 (LM2596S-5.0) + L1 + D1 + D2 grouped together, primary/left of secondary
+  5. **J8 (2×20 HAT header)** placed centrally on PCB — documented P-HW-03 exception (v2.0.0); Waveshare board mounts on top facing down; central placement required to align with Waveshare mechanical footprint
+  6. Passive components (R3–R8, LED1, NTC1) distributed around J8 as required
 
-## Passive Component Placement Zones
+## Carrier PCB Component Summary (v2.0.0)
 
-All 19 passive footprints were added in feature #13 (`feature/13-missing-passive-footprints`).
-Coordinates below are the PCB origin (cx, cy) passed to `embed_footprint()` in
-`hardware/generator/components.py` (`build_schematic()`) — the single source of truth for all placements.
-All components sit on `F.Cu` only (P-HW-02 ✓). All centres are east of x=38 mm (P-ISO-02 ✓).
+The v2.0.0 carrier board removes all components previously dedicated to the
+discrete MCU/PHY/USB stack (U3 ESP32-P4-MINI-1U, U4 CH340C, U5 LAN8720A,
+J6 USB-C, SW1 RESET, SW2 BOOT, R1/R2 EN/BOOT pull-ups, R9/R10 USB CC
+pull-downs, R11–R15 PHY passives, C3–C11 decoupling caps).  These are now
+integrated on the Waveshare ESP32-P4-ETH board.
 
-### Zone A — Between fan headers (y ≈ 19.5 mm)
+### Components retained / modified on carrier
 
-| Ref | cx (mm) | cy (mm) | Package | Value | Function |
-|-----|---------|---------|---------|-------|----------|
-| R5 | 51.5 | 19.5 | 0402 | 10 kΩ | FAN1 TACH pull-up (→ GPIO34) |
-| R6 | 62.1 | 19.5 | 0402 | 10 kΩ | FAN2 TACH pull-up (→ GPIO35) |
-| R7 | 72.8 | 19.5 | 0402 | 10 kΩ | FAN3 TACH pull-up (→ GPIO36) |
-| R8 | 92.0 | 19.5 | 0402 | 10 kΩ | FAN4 TACH pull-up (→ GPIO39) |
+| Ref | Value / MPN | Change vs v1.x | Function |
+|-----|-------------|----------------|----------|
+| J1 | Würth 615008144521 | Role clarified: PoE power only, MDI secondary NC | RJ45 PoE input |
+| U1 | Ag9905M | Unchanged | PoE+ PD module, 12 V isolated output |
+| U2 | LM2596S-5.0/NOPB | **Changed**: was LM2596S-3.3; same D2PAK package | 12 V → 5 V buck regulator |
+| L1 | SRR5028-680Y 68 µH | Unchanged | LM2596 output inductor |
+| D1 | 1N5822 | Unchanged | LM2596 freewheeling Schottky |
+| C1 | 100 µF / 25 V | Unchanged | LM2596 input bulk cap |
+| C2 | 100 µF / 16 V | Voltage rating updated (was /25V) — 5 V rail has more headroom | LM2596 output bulk cap |
+| J2–J5 | Molex 47053-1000 | Unchanged | 12 V PWM fan headers |
+| R5–R8 | 10 kΩ 0402 | Pull-up source now +3V3 from J8 (was +3V3 from LM2596) | TACH pull-ups |
+| R4 | 10 kΩ 0402 | Pull-up source now +3V3 from J8 | NTC voltage divider (top half) |
+| NTC1 | NCP15XH103F03RC 10 kΩ | Unchanged | NTC thermistor |
+| R3 | 330 Ω 0402 | Unchanged | Status LED current limit |
+| LED1 | Green 3 mm THT | Unchanged | Status LED |
+| J7 | 3-pin 2.54 mm header | Unchanged | Debug bare-UART (ESP_TX/ESP_RX via J8 → Waveshare CH343P) |
 
-### Zone B — Left of ESP32 body (x = 45–52 mm, y = 47–56 mm)
+### Components added in v2.0.0
 
-| Ref | cx (mm) | cy (mm) | Package | Value | Function |
-|-----|---------|---------|---------|-------|----------|
-| R1 | 45.0 | 47.0 | 0402 | 10 kΩ | ESP32 EN pull-up |
-| R2 | 45.0 | 50.0 | 0402 | 10 kΩ | ESP32 BOOT (GPIO0) pull-up |
-| R3 | 45.0 | 53.0 | 0402 | 330 Ω | Status LED current limit |
-| R4 | 45.0 | 56.0 | 0402 | 10 kΩ | NTC voltage divider (top half) |
-| C3 | 52.0 | 47.0 | 0402 | 100 nF | +3V3 decoupling — U3 |
-| C4 | 52.0 | 50.0 | 0402 | 100 nF | +3V3 decoupling — U3 |
-| C5 | 52.0 | 53.0 | 0402 | 100 nF | +3V3 decoupling — U3 |
-| C6 | 52.0 | 56.0 | 0402 | 100 nF | +3V3 decoupling — U3 |
+| Ref | Value / MPN | Function |
+|-----|-------------|----------|
+| J8 | Sullins PREC020DAAN-RC / Würth 61304021821 (2×20, 2.54 mm) | HAT header — carrier ↔ Waveshare ESP32-P4-ETH |
+| D2 | 1N5822 | USB back-feed protection Schottky (series between LM2596 +5V and J8 +5V_HAT) |
 
-### Zone C — Below ESP32 / U4 (y = 63.5–71.5 mm)
+### Components removed in v2.0.0
 
-| Ref | cx (mm) | cy (mm) | Package | Value | Function |
-|-----|---------|---------|---------|-------|----------|
-| C7 | 76.0 | 63.5 | 0402 | 100 nF | CH340C V3 pin decoupling |
-| R9 | 83.0 | 68.5 | 0402 | 5.1 kΩ | USB-C CC1 pull-down (→ GND) |
-| R10 | 83.0 | 71.5 | 0402 | 5.1 kΩ | USB-C CC2 pull-down (→ GND) |
-| SW1 | 44.0 | 68.5 | 6mm THT | — | RESET button; origin = Pad 1 (leftmost pad) at x=44.0 mm; left pad edge x=43.0 mm → 5.0 mm gap to isolation barrier (P-ISO-03 ✓) |
-| SW2 | 54.0 | 68.5 | 6mm THT | — | BOOT button; courtyard left x=52.5; gap to SW1 courtyard right (52.0 mm) = 0.5 mm ✓ |
-| LED1 | 64.0 | 68.5 | 3mm THT | Green | Status LED; origin = anode (Pad 1) |
-| NTC1 | 70.0 | 68.5 | Axial THT | 10 kΩ NTC | NTC thermistor; 10.16 mm pitch; courtyard right x=81.21 mm; gap to R9 left (82.07 mm) = 0.86 mm ✓ |
+Removed because they are now provided by the Waveshare ESP32-P4-ETH board:
 
-> **THT courtyard note:** `SW_PUSH_6mm`, `LED_D3.0mm`, and `R_Axial_DIN0207_…_Horizontal`
-> footprints have their KiCad origin at **Pad 1, not the geometric centre**.
-> The (cx, cy) values above are origin positions, not bounding-box centres.
-> THT courtyard bottoms all land at y = 74.5 mm — 0.5 mm from the board edge (y = 75 mm).
-> See `docs/features/pcb-passive-footprints/architecture.md` §4–5 for the full courtyard
-> derivation and corrected-vs-plan-md comparison.
+`U3` (ESP32-P4-MINI-1U), `U4` (CH340C), `U5` (LAN8720A), `J6` (USB-C),
+`SW1` (RESET), `SW2` (BOOT), `R1` (EN pull-up), `R2` (BOOT pull-up),
+`R9`/`R10` (USB-C CC pull-downs), `R11`–`R15` (LAN8720A passives),
+`C3`–`C11` (decoupling caps).
 
-### DRC status after feature #13
+### DRC baseline (v2.0.0)
 
-| Check | Result |
-|-------|--------|
-| `missing_footprint` violations | **0** |
-| `courtyard_collision` violations | **0** |
-| Total DRC violations | **36** (all `solder_mask_bridge` on J6 USB-C — pre-existing, unrelated to this feature) |
-| All footprints on F.Cu | ✓ |
-| All centres east of isolation barrier (x = 38 mm) | ✓ (nearest: SW1 at cx = 44.0 mm) |
+The 36 pre-existing `solder_mask_bridge` violations on J6 (USB-C GCT USB4085)
+are **no longer present** — J6 was removed in v2.0.0.  The DRC baseline for
+v2.0.0 is **zero violations**.  Run `kicad-cli pcb drc` to confirm after any
+PCB layout change (P-TEST-03).
 
-DRC report: `PoE-FanController-drc.rpt` (repository root).
+> PCB placement coordinates for all components are maintained in
+> `hardware/kicad/PoE-FanController.kicad_pcb` via KiCad GUI (P-KI-07).
+> Do not edit the `.kicad_pcb` file by hand.
 
 ---
 
@@ -184,21 +201,25 @@ Purely intra-block connections use `label()`.
 
 | Signal type | Method | Example nets |
 |---|---|---|
-| Inter-block | `global_label()` | `FAN1_PWM`, `FAN1_TACH`, `ESP_TX`, `ESP_RX`, `USB_DP`, `USB_DN`, `NTC_ADC`, `ESP_EN`, `BOOT` |
-| Intra-block | `label()` | `POE_A+`, `POE_A-`, `GPIO2`, `LED_A`, `CH340_V3`, `+3V3_SW`, `CC1`, `CC2` |
+| Inter-block | `global_label()` | `FAN1_PWM`–`FAN4_PWM`, `FAN1_TACH`–`FAN4_TACH`, `NTC_ADC`, `STATUS_LED` |
+| Intra-block | `label()` | `POE_A+`, `POE_A-`, `POE_B+`, `POE_B-`, `+5V_SW`, `+5V_HAT`, `LED_A` |
 
 The `global_label()` method emits a KiCad 10 S-expression with `fields_autoplaced yes` and an
 `Intersheetrefs` property carrying `${INTERSHEET_REFS}`, matching the KiCad 10 reference-project
-format. The schematic currently contains **41 global labels**.
+format. The schematic currently contains **25 global labels** (v2.0.0):
+- `FAN1_PWM`–`FAN4_PWM`: 2 labels each (fan header + J8) = 8
+- `FAN1_TACH`–`FAN4_TACH`: 3 labels each (pull-up resistor, fan header, J8) = 12
+- `NTC_ADC`: 3 labels (R4, NTC1, J8)
+- `STATUS_LED`: 2 labels (R3, J8)
 
 Label `shape` follows signal direction at the point of connection:
 
 | Shape | Meaning | Example in this schematic |
 |---|---|---|
-| `input` | This end receives the signal | `ESP32.IO32` receiving `NTC_ADC`; `ESP32.EN` receiving `ESP_EN` |
+| `input` | This end receives the signal | `J8` pin 23 receiving `NTC_ADC`; `R3` pin 1 receiving `STATUS_LED` |
 | `output` | This end drives the signal | `Fan_Header.TACH` driving `FAN1_TACH`; `R4` driving `NTC_ADC` |
-| `bidirectional` | Both drive and receive | `USB_DP`, `USB_DN` |
-| `passive` | No defined direction | `BOOT` (pulled-up by R2, driven by CH340C DTR, consumed by ESP32 IO0) |
+| `bidirectional` | Both drive and receive | — (no bidirectional signals in v2.0.0 schematic) |
+| `passive` | No defined direction | — (removed with discrete MCU components) |
 
 ### Ground domain separation
 
@@ -208,7 +229,7 @@ schematic or on the PCB:
 | Net | Defined on | Side | Function |
 |---|---|---|---|
 | `GND_PRI` | U1 VOUT_N (pin 6), `pin_type="power_out"` | Primary (PoE) | Return path for PoE input currents only |
-| `GND` | U2 GND (pin 3) and all secondary components | Secondary (SELV) | Return path for 12 V fans and 3.3 V logic |
+| `GND` | U2 GND (pin 3) and all secondary components | Secondary (SELV) | Return path for 12 V fans, 5 V/3.3 V logic |
 
 The isolation barrier is at x = 38 mm on the PCB (P-ISO-02). The copper pour on both layers is
 split at this line (P-HW-08). No PCB trace, pad, via, or pour may cross it.
@@ -222,15 +243,14 @@ BLUE = (0, 0, 255)
 s.text("PoE Power Input", 25, 18, size=2.54, bold=True, color=BLUE)
 ```
 
-The five section headers in the current schematic:
+The four section headers in the current schematic (v2.0.0):
 
 | Header text | Components |
 |---|---|
 | `PoE Power Input` | J1 (RJ45), U1 (Ag9905M) |
-| `3.3V Regulator (LM2596)` | U2, D1, L1, C1–C6 |
-| `ESP32-WROOM-32` | U3, R1–R4, SW1–SW2, LED1, NTC1 |
+| `5V Regulator (LM2596)` | U2, D1, D2, L1, C1, C2 |
 | `Fan Headers (4× PWM)` | J2–J5, R5–R8 |
-| `USB / UART Bridge` | J6, J7, U4 (CH340C), R9–R10, C7 |
+| `Waveshare ESP32-P4-ETH Interface (J8)` | J8, R3, R4, LED1, NTC1 (adjacent area) |
 
 Requirements (P-SCH-03): `bold=True`, `size=2.54` mm, `color=(0,0,255)` (blue).
 No ASCII-art decoration (`===`, `---`, `***`) is permitted.
@@ -254,7 +274,9 @@ The three key rail driver calls that are also explicitly marked `power_out`:
 |---|---|
 | `s.power("+12V",    *p["5"], pin_type="power_out")` — U1 VOUT_P | `+12V` rail |
 | `s.power("GND_PRI", *p["6"], pin_type="power_out")` — U1 VOUT_N | `GND_PRI` rail |
-| `s.power("+3V3",    *p["2"], pin_type="power_out")` — L1 pin 2 | `+3V3` rail |
+| `s.power("+5V", *p["2"], pin_type="power_out")` — L1 pin 2 | `+5V` rail |
+| `s.power("+3V3", *p["1"],  pin_type="power_out")` — J8 pin 1 | `+3V3` rail (from Waveshare LDO) |
+| `s.power("+3V3", *p["17"], pin_type="power_out")` — J8 pin 17 | `+3V3` duplicate |
 
 **Ag9905M VPORT pins:** U1 input pins (VPORT_A±, VPORT_B±) use `passive` in the custom symbol
 definition (not `power_in`). Using `power_in` on these pins previously caused spurious
@@ -263,14 +285,19 @@ are driven externally by the Ethernet PSE. Changing to `passive` removes those e
 
 ### ERC status
 
-Authoritative ERC run: KiCad 10.0.3, `hardware/kicad/erc_output.json`, 2026-06-06T23:14:29.
+> **Note:** The ERC entry below reflects the pre-v2.0.0 schematic (2026-06-06).
+> A fresh ERC run against the v2.0.0-generated schematic should be committed to
+> `hardware/kicad/erc_output.json` per P-TEST-02.  The component count and warning
+> count are expected to decrease significantly (fewer inline symbols; no USB/PHY block).
+
+Last recorded authoritative ERC run: KiCad 10.0.3, `hardware/kicad/erc_output.json`, 2026-06-06.
 
 | Metric | Result |
 |---|---|
 | **Errors** | **0** |
-| **Warnings** | **85** |
+| **Warnings** | **85** (pre-v2.0.0; expected to decrease) |
 
-All 85 warnings fall into two categories, both benign:
+All warnings fall into two benign categories:
 
 **`lib_symbol_issues` — "symbol library 'Custom' not included"**
 All components are defined inline in `generator/components.py` using `Custom:*` lib IDs. The `Custom`
@@ -280,7 +307,7 @@ find the external library and flags each component. This is expected and correct
 (P-HW-05, P-KI-04).
 
 **`lib_symbol_mismatch` — "symbol 'X' doesn't match copy in library 'power'"**
-Inline power symbols (`GND`, `+12V`, `+3V3`, `GND_PRI`) are generated with `pin_type="power_out"`,
+Inline power symbols (`GND`, `+12V`, `+5V`, `+3V3`, `GND_PRI`) are generated with `pin_type="power_out"`,
 whereas the KiCad stock `power` library defines those same names with `pin_type="power_in"`.
 KiCad detects the mismatch. Benign: the deviation is intentional (P-SCH-04) and is precisely
 what suppresses `power_pin_not_driven` ERC errors project-wide.
@@ -289,7 +316,7 @@ Four check types are suppressed in the project-level ERC configuration:
 
 | Suppressed check | Reason |
 |---|---|
-| `single_global_label` | Precautionary suppress; all 41 global labels appear at ≥ 2 locations |
+| `single_global_label` | Precautionary suppress; all 25 global labels appear at ≥ 2 locations |
 | `four_way_junction` | No 4-way wire junctions exist in the schematic |
 | `simulation_model_issue` | No SPICE models are attached |
 | `footprint_filter` | Custom footprint assignments do not match KiCad library filter strings |
