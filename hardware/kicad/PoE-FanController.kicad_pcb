@@ -25606,7 +25606,7 @@
 		(uuid "c8647098-e151-46cb-b649-632e5f7f5157")
 	)
 	(zone
-		(net "Net-(U1-GND)")
+		(net "GND")
 		(layer "F.Cu")
 		(uuid "000001ce-01ce-01ce-01ce-0000000001ce")
 		(name "GND_TOP")
@@ -25622,7 +25622,7 @@
 		)
 		(polygon
 			(pts
-				(xy 40 5) (xy 95 5) (xy 95 75) (xy 40 75)
+				(xy -1 -1) (xy 71 -1) (xy 71 79) (xy -1 79)
 			)
 		)
 		(filled_polygon
@@ -26167,7 +26167,7 @@
 		)
 	)
 	(zone
-		(net "Net-(U1-GND)")
+		(net "GND")
 		(layer "B.Cu")
 		(uuid "000001cd-01cd-01cd-01cd-0000000001cd")
 		(name "GND_BOT")
@@ -26183,7 +26183,7 @@
 		)
 		(polygon
 			(pts
-				(xy 40 5) (xy 95 5) (xy 95 75) (xy 40 75)
+				(xy -1 -1) (xy 71 -1) (xy 71 79) (xy -1 79)
 			)
 		)
 		(filled_polygon
