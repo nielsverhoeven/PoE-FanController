@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 3.3.0 | Last amended: 2026-06-08 -->
+<!-- Version: 4.0.0 | Last amended: 2026-06-09 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -56,7 +56,7 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 |---|---|---|---|
 | U_BOOST | 5V→12V boost converter (e.g. TI LM2587-12 or TI TPS61085) | SOT-23-6 or D2PAK | Boosts +5V from SKU 32088 header to regulated +12V for fan headers |
 | J8 | 2×20 female pin socket, 2.54 mm pin pitch, **15.38 mm row-to-row spacing** (non-standard — confirmed from Waveshare ESP32-P4-POE-ETH dimension drawing), through-hole | `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` (in `hardware/kicad/footprints/Custom.pretty/`) | Daughter board ↔ Waveshare SKU 32088 — receives +5V (pins 2 & 4), +3.3V (pins 1 & 17), and GPIO signals from SKU 32088's male header; row spacing matches ESP32 board's 21mm width minus 2×2.81mm edge offsets |
-| J2–J5 | 47053-1000 (Molex) | 4-pin 2.54 mm | 12 V PWM fan headers (4-wire Intel spec) — placed on **side** edge for case cut-out access |
+| J2–J5 | Molex 22-27-2041 (KK-254, 4-pin keyed vertical header; old part number AE-6410-04A; Molex 22-23-2041 is an acceptable equivalent from the same series) | 1×4, 2.54 mm pitch, through-hole, polarised latching shroud | 12 V PWM fan headers (4-wire Intel spec) — keyed housing physically prevents reverse insertion; mates with standard 4-pin PC fan female housing (Molex 22-01-2042 or equivalent); placed on **side** edge for case cut-out access; footprint `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` (KiCad standard library, 4-pin sibling of J6's 3-pin footprint); replaces non-compliant `47053-1000` per P-HW-09 mandate — see Amendment v4.0.0 |
 | J6 | Molex 22-01-3037 (KK 254 3-pin housing) + Molex 08-50-0032 crimp terminals | 3-pin 2.54 mm polarized latching | DS18B20 temperature probe connector — keyed housing per P-HW-09; footprint `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` (KiCad standard library) |
 | NTC1 | 10 kΩ B=3950 NTC thermistor | THT | Board temperature sensing |
 | R4 | NTC voltage-divider resistor | THT | Bias resistor for NTC1 |
@@ -184,6 +184,10 @@ Any connector that accepts a cable assembly from an external device (fan, temper
 > possible. Polarized housings eliminate this mis-insertion risk. This principle generalises
 > the requirement to all current and future external cable connectors on the daughter board.
 > Amendment: v3.2.0, 2026-06-08.
+>
+> **J2–J5 MPN/footprint status (v4.0.0, 2026-06-09):** MAJOR amendment completed. Footprint
+> locked to `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical`; MPN locked to
+> Molex 22-27-2041 (see §2.2). Feature: keyed-fan-headers (#100).
 
 ---
 
@@ -550,3 +554,4 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | 3.2.0 | 2026-06-08 | PATCH — **P-FW-02 corrected**: GPIO15 (J8 right pin 22, PROG_LED → R13 → LED2 orange 3mm THT, OTA activity indicator, owned by `ota` module) was already implemented in `hardware/generator/components.py` but absent from the P-FW-02 peripheral ownership table. Row added. GPIO2 entry clarified with full signal path. I2C reserved row annotated with availability note pending esp32.expert confirmation. Pre-existing omission; no new technology choice. Feature: fan-header-footprint-redesign (#97). | architect |
 | 3.2.0 | 2026-06-08 | MINOR — **P-HW-09 (new)**: All external cable connectors shall use polarized (keyed) housings. Applies to J2–J5 (fan headers), J6 (temperature probe), and all future external cable connectors. Molex KK 254 (2.54 mm pitch) recommended; JST XH (2.5 mm) acceptable. Unpolarized generic pin headers prohibited for external cable connectors. Does not apply to J8 (board-to-board). Rationale: issue #97 (Fan Header Footprint Redesign) identified mis-insertion risk on all four fan headers. Principle generalised to all external cable connectors. Requires kicad.expert confirmation for specific MPN/footprint before J2–J5 BOM update (MAJOR amendment, pending). Feature: fan-header-footprint-redesign (#97). | architect |
 | 3.3.0 | 2026-06-08 | MINOR — **P-FW-02 extended**: GPIO19 (`DS18B20_DATA`) and GPIO20 (`PROBE_LED`) formally assigned to new `probe` firmware module. GPIO19: 1-Wire bus DATA line for DS18B20 external temperature probe, via J8 left pin 27, with 4.7kΩ pull-up resistor R14 to +3V3 on daughter board. GPIO20: probe status LED (Status_LED_5 / LED6 green 3mm THT), via J8 right pin 28, with 330Ω series resistor R15. Both GPIOs confirmed available from `hardware/generator/components.py` pin map (not strapping pins; not reserved by EMAC, UART, or any existing peripheral). This amendment is the Phase 0 prerequisite for feature ds18b20-temperature-probe (issue #97) and was applied during Stage 3 Architecture Validation. Feature: ds18b20-temperature-probe (#97). | architect |
+| 4.0.0 | 2026-06-09 | MAJOR — **§2.2 J2–J5 BOM substitution**: `47053-1000` (Molex, unkeyed generic pin header) replaced by **Molex 22-27-2041** (KK-254 4-pin polarised latching shrouded vertical header; AE-6410-04A is the old engineering part number; Molex 22-23-2041 is an acceptable equivalent from the same series). Footprint locked to `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` (KiCad 10.0.3 standard `Connector_Molex` library, confirmed present). The 47053-1000 is retroactively non-compliant with P-HW-09 (Amendment v3.2.0). The new footprint is the 4-pin sibling of J6's 3-pin `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` — no new footprint library source is introduced. Dimensional data (pad pitch 2.54 mm, drill 1.19 mm, courtyard Y-span 6.8 mm) verified in `docs/features/keyed-fan-headers/plan.md` §2.3. P-HW-09 note updated to record completion. Feature: keyed-fan-headers (#100). | architect |
