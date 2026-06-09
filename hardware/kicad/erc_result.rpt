@@ -1,4 +1,4 @@
-ERC report (2026-06-09T17:41:03, Encoding UTF8)
+ERC report (2026-06-09T18:28:08, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
@@ -38,9 +38,6 @@ Report includes: Errors, Warnings
 [lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
     ; warning
     @(106.68 mm, 173.99 mm): Symbol #PWR048 [+5V]
-[lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 176.53 mm): Symbol #PWR049 [+5V]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
     @(152.40 mm, 264.16 mm): Symbol #PWR032 [+3V3]
@@ -246,7 +243,7 @@ Report includes: Errors, Warnings
     ; warning
     @(408.94 mm, 172.72 mm): Symbol #PWR029 [GND]
 
- ** ERC messages: 81  Errors 0  Warnings 81
+ ** ERC messages: 80  Errors 0  Warnings 80
 
  ** Ignored checks:
     - Global label only appears once in the schematic

@@ -350,9 +350,9 @@
           (at 15.2400 -21.5900 180) (length 2.5400)
           (name "+5V" (effects (font (size 1.27 1.27))))
           (number "39" (effects (font (size 1.27 1.27)))))
-        (pin power_out line
+        (pin no_connect line
           (at 15.2400 -24.1300 180) (length 2.5400)
-          (name "+5V" (effects (font (size 1.27 1.27))))
+          (name "NC" (effects (font (size 1.27 1.27))))
           (number "40" (effects (font (size 1.27 1.27)))))
       )
     )
@@ -2954,28 +2954,6 @@
       (effects (font (size 1.27 1.27))))
     (pin "1" (uuid "0000012c-012c-012c-012c-00000000012c"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR048") (unit 1))))
-  )
-
-  (symbol (lib_id "power:+5V") (at 106.6800 176.5300 0)
-    (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "0000012d-012d-012d-012d-00000000012d")
-    (property "Reference" "#PWR049"
-      (at 106.6800 179.0700 0)
-      (hide yes)
-      (effects (font (size 1.27 1.27))))
-    (property "Value" "+5V"
-      (at 106.6800 173.9900 0)
-      (effects (font (size 1.27 1.27))))
-    (property "Footprint" ""
-      (at 106.6800 176.5300 0)
-      (hide yes)
-      (effects (font (size 1.27 1.27))))
-    (property "Datasheet" ""
-      (at 106.6800 176.5300 0)
-      (hide yes)
-      (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "0000012e-012e-012e-012e-00000000012e"))
-    (instances (project "PoE-FanController" (path "/" (reference "#PWR049") (unit 1))))
   )
 
   (sheet_instances (path "/" (page "1")))

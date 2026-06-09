@@ -1,5 +1,5 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-09T17:56:31 **
+** Created on 2026-06-09T18:28:41 **
 ** Report includes: Errors, Warnings **
 
 ** Found 17 DRC violations **
@@ -65,7 +65,7 @@
     @(35.0000 mm, 46.5000 mm): Reference field of R7
     @(36.0000 mm, 46.0000 mm): PTH pad 1 [+12V] of R12
 
-** Found 72 unconnected pads **
+** Found 71 unconnected pads **
 [unconnected_items]: Missing connection between items
     Local override; error
     @(25.0000 mm, 58.0000 mm): PTH pad 1 [/LED_A] of LED1
@@ -176,19 +176,15 @@
     @(18.1900 mm, 47.8500 mm): PTH pad 23 [NTC_ADC] of J8
 [unconnected_items]: Missing connection between items
     Local override; error
-    @(18.1900 mm, 4.6700 mm): PTH pad 40 [+5V] of J8
+    @(23.7000 mm, 6.0000 mm): PTH pad 2 [+5V] of U1
     @(18.1900 mm, 7.2100 mm): PTH pad 39 [+5V] of J8
 [unconnected_items]: Missing connection between items
     Local override; error
-    @(18.1900 mm, 7.2100 mm): PTH pad 39 [+5V] of J8
     @(23.7000 mm, 6.0000 mm): PTH pad 2 [+5V] of U1
+    @(33.0000 mm, 3.0000 mm): PTH pad 1 [+5V] of L1
 [unconnected_items]: Missing connection between items
     Local override; error
     @(24.0000 mm, 15.0000 mm): PTH pad 1 [+5V] of C1
-    @(23.7000 mm, 6.0000 mm): PTH pad 2 [+5V] of U1
-[unconnected_items]: Missing connection between items
-    Local override; error
-    @(33.0000 mm, 3.0000 mm): PTH pad 1 [+5V] of L1
     @(23.7000 mm, 6.0000 mm): PTH pad 2 [+5V] of U1
 [unconnected_items]: Missing connection between items
     Local override; error
@@ -313,7 +309,7 @@
 [unconnected_items]: Missing connection between items
     Local override; error
     @(18.1900 mm, 37.6900 mm): PTH pad 27 [DS18B20_DATA] of J8
-    @(43.6200 mm, 55.0000 mm): PTH pad 2 [DS18B20_DATA] of R14
+    @(43.6200 mm, 55.0000 mm): Track [DS18B20_DATA] on F.Cu, length 16.9200 mm
 [unconnected_items]: Missing connection between items
     Local override; error
     @(2.8100 mm, 24.9900 mm): PTH pad 12 [FAN1_TACH] of J8

@@ -24866,7 +24866,6 @@
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
-			(net "+5V")
 			(pinfunction "NC_40")
 			(pintype "no_connect")
 			(uuid "e897775d-5fad-4a33-a2dd-5e45cce54458")
