@@ -146,13 +146,13 @@ When using `session_store_sql`:
 
 ## Knowledge Base — agentdb RAG (Primary) + docs/kb/ (Fallback)
 
-Project knowledge is stored in **agentdb** at `C:\Users\Niels\.agentdb\poe-fancontroller.db`.
+Project knowledge is stored in **agentdb** at `C:\Users\Niels\.agentdb\github-copilot-memory.db`.
 Query it semantically before reading files or spawning sub-agents.
 
 ### agentdb Query (always try first)
 
 ```powershell
-$db = "C:\Users\Niels\.agentdb\poe-fancontroller.db"
+$db = "C:\Users\Niels\.agentdb\github-copilot-memory.db"
 
 # Semantic RAG query — works from any directory
 agentdb query --query "YOUR QUESTION HERE" --k 5 --synthesize-context --db $db
