@@ -1,5 +1,5 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-09T19:13:43 **
+** Created on 2026-06-09T22:42:10 **
 ** Report includes: Errors, Warnings **
 
 ** Found 16 DRC violations **
@@ -42,8 +42,12 @@
     @(56.6200 mm, 54.9700 mm): Rectangle of J6 on F.Silkscreen
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(36.0000 mm, 58.5000 mm): Reference field of R14
-    @(36.0000 mm, 58.0000 mm): PTH pad 1 [PROBE_LED] of R15
+    @(1.6100 mm, 52.4300 mm): Segment of J8 on F.Silkscreen
+    @(2.8100 mm, 52.9300 mm): PTH pad 1 [+3V3] of J8
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(1.6100 mm, 53.4300 mm): Segment of J8 on F.Silkscreen
+    @(2.8100 mm, 52.9300 mm): PTH pad 1 [+3V3] of J8
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
     @(36.0000 mm, 49.5000 mm): Reference field of R12
@@ -54,12 +58,8 @@
     @(36.0000 mm, 46.0000 mm): PTH pad 1 [+12V] of R12
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(1.6100 mm, 52.4300 mm): Segment of J8 on F.Silkscreen
-    @(2.8100 mm, 52.9300 mm): PTH pad 1 [+3V3] of J8
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(1.6100 mm, 53.4300 mm): Segment of J8 on F.Silkscreen
-    @(2.8100 mm, 52.9300 mm): PTH pad 1 [+3V3] of J8
+    @(36.0000 mm, 58.5000 mm): Reference field of R14
+    @(36.0000 mm, 58.0000 mm): PTH pad 1 [PROBE_LED] of R15
 
 ** Found 70 unconnected pads **
 [unconnected_items]: Missing connection between items

@@ -346,13 +346,13 @@
           (at 15.2400 -19.0500 180) (length 2.5400)
           (name "GND" (effects (font (size 1.27 1.27))))
           (number "38" (effects (font (size 1.27 1.27)))))
-        (pin power_out line
-          (at 15.2400 -21.5900 180) (length 2.5400)
-          (name "+5V" (effects (font (size 1.27 1.27))))
-          (number "39" (effects (font (size 1.27 1.27)))))
         (pin no_connect line
-          (at 15.2400 -24.1300 180) (length 2.5400)
+          (at 15.2400 -21.5900 180) (length 2.5400)
           (name "NC" (effects (font (size 1.27 1.27))))
+          (number "39" (effects (font (size 1.27 1.27)))))
+        (pin power_out line
+          (at 15.2400 -24.1300 180) (length 2.5400)
+          (name "+5V" (effects (font (size 1.27 1.27))))
           (number "40" (effects (font (size 1.27 1.27)))))
       )
     )

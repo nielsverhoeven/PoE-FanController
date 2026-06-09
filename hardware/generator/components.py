@@ -172,8 +172,8 @@ def build_schematic():
                  ("NC",           "36", "no_connect"),    # 3V3_EN/RUN
                  ("NC",           "37", "no_connect"),    # GPIO29
                  ("GND",          "38", "passive"),
-                 ("+5V",          "39", "power_out"),     # VSYS — +5V PoE PD output (confirmed OQ-02)
-                 ("NC",           "40", "no_connect"),    # VBUS — USB 5V only; leave NC to avoid back-feed onto VBUS when PoE-only powered
+                 ("NC",           "39", "no_connect"),    # VSYS — system regulated voltage; do NOT use as 5V source (issue #137)
+                 ("+5V",          "40", "power_out"),     # VBUS — 5V power source for daughter board (confirmed from authoritative pinout image)
              ])
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)
