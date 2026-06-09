@@ -1,5 +1,5 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-10T00:28:14 **
+** Created on 2026-06-10T00:49:39 **
 ** Report includes: Errors, Warnings **
 
 ** Found 14 DRC violations **
@@ -55,7 +55,7 @@
     @(36.0000 mm, 58.5000 mm): Reference field of R14
     @(36.0000 mm, 58.0000 mm): PTH pad 1 [PROBE_LED] of R15
 
-** Found 50 unconnected pads **
+** Found 47 unconnected pads **
 [unconnected_items]: Missing connection between items
     Local override; error
     @(25.0000 mm, 58.0000 mm): PTH pad 1 [/LED_A] of LED1
@@ -156,18 +156,6 @@
     Local override; error
     @(58.0000 mm, 58.0000 mm): PTH pad 1 [GND] of J6
     @(50.5400 mm, 58.0000 mm): PTH pad 2 [GND] of LED6
-[unconnected_items]: Missing connection between items
-    Local override; error
-    @(25.4000 mm, 6.0000 mm): PTH pad 3 [BOOST_SW] of U1
-    @(27.1000 mm, 6.0000 mm): PTH pad 4 [BOOST_SW] of U1
-[unconnected_items]: Missing connection between items
-    Local override; error
-    @(43.1600 mm, 3.0000 mm): PTH pad 2 [BOOST_SW] of L1
-    @(27.1000 mm, 6.0000 mm): PTH pad 4 [BOOST_SW] of U1
-[unconnected_items]: Missing connection between items
-    Local override; error
-    @(46.0000 mm, 2.5000 mm): Pad 1 [BOOST_SW] of D1 on F.Cu
-    @(43.1600 mm, 3.0000 mm): PTH pad 2 [BOOST_SW] of L1
 [unconnected_items]: Missing connection between items
     Local override; error
     @(43.6200 mm, 34.0000 mm): PTH pad 2 [/FAN3_IND] of R11
