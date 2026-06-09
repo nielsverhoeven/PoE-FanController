@@ -152,18 +152,13 @@ Query it semantically before reading files or spawning sub-agents.
 ### agentdb Query (always try first)
 
 ```powershell
-$db = "C:\Users\Niels\.agentdb\github-copilot-memory.db"
-
-# Semantic RAG query — works from any directory
-agentdb query --query "YOUR QUESTION HERE" --k 5 --synthesize-context --db $db
-
-# Retrieve with causal utility (for how-to questions)
-agentdb recall with-certificate "YOUR QUESTION" 5 --db $db
+# Semantic RAG query — works from any directory (AGENTDB_PATH set in env)
+agentdb query --query "YOUR QUESTION HERE" --k 5 --synthesize-context
 ```
 
-`AGENTDB_PATH` and `AGENTDB_FORCE_SQLJS=1` are set as permanent user env vars and in the
-PowerShell profile (`$PROFILE.CurrentUserAllHosts`). `@xenova/transformers` is installed globally.
-agentdb works from any directory in the terminal.
+`AGENTDB_PATH` points to `C:\Users\<user>\.agentdb\github-copilot-memory.db`.
+`AGENTDB_FORCE_SQLJS=1` is required — both set permanently in Windows user env + PS profile.
+**CRITICAL:** Use `AGENTDB_PATH` env var for writes; never pass `--db` flag (it bypasses `save()`).
 
 ### What is indexed in agentdb
 
@@ -173,11 +168,31 @@ agentdb works from any directory in the terminal.
 | `hardware` | PCB component positions, footprints, KiCad API env, DRC/ERC gates, KiKit, PoE reference, component library |
 | `dev-workflow` | Build commands, feature pipeline stages, agent model routing, local AI setup |
 
-### Store new facts after expert consultations
+### MANDATORY: Store every new fact discovered during a session
+
+After **any** of the following, immediately store the result in agentdb:
+- Expert agent consultation (esp32.expert, kicad.expert, poe.expert)
+- Web research or webcrawl
+- GitHub issue/PR investigation that reveals a non-obvious fact
+- Component datasheet lookup
+- Debugging session that reveals a root cause
+- CI failure diagnosis
 
 ```powershell
-agentdb reflexion store "session" "TASK-NAME" 0.99 true "SOURCE" "QUESTION" "ANSWER" 0 0 --db $db
+# Store a fact (use AGENTDB_PATH env var — NOT --db flag)
+agentdb reflexion store "poe-fc" "TASK-SLUG" 0.99 true "SOURCE" "QUESTION" "ANSWER" 0 0
 ```
+
+After completing significant work in a session, run the export skill to persist to the repo:
+```powershell
+# Invoke skill: agentdb-export  (or run manually)
+# Commits .github/agentdb_memory/memory-export.json to main
+```
+
+### Cross-device memory transfer
+
+On a new device: clone the repo, run the **agentdb-import** skill.
+On this device: run the **agentdb-export** skill before switching devices.
 
 ### Fallback: docs/kb/ files
 
