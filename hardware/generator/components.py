@@ -172,7 +172,8 @@ def build_schematic():
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)
     s.define("Custom:Fan_Header", "J", "Fan_Header",
-             "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical", "~",
+             "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical",
+             "https://www.molex.com/en-us/products/part-detail/22232041",
              body_w=10.16, body_h=12.70,
              pins_left=[
                  ("GND",     "1", "passive"),
@@ -343,7 +344,7 @@ def build_schematic():
 
         # Fan header — all pins left-side
         p = s.component("Custom:Fan_Header", f"J{2+i}", f"FAN{i+1}",
-                        "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical",
+                        "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical",
                         FAN_CX, FJ_CY)
         s.power("GND",  *p["1"])
         s.power("+12V", *p["2"])

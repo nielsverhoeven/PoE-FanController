@@ -368,11 +368,11 @@
     (property "Value" "Fan_Header"
       (at 0.0000 7.6200 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+    (property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (property "Datasheet" "~"
+    (property "Datasheet" "https://www.molex.com/en-us/products/part-detail/22232041"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1034,7 +1034,7 @@
     (property "Value" "FAN1"
       (at 331.4700 82.5500 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+    (property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical"
       (at 330.2000 81.2800 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1179,7 +1179,7 @@
     (property "Value" "FAN2"
       (at 331.4700 113.0300 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+    (property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical"
       (at 330.2000 111.7600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1324,7 +1324,7 @@
     (property "Value" "FAN3"
       (at 331.4700 143.5100 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+    (property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical"
       (at 330.2000 142.2400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -1469,7 +1469,7 @@
     (property "Value" "FAN4"
       (at 331.4700 173.9900 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+    (property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical"
       (at 330.2000 172.7200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
