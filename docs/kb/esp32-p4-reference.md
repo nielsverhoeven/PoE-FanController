@@ -207,7 +207,7 @@ Use the maintained fork — original repo is unmaintained for IDF 5.x:
 | RJ45 | Integrated — carries **both** PoE power + Ethernet data | 🟢 HIGH |
 | USB-C | Yes — for firmware flash/debug; fallback power when no PoE | 🟢 HIGH |
 | BOOT/RST buttons | On-board | 🟢 HIGH |
-| GPIO header | 2×20 (40 pins), 2.54 mm pitch, PICO-2×20 layout | 🟢 HIGH |
+| GPIO header | 2×20 (40 pins), 2.54 mm pitch, **consecutive-column layout (pins 1–20 Row A, pins 21–40 Row B)** | 🟢 HIGH |
 
 ### 9.2 Board Dimensions (MUST VERIFY)
 
