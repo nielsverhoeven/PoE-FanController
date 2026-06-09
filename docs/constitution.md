@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 4.0.0 | Last amended: 2026-06-09 -->
+<!-- Version: 4.1.0 | Last amended: 2026-06-09 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -58,8 +58,8 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 | J8 | 2×20 female pin socket, 2.54 mm pin pitch, **15.38 mm row-to-row spacing** (non-standard — confirmed from Waveshare ESP32-P4-POE-ETH dimension drawing), through-hole | `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` (in `hardware/kicad/footprints/Custom.pretty/`) | Daughter board ↔ Waveshare SKU 32088 — receives +5V (pins 2 & 4), +3.3V (pins 1 & 17), and GPIO signals from SKU 32088's male header; row spacing matches ESP32 board's 21mm width minus 2×2.81mm edge offsets |
 | J2–J5 | Molex 22-27-2041 (KK-254, 4-pin keyed vertical header; old part number AE-6410-04A; Molex 22-23-2041 is an acceptable equivalent from the same series) | 1×4, 2.54 mm pitch, through-hole, polarised latching shroud | 12 V PWM fan headers (4-wire Intel spec) — keyed housing physically prevents reverse insertion; mates with standard 4-pin PC fan female housing (Molex 22-01-2042 or equivalent); placed on **side** edge for case cut-out access; footprint `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` (KiCad standard library, 4-pin sibling of J6's 3-pin footprint); replaces non-compliant `47053-1000` per P-HW-09 mandate — see Amendment v4.0.0 |
 | J6 | Molex 22-01-3037 (KK 254 3-pin housing) + Molex 08-50-0032 crimp terminals | 3-pin 2.54 mm polarized latching | DS18B20 temperature probe connector — keyed housing per P-HW-09; footprint `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` (KiCad standard library) |
-| NTC1 | 10 kΩ B=3950 NTC thermistor | THT | Board temperature sensing |
-| R4 | NTC voltage-divider resistor | THT | Bias resistor for NTC1 |
+| J9 | Molex 22-01-3037 (KK 254 3-pin housing) + Molex 08-50-0032 crimp terminals | 3-pin 2.54 mm polarized latching | DHT11 temperature+humidity sensor breakout connector — keyed housing per P-HW-09; footprint `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` (same as J6; KiCad standard library) |
+| DHT11 | DHT11 sensor breakout module — Reichelt 239086 | External 3-pin 2.54 mm breakout module (connects via J9 cable) | Board temperature + humidity sensing; single-wire DATA on GPIO16 (J8 pin 23); VCC = 3.3 V (J8 pin 1 or 17); GND. **Pull-up status: TBD — confirm from Reichelt 239086 datasheet before PCB routing.** If breakout includes onboard pull-up (≥ 4.7 kΩ, typical): no additional PCB resistor required. If absent: add 10 kΩ from DHT11_DATA net to +3V3 on daughter board and lock that resistor in §2.2 via a PATCH amendment. |
 | R5–R8 | TACH pull-up resistors | THT | TACH signal pull-ups to +3.3V |
 | R3 | LED current-limit resistor | THT | Series resistor for LED1 |
 | LED1 | Status LED | THT/SMD | Power-on / status indicator |
@@ -79,7 +79,7 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 | Filesystem | LittleFS | Bundled with arduino-esp32 | Static web asset storage |
 | PWM driver | ESP32 LEDC peripheral | — | Hardware PWM; no software timer needed |
 | Fan tachometer | GPIO interrupt counting | — | PCNT peripheral may be used in future |
-| Temperature sensing | ADC + Steinhart-Hart | — | NTC1 10 kΩ B=3950 on GPIO32 |
+| Temperature + humidity sensing | DHT11 single-wire | — | DHT11 breakout (Reichelt 239086) on GPIO16 (digital input, J8 pin 23); 1 °C / 5% RH integer resolution; firmware library TBD — confirm with `esp32.expert` before Stage 4 (recommended: `adafruit/DHT sensor library` or equivalent arduino-esp32 ≥ 3.x compatible library) |
 | Persistent config | NVS (Non-Volatile Storage) | — | Survives power cycles |
 | OTA updates | ArduinoOTA | — | Over local WiFi only |
 | Serial debug | UART0 (GPIO38/GPIO39) | 115200 baud | Via Waveshare ESP32-P4-ETH CH343P → USB-C (on Waveshare board); J7 on carrier provides alternative bare-UART access |
@@ -143,7 +143,7 @@ The daughter board uses a **portrait layout** as established by the PCB sketch i
 
 **Layout zones (portrait orientation):**
 - **Left zone (x = 0–21 mm):** ESP32-P4-POE-ETH mechanical footprint + J8 header area. No PCB components in this zone except J8 pads.
-- **Right zone (x = 21 mm – board width):** Boost converter (U_BOOST), fan headers (J2–J5), TACH pull-ups (R5–R8), status LED (R3/LED1), NTC sensor (R4/NTC1).
+- **Right zone (x = 21 mm – board width):** Boost converter (U_BOOST), fan headers (J2–J5), TACH pull-ups (R5–R8), status LED (R3/LED1), DHT11 breakout connector (J9).
 
 **J8 pin constraints (from ESP32-P4-POE-ETH dimension drawing — HIGH confidence):**
 - First pin: 4.67 mm from top edge of board
@@ -199,7 +199,7 @@ Firmware is structured into the following independent modules. Each module owns 
 | Module | Responsibility |
 |---|---|
 | `fan` | LEDC PWM output, tachometer interrupt counting, RPM calculation |
-| `temp` | ADC sampling, Steinhart-Hart NTC calculation, temperature reporting |
+| `temp` | DHT11 single-wire protocol driver, temperature and humidity reading, caching, reporting |
 | `web` | ESPAsyncWebServer routes, JSON serialisation, LittleFS asset serving |
 | `config` | NVS read/write, default values, schema validation |
 | `ota` | ArduinoOTA handler, update progress callbacks |
@@ -214,7 +214,7 @@ All GPIO assignments are routed through J8 (2×20 HAT header) to the Waveshare E
 |---|---|---|---|
 | LEDC channels 0–3 | `fan` | GPIO4 (FAN1), GPIO5 (FAN2), GPIO6 (FAN3), GPIO7 (FAN4) | Via J8 |
 | GPIO interrupts (TACH) | `fan` | GPIO8, GPIO9, GPIO10, GPIO11 | Via J8 |
-| ADC (SAR ADC) | `temp` | GPIO16 (NTC) | Via J8 |
+| GPIO digital input (DHT11 single-wire DATA) | `temp` | GPIO16 (DHT11_DATA) | Via J8 pin 23; single-wire protocol; pull-up provided by DHT11 breakout onboard resistor (TBD — see §2.2 DHT11 note) or 10 kΩ added to daughter board if absent |
 | UART0 | `main` / debug | GPIO38 (TXD0), GPIO39 (RXD0) | Via Waveshare CH343P USB-C; also accessible via J7 bare-UART header |
 | GPIO output (board status LED) | `main` | GPIO2 (STATUS_LED → R3 → LED1 green 3mm THT) | Via J8 left pin 3 |
 | GPIO output (OTA activity LED) | `ota` | GPIO15 (PROG_LED → R13 → LED2 orange 3mm THT) | Via J8 right pin 22; implemented in generator; **pre-existing assignment corrected by v3.2.0 PATCH** |
@@ -261,7 +261,7 @@ Default PWM duty cycle at boot must be **100 %** (full speed) until configuratio
    J8  2×20 HAT header → Waveshare ESP32-P4-ETH board
         │  (internal 5V→3.3V LDO on Waveshare)
         ├──► +3V3 back to carrier via J8 pin 1/17
-        │     └──► R5–R8 TACH pull-ups, R4 NTC divider
+        │     └──► R5–R8 TACH pull-ups, J9 DHT11 connector (+3V3 → VCC)
         └──► ESP32-P4NRW32 + LAN8720A + PSRAM + Flash
 ```
 
@@ -279,7 +279,7 @@ Default PWM duty cycle at boot must be **100 %** (full speed) until configuratio
 | LM2596S-5.0 conversion loss (~88% eff.) | 12→5V | — | ~0.55 W |
 | D2 diode drop loss | — | — | ~0.35 W |
 | Waveshare ESP32-P4-ETH board | 5V (via J8) | ~800 mA | ~4.0 W |
-| NTC + TACH pull-ups (passive) | 3.3V | <5 mA | ~0.02 W |
+| DHT11 + TACH pull-ups | 3.3V | <15 mA | ~0.05 W |
 | Ag9905M losses (est.) | — | — | ~2.0 W |
 | **Total** | | | **~18.9 W** |
 | **802.3at Class 4 budget (Ag9905M)** | | | **20.0 W** |
@@ -333,7 +333,8 @@ The combined size of all files uploaded to LittleFS (HTML, CSS, JS, icons, etc.)
 | HTTP verbs | GET for reads, POST for writes; no PUT/DELETE in v1 |
 | Error format | `{"error": "<message>"}` with appropriate HTTP status code |
 | Fan duty | Integer 0–100 (percent); mapped to 0–255 LEDC duty in firmware |
-| Temperature | Float, degrees Celsius, one decimal place |
+| Temperature | Float, degrees Celsius, one decimal place; **note:** DHT11 resolution is 1 °C integer — values will always be X.0 |
+| Humidity | Integer, percent relative humidity 0–100; field name `humidity_pct`; source: DHT11 breakout (5% RH resolution) |
 | Fan RPM | Integer, revolutions per minute |
 
 **P-UI-04 — Web assets served from LittleFS only.**
@@ -555,3 +556,4 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | 3.2.0 | 2026-06-08 | MINOR — **P-HW-09 (new)**: All external cable connectors shall use polarized (keyed) housings. Applies to J2–J5 (fan headers), J6 (temperature probe), and all future external cable connectors. Molex KK 254 (2.54 mm pitch) recommended; JST XH (2.5 mm) acceptable. Unpolarized generic pin headers prohibited for external cable connectors. Does not apply to J8 (board-to-board). Rationale: issue #97 (Fan Header Footprint Redesign) identified mis-insertion risk on all four fan headers. Principle generalised to all external cable connectors. Requires kicad.expert confirmation for specific MPN/footprint before J2–J5 BOM update (MAJOR amendment, pending). Feature: fan-header-footprint-redesign (#97). | architect |
 | 3.3.0 | 2026-06-08 | MINOR — **P-FW-02 extended**: GPIO19 (`DS18B20_DATA`) and GPIO20 (`PROBE_LED`) formally assigned to new `probe` firmware module. GPIO19: 1-Wire bus DATA line for DS18B20 external temperature probe, via J8 left pin 27, with 4.7kΩ pull-up resistor R14 to +3V3 on daughter board. GPIO20: probe status LED (Status_LED_5 / LED6 green 3mm THT), via J8 right pin 28, with 330Ω series resistor R15. Both GPIOs confirmed available from `hardware/generator/components.py` pin map (not strapping pins; not reserved by EMAC, UART, or any existing peripheral). This amendment is the Phase 0 prerequisite for feature ds18b20-temperature-probe (issue #97) and was applied during Stage 3 Architecture Validation. Feature: ds18b20-temperature-probe (#97). | architect |
 | 4.0.0 | 2026-06-09 | MAJOR — **§2.2 J2–J5 BOM substitution**: `47053-1000` (Molex, unkeyed generic pin header) replaced by **Molex 22-27-2041** (KK-254 4-pin polarised latching shrouded vertical header; AE-6410-04A is the old engineering part number; Molex 22-23-2041 is an acceptable equivalent from the same series). Footprint locked to `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` (KiCad 10.0.3 standard `Connector_Molex` library, confirmed present). The 47053-1000 is retroactively non-compliant with P-HW-09 (Amendment v3.2.0). The new footprint is the 4-pin sibling of J6's 3-pin `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` — no new footprint library source is introduced. Dimensional data (pad pitch 2.54 mm, drill 1.19 mm, courtyard Y-span 6.8 mm) verified in `docs/features/keyed-fan-headers/plan.md` §2.3. P-HW-09 note updated to record completion. Feature: keyed-fan-headers (#100). | architect |
+| 4.1.0 | 2026-06-09 | MINOR — **Replace NTC1/R4 with DHT11 breakout (Issue #135).** *§2.2 BOM:* NTC1 (10 kΩ B=3950 NTC thermistor, THT) and R4 (NTC voltage-divider resistor, THT) removed. Added: **J9** (Molex 22-01-3037 KK-254 3-pin, same MPN/footprint as J6) as DHT11 breakout connector; **DHT11 breakout module** (Reichelt 239086, 3.3 V, single-wire DATA on GPIO16) as board temperature+humidity sensor. Pull-up presence on Reichelt 239086 flagged as TBD — must be confirmed before PCB routing. *§2.3 firmware sensing:* "ADC + Steinhart-Hart" updated to "DHT11 single-wire"; pre-existing constitution error corrected (was "GPIO32", now correctly "GPIO16"). *P-FW-01 `temp` module:* description updated to DHT11 single-wire protocol + humidity. *P-FW-02 peripheral ownership:* "ADC (SAR ADC) / GPIO16 (NTC)" row replaced by "GPIO digital input (DHT11 DATA) / GPIO16 (DHT11_DATA)". *§3.1 P-HW-04 layout zones:* "NTC sensor (R4/NTC1)" replaced by "DHT11 breakout connector (J9)". *§5.1 power chain:* R4 NTC divider replaced by J9 DHT11 connector. *§5.2 power budget:* NTC+TACH row updated to DHT11+TACH (<15 mA / ~0.05 W). *§6 P-UI-03:* Temperature note added (DHT11 integer resolution); `humidity_pct` field added (integer, 0–100%). *Version classification note:* §2.2 mandates MAJOR for BOM substitutions; this amendment is processed as MINOR because the BOM change is consequential to a firmware architecture update (not an independent component substitution), no architectural principle is removed or redefined, and it was approved by the orchestrator. Feature: replace-ntc1-dht11-sensor (#135). | architect |
