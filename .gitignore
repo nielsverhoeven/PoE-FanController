@@ -13,3 +13,6 @@ firmware/.pio/
 *.pyc
 hardware/kicad/~PoE-FanController.kicad_pcb.lck
 hardware/~PoE-FanController.kicad_pro.lck
+
+node_modules/
+package-lock.json
