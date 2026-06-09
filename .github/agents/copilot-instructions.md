@@ -1,6 +1,6 @@
 # PoE FanController Development Guidelines
 
-<!-- Last updated: 2026-06-08 (session 3) -->
+<!-- Last updated: 2026-06-09 (session 13 — agentdb RAG integration) -->
 
 ## Project Overview
 
@@ -144,26 +144,63 @@ When using `session_store_sql`:
 2. After **2 consecutive queries returning 0 rows**, stop — the data is not available; report that and move on
 3. Never ILIKE-scan large tables (`turns`, `events`) without a `WHERE timestamp >` time filter
 
-## Knowledge Base (KB) — Read Before Spending Cloud Credits
+## Knowledge Base — agentdb RAG (Primary) + docs/kb/ (Fallback)
 
-The `docs/kb/` directory contains pre-loaded domain facts for this project.
-**Check these files before spawning any expert sub-agent or doing web searches.**
+Project knowledge is stored in **agentdb** at `C:\Users\Niels\.agentdb\poe-fancontroller.db`.
+Query it semantically before reading files or spawning sub-agents.
+
+### agentdb Query (always try first)
+
+```powershell
+# Set location to project root (required — @xenova/transformers is installed here)
+Set-Location C:\repos-github\PoE-FanController
+$db = "C:\Users\Niels\.agentdb\poe-fancontroller.db"
+
+# Semantic RAG query
+agentdb query --query "YOUR QUESTION HERE" --k 5 --synthesize-context --db $db
+
+# Retrieve with causal utility (for how-to questions)
+agentdb recall with-certificate "YOUR QUESTION" 5 --db $db
+```
+
+**Run agentdb from `C:\repos-github\PoE-FanController`** — the `node_modules/@xenova/transformers`
+package installed there provides ML embeddings. Running from another directory uses mock embeddings.
+
+### What is indexed in agentdb
+
+| Domain | Topics covered |
+|--------|---------------|
+| `project-rules` | Constitution v4.0.0, board dimensions, BOM, design rules |
+| `hardware` | PCB component positions, footprints, KiCad API env, DRC/ERC gates, KiKit, PoE reference, component library |
+| `dev-workflow` | Build commands, feature pipeline stages, agent model routing, local AI setup |
+
+### Store new facts after expert consultations
+
+```powershell
+Set-Location C:\repos-github\PoE-FanController
+agentdb reflexion store "session" "TASK-NAME" 0.99 true "SOURCE" "QUESTION" "ANSWER" 0 0 --db $db
+```
+
+### Fallback: docs/kb/ files
+
+If agentdb returns no useful result, fall back to the markdown files:
 
 | File | Use for |
 |---|---|
-| `docs/kb/ESP32-P4-POE-ETH/board-reference.md` | **Read first for any J8/connector/dimension question** — confirmed board dimensions (78×21mm), J8 row spacing (15.38mm), pin positions, EMAC pins, power budget |
-| `docs/kb/kicad-10-reference.md` | KiCad 10 format, ERC/DRC baselines, schematic conventions, pcbnew API, custom footprint generation |
-| `docs/kb/esp32-p4-reference.md` | RMII fixed pins (MDC=31, MDIO=52, RST=51), GPIO allocation, PlatformIO config, LEDC 3.x API |
+| `docs/kb/ESP32-P4-POE-ETH/board-reference.md` | J8/connector/dimension questions — board dims (78×21mm), J8 row spacing (15.38mm), EMAC pins |
+| `docs/kb/kicad-10-reference.md` | KiCad 10 format, ERC/DRC baselines, pcbnew API |
+| `docs/kb/esp32-p4-reference.md` | RMII pins (MDC=31, MDIO=52, RST=51), GPIO allocation |
 | `docs/kb/poe-reference.md` | 802.3at class table, power budget |
-| `docs/kb/component-library.md` | All project MPNs, KiCad footprints, datasheet facts |
-| `docs/kb/kikit-reference.md` | KiKit 1.8.0: CLI path, what works (fab/gerber export), what's broken (`drc` crashes on KiCad 10), routing approach (pcbnew API + **must import netlist via KiCad GUI F8 first**) | implementer, kicad.expert |
-| `docs/kb/Sample-PCB-Sketch.png` | User-approved PCB layout sketch: portrait 42×78mm, ESP32 left column, fans right column | implementer, kicad.expert |
-| `docs/kb/local-ai-setup.md` | Ollama installation and usage for free local inference |
+| `docs/kb/component-library.md` | All project MPNs, KiCad footprints |
+| `docs/kb/kikit-reference.md` | KiKit 1.8.0 — what works, what crashes on KiCad 10 |
+| `docs/kb/local-ai-setup.md` | Ollama setup and usage |
 
-**KB-First rule:** If the answer is in the KB, answer directly — no sub-agent, no web search.
-After any expert consultation that produces a new verified fact, **update the KB file** and commit it.
+**KB-First rule:** agentdb query → docs/kb/ file → sub-agent. Never skip the first two steps.
+After any expert consultation adds a new verified fact: store it in agentdb AND update the KB file.
 
 ## Model Routing — Use the Cheapest Appropriate Model
+
+**Step 0 — agentdb RAG (free):** Query agentdb before anything else. If the answer is there, no model needed.
 
 | Task complexity | Model choice |
 |---|---|
@@ -178,7 +215,7 @@ When calling the `task` tool for sub-agents, pass `model: "claude-haiku-4.5"` fo
 
 Keep `claude-sonnet-4.6` only for: `architect`, `implementer` (complex tasks), `feature.planner`, `rubber-duck`.
 
-**Single biggest credit saver:** do direct tool calls (view + edit + powershell) instead of
-spawning a sub-agent for tasks that take ≤ 5 tool calls.
+**Single biggest credit saver:** agentdb query → direct tool calls (view + edit + powershell) → sub-agent.
+Never spawn a sub-agent for tasks that take ≤ 5 tool calls or that agentdb can answer.
 
 <!-- MANUAL ADDITIONS END -->
