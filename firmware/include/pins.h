@@ -49,10 +49,10 @@
 #endif
 
 // ---------------------------------------------------------------------------
-// Analog / temperature
+// DHT11 temperature + humidity sensor (replaces NTC1/R4, issue #135)
 // ---------------------------------------------------------------------------
-#ifndef NTC_ADC_PIN
-#define NTC_ADC_PIN   16  ///< GPIO16 ADC1 — NTC thermistor voltage divider
+#ifndef DHT11_DATA_PIN
+#define DHT11_DATA_PIN  16  ///< GPIO16 — DHT11 single-wire data (GPIO16, J8 pin 23)
 #endif
 
 // ---------------------------------------------------------------------------
@@ -122,11 +122,3 @@
 #define FAN_PWM_FREQ_HZ    25000  ///< 25 kHz (P-FW-03)
 #define FAN_PWM_RESOLUTION     8  ///< 8-bit (0–255)
 #define FAN_PWM_SAFE_DEFAULT 255  ///< 100% on boot until config loaded (P-FW-05)
-
-// ---------------------------------------------------------------------------
-// NTC thermistor (Steinhart-Hart)
-// ---------------------------------------------------------------------------
-#define NTC_SERIES_OHM   10000   ///< R4 = 10 kΩ pull-up
-#define NTC_NOMINAL_OHM  10000   ///< NTC1 nominal resistance at 25 °C
-#define NTC_BETA         3950    ///< B-constant (NCP15XH103F03RC)
-#define NTC_NOMINAL_TEMP 25.0f   ///< °C nominal temperature
