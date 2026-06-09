@@ -2906,22 +2906,22 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR047") (unit 1))))
   )
 
-  (symbol (lib_id "power:+5V") (at 106.6800 173.9900 0)
+  (symbol (lib_id "power:+5V") (at 106.6800 176.5300 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
     (fields_autoplaced yes) (uuid "00000128-0128-0128-0128-000000000128")
     (property "Reference" "#PWR048"
-      (at 106.6800 176.5300 0)
+      (at 106.6800 179.0700 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (property "Value" "+5V"
-      (at 106.6800 171.4500 0)
+      (at 106.6800 173.9900 0)
       (effects (font (size 1.27 1.27))))
     (property "Footprint" ""
-      (at 106.6800 173.9900 0)
+      (at 106.6800 176.5300 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (property "Datasheet" ""
-      (at 106.6800 173.9900 0)
+      (at 106.6800 176.5300 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (pin "1" (uuid "00000129-0129-0129-0129-000000000129"))
