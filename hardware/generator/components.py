@@ -11,7 +11,7 @@ header) that receives +5V and GPIO signals from the Waveshare board's male heade
 
 Daughter board provides:
   - J8      2x20 female header (PinSocket_2x20_P2.54mm_Vertical) receiving +5V
-            on pin 39 (VSYS, PoE PD output) — pin 40 (VBUS, USB) left NC
+            on pin 40 (VBUS) — pin 39 (VSYS) left NC (issue #137)
             and GPIO signals from Waveshare ESP32-P4-POE-ETH (SKU 32088)
    # U1 (formerly U_BOOST) — 5V->12V boost converter (TI LM2587-12, TO-220-3)
   - J2-J5   4-pin fan headers (12V PWM, side-edge placement)
@@ -21,7 +21,7 @@ Daughter board provides:
   - R3/LED1 status LED circuit (GPIO2 via J8)
 
 Power chain:
-  J8 pin 39 (VSYS, PoE PD output) — +5V to U_BOOST VIN
+  J8 pin 40 (VBUS) — +5V to U_BOOST VIN
     # U1 (LM2587-12, 5V -> 12V boost converter)
       -> +12V rail -> fans J2-J5
   J8 pins 1,17 (+3V3 from Waveshare on-board LDO)
@@ -172,8 +172,8 @@ def build_schematic():
                  ("NC",           "36", "no_connect"),    # 3V3_EN/RUN
                  ("NC",           "37", "no_connect"),    # GPIO29
                  ("GND",          "38", "passive"),
-                 ("+5V",          "39", "power_out"),     # VSYS — +5V PoE PD output (confirmed OQ-02)
-                 ("NC",           "40", "no_connect"),    # VBUS — USB 5V only; leave NC to avoid back-feed onto VBUS when PoE-only powered
+                 ("NC",           "39", "no_connect"),    # VSYS — system regulated voltage; do NOT use as 5V source (issue #137)
+                 ("+5V",          "40", "power_out"),     # VBUS — 5V power source for daughter board (confirmed from authoritative pinout image)
              ])
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)
@@ -502,9 +502,9 @@ def build_schematic():
     #   Row A (left  side of symbol): pins  1..20  top → bottom
     #   Row B (right side of symbol): pins 21..40  top → bottom
     #
-    # Power in from Waveshare (OQ-02 RESOLVED — confirmed from schematic):
-    #   pin 39 (VSYS, Row B) -> +5V -> U_BOOST VIN   (PoE PD main 5V output)
-    #   pin 40 (VBUS, Row B) -> NC                   (USB 5V; avoid back-feed)
+    # Power in from Waveshare (OQ-02 RESOLVED — confirmed from authoritative pinout image):
+    #   pin 39 (VSYS, Row B) -> NC  (system regulated voltage — do NOT use as 5V source)
+    #   pin 40 (VBUS, Row B) -> +5V -> U_BOOST VIN  (5V power source, issue #137)
     #   pins 2,4 are NOT power pins — leave NC
     #   GND: pins 6,9,14,20 (Row A) and pins 25,30,34,38 (Row B)
     #   pins 1,17 (Row A) -> +3V3 -> TACH pull-ups + DHT11 VCC
@@ -559,7 +559,7 @@ def build_schematic():
     s.power("GND", *p["34"])                                            # GND — board-reference.md §4.1
     # pins 35,36,37: NC
     s.power("GND", *p["38"])
-    s.power("+5V", *p["39"], pin_type="power_out")                      # VSYS — PoE PD +5V
-    # pin 40 (VBUS) left NC — avoid back-feeding USB VBUS rail when PoE-only powered
+    # pin 39 (VSYS) — system regulated voltage; leave NC (issue #137)
+    s.power("+5V", *p["40"], pin_type="power_out")                      # VBUS — 5V source for daughter board (issue #137)
 
     return s

@@ -1,7 +1,13 @@
-ERC report (2026-06-09T18:43:31, Encoding UTF8)
+ERC report (2026-06-09T22:41:33, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
+[pin_not_connected]: Pin not connected
+    ; error
+    @(106.68 mm, 173.99 mm): Symbol #PWR048 Pin 1 [~, Power output, Line]
+[pin_not_connected]: Pin not connected
+    ; error
+    @(106.68 mm, 176.53 mm): Symbol J8 Pin 40 [+5V, Power output, Line]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
     @(76.20 mm, 128.27 mm): Symbol #PWR038 [+3V3]
@@ -38,6 +44,10 @@ Report includes: Errors, Warnings
 [lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
     ; warning
     @(106.68 mm, 173.99 mm): Symbol #PWR048 [+5V]
+[no_connect_connected]: Pin with 'no connection' type is connected
+    ; warning
+    @(106.68 mm, 173.99 mm): Symbol J8 Pin 39 [NC, Unconnected, Line]
+    @(106.68 mm, 173.99 mm): Symbol #PWR048 Pin 1 [~, Power output, Line]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
     @(152.40 mm, 302.26 mm): Symbol #PWR035 [+3V3]
@@ -240,7 +250,7 @@ Report includes: Errors, Warnings
     ; warning
     @(408.94 mm, 172.72 mm): Symbol #PWR029 [GND]
 
- ** ERC messages: 79  Errors 0  Warnings 79
+ ** ERC messages: 82  Errors 2  Warnings 80
 
  ** Ignored checks:
     - Global label only appears once in the schematic
