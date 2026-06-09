@@ -1,4 +1,4 @@
-ERC report (2026-06-09T00:26:09, Encoding UTF8)
+ERC report (2026-06-09T17:41:03, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
@@ -7,47 +7,40 @@ Report includes: Errors, Warnings
     @(76.20 mm, 128.27 mm): Symbol #PWR038 [+3V3]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 138.43 mm): Symbol #PWR039 [GND]
+    @(76.20 mm, 140.97 mm): Symbol #PWR039 [GND]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(76.20 mm, 148.59 mm): Symbol #PWR040 [GND]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(76.20 mm, 161.29 mm): Symbol #PWR041 [GND]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 148.59 mm): Symbol #PWR040 [+3V3]
+    @(76.20 mm, 168.91 mm): Symbol #PWR042 [+3V3]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 158.75 mm): Symbol #PWR041 [GND]
+    @(76.20 mm, 176.53 mm): Symbol #PWR043 [GND]
+[lib_symbol_mismatch]: Symbol 'J8_Waveshare' doesn't match copy in library 'Custom'
+    ; warning
+    @(91.44 mm, 152.40 mm): Symbol J8 [J8_Waveshare]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 163.83 mm): Symbol #PWR042 [GND]
+    @(106.68 mm, 138.43 mm): Symbol #PWR044 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 168.91 mm): Symbol #PWR043 [GND]
+    @(106.68 mm, 151.13 mm): Symbol #PWR045 [GND]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(106.68 mm, 161.29 mm): Symbol #PWR046 [GND]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(106.68 mm, 171.45 mm): Symbol #PWR047 [GND]
 [lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 176.53 mm): Symbol #PWR044 [+5V]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 133.35 mm): Symbol #PWR045 [GND]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 143.51 mm): Symbol #PWR046 [GND]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 151.13 mm): Symbol #PWR047 [GND]
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(106.68 mm, 153.67 mm): Global Label 'PROG_LED'
-[no_connect_connected]: Pin with 'no connection' type is connected
-    ; warning
-    @(106.68 mm, 153.67 mm): Symbol J8 Pin 22 [NC, Unconnected, Line]
-    @(106.68 mm, 153.67 mm): Global Label 'PROG_LED'
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 173.99 mm): Symbol #PWR048 [GND]
+    @(106.68 mm, 173.99 mm): Symbol #PWR048 [+5V]
 [lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
     ; warning
     @(106.68 mm, 176.53 mm): Symbol #PWR049 [+5V]
-[isolated_pin_label]: Label connected to only one pin
-    ; warning
-    @(152.40 mm, 246.38 mm): Global Label 'PROG_LED'
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
     @(152.40 mm, 264.16 mm): Symbol #PWR032 [+3V3]
@@ -253,7 +246,7 @@ Report includes: Errors, Warnings
     ; warning
     @(408.94 mm, 172.72 mm): Symbol #PWR029 [GND]
 
- ** ERC messages: 83  Errors 0  Warnings 83
+ ** ERC messages: 81  Errors 0  Warnings 81
 
  ** Ignored checks:
     - Global label only appears once in the schematic
