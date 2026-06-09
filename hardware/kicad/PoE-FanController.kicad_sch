@@ -284,7 +284,7 @@
           (number "22" (effects (font (size 1.27 1.27)))))
         (pin input line
           (at 15.2400 19.0500 180) (length 2.5400)
-          (name "NTC_ADC" (effects (font (size 1.27 1.27))))
+          (name "DHT11_DATA" (effects (font (size 1.27 1.27))))
           (number "23" (effects (font (size 1.27 1.27)))))
         (pin no_connect line
           (at 15.2400 16.5100 180) (length 2.5400)
@@ -508,40 +508,44 @@
           (number "2" (effects (font (size 1.27 1.27)))))
       )
     )
-    (symbol "Custom:NTC"
+    (symbol "Custom:DHT11_Breakout"
       (pin_numbers (hide yes))
       (pin_names (offset 0.508))
       (exclude_from_sim no)
       (in_bom yes)
       (on_board yes)
-    (property "Reference" "NTC"
-      (at 0.0000 -2.5400 0)
+    (property "Reference" "U"
+      (at 0.0000 -5.0800 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "NTC_10K"
-      (at 0.0000 2.5400 0)
+    (property "Value" "DHT11_Breakout"
+      (at 0.0000 5.0800 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (property "Datasheet" "~"
+    (property "Datasheet" "https://www.adafruit.com/product/386"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-      (symbol "NTC_0_1"
-        (rectangle (start -2.5400 -1.2700) (end 2.5400 1.2700)
+      (symbol "DHT11_Breakout_0_1"
+        (rectangle (start -5.0800 -3.8100) (end 5.0800 3.8100)
           (stroke (width 0) (type default))
           (fill (type background)))
       )
-      (symbol "NTC_1_1"
-        (pin passive line
-          (at -5.0800 0.0000 0) (length 2.5400)
-          (name "1" (effects (font (size 1.27 1.27))))
+      (symbol "DHT11_Breakout_1_1"
+        (pin power_in line
+          (at -7.6200 2.5400 0) (length 2.5400)
+          (name "VCC" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27)))))
-        (pin passive line
-          (at 5.0800 0.0000 180) (length 2.5400)
-          (name "2" (effects (font (size 1.27 1.27))))
+        (pin bidirectional line
+          (at -7.6200 0.0000 0) (length 2.5400)
+          (name "DATA" (effects (font (size 1.27 1.27))))
           (number "2" (effects (font (size 1.27 1.27)))))
+        (pin power_in line
+          (at -7.6200 -2.5400 0) (length 2.5400)
+          (name "GND" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27)))))
       )
     )
     (symbol "Custom:Conn_1x03"
@@ -2171,127 +2175,95 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR031") (unit 1))))
   )
 
-  (text "NTC Temperature Sensor" (at 128.2700 251.4600 0)
+  (text "DHT11 Temp+Humidity Sensor (HUM1)" (at 128.2700 251.4600 0)
     (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "000000b8-00b8-00b8-00b8-0000000000b8"))
 
-  (symbol (lib_id "Custom:R") (at 157.4800 264.1600 0)
+  (symbol (lib_id "Custom:DHT11_Breakout") (at 175.2600 264.1600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (uuid "000000bb-00bb-00bb-00bb-0000000000bb")
-    (property "Reference" "R4"
-      (at 158.7500 262.8900 0)
+    (uuid "000000bc-00bc-00bc-00bc-0000000000bc")
+    (property "Reference" "HUM1"
+      (at 176.5300 262.8900 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "10k"
-      (at 158.7500 265.4300 0)
+    (property "Value" "DHT11_Breakout"
+      (at 176.5300 265.4300 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
-      (at 157.4800 264.1600 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+      (at 175.2600 264.1600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (property "Datasheet" "~"
-      (at 157.4800 264.1600 0)
+      (at 175.2600 264.1600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (pin "1" (uuid "000000b9-00b9-00b9-00b9-0000000000b9"))
     (pin "2" (uuid "000000ba-00ba-00ba-00ba-0000000000ba"))
-    (instances (project "PoE-FanController" (path "/" (reference "R4") (unit 1))))
+    (pin "3" (uuid "000000bb-00bb-00bb-00bb-0000000000bb"))
+    (instances (project "PoE-FanController" (path "/" (reference "HUM1") (unit 1))))
   )
 
-  (symbol (lib_id "power:+3V3") (at 152.4000 264.1600 0)
+  (symbol (lib_id "power:+3V3") (at 167.6400 261.6200 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "000000bc-00bc-00bc-00bc-0000000000bc")
+    (fields_autoplaced yes) (uuid "000000bd-00bd-00bd-00bd-0000000000bd")
     (property "Reference" "#PWR032"
-      (at 152.4000 266.7000 0)
+      (at 167.6400 264.1600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (property "Value" "+3V3"
-      (at 152.4000 261.6200 0)
+      (at 167.6400 259.0800 0)
       (effects (font (size 1.27 1.27))))
     (property "Footprint" ""
-      (at 152.4000 264.1600 0)
+      (at 167.6400 261.6200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (property "Datasheet" ""
-      (at 152.4000 264.1600 0)
+      (at 167.6400 261.6200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000bd-00bd-00bd-00bd-0000000000bd"))
+    (pin "1" (uuid "000000be-00be-00be-00be-0000000000be"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR032") (unit 1))))
   )
 
-  (global_label "NTC_ADC"
-    (shape output)
-    (at 162.5600 264.1600 0)
+  (global_label "DHT11_DATA"
+    (shape bidirectional)
+    (at 167.6400 264.1600 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
-    (uuid "000000be-00be-00be-00be-0000000000be")
+    (uuid "000000bf-00bf-00bf-00bf-0000000000bf")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
-      (at 170.1800 264.1600 0)
+      (at 175.2600 264.1600 0)
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
   )
 
-  (symbol (lib_id "Custom:NTC") (at 193.0400 264.1600 0)
+  (symbol (lib_id "power:GND") (at 167.6400 266.7000 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (uuid "000000c1-00c1-00c1-00c1-0000000000c1")
-    (property "Reference" "NTC1"
-      (at 194.3100 262.8900 0)
-      (effects (font (size 1.27 1.27))))
-    (property "Value" "NTC10K_B3950"
-      (at 194.3100 265.4300 0)
-      (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
-      (at 193.0400 264.1600 0)
-      (hide yes)
-      (effects (font (size 1.27 1.27))))
-    (property "Datasheet" "~"
-      (at 193.0400 264.1600 0)
-      (hide yes)
-      (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000bf-00bf-00bf-00bf-0000000000bf"))
-    (pin "2" (uuid "000000c0-00c0-00c0-00c0-0000000000c0"))
-    (instances (project "PoE-FanController" (path "/" (reference "NTC1") (unit 1))))
-  )
-
-  (global_label "NTC_ADC"
-    (shape output)
-    (at 187.9600 264.1600 180)
-    (fields_autoplaced yes)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "000000c2-00c2-00c2-00c2-0000000000c2")
-    (property "Intersheetrefs" "${INTERSHEET_REFS}"
-      (at 195.5800 264.1600 180)
-      (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
-  )
-
-  (symbol (lib_id "power:GND") (at 198.1200 264.1600 0)
-    (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "000000c3-00c3-00c3-00c3-0000000000c3")
+    (fields_autoplaced yes) (uuid "000000c0-00c0-00c0-00c0-0000000000c0")
     (property "Reference" "#PWR033"
-      (at 198.1200 266.7000 0)
+      (at 167.6400 269.2400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (property "Value" "GND"
-      (at 198.1200 261.6200 0)
+      (at 167.6400 264.1600 0)
       (effects (font (size 1.27 1.27))))
     (property "Footprint" ""
-      (at 198.1200 264.1600 0)
+      (at 167.6400 266.7000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
     (property "Datasheet" ""
-      (at 198.1200 264.1600 0)
+      (at 167.6400 266.7000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000c4-00c4-00c4-00c4-0000000000c4"))
+    (pin "1" (uuid "000000c1-00c1-00c1-00c1-0000000000c1"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR033") (unit 1))))
   )
 
   (text "DS18B20 Temperature Probe  (J6 / R14 / R15 / LED6)" (at 128.2700 269.2400 0)
     (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
-    (uuid "000000c5-00c5-00c5-00c5-0000000000c5"))
+    (uuid "000000c2-00c2-00c2-00c2-0000000000c2"))
 
   (symbol (lib_id "Custom:R") (at 157.4800 281.9400 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (uuid "000000c8-00c8-00c8-00c8-0000000000c8")
+    (uuid "000000c5-00c5-00c5-00c5-0000000000c5")
     (property "Reference" "R15"
       (at 158.7500 280.6700 0)
       (effects (font (size 1.27 1.27))))
@@ -2306,8 +2278,8 @@
       (at 157.4800 281.9400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000c6-00c6-00c6-00c6-0000000000c6"))
-    (pin "2" (uuid "000000c7-00c7-00c7-00c7-0000000000c7"))
+    (pin "1" (uuid "000000c3-00c3-00c3-00c3-0000000000c3"))
+    (pin "2" (uuid "000000c4-00c4-00c4-00c4-0000000000c4"))
     (instances (project "PoE-FanController" (path "/" (reference "R15") (unit 1))))
   )
 
@@ -2316,7 +2288,7 @@
     (at 152.4000 281.9400 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "000000c9-00c9-00c9-00c9-0000000000c9")
+    (uuid "000000c6-00c6-00c6-00c6-0000000000c6")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 160.0200 281.9400 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2324,11 +2296,11 @@
 
   (label "PROBE_LED_A" (at 162.5600 281.9400 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid "000000ca-00ca-00ca-00ca-0000000000ca"))
+    (uuid "000000c7-00c7-00c7-00c7-0000000000c7"))
 
   (symbol (lib_id "Custom:LED") (at 193.0400 281.9400 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (uuid "000000cd-00cd-00cd-00cd-0000000000cd")
+    (uuid "000000ca-00ca-00ca-00ca-0000000000ca")
     (property "Reference" "LED6"
       (at 194.3100 280.6700 0)
       (effects (font (size 1.27 1.27))))
@@ -2343,18 +2315,18 @@
       (at 193.0400 281.9400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000cb-00cb-00cb-00cb-0000000000cb"))
-    (pin "2" (uuid "000000cc-00cc-00cc-00cc-0000000000cc"))
+    (pin "1" (uuid "000000c8-00c8-00c8-00c8-0000000000c8"))
+    (pin "2" (uuid "000000c9-00c9-00c9-00c9-0000000000c9"))
     (instances (project "PoE-FanController" (path "/" (reference "LED6") (unit 1))))
   )
 
   (label "PROBE_LED_A" (at 187.9600 281.9400 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid "000000ce-00ce-00ce-00ce-0000000000ce"))
+    (uuid "000000cb-00cb-00cb-00cb-0000000000cb"))
 
   (symbol (lib_id "power:GND") (at 198.1200 281.9400 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "000000cf-00cf-00cf-00cf-0000000000cf")
+    (fields_autoplaced yes) (uuid "000000cc-00cc-00cc-00cc-0000000000cc")
     (property "Reference" "#PWR034"
       (at 198.1200 284.4800 0)
       (hide yes)
@@ -2370,13 +2342,13 @@
       (at 198.1200 281.9400 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000d0-00d0-00d0-00d0-0000000000d0"))
+    (pin "1" (uuid "000000cd-00cd-00cd-00cd-0000000000cd"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR034") (unit 1))))
   )
 
   (symbol (lib_id "Custom:R") (at 157.4800 302.2600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (uuid "000000d3-00d3-00d3-00d3-0000000000d3")
+    (uuid "000000d0-00d0-00d0-00d0-0000000000d0")
     (property "Reference" "R14"
       (at 158.7500 300.9900 0)
       (effects (font (size 1.27 1.27))))
@@ -2391,14 +2363,14 @@
       (at 157.4800 302.2600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000d1-00d1-00d1-00d1-0000000000d1"))
-    (pin "2" (uuid "000000d2-00d2-00d2-00d2-0000000000d2"))
+    (pin "1" (uuid "000000ce-00ce-00ce-00ce-0000000000ce"))
+    (pin "2" (uuid "000000cf-00cf-00cf-00cf-0000000000cf"))
     (instances (project "PoE-FanController" (path "/" (reference "R14") (unit 1))))
   )
 
   (symbol (lib_id "power:+3V3") (at 152.4000 302.2600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "000000d4-00d4-00d4-00d4-0000000000d4")
+    (fields_autoplaced yes) (uuid "000000d1-00d1-00d1-00d1-0000000000d1")
     (property "Reference" "#PWR035"
       (at 152.4000 304.8000 0)
       (hide yes)
@@ -2414,7 +2386,7 @@
       (at 152.4000 302.2600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000d5-00d5-00d5-00d5-0000000000d5"))
+    (pin "1" (uuid "000000d2-00d2-00d2-00d2-0000000000d2"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR035") (unit 1))))
   )
 
@@ -2423,7 +2395,7 @@
     (at 162.5600 302.2600 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
-    (uuid "000000d6-00d6-00d6-00d6-0000000000d6")
+    (uuid "000000d3-00d3-00d3-00d3-0000000000d3")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 170.1800 302.2600 0)
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
@@ -2431,7 +2403,7 @@
 
   (symbol (lib_id "Custom:Conn_1x03") (at 213.3600 302.2600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (uuid "000000da-00da-00da-00da-0000000000da")
+    (uuid "000000d7-00d7-00d7-00d7-0000000000d7")
     (property "Reference" "J6"
       (at 214.6300 300.9900 0)
       (effects (font (size 1.27 1.27))))
@@ -2446,15 +2418,15 @@
       (at 213.3600 302.2600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000d7-00d7-00d7-00d7-0000000000d7"))
-    (pin "2" (uuid "000000d8-00d8-00d8-00d8-0000000000d8"))
-    (pin "3" (uuid "000000d9-00d9-00d9-00d9-0000000000d9"))
+    (pin "1" (uuid "000000d4-00d4-00d4-00d4-0000000000d4"))
+    (pin "2" (uuid "000000d5-00d5-00d5-00d5-0000000000d5"))
+    (pin "3" (uuid "000000d6-00d6-00d6-00d6-0000000000d6"))
     (instances (project "PoE-FanController" (path "/" (reference "J6") (unit 1))))
   )
 
   (symbol (lib_id "power:GND") (at 205.7400 299.7200 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "000000db-00db-00db-00db-0000000000db")
+    (fields_autoplaced yes) (uuid "000000d8-00d8-00d8-00d8-0000000000d8")
     (property "Reference" "#PWR036"
       (at 205.7400 302.2600 0)
       (hide yes)
@@ -2470,7 +2442,7 @@
       (at 205.7400 299.7200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000dc-00dc-00dc-00dc-0000000000dc"))
+    (pin "1" (uuid "000000d9-00d9-00d9-00d9-0000000000d9"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR036") (unit 1))))
   )
 
@@ -2479,7 +2451,7 @@
     (at 205.7400 302.2600 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "000000dd-00dd-00dd-00dd-0000000000dd")
+    (uuid "000000da-00da-00da-00da-0000000000da")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 213.3600 302.2600 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2487,7 +2459,7 @@
 
   (symbol (lib_id "power:+3V3") (at 205.7400 304.8000 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "000000de-00de-00de-00de-0000000000de")
+    (fields_autoplaced yes) (uuid "000000db-00db-00db-00db-0000000000db")
     (property "Reference" "#PWR037"
       (at 205.7400 307.3400 0)
       (hide yes)
@@ -2503,17 +2475,17 @@
       (at 205.7400 304.8000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000df-00df-00df-00df-0000000000df"))
+    (pin "1" (uuid "000000dc-00dc-00dc-00dc-0000000000dc"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR037") (unit 1))))
   )
 
   (text "Waveshare ESP32-P4-POE-ETH  Interface  (J8)" (at 21.5900 111.7600 0)
     (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
-    (uuid "000000e0-00e0-00e0-00e0-0000000000e0"))
+    (uuid "000000dd-00dd-00dd-00dd-0000000000dd"))
 
   (symbol (lib_id "Custom:J8_Waveshare") (at 91.4400 152.4000 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (uuid "00000109-0109-0109-0109-000000000109")
+    (uuid "00000106-0106-0106-0106-000000000106")
     (property "Reference" "J8"
       (at 92.7100 151.1300 0)
       (effects (font (size 1.27 1.27))))
@@ -2528,52 +2500,52 @@
       (at 91.4400 152.4000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "000000e1-00e1-00e1-00e1-0000000000e1"))
-    (pin "2" (uuid "000000e2-00e2-00e2-00e2-0000000000e2"))
-    (pin "3" (uuid "000000e3-00e3-00e3-00e3-0000000000e3"))
-    (pin "4" (uuid "000000e4-00e4-00e4-00e4-0000000000e4"))
-    (pin "5" (uuid "000000e5-00e5-00e5-00e5-0000000000e5"))
-    (pin "6" (uuid "000000e6-00e6-00e6-00e6-0000000000e6"))
-    (pin "7" (uuid "000000e7-00e7-00e7-00e7-0000000000e7"))
-    (pin "8" (uuid "000000e8-00e8-00e8-00e8-0000000000e8"))
-    (pin "9" (uuid "000000e9-00e9-00e9-00e9-0000000000e9"))
-    (pin "10" (uuid "000000ea-00ea-00ea-00ea-0000000000ea"))
-    (pin "11" (uuid "000000eb-00eb-00eb-00eb-0000000000eb"))
-    (pin "12" (uuid "000000ec-00ec-00ec-00ec-0000000000ec"))
-    (pin "13" (uuid "000000ed-00ed-00ed-00ed-0000000000ed"))
-    (pin "14" (uuid "000000ee-00ee-00ee-00ee-0000000000ee"))
-    (pin "15" (uuid "000000ef-00ef-00ef-00ef-0000000000ef"))
-    (pin "16" (uuid "000000f0-00f0-00f0-00f0-0000000000f0"))
-    (pin "17" (uuid "000000f1-00f1-00f1-00f1-0000000000f1"))
-    (pin "18" (uuid "000000f2-00f2-00f2-00f2-0000000000f2"))
-    (pin "19" (uuid "000000f3-00f3-00f3-00f3-0000000000f3"))
-    (pin "20" (uuid "000000f4-00f4-00f4-00f4-0000000000f4"))
-    (pin "21" (uuid "000000f5-00f5-00f5-00f5-0000000000f5"))
-    (pin "22" (uuid "000000f6-00f6-00f6-00f6-0000000000f6"))
-    (pin "23" (uuid "000000f7-00f7-00f7-00f7-0000000000f7"))
-    (pin "24" (uuid "000000f8-00f8-00f8-00f8-0000000000f8"))
-    (pin "25" (uuid "000000f9-00f9-00f9-00f9-0000000000f9"))
-    (pin "26" (uuid "000000fa-00fa-00fa-00fa-0000000000fa"))
-    (pin "27" (uuid "000000fb-00fb-00fb-00fb-0000000000fb"))
-    (pin "28" (uuid "000000fc-00fc-00fc-00fc-0000000000fc"))
-    (pin "29" (uuid "000000fd-00fd-00fd-00fd-0000000000fd"))
-    (pin "30" (uuid "000000fe-00fe-00fe-00fe-0000000000fe"))
-    (pin "31" (uuid "000000ff-00ff-00ff-00ff-0000000000ff"))
-    (pin "32" (uuid "00000100-0100-0100-0100-000000000100"))
-    (pin "33" (uuid "00000101-0101-0101-0101-000000000101"))
-    (pin "34" (uuid "00000102-0102-0102-0102-000000000102"))
-    (pin "35" (uuid "00000103-0103-0103-0103-000000000103"))
-    (pin "36" (uuid "00000104-0104-0104-0104-000000000104"))
-    (pin "37" (uuid "00000105-0105-0105-0105-000000000105"))
-    (pin "38" (uuid "00000106-0106-0106-0106-000000000106"))
-    (pin "39" (uuid "00000107-0107-0107-0107-000000000107"))
-    (pin "40" (uuid "00000108-0108-0108-0108-000000000108"))
+    (pin "1" (uuid "000000de-00de-00de-00de-0000000000de"))
+    (pin "2" (uuid "000000df-00df-00df-00df-0000000000df"))
+    (pin "3" (uuid "000000e0-00e0-00e0-00e0-0000000000e0"))
+    (pin "4" (uuid "000000e1-00e1-00e1-00e1-0000000000e1"))
+    (pin "5" (uuid "000000e2-00e2-00e2-00e2-0000000000e2"))
+    (pin "6" (uuid "000000e3-00e3-00e3-00e3-0000000000e3"))
+    (pin "7" (uuid "000000e4-00e4-00e4-00e4-0000000000e4"))
+    (pin "8" (uuid "000000e5-00e5-00e5-00e5-0000000000e5"))
+    (pin "9" (uuid "000000e6-00e6-00e6-00e6-0000000000e6"))
+    (pin "10" (uuid "000000e7-00e7-00e7-00e7-0000000000e7"))
+    (pin "11" (uuid "000000e8-00e8-00e8-00e8-0000000000e8"))
+    (pin "12" (uuid "000000e9-00e9-00e9-00e9-0000000000e9"))
+    (pin "13" (uuid "000000ea-00ea-00ea-00ea-0000000000ea"))
+    (pin "14" (uuid "000000eb-00eb-00eb-00eb-0000000000eb"))
+    (pin "15" (uuid "000000ec-00ec-00ec-00ec-0000000000ec"))
+    (pin "16" (uuid "000000ed-00ed-00ed-00ed-0000000000ed"))
+    (pin "17" (uuid "000000ee-00ee-00ee-00ee-0000000000ee"))
+    (pin "18" (uuid "000000ef-00ef-00ef-00ef-0000000000ef"))
+    (pin "19" (uuid "000000f0-00f0-00f0-00f0-0000000000f0"))
+    (pin "20" (uuid "000000f1-00f1-00f1-00f1-0000000000f1"))
+    (pin "21" (uuid "000000f2-00f2-00f2-00f2-0000000000f2"))
+    (pin "22" (uuid "000000f3-00f3-00f3-00f3-0000000000f3"))
+    (pin "23" (uuid "000000f4-00f4-00f4-00f4-0000000000f4"))
+    (pin "24" (uuid "000000f5-00f5-00f5-00f5-0000000000f5"))
+    (pin "25" (uuid "000000f6-00f6-00f6-00f6-0000000000f6"))
+    (pin "26" (uuid "000000f7-00f7-00f7-00f7-0000000000f7"))
+    (pin "27" (uuid "000000f8-00f8-00f8-00f8-0000000000f8"))
+    (pin "28" (uuid "000000f9-00f9-00f9-00f9-0000000000f9"))
+    (pin "29" (uuid "000000fa-00fa-00fa-00fa-0000000000fa"))
+    (pin "30" (uuid "000000fb-00fb-00fb-00fb-0000000000fb"))
+    (pin "31" (uuid "000000fc-00fc-00fc-00fc-0000000000fc"))
+    (pin "32" (uuid "000000fd-00fd-00fd-00fd-0000000000fd"))
+    (pin "33" (uuid "000000fe-00fe-00fe-00fe-0000000000fe"))
+    (pin "34" (uuid "000000ff-00ff-00ff-00ff-0000000000ff"))
+    (pin "35" (uuid "00000100-0100-0100-0100-000000000100"))
+    (pin "36" (uuid "00000101-0101-0101-0101-000000000101"))
+    (pin "37" (uuid "00000102-0102-0102-0102-000000000102"))
+    (pin "38" (uuid "00000103-0103-0103-0103-000000000103"))
+    (pin "39" (uuid "00000104-0104-0104-0104-000000000104"))
+    (pin "40" (uuid "00000105-0105-0105-0105-000000000105"))
     (instances (project "PoE-FanController" (path "/" (reference "J8") (unit 1))))
   )
 
   (symbol (lib_id "power:+3V3") (at 76.2000 128.2700 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "0000010a-010a-010a-010a-00000000010a")
+    (fields_autoplaced yes) (uuid "00000107-0107-0107-0107-000000000107")
     (property "Reference" "#PWR038"
       (at 76.2000 130.8100 0)
       (hide yes)
@@ -2589,7 +2561,7 @@
       (at 76.2000 128.2700 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "0000010b-010b-010b-010b-00000000010b"))
+    (pin "1" (uuid "00000108-0108-0108-0108-000000000108"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR038") (unit 1))))
   )
 
@@ -2598,7 +2570,7 @@
     (at 76.2000 133.3500 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "0000010c-010c-010c-010c-00000000010c")
+    (uuid "00000109-0109-0109-0109-000000000109")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 133.3500 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2606,7 +2578,7 @@
 
   (symbol (lib_id "power:GND") (at 76.2000 140.9700 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "0000010d-010d-010d-010d-00000000010d")
+    (fields_autoplaced yes) (uuid "0000010a-010a-010a-010a-00000000010a")
     (property "Reference" "#PWR039"
       (at 76.2000 143.5100 0)
       (hide yes)
@@ -2622,7 +2594,7 @@
       (at 76.2000 140.9700 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "0000010e-010e-010e-010e-00000000010e"))
+    (pin "1" (uuid "0000010b-010b-010b-010b-00000000010b"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR039") (unit 1))))
   )
 
@@ -2631,7 +2603,7 @@
     (at 76.2000 143.5100 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "0000010f-010f-010f-010f-00000000010f")
+    (uuid "0000010c-010c-010c-010c-00000000010c")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 143.5100 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2642,7 +2614,7 @@
     (at 76.2000 146.0500 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "00000110-0110-0110-0110-000000000110")
+    (uuid "0000010d-010d-010d-010d-00000000010d")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 146.0500 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2650,7 +2622,7 @@
 
   (symbol (lib_id "power:GND") (at 76.2000 148.5900 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "00000111-0111-0111-0111-000000000111")
+    (fields_autoplaced yes) (uuid "0000010e-010e-010e-010e-00000000010e")
     (property "Reference" "#PWR040"
       (at 76.2000 151.1300 0)
       (hide yes)
@@ -2666,7 +2638,7 @@
       (at 76.2000 148.5900 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "00000112-0112-0112-0112-000000000112"))
+    (pin "1" (uuid "0000010f-010f-010f-010f-00000000010f"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR040") (unit 1))))
   )
 
@@ -2675,7 +2647,7 @@
     (at 76.2000 151.1300 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "00000113-0113-0113-0113-000000000113")
+    (uuid "00000110-0110-0110-0110-000000000110")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 151.1300 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2686,7 +2658,7 @@
     (at 76.2000 153.6700 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "00000114-0114-0114-0114-000000000114")
+    (uuid "00000111-0111-0111-0111-000000000111")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 153.6700 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2697,7 +2669,7 @@
     (at 76.2000 156.2100 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "00000115-0115-0115-0115-000000000115")
+    (uuid "00000112-0112-0112-0112-000000000112")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 156.2100 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2708,7 +2680,7 @@
     (at 76.2000 158.7500 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "00000116-0116-0116-0116-000000000116")
+    (uuid "00000113-0113-0113-0113-000000000113")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 158.7500 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2716,7 +2688,7 @@
 
   (symbol (lib_id "power:GND") (at 76.2000 161.2900 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "00000117-0117-0117-0117-000000000117")
+    (fields_autoplaced yes) (uuid "00000114-0114-0114-0114-000000000114")
     (property "Reference" "#PWR041"
       (at 76.2000 163.8300 0)
       (hide yes)
@@ -2732,7 +2704,7 @@
       (at 76.2000 161.2900 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "00000118-0118-0118-0118-000000000118"))
+    (pin "1" (uuid "00000115-0115-0115-0115-000000000115"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR041") (unit 1))))
   )
 
@@ -2741,7 +2713,7 @@
     (at 76.2000 163.8300 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "00000119-0119-0119-0119-000000000119")
+    (uuid "00000116-0116-0116-0116-000000000116")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 163.8300 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2752,7 +2724,7 @@
     (at 76.2000 166.3700 180)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid "0000011a-011a-011a-011a-00000000011a")
+    (uuid "00000117-0117-0117-0117-000000000117")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 83.8200 166.3700 180)
       (effects (font (size 1.27 1.27)) (justify right) (hide yes)))
@@ -2760,7 +2732,7 @@
 
   (symbol (lib_id "power:+3V3") (at 76.2000 168.9100 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "0000011b-011b-011b-011b-00000000011b")
+    (fields_autoplaced yes) (uuid "00000118-0118-0118-0118-000000000118")
     (property "Reference" "#PWR042"
       (at 76.2000 171.4500 0)
       (hide yes)
@@ -2776,13 +2748,13 @@
       (at 76.2000 168.9100 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "0000011c-011c-011c-011c-00000000011c"))
+    (pin "1" (uuid "00000119-0119-0119-0119-000000000119"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR042") (unit 1))))
   )
 
   (symbol (lib_id "power:GND") (at 76.2000 176.5300 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "0000011d-011d-011d-011d-00000000011d")
+    (fields_autoplaced yes) (uuid "0000011a-011a-011a-011a-00000000011a")
     (property "Reference" "#PWR043"
       (at 76.2000 179.0700 0)
       (hide yes)
@@ -2798,7 +2770,7 @@
       (at 76.2000 176.5300 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "0000011e-011e-011e-011e-00000000011e"))
+    (pin "1" (uuid "0000011b-011b-011b-011b-00000000011b"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR043") (unit 1))))
   )
 
@@ -2807,18 +2779,18 @@
     (at 106.6800 130.8100 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
-    (uuid "0000011f-011f-011f-011f-00000000011f")
+    (uuid "0000011c-011c-011c-011c-00000000011c")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 114.3000 130.8100 0)
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
   )
 
-  (global_label "NTC_ADC"
+  (global_label "DHT11_DATA"
     (shape input)
     (at 106.6800 133.3500 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
-    (uuid "00000120-0120-0120-0120-000000000120")
+    (uuid "0000011d-011d-011d-011d-00000000011d")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 114.3000 133.3500 0)
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
@@ -2826,7 +2798,7 @@
 
   (symbol (lib_id "power:GND") (at 106.6800 138.4300 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "00000121-0121-0121-0121-000000000121")
+    (fields_autoplaced yes) (uuid "0000011e-011e-011e-011e-00000000011e")
     (property "Reference" "#PWR044"
       (at 106.6800 140.9700 0)
       (hide yes)
@@ -2842,7 +2814,7 @@
       (at 106.6800 138.4300 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "00000122-0122-0122-0122-000000000122"))
+    (pin "1" (uuid "0000011f-011f-011f-011f-00000000011f"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR044") (unit 1))))
   )
 
@@ -2851,7 +2823,7 @@
     (at 106.6800 143.5100 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
-    (uuid "00000123-0123-0123-0123-000000000123")
+    (uuid "00000120-0120-0120-0120-000000000120")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 114.3000 143.5100 0)
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
@@ -2862,7 +2834,7 @@
     (at 106.6800 146.0500 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
-    (uuid "00000124-0124-0124-0124-000000000124")
+    (uuid "00000121-0121-0121-0121-000000000121")
     (property "Intersheetrefs" "${INTERSHEET_REFS}"
       (at 114.3000 146.0500 0)
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
@@ -2870,7 +2842,7 @@
 
   (symbol (lib_id "power:GND") (at 106.6800 151.1300 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "00000125-0125-0125-0125-000000000125")
+    (fields_autoplaced yes) (uuid "00000122-0122-0122-0122-000000000122")
     (property "Reference" "#PWR045"
       (at 106.6800 153.6700 0)
       (hide yes)
@@ -2886,13 +2858,13 @@
       (at 106.6800 151.1300 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "00000126-0126-0126-0126-000000000126"))
+    (pin "1" (uuid "00000123-0123-0123-0123-000000000123"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR045") (unit 1))))
   )
 
   (symbol (lib_id "power:GND") (at 106.6800 161.2900 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "00000127-0127-0127-0127-000000000127")
+    (fields_autoplaced yes) (uuid "00000124-0124-0124-0124-000000000124")
     (property "Reference" "#PWR046"
       (at 106.6800 163.8300 0)
       (hide yes)
@@ -2908,13 +2880,13 @@
       (at 106.6800 161.2900 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "00000128-0128-0128-0128-000000000128"))
+    (pin "1" (uuid "00000125-0125-0125-0125-000000000125"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR046") (unit 1))))
   )
 
   (symbol (lib_id "power:GND") (at 106.6800 171.4500 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "00000129-0129-0129-0129-000000000129")
+    (fields_autoplaced yes) (uuid "00000126-0126-0126-0126-000000000126")
     (property "Reference" "#PWR047"
       (at 106.6800 173.9900 0)
       (hide yes)
@@ -2930,13 +2902,13 @@
       (at 106.6800 171.4500 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "0000012a-012a-012a-012a-00000000012a"))
+    (pin "1" (uuid "00000127-0127-0127-0127-000000000127"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR047") (unit 1))))
   )
 
   (symbol (lib_id "power:+5V") (at 106.6800 173.9900 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
-    (fields_autoplaced yes) (uuid "0000012b-012b-012b-012b-00000000012b")
+    (fields_autoplaced yes) (uuid "00000128-0128-0128-0128-000000000128")
     (property "Reference" "#PWR048"
       (at 106.6800 176.5300 0)
       (hide yes)
@@ -2952,7 +2924,7 @@
       (at 106.6800 173.9900 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-    (pin "1" (uuid "0000012c-012c-012c-012c-00000000012c"))
+    (pin "1" (uuid "00000129-0129-0129-0129-000000000129"))
     (instances (project "PoE-FanController" (path "/" (reference "#PWR048") (unit 1))))
   )
 

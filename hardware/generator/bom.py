@@ -34,9 +34,8 @@ def write_bom():
         # Per-fan Power Indicator LEDs (passive: +12V → R → LED → GND)
         ["R9,R10,R11,R12","1k","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","4","Yageo","MFR-25FBF52-1K00","1kΩ 1/4W 1% axial THT — per-fan LED current limiting resistors","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf"],
         ["D2,D3,D4,D5","LED_GREEN","LED_THT:LED_D3.0mm","4","Wurth","150060GS75000","Green 3mm THT LED, 565nm — per-fan power indicator (lights when +12V on fan header)","https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000"],
-        # Temperature Sensing
-        ["R4","10k","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","1","Yageo","MFR-25FBF52-10K0","10kΩ 1/4W 1% axial THT — NTC divider pull-up (3.3V from J8)","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf"],
-        ["NTC1","NTC10K_B3950","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","1","Murata","NCP15XH103F03RC","10kΩ NTC thermistor B=3380, axial THT","https://www.murata.com/en-us/products/productdetail?partid=NCP15XH103F03RC"],
+        # Temperature + Humidity Sensing (DHT11 breakout — replaces NTC1 + R4, issue #135)
+        ["HUM1","DHT11_Breakout","Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical","1","Aosong","DHT11","DHT11 temperature+humidity breakout, 3-pin 3.3V single-wire — J8 pin 23 (GPIO16)","https://www.adafruit.com/product/386"],
         # Status LED (GPIO-driven)
         ["R3","330R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","1","Yageo","MFR-25FBF52-330R","330Ω 1/4W 1% axial THT — status LED current limit","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf"],
         ["LED1","LED_GREEN","LED_THT:LED_D3.0mm","1","Wurth","150060GS75000","Green 3mm THT LED, 565nm — GPIO status indicator","https://www.we-online.com/en/components/products/LED/THROUGH_HOLE_LED/150060GS75000"],

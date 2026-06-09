@@ -16,7 +16,8 @@ Daughter board provides:
    # U1 (formerly U_BOOST) — 5V->12V boost converter (TI LM2587-12, TO-220-3)
   - J2-J5   4-pin fan headers (12V PWM, side-edge placement)
   - R5-R8   TACH pull-up resistors (10kOhm to 3.3V from Waveshare via J8)
-  - R4/NTC1 NTC temperature sensing (10kOhm NTC + 10kOhm divider)
+  # R4/NTC1 NTC temperature sensing (10kOhm NTC + 10kOhm divider) — REMOVED (issue #135)
+  # HUM1    DHT11 temperature+humidity breakout (3-pin, 3.3V, single-wire)
   - R3/LED1 status LED circuit (GPIO2 via J8)
 
 Power chain:
@@ -155,7 +156,7 @@ def build_schematic():
                  # Consecutive pins 21..40 — Row B (top-to-bottom)
                  ("NC",           "21", "no_connect"),    # GPIO14
                  ("PROG_LED",     "22", "output"),        # GPIO15 OTA/prog LED
-                 ("NTC_ADC",      "23", "input"),         # GPIO16 ADC
+                 ("DHT11_DATA",   "23", "input"),         # GPIO16 DHT11 single-wire
                  ("NC",           "24", "no_connect"),    # GPIO17
                  ("GND",          "25", "passive"),
                  ("NC",           "26", "no_connect"),    # GPIO18
@@ -207,11 +208,19 @@ def build_schematic():
              pins_left=[("A",  "1", "passive")],
              pins_right=[("K", "2", "passive")])
 
-    s.define("Custom:NTC", "NTC", "NTC_10K",
-             "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal", "~",
-             body_w=5.08, body_h=2.54,
-             pins_left=[("1",  "1", "passive")],
-             pins_right=[("2", "2", "passive")])
+    # DHT11 breakout module — 3-pin 2.54 mm header (VCC / DATA / GND)
+    # Replaces NTC1 + R4 voltage-divider (issue #135, constitution v4.1.0)
+    # Pin 1: VCC (3.3 V), Pin 2: DATA (single-wire), Pin 3: GND
+    s.define("Custom:DHT11_Breakout", "U", "DHT11_Breakout",
+             "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+             "https://www.adafruit.com/product/386",
+             body_w=10.16, body_h=7.62,
+             pins_left=[
+                 ("VCC",  "1", "power_in"),
+                 ("DATA", "2", "bidirectional"),
+                 ("GND",  "3", "power_in"),
+             ],
+             pins_right=[])
 
     # 3-pin Molex KK 254 connector — J6 DS18B20 temperature probe header
     # Pin 1: GND, Pin 2: DS18B20_DATA (1-Wire), Pin 3: +3V3 (power to probe)
@@ -256,9 +265,9 @@ def build_schematic():
     FAN_STEP            = 12*G          # 30.48
     LED_CY              = 90*G          # 228.60
     PROG_LED_CY         = 97*G          # 246.38
-    NTC_CY              = 104*G         # 264.16
-    SMALL_CX            = 62*G          # 157.48 — R3 / R4 / R13 / R15
-    LARGE_CX            = 76*G          # 193.04 — LED1 / LED2 / NTC1 / LED6
+    DHT11_CY            = 104*G         # 264.16 — DHT11 sensor row (replaces NTC)
+    SMALL_CX            = 62*G          # 157.48 — R3 / R13 / R15
+    LARGE_CX            = 76*G          # 193.04 — LED1 / LED2 / HUM1 / LED6
     PROBE_LED_CY        = 111*G         # 281.94 — probe health LED row (R15, LED6)
     PROBE_SENSOR_CY     = 119*G         # 302.26 — DS18B20 sensor row (R14, J6)
 
@@ -425,22 +434,18 @@ def build_schematic():
     s.power("GND",        *p1["2"])             # right pin (cathode)
 
     # -----------------------------------------------------------------------
-    # NTC temperature sensor voltage divider (R4 + NTC1)
-    # +3V3 -> R4 -> NTC_ADC node -> NTC1 -> GND
-    # Both sides of the node are labelled NTC_ADC (global_label) so the net is
-    # visible at both R4 (right pin) and NTC1 (left pin).
+    # DHT11 temperature + humidity sensor (HUM1)
+    # Replaces NTC1 + R4 voltage-divider (issue #135, constitution v4.1.0)
+    # VCC → +3V3, DATA → DHT11_DATA (GPIO16 via J8 pin 23), GND → GND
     # -----------------------------------------------------------------------
-    s.text("NTC Temperature Sensor", 128, 251, size=2.54, bold=True, color=BLUE)
-    p1 = s.component("Custom:R", "R4", "10k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
-                     SMALL_CX, NTC_CY)
-    s.power("+3V3",            *p1["1"])                              # left  pin
-    s.global_label("NTC_ADC", *p1["2"], shape="output")              # right pin -> angle=0
-
-    p1 = s.component("Custom:NTC", "NTC1", "NTC10K_B3950",
-                     "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
-                     LARGE_CX, NTC_CY)
-    s.global_label("NTC_ADC", *p1["1"], shape="output", angle=180)   # left  pin
-    s.power("GND",            *p1["2"])                               # right pin
+    s.text("DHT11 Temp+Humidity Sensor (HUM1)", 128, 251, size=2.54, bold=True, color=BLUE)
+    HUM1_CX = SMALL_CX + 7*G   # 175.26 — centre DHT11 in this area
+    p1 = s.component("Custom:DHT11_Breakout", "HUM1", "DHT11_Breakout",
+                     "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
+                     HUM1_CX, DHT11_CY)
+    s.power("+3V3",                *p1["1"])                              # VCC
+    s.global_label("DHT11_DATA",   *p1["2"], shape="bidirectional")       # DATA
+    s.power("GND",                 *p1["3"])                              # GND
 
     # -----------------------------------------------------------------------
     # DS18B20 Temperature Probe  (J6 / R14 / R15 / LED6)
@@ -502,13 +507,13 @@ def build_schematic():
     #   pin 40 (VBUS, Row B) -> NC                   (USB 5V; avoid back-feed)
     #   pins 2,4 are NOT power pins — leave NC
     #   GND: pins 6,9,14,20 (Row A) and pins 25,30,34,38 (Row B)
-    #   pins 1,17 (Row A) -> +3V3 -> TACH pull-ups + NTC divider
+    #   pins 1,17 (Row A) -> +3V3 -> TACH pull-ups + DHT11 VCC
     #
     # GPIO signals:
     #   Row A (pins 1-20, angle=180): STATUS_LED(3), FAN1_PWM(7), FAN2_PWM(8),
     #                                 FAN3_PWM(10), FAN4_PWM(11), FAN1_TACH(12),
     #                                 FAN2_TACH(13), FAN3_TACH(15), FAN4_TACH(16)
-    #   Row B (pins 21-40, angle=0):  PROG_LED(22), NTC_ADC(23), DS18B20_DATA(27),
+    #   Row B (pins 21-40, angle=0):  PROG_LED(22), DHT11_DATA(23), DS18B20_DATA(27),
     #                                 PROBE_LED(28)
     #
     # NC pins: symbol type "no_connect" suppresses ERC — no explicit markers needed.
@@ -542,7 +547,7 @@ def build_schematic():
     # --- Row B (pins 21-40, right side) — use angle=0 for global_labels ---
     # pin 21: NC
     s.global_label("PROG_LED",     *p["22"], shape="output")            # GPIO15 — prog/OTA LED
-    s.global_label("NTC_ADC",      *p["23"], shape="input")             # GPIO16
+    s.global_label("DHT11_DATA",    *p["23"], shape="input")             # GPIO16
     # pin 24: NC
     s.power("GND", *p["25"])
     # pin 26: NC
