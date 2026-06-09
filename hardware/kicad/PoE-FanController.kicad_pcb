@@ -1587,11 +1587,11 @@
 	(footprint "PinHeader_1x03_P2.54mm_Vertical"
 		(layer "F.Cu")
 		(uuid "32e3b062-3e70-460d-9d6d-ecd892a1a445")
-		(at 22 70)
+		(at 22 70 90)
 		(descr "Through hole straight pin header, 1x03, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x03 2.54mm single row")
 		(property "Reference" "HUM1"
-			(at 0 -2.38 0)
+			(at 0 -2.38 90)
 			(layer "F.SilkS")
 			(uuid "8c73ecaf-8fc4-4bcf-a68b-f8a5c438c9a4")
 			(effects
@@ -1602,7 +1602,7 @@
 			)
 		)
 		(property "Value" "DHT11_Breakout"
-			(at 0 7.46 0)
+			(at 0 7.46 90)
 			(layer "F.Fab")
 			(uuid "f5b6ffe1-e06c-409c-9b57-3e07aa395ed1")
 			(effects
@@ -1613,7 +1613,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 0 0 0)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ca3c9dbd-5a2a-42a0-b0a9-3669f4511980")
@@ -1624,7 +1624,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 0 0 0)
+			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "bb389dfc-dbbb-442e-baaf-f12536a985ec")
@@ -1635,7 +1635,7 @@
 			)
 		)
 		(property "KiLib_Generator" "connector/pin_header_socket"
-			(at 0 0 0)
+			(at 0 0 90)
 			(layer "F.SilkS")
 			(hide yes)
 			(uuid "7e0e356f-aab1-42b5-88b5-115c95a73de2")
@@ -1669,14 +1669,14 @@
 			(uuid "5991c946-b203-4ed5-93a8-499ef9505594")
 		)
 		(fp_line
-			(start -1.38 1.27)
-			(end -1.38 6.46)
+			(start 1.38 1.27)
+			(end 1.38 6.46)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "96dc55a3-e395-4c7a-b7f4-bc0155b89831")
+			(uuid "fcc46767-6287-4be7-af34-9f74ac79e043")
 		)
 		(fp_line
 			(start -1.38 1.27)
@@ -1689,6 +1689,16 @@
 			(uuid "6216c0b6-05e3-4a51-bcdf-5f6fbee327ba")
 		)
 		(fp_line
+			(start -1.38 1.27)
+			(end -1.38 6.46)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "96dc55a3-e395-4c7a-b7f4-bc0155b89831")
+		)
+		(fp_line
 			(start -1.38 6.46)
 			(end 1.38 6.46)
 			(stroke
@@ -1697,16 +1707,6 @@
 			)
 			(layer "F.SilkS")
 			(uuid "9472e146-d2db-40ae-8571-e673e45c3078")
-		)
-		(fp_line
-			(start 1.38 1.27)
-			(end 1.38 6.46)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "fcc46767-6287-4be7-af34-9f74ac79e043")
 		)
 		(fp_rect
 			(start -1.77 -1.77)
@@ -1720,24 +1720,14 @@
 			(uuid "bbab53a8-fb37-4b7b-ba6a-b98a21e117b0")
 		)
 		(fp_line
-			(start -1.27 -0.635)
-			(end -0.635 -1.27)
+			(start 1.27 -1.27)
+			(end 1.27 6.35)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "4f322e2f-c301-4c3a-8568-83100c452b4a")
-		)
-		(fp_line
-			(start -1.27 6.35)
-			(end -1.27 -0.635)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "8b82e6a7-1860-49fc-8e58-f8acba0fe409")
+			(uuid "58928ae4-2781-47dd-b450-bd0a40927f6f")
 		)
 		(fp_line
 			(start -0.635 -1.27)
@@ -1750,14 +1740,14 @@
 			(uuid "88f98b1d-6f2e-42b3-8619-db751c20cfea")
 		)
 		(fp_line
-			(start 1.27 -1.27)
-			(end 1.27 6.35)
+			(start -1.27 -0.635)
+			(end -0.635 -1.27)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "58928ae4-2781-47dd-b450-bd0a40927f6f")
+			(uuid "4f322e2f-c301-4c3a-8568-83100c452b4a")
 		)
 		(fp_line
 			(start 1.27 6.35)
@@ -1769,8 +1759,18 @@
 			(layer "F.Fab")
 			(uuid "5150ff62-c526-458c-9780-5fa11e0cb414")
 		)
+		(fp_line
+			(start -1.27 6.35)
+			(end -1.27 -0.635)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "8b82e6a7-1860-49fc-8e58-f8acba0fe409")
+		)
 		(fp_text user "${REFERENCE}"
-			(at 0 2.54 90)
+			(at 0 2.54 180)
 			(layer "F.Fab")
 			(uuid "5b24f8e9-8522-4dfe-b648-58dd4f7ff780")
 			(effects
@@ -1781,7 +1781,7 @@
 			)
 		)
 		(pad "1" thru_hole rect
-			(at 0 0)
+			(at 0 0 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1790,7 +1790,7 @@
 			(uuid "fcdc7674-40da-4cf4-bbfe-32abfb628d90")
 		)
 		(pad "2" thru_hole circle
-			(at 0 2.54)
+			(at 0 2.54 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
@@ -1799,7 +1799,7 @@
 			(uuid "7d0ad4b4-5f8a-4b88-94c1-6df5accfe00d")
 		)
 		(pad "3" thru_hole circle
-			(at 0 5.08)
+			(at 0 5.08 90)
 			(size 1.7 1.7)
 			(drill 1)
 			(layers "*.Cu" "*.Mask")
