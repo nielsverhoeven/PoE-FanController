@@ -1591,7 +1591,7 @@
 		(descr "Through hole straight pin header, 1x03, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x03 2.54mm single row")
 		(property "Reference" "HUM1"
-			(at 0 -2.38 90)
+			(at -2.5 2.54 0)
 			(layer "F.SilkS")
 			(uuid "8c73ecaf-8fc4-4bcf-a68b-f8a5c438c9a4")
 			(effects
@@ -1602,7 +1602,7 @@
 			)
 		)
 		(property "Value" "DHT11_Breakout"
-			(at 0 7.46 90)
+			(at -4 2.54 0)
 			(layer "F.Fab")
 			(uuid "f5b6ffe1-e06c-409c-9b57-3e07aa395ed1")
 			(effects
