@@ -1,8 +1,8 @@
 # Technical Plan: Replace NTC1 Thermistor with DHT11 Temperature + Humidity Sensor
 
-<!-- Issue: #135 | Branch: feature/135-replace-ntc1-dht11-sensor | Status: PLANNING -->
-<!-- Constitution reference: v4.0.0 | Plan date: 2026-06-09 -->
-<!-- Base commit: f3dbc32 (main after PR #134) -->
+<!-- Issue: #135 | Branch: feature/135-replace-ntc1-dht11-sensor | Status: COMPLETED (PR #136) -->
+<!-- Constitution reference: v4.1.0 (MINOR amendment applied) | Plan date: 2026-06-09 | Implementation completed: 2026-06-09 -->
+<!-- Base commit: f3dbc32 (main after PR #134) | Test results: test-results/test-results.md (Feature entry: #135) -->
 
 ---
 
@@ -526,3 +526,42 @@ The PR must pass:
 | P-DEV-04 — Amendment before implementation | Constitution MINOR amendment committed first; tracked by SC-09 |
 | P-UI-02 — LittleFS ≤ 200 kB | No new web assets; budget unchanged |
 | P-UI-03 — REST conventions | `humidity_pct` field: float, one decimal place, or JSON `null` — consistent with existing `temp_c` and `probe_temp_c` patterns |
+
+---
+
+## ✅ Implementation Complete — Feature Acceptance Verification
+
+**Date completed:** 2026-06-09 | **PR:** #136 | **Merged to:** `feature/135-replace-ntc1-dht11-sensor` (pending merge to `main`)
+
+### Acceptance Criteria — All Met ✅
+
+| Criterion | Acceptance Threshold | Evidence |
+|---|---|---|
+| Constitution v4.1.0 MINOR amendment applied | Amendment committed before implementation work | ✅ Committed on feature branch; v4.1.0 tag visible in `docs/constitution.md` |
+| NTC1/R4 removed from schematic generator | Both components absent from regenerated `.kicad_sch` | ✅ `hardware/generator/components.py` NTC block removed; ERC confirms zero missing-component errors |
+| J9 (DHT11 breakout connector) added to schematic | J9 symbol present with correct footprint and pin wiring | ✅ `Custom:Conn_1x03` + `Molex_KK-254_AE-6410-03A_1x03` footprint; pins 1/2/3 wired to GND/DHT11_DATA/+3V3 |
+| GPIO16 net renamed NTC_ADC → DHT11_DATA | Old net removed; new net routed to J8 pin 23 | ✅ `DHT11_DATA` global_label on both J9 pin 2 and J8 pin 23; NTC_ADC absent |
+| Hardware ERC zero errors | ERC error count = 0 (warnings acceptable) | ✅ CI run: 0 errors, 81 baseline warnings |
+| Hardware DRC zero errors | DRC error count = 0 (warnings ≤ baseline + HUM1 silk) | ✅ CI run: 0 errors, 21 warnings (17 pre-existing + 4 new HUM1 silk clearance) |
+| Firmware compiles without errors | `pio run -e esp32-p4-eth` exit code = 0 | ✅ Firmware build successful; adafruit/DHT library linked |
+| `temp` module rewritten for DHT11 | Old API preserved; new `temp_get_humidity_pct()` added | ✅ `temp_init()` / `temp_read()` / `temp_get_celsius()` unchanged; new getter functional |
+| Web status endpoint includes `humidity_pct` | JSON response contains both `temperature_c` and `humidity_pct` fields | ✅ Endpoint returns: `{ "temperature_c": <float>, "humidity_pct": <float>, ... }` |
+| Native unit tests all pass | `pio test -e native` — 0 failures (existing + new tests) | ✅ All test suites pass; no regressions |
+| Generator produces valid output | `python hardware/generate_project.py` → exit 0 | ✅ Exit code 0; regenerated `.kicad_sch` and `.kicad_pcb` valid per ERC/DRC |
+| CI pipeline all checks green | 4/4 CI checks pass (CodeQL Python, CodeQL, ERC+DRC, PCB Gen) | ✅ PR #136 CI run: all 4 jobs pass |
+| **OVERALL GATE** | **All 11 criteria met** | **✅ READY FOR MERGE** |
+
+---
+
+## Test Results Link
+
+**Full test results:** See `test-results/test-results.md` § **Feature: Replace NTC1 Thermistor with DHT11 Temperature + Humidity Sensor (Issue #135, v4.1.0)**
+
+**Summary:**
+- **ERC:** 0 errors, 81 warnings (pre-existing baseline)
+- **DRC:** 0 errors, 21 warnings (17 pre-existing + 4 HUM1 silk)
+- **Firmware build:** ✅ PASS
+- **Native unit tests:** ✅ PASS (all suites)
+- **Generator validation:** ✅ PASS
+- **CI pipeline:** ✅ PASS (all 4 checks)
+
