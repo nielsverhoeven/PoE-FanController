@@ -1,6 +1,6 @@
 # ESP32-P4-POE-ETH Board Reference
 
-<!-- Last updated: 2026-06-08 -->
+<!-- Last updated: 2026-06-09 -->
 <!-- Sources:
   - https://docs.waveshare.com/ESP32-P4-ETH (hardware description + SKU table)
   - https://github.com/waveshareteam/esp32-p4-platform (official Waveshare firmware examples)
@@ -23,7 +23,7 @@
 | RJ45 | Single port — carries **both** PoE power + Ethernet data | 🟢 HIGH |
 | USB-C | Type-C for power, programming, and debugging | 🟢 HIGH |
 | BOOT/RST buttons | On-board | 🟢 HIGH |
-| GPIO header | 2×20 (40 pins), 2.54 mm pitch, PICO-2×20 layout | 🟢 HIGH |
+| GPIO header | 2×20 (40 pins), 2.54 mm pitch, consecutive-column layout (1–20 / 21–40) | 🟢 HIGH |
 | Exposed GPIOs | **27 programmable GPIOs** on header (13 pins are power/GND) | 🟢 HIGH |
 | TF card | SDIO 3.0 interface | 🟢 HIGH |
 | Audio | SMD microphone + MX1.25 2P speaker connector | 🟢 HIGH |
@@ -108,16 +108,19 @@ GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52
 
 ---
 
-## 4. GPIO Header Pinout
+## 4. GPIO Header Pinout — Consecutive-column layout (1–20 / 21–40)
 
 > 🟡 **MEDIUM CONFIDENCE** — pinout table is an image on the docs page (not extractable as
 > text). Table below compiled from: docs page description + ESP32-P4 TRM + Waveshare examples.
 > **Verify against the schematic PDF in this folder before firmware commit.**
 
-The header is 2×20 (40 pins), PICO-2×20 layout (labeled "PICO-2*20 IO" on the Waveshare schematic):
-- Odd pins (1,3,5,...,39): left column
-- Even pins (2,4,6,...,40): right column
-- Pin 1: top-left
+⚠️ **CORRECTION:** The header **does NOT use PICO-style alternating numbering**. Instead, it uses
+**consecutive column numbering** as per the Waveshare hardware design (verified in PR #134).
+- Row A (top): pins 1–20 (y = −7.69 mm from centre)
+- Row B (bottom): pins 21–40 (y = +7.69 mm from centre)
+- Pin 1: top-left of Row A
+
+The older "PICO-2×20" label on Waveshare schematics is a misnomer; the actual layout is consecutive-column.
 
 ### 4.1 Power pins (confirmed functional, positions TBC from schematic)
 

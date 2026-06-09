@@ -1,6 +1,6 @@
 # PoE FanController – Hardware Design Notes
 
-<!-- Last updated: 2026-06-08 | Updated: feature/62-refactor-generator-esp32p4 -->
+<!-- Last updated: 2026-06-09 | Updated: feature/100-keyed-fan-headers -->
 
 ## Overview
 A PoE 802.3at (PoE+) powered device that controls up to 4 PWM fans via the
@@ -100,14 +100,20 @@ Waveshare board and are **not** connected to J8 carrier pads.
 
 ## Fan Header Pinout (J2–J5, all identical)
 
-| Pin | Signal   | Notes                                                |
-|-----|----------|------------------------------------------------------|
-| 1   | GND      | Ground                                               |
-| 2   | +12V     | Fan supply (12 V from Ag9905M)                       |
-| 3   | TACH     | Tachometer output from fan; 10 kΩ pull-up to +3V3    |
-| 4   | PWM      | 25 kHz PWM input from ESP32 LEDC via J8              |
+**Connector:** Molex KK-254, 4-pin keyed vertical (MPN: **22-27-2041**; old engineering p/n
+AE-6410-04A; 22-23-2041 is an acceptable same-series equivalent). Footprint:
+`Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` (KiCad standard library).
+The shrouded housing physically prevents reverse insertion (constitution P-HW-09, amendment
+v4.0.0). Mating housing: Molex 22-01-2042 or any standard 4-pin PC fan female housing.
 
-Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
+| Pin | Signal | Notes                                             |
+|-----|--------|---------------------------------------------------|
+| 1   | GND    | Ground                                            |
+| 2   | +12V   | Fan supply (12 V from U_BOOST boost converter)    |
+| 3   | TACH   | Tachometer output from fan; 10 kΩ pull-up to +3V3 |
+| 4   | PWM    | 25 kHz PWM input from ESP32 LEDC via J8           |
+
+Standard PC fan pinout (Intel spec). Compatible with 4-wire 12 V PWM fans.
 
 ## PCB Design Guidelines
 
@@ -120,10 +126,10 @@ Standard PC fan pinout (Intel spec). Compatible with 4-wire 12V PWM fans.
      | Ref | Part | Notes |
      |-----|------|-------|
      | J1 | RJ45 Würth 615008144521 | Primary side (x < 38 mm); PoE power only |
-     | J2 | Fan header Molex 47053-1000 | Secondary side; courtyard left ≥ 41.0 mm (3 mm creepage) |
-     | J3 | Fan header Molex 47053-1000 | Secondary side |
-     | J4 | Fan header Molex 47053-1000 | Secondary side |
-     | J5 | Fan header Molex 47053-1000 | Secondary side |
+     | J2 | Fan header Molex 22-27-2041 (KK-254 keyed) | Secondary side; (58, 10) mm, rot 90°; shroud key toward board edge |
+     | J3 | Fan header Molex 22-27-2041 (KK-254 keyed) | Secondary side; (58, 22) mm, rot 90° |
+     | J4 | Fan header Molex 22-27-2041 (KK-254 keyed) | Secondary side; (58, 34) mm, rot 90° |
+     | J5 | Fan header Molex 22-27-2041 (KK-254 keyed) | Secondary side; (58, 46) mm, rot 90° |
      | J7 | Debug UART 1×3 2.54 mm | Right board edge — documented exception P-HW-03 v1.0.1 |
   2. U1 (Ag9905M) close to J1, primary-side power traces (x < 38 mm)
   3. Isolation gap/slot at x = 38 mm (P-ISO-04)
@@ -150,7 +156,7 @@ integrated on the Waveshare ESP32-P4-ETH board.
 | D1 | 1N5822 | Unchanged | LM2596 freewheeling Schottky |
 | C1 | 100 µF / 25 V | Unchanged | LM2596 input bulk cap |
 | C2 | 100 µF / 16 V | Voltage rating updated (was /25V) — 5 V rail has more headroom | LM2596 output bulk cap |
-| J2–J5 | Molex 47053-1000 | Unchanged | 12 V PWM fan headers |
+| J2–J5 | Molex 22-27-2041 (KK-254 keyed vertical; AE-6410-04A old p/n; 22-23-2041 acceptable equivalent) | **Changed** v4.0.0 — replaced unkeyed `47053-1000` with keyed Molex KK-254 (constitution §2.2 MAJOR amendment v4.0.0; mandate P-HW-09) | 12 V PWM fan headers — polarised shrouded housing prevents reverse insertion; footprint `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` |
 | R5–R8 | 10 kΩ 0402 | Pull-up source now +3V3 from J8 (was +3V3 from LM2596) | TACH pull-ups |
 | R4 | 10 kΩ 0402 | Pull-up source now +3V3 from J8 | NTC voltage divider (top half) |
 | NTC1 | NCP15XH103F03RC 10 kΩ | Unchanged | NTC thermistor |
@@ -184,6 +190,22 @@ PCB layout change (P-TEST-03).
 > PCB placement coordinates for all components are maintained in
 > `hardware/kicad/PoE-FanController.kicad_pcb` via KiCad GUI (P-KI-07).
 > Do not edit the `.kicad_pcb` file by hand.
+
+### DRC baseline (v4.0.0 — issue #100, keyed fan headers)
+
+After the J2–J5 footprint swap to `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical`
+and re-placement at (58, 10/22/34/46) mm rot=90°, the DRC baseline on local KiCad 10.0.3
+(Windows) is **16 warnings, 0 errors, 0 courtyard collisions**.
+Results are recorded in `hardware/kicad/drc_output.json` (CI PR #129 ✅):
+
+| Warning type         | Count | Assessment                                   |
+|----------------------|-------|----------------------------------------------|
+| `silk_over_copper`   | 8     | Cosmetic — silkscreen over copper, non-blocking |
+| `silk_edge_clearance`| 3     | Cosmetic — silk too close to board edge      |
+| `isolated_copper`    | 2     | Copper fill islands; acceptable until final pour |
+| `silk_overlap`       | 2     | Cosmetic silkscreen overlap                  |
+| `lib_footprint_issues`| 1    | Library metadata warning, non-blocking       |
+| **Total warnings**   | **16**| **All cosmetic; 0 errors; 0 courtyard collisions** |
 
 ---
 
