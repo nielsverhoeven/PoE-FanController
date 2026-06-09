@@ -31,7 +31,7 @@ void test_fan_tach_pins()
 
 void test_adc_and_misc_pins()
 {
-    TEST_ASSERT_EQUAL(16, NTC_ADC_PIN);
+    TEST_ASSERT_EQUAL(16, DHT11_DATA_PIN);
     TEST_ASSERT_EQUAL(2,  STATUS_LED_PIN);
     TEST_ASSERT_EQUAL(15, PROG_LED_PIN);
     TEST_ASSERT_EQUAL(0,  BOOT_PIN);
@@ -52,7 +52,7 @@ void test_no_gpio_collisions()
     const int pins[] = {
         FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
-        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        DHT11_DATA_PIN, STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
         ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
         DS18B20_DATA_PIN, PROBE_LED_PIN,
     };
@@ -76,7 +76,7 @@ void test_no_rmii_collision()
     const int user_pins[]  = {
         FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
-        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        DHT11_DATA_PIN, STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
         ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
         DS18B20_DATA_PIN, PROBE_LED_PIN,
     };
@@ -98,7 +98,7 @@ void test_gpio19_no_conflict()
     const int existing[] = {
         FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
-        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        DHT11_DATA_PIN, STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
         ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
     };
     for (int i = 0; i < (int)(sizeof(existing)/sizeof(existing[0])); i++) {
@@ -113,7 +113,7 @@ void test_gpio20_no_conflict()
     const int existing[] = {
         FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
-        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        DHT11_DATA_PIN, STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
         ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
     };
     for (int i = 0; i < (int)(sizeof(existing)/sizeof(existing[0])); i++) {
