@@ -165,6 +165,9 @@ Every KiCad project using custom footprints needs `hardware/kicad/fp-lib-table` 
 Without it, every custom footprint causes "Cannot add XN (footprint not found)" during "Update PCB from Schematic".
 Format documented in `docs/kb/kicad-10-reference.md §8`.
 
+### J8 pin 40 (VBUS) is NC — do not connect to +5V
+Pin 40 of J8 is USB VBUS from the Waveshare board's USB Type-C connector. In the primary use case (PoE-only, no USB), VBUS = 0V. Connecting pin 40 to the daughter board's +5V rail back-feeds 5V onto the Waveshare USB VBUS line via the PCB trace. **Pin 40 must remain NC.** Use only pin 39 (VSYS, PoE PD output) as the +5V power source for the daughter board.
+
 ### LAN8720A RBIAS mandatory
 Pin 4 (RBIAS) of LAN8720A requires 6.04 kΩ to GND. Without it the PHY has no internal current reference and will not operate. Currently implemented as R15 in this project.
 
