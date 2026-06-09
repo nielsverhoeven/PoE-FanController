@@ -91,6 +91,7 @@ T001 → T002 → T003 → T004 → T005 → T006 ──┐
   `PoE-FanController.kicad_pcb` without reporting an unresolved footprint library error for
   `Connector_Molex`.
 - **GitHub issue:** [#120](https://github.com/nielsverhoeven/PoE-FanController/issues/120)
+- **Status:** ✅ COMPLETE — commit `feccf6f`
 
 ---
 
@@ -136,6 +137,7 @@ T001 → T002 → T003 → T004 → T005 → T006 ──┐
   (line ~175) and in the `component()` call inside the fan loop (lines ~345–347); the old
   `PinHeader_1x04_P2.54mm_Vertical` string no longer appears for any J2–J5 reference.
 - **GitHub issue:** [#121](https://github.com/nielsverhoeven/PoE-FanController/issues/121)
+- **Status:** ✅ COMPLETE — commit `feccf6f` Regenerate schematic via python hardware/generate_project.py
 
 ---
 
@@ -162,6 +164,7 @@ T001 → T002 → T003 → T004 → T005 → T006 ──┐
   `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` (one per J2–J5 instance)
   and zero occurrences of `PinHeader_1x04_P2.54mm_Vertical` for J2–J5 references.
 - **GitHub issue:** [#122](https://github.com/nielsverhoeven/PoE-FanController/issues/122)
+- **Status:** ✅ COMPLETE — commit `feccf6f`
 
 ---
 
@@ -192,6 +195,7 @@ T001 → T002 → T003 → T004 → T005 → T006 ──┐
   committed to the branch and contains `"error_count": 0` (or equivalent zero-error JSON
   structure).
 - **GitHub issue:** [#123](https://github.com/nielsverhoeven/PoE-FanController/issues/123)
+- **Status:** ✅ COMPLETE — commit `feccf6f`
 
 ---
 
@@ -234,6 +238,7 @@ T001 → T002 → T003 → T004 → T005 → T006 ──┐
   board edge; the 3D viewer shows shroud bodies on all four headers; no courtyard-collision DRC
   markers appear on-screen before saving.
 - **GitHub issue:** [#124](https://github.com/nielsverhoeven/PoE-FanController/issues/124)
+- **Status:** ✅ COMPLETE — commit `4362f58` (pcbnew Python API used per task allowance; positions and nets verified)
 
 ---
 
@@ -265,6 +270,7 @@ T001 → T002 → T003 → T004 → T005 → T006 ──┐
   committed and shows: 0 DRC errors, 0 `courtyard_collision` violations, and a DRC warning count
   ≤ 16 (the established baseline).
 - **GitHub issue:** [#125](https://github.com/nielsverhoeven/PoE-FanController/issues/125)
+- **Status:** ✅ COMPLETE — commit `4362f58` (0 errors, 0 courtyard_collision, 16 warnings ≤ 16 baseline, 71 ratsnest)
 
 ---
 
