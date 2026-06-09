@@ -161,7 +161,9 @@ agentdb query --query "YOUR QUESTION HERE" --k 5 --synthesize-context --db $db
 agentdb recall with-certificate "YOUR QUESTION" 5 --db $db
 ```
 
-`@xenova/transformers` is installed **globally** — agentdb works from any directory in the terminal.
+`AGENTDB_PATH` and `AGENTDB_FORCE_SQLJS=1` are set as permanent user env vars and in the
+PowerShell profile (`$PROFILE.CurrentUserAllHosts`). `@xenova/transformers` is installed globally.
+agentdb works from any directory in the terminal.
 
 ### What is indexed in agentdb
 
