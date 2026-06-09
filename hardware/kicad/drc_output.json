@@ -1,7 +1,7 @@
 {
     "$schema": "https://schemas.kicad.org/drc.v1.json",
     "coordinate_units": "mm",
-    "date": "2026-06-09T14:35:33",
+    "date": "2026-06-09T14:54:16",
     "ignored_checks": [
         {
             "description": "Footprint has no courtyard defined",
@@ -1447,12 +1447,12 @@
                     "uuid": "c8a395ef-7e3a-41e8-9d85-ef2bb729c857"
                 },
                 {
-                    "description": "Track [DS18B20_DATA] on F.Cu, length 16,9200 mm",
+                    "description": "PTH pad 2 [DS18B20_DATA] of R14",
                     "pos": {
                         "x": 43.62,
                         "y": 55.0
                     },
-                    "uuid": "a5b2c34d-e7fd-4806-919c-20448de8ecfc"
+                    "uuid": "be94e38d-dd37-4dee-b61b-34579dfdba81"
                 }
             ],
             "severity": "error",
@@ -1671,12 +1671,12 @@
             "description": "Isolated copper fill",
             "items": [
                 {
-                    "description": "Zone 'GND_BOT' [Net-(U1-GND)] on B.Cu, priority 0",
+                    "description": "Zone 'GND_TOP' [Net-(U1-GND)] on F.Cu, priority 0",
                     "pos": {
                         "x": 40.0,
                         "y": 5.0
                     },
-                    "uuid": "000001cd-01cd-01cd-01cd-0000000001cd"
+                    "uuid": "000001ce-01ce-01ce-01ce-0000000001ce"
                 }
             ],
             "severity": "warning",
@@ -1686,12 +1686,12 @@
             "description": "Isolated copper fill",
             "items": [
                 {
-                    "description": "Zone 'GND_TOP' [Net-(U1-GND)] on F.Cu, priority 0",
+                    "description": "Zone 'GND_BOT' [Net-(U1-GND)] on B.Cu, priority 0",
                     "pos": {
                         "x": 40.0,
                         "y": 5.0
                     },
-                    "uuid": "000001ce-01ce-01ce-01ce-0000000001ce"
+                    "uuid": "000001cd-01cd-01cd-01cd-0000000001cd"
                 }
             ],
             "severity": "warning",
@@ -1780,6 +1780,51 @@
             ],
             "severity": "warning",
             "type": "lib_footprint_issues"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0,8000 mm; actual 0,6000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of LED1",
+                    "pos": {
+                        "x": 25.0,
+                        "y": 54.5
+                    },
+                    "uuid": "1306f771-e795-4be7-be11-380087a5a54b"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
+        },
+        {
+            "description": "Text thickness out of range (board setup constraints silk text thickness min thickness 0,0800 mm; actual 0,0750 mm)",
+            "items": [
+                {
+                    "description": "Reference field of LED2",
+                    "pos": {
+                        "x": 31.0,
+                        "y": 54.5
+                    },
+                    "uuid": "862e5250-881c-4ad8-aaeb-e3f30fb3ffea"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_thickness"
+        },
+        {
+            "description": "Text height out of range (board setup constraints silk text height min height 0,8000 mm; actual 0,6000 mm)",
+            "items": [
+                {
+                    "description": "Reference field of LED2",
+                    "pos": {
+                        "x": 31.0,
+                        "y": 54.5
+                    },
+                    "uuid": "862e5250-881c-4ad8-aaeb-e3f30fb3ffea"
+                }
+            ],
+            "severity": "warning",
+            "type": "text_height"
         },
         {
             "description": "Silkscreen clearance",
@@ -1877,66 +1922,20 @@
             "description": "Silkscreen clipped by solder mask",
             "items": [
                 {
-                    "description": "Reference field of R13",
+                    "description": "Reference field of R14",
                     "pos": {
-                        "x": 25.0,
-                        "y": 64.0
+                        "x": 36.0,
+                        "y": 58.5
                     },
-                    "uuid": "a89dcdce-5cc7-4a75-9e35-1b3b6fa9d102"
+                    "uuid": "e71cf264-6a6a-4d22-8dc8-87876fdce386"
                 },
                 {
-                    "description": "PTH pad 1 [PROG_LED] of R13",
+                    "description": "PTH pad 1 [PROBE_LED] of R15",
                     "pos": {
-                        "x": 25.0,
-                        "y": 64.0
-                    },
-                    "uuid": "d8f98f10-33a5-41fd-baed-955303c8190c"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Reference field of LED2",
-                    "pos": {
-                        "x": 31.0,
+                        "x": 36.0,
                         "y": 58.0
                     },
-                    "uuid": "862e5250-881c-4ad8-aaeb-e3f30fb3ffea"
-                },
-                {
-                    "description": "PTH pad 1 [/PROG_LED_A] of LED2",
-                    "pos": {
-                        "x": 31.0,
-                        "y": 58.0
-                    },
-                    "uuid": "c782fa23-b567-4980-8204-687962b8eda6"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Reference field of LED2",
-                    "pos": {
-                        "x": 31.0,
-                        "y": 58.0
-                    },
-                    "uuid": "862e5250-881c-4ad8-aaeb-e3f30fb3ffea"
-                },
-                {
-                    "description": "PTH pad 2 [GND] of LED2",
-                    "pos": {
-                        "x": 33.54,
-                        "y": 58.0
-                    },
-                    "uuid": "f495f033-6e3d-4f4d-a67e-06dadfbd4b6f"
+                    "uuid": "b95f6480-d790-4cf2-822a-5d84ea0afbee"
                 }
             ],
             "severity": "warning",
@@ -1983,29 +1982,6 @@
                         "y": 46.0
                     },
                     "uuid": "781a1c89-b16c-43fc-98a6-c51d9a22a555"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Reference field of R14",
-                    "pos": {
-                        "x": 36.0,
-                        "y": 58.5
-                    },
-                    "uuid": "e71cf264-6a6a-4d22-8dc8-87876fdce386"
-                },
-                {
-                    "description": "PTH pad 1 [PROBE_LED] of R15",
-                    "pos": {
-                        "x": 36.0,
-                        "y": 58.0
-                    },
-                    "uuid": "b95f6480-d790-4cf2-822a-5d84ea0afbee"
                 }
             ],
             "severity": "warning",
