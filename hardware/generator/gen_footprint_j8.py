@@ -40,7 +40,7 @@ a('  (version 20260206)')
 a('  (generator "custom")')
 a('  (generator_version "10.0")')
 a('  (layer "F.Cu")')
-a('  (descr "2x20 Female Pin Socket, 2.54mm pin pitch, 15.38mm row spacing - Waveshare ESP32-P4-POE-ETH (SKU 32088). Row1 at 2.81mm, Row2 at 18.19mm from board long edge.")')
+a('  (descr "2x20 Female Pin Socket, 2.54mm pin pitch, 15.38mm row spacing - Waveshare ESP32-P4-POE-ETH (SKU 32088). Row A (pads 1-20) at 2.81mm, Row B (pads 21-40) at 18.19mm from board long edge. CONSECUTIVE column numbering (issue #133).")')
 a('  (tags "connector female socket 2x20 2.54mm 15.38mm waveshare esp32-p4 poe-eth sku32088")')
 a('  (attr through_hole)')
 
@@ -66,18 +66,18 @@ a('    (stroke (width 0.12) (type solid)) (layer "F.SilkS"))')
 uid = 1
 for i in range(N_POS):
     x = x_start + i * PITCH
-    odd_num  = 2 * i + 1
-    even_num = 2 * i + 2
+    row_a_num = i + 1       # Row A: pads 1..20  (consecutive)
+    row_b_num = i + 21      # Row B: pads 21..40 (consecutive)
 
-    shape1 = "rect" if odd_num == 1 else "circle"
-    a(f'  (pad "{odd_num}" thru_hole {shape1} (at {x:.3f} {row1_y:.3f}) '
+    shape1 = "rect" if row_a_num == 1 else "circle"
+    a(f'  (pad "{row_a_num}" thru_hole {shape1} (at {x:.3f} {row1_y:.3f}) '
       f'(size {PAD_SIZE} {PAD_SIZE}) (drill {DRILL}) '
       f'(layers "*.Cu" "*.Mask") '
       f'(uuid "{uid:08x}-0000-0000-0000-{uid:012x}"))')
     uid += 1
 
-    shape2 = "rect" if even_num == 2 else "circle"
-    a(f'  (pad "{even_num}" thru_hole {shape2} (at {x:.3f} {row2_y:.3f}) '
+    shape2 = "circle"
+    a(f'  (pad "{row_b_num}" thru_hole {shape2} (at {x:.3f} {row2_y:.3f}) '
       f'(size {PAD_SIZE} {PAD_SIZE}) (drill {DRILL}) '
       f'(layers "*.Cu" "*.Mask") '
       f'(uuid "{uid:08x}-0000-0000-0000-{uid:012x}"))')
