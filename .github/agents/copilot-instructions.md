@@ -152,19 +152,16 @@ Query it semantically before reading files or spawning sub-agents.
 ### agentdb Query (always try first)
 
 ```powershell
-# Set location to project root (required — @xenova/transformers is installed here)
-Set-Location C:\repos-github\PoE-FanController
 $db = "C:\Users\Niels\.agentdb\poe-fancontroller.db"
 
-# Semantic RAG query
+# Semantic RAG query — works from any directory
 agentdb query --query "YOUR QUESTION HERE" --k 5 --synthesize-context --db $db
 
 # Retrieve with causal utility (for how-to questions)
 agentdb recall with-certificate "YOUR QUESTION" 5 --db $db
 ```
 
-**Run agentdb from `C:\repos-github\PoE-FanController`** — the `node_modules/@xenova/transformers`
-package installed there provides ML embeddings. Running from another directory uses mock embeddings.
+`@xenova/transformers` is installed **globally** — agentdb works from any directory in the terminal.
 
 ### What is indexed in agentdb
 
@@ -177,7 +174,6 @@ package installed there provides ML embeddings. Running from another directory u
 ### Store new facts after expert consultations
 
 ```powershell
-Set-Location C:\repos-github\PoE-FanController
 agentdb reflexion store "session" "TASK-NAME" 0.99 true "SOURCE" "QUESTION" "ANSWER" 0 0 --db $db
 ```
 
