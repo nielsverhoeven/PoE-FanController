@@ -98,8 +98,9 @@ python -m platformio test -e native
 - **PCB layout portrait**: 78 mm height × 42 mm width; ESP32 in left column (0–21 mm), fans in right column
 - **J8 pin layout: CONSECUTIVE COLUMN NUMBERING — Row A = pins 1–20, Row B = pins 21–40**
   - ⛔ NEVER use PICO-style (odd/even alternating) — the Waveshare ESP32-P4-POE-ETH uses consecutive numbering
-  - Row A (pins 1–20): x = 2.81 mm from left board edge, top-to-bottom
-  - Row B (pins 21–40): x = 18.19 mm from left board edge, top-to-bottom
+  - Row A (pins 1–20): x = 2.81 mm from left board edge, bottom→top (pin 1 at bottom-left)
+  - Row B (pins 21–40): x = 18.19 mm from left board edge, bottom→top (pin 21 at bottom-right, pin 40 = VBUS at top-right)
+  - **5V power source: pin 40 (VBUS)** — do NOT use pin 39 (VSYS)
   - First pin: y = 4.67 mm from top board edge, 2.54 mm pitch → 20 pins per row
   - J8 PCB placement: (10.50, 28.80) mm, rotated 90°
 - **Custom J8 footprint**: `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`

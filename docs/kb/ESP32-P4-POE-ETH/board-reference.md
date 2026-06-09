@@ -110,30 +110,61 @@ GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52
 
 ## 4. GPIO Header Pinout — Consecutive-column layout (1–20 / 21–40)
 
-> 🟡 **MEDIUM CONFIDENCE** — pinout table is an image on the docs page (not extractable as
-> text). Table below compiled from: docs page description + ESP32-P4 TRM + Waveshare examples.
-> **Verify against the schematic PDF in this folder before firmware commit.**
+> 🟢 **HIGH CONFIDENCE** — pinout table verified from authoritative image
+> `ESP32-P4-ETH-details-inter-d78f8087f1a1597badd3a1d077c4c057.webp` (in this folder)
+> and the `esp32-p4_datasheet_en.pdf` column 1–2, row C, header 'Interface'.
 
-⚠️ **CORRECTION:** The header **does NOT use PICO-style alternating numbering**. Instead, it uses
-**consecutive column numbering** as per the Waveshare hardware design (verified in PR #134).
-- Row A (top): pins 1–20 (y = −7.69 mm from centre)
-- Row B (bottom): pins 21–40 (y = +7.69 mm from centre)
-- Pin 1: top-left of Row A
+The header uses **consecutive column numbering** (verified in PR #134 and authoritative image):
+- Row A (left column when installed): pins **1–20**, counting **bottom → top**
+- Row B (right column when installed): pins **21–40**, counting **bottom → top**
+- **Pin 1: bottom-left** of Row A (physical board, bottom of left column)
+- **Pin 20: top-left** of Row A
+- **Pin 21: bottom-right** of Row B
+- **Pin 40: top-right** of Row B (= VBUS, 5V)
 
-The older "PICO-2×20" label on Waveshare schematics is a misnomer; the actual layout is consecutive-column.
+> ⛔ The older "PICO-2×20" label on some Waveshare docs refers only to the physical connector
+> pitch (2.54 mm × 15.38 mm row spacing) — the pin *numbering* is NOT Pico-style (which
+> interleaves odd=Row A, even=Row B). This board is consecutive-column only.
+
+### Full 40-pin header — authoritative layout
+
+> Source: `ESP32-P4-ETH-details-inter-d78f8087f1a1597badd3a1d077c4c057.webp` 🟢 HIGH
+
+| Pin | Signal | | Pin | Signal |
+|-----|--------|-|-----|--------|
+| 1 | DP / GPIO25 | | 21 | GPIO48 |
+| 2 | DM / GPIO24 | | 22 | GPIO47 |
+| 3 | GND | | 23 | GND |
+| 4 | SDA / GPIO7 | | 24 | GPIO46 |
+| 5 | SCL / GPIO8 | | 25 | GPIO33 |
+| 6 | GPIO2 | | 26 | GPIO32 |
+| 7 | GPIO3 | | 27 | GPIO27 |
+| 8 | GND | | 28 | GND |
+| 9 | GPIO4 | | 29 | GPIO26 |
+| 10 | GPIO5 | | 30 | RUN |
+| 11 | GPIO6 | | 31 | GPIO23 |
+| 12 | GPIO14 | | 32 | GPIO22 |
+| 13 | GND | | 33 | GND |
+| 14 | GPIO15 | | 34 | GPIO21 |
+| 15 | GPIO16 | | 35 | GPIO20 |
+| 16 | GPIO17 | | 36 | 3V3 |
+| 17 | GPIO18 | | 37 | EN |
+| 18 | GND | | 38 | GND |
+| 19 | GPIO19 | | 39 | VSYS |
+| 20 | GPIO54 | | **40** | **VBUS (5V)** ← use for 5V power |
 
 ### 4.1 Power pins (confirmed functional, positions TBC from schematic)
 
-| Pin(s) | Signal | Voltage | Current limit | Confidence |
+| Pin(s) | Signal | Voltage | Notes | Confidence |
 |---|---|---|---|---|
-| 1, 17 | +3.3V | 3.3V | ~800 mA total (shared with board) | 🟡 MEDIUM |
-| **39** | **+5V (VSYS)** | **5V** | PoE module output — main 5V rail | 🟢 HIGH — confirmed from schematic |
-| **40** | **+5V (VBUS)** | **5V** | USB 5V — secondary source | 🟢 HIGH — confirmed from schematic |
-| 6, 9, 14, 20, 25, 30, 34, 38 | GND | 0V | — | 🟢 HIGH |
+| 36 | 3V3 | 3.3V | Regulated 3.3V rail | 🟢 HIGH — from authoritative image |
+| **39** | **VSYS** | **5V** | System regulated voltage (PoE PD output) | 🟢 HIGH — confirmed from image + schematic |
+| **40** | **VBUS** | **5V** | USB VBUS — **use this as 5V source for daughter board** | 🟢 HIGH — confirmed from image + user spec |
+| 3, 8, 13, 18, 23, 28, 33, 38 | GND | 0V | — | 🟢 HIGH — from authoritative image |
 
-> ✅ **OQ-02 RESOLVED:** +5V is available on header pins 39 (VSYS) and 40 (VBUS), confirmed from
-> Waveshare ESP32-P4-ETH schematic Interface section. Pins 2 and 4 are **NOT** power pins on this board.
-> Daughter board U_BOOST (+5V→12V) must draw from pin 39 (VSYS).
+> ✅ **OQ-02 RESOLVED:** +5V is available on header pins 39 (VSYS) and 40 (VBUS).
+> **Daughter board U_BOOST (+5V→12V) must draw from pin 40 (VBUS).** Pin 39 (VSYS) is the
+> system regulated voltage. Pins 2 and 4 are **NOT** power pins on this board.
 
 ### 4.2 GPIO signal assignments used by this project
 
@@ -302,3 +333,4 @@ build_flags =
 | `esp32-p4_technical_reference_manual_en.pdf` | ESP32-P4 TRM (EMAC RMII fixed pins §EMAC) |
 | `ESP32-P4-ETH-datasheet.pdf` | Waveshare board schematic/datasheet — **check for pin voltages** |
 | `ESP32-P4-ETH-details-size-*.webp` | Board dimension drawing — **check for exact L×W mm** |
+| `ESP32-P4-ETH-details-inter-*.webp` | **Authoritative 40-pin header pinout image** — source of truth for all pin assignments |

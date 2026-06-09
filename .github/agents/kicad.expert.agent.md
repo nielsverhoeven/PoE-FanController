@@ -142,15 +142,15 @@ Every response must include:
 
 ### J8 Waveshare ESP32-P4-POE-ETH header — consecutive layout, NOT PICO-style
 The J8 2×20 GPIO header (Waveshare ESP32-P4-POE-ETH, SKU 32088) uses **consecutive column numbering**:
-- **Row A** (y = −7.69 mm, closer to board edge): pads **1–20**, top-to-bottom
-- **Row B** (y = +7.69 mm): pads **21–40**, top-to-bottom
+- **Row A** (y = −7.69 mm, closer to board edge): pads **1–20**, counting **bottom → top** (pad 1 at bottom-left, pad 20 at top-left)
+- **Row B** (y = +7.69 mm): pads **21–40**, counting **bottom → top** (pad 21 at bottom-right, pad 40 at top-right)
 
 This is **not** PICO-style (which interleaves odd=Row A, even=Row B). The term "PICO-2×20 layout" that may appear in older docs/KB files refers to the physical connector pitch (2.54 mm × 15.38 mm row spacing) — **not** the pin numbering scheme. Ignore any PICO-style numbering assumption.
 
 Key net assignments for J8 (verified, HIGH confidence):
-- **+3V3**: pads 1, 17
-- **GND**: pads 6, 9, 14, 20 (Row A) and 25, 30, 34, 38 (Row B)
-- **+5V**: pads 39, 40
+- **+5V (VBUS)**: pad **40** — **use this as the 5V power source for the daughter board**
+- **+3V3**: pads 36
+- **GND**: pads 3, 8, 13, 18 (Row A) and 23, 28, 33, 38 (Row B)
 - Signal pins: 3=STATUS_LED, 7=FAN1_PWM, 8=FAN2_PWM, 10=FAN3_PWM, 11=FAN4_PWM, 12=FAN1_TACH, 13=FAN2_TACH, 15=FAN3_TACH, 16=FAN4_TACH, 22=PROG_LED, 23=NTC_ADC, 27=DS18B20_DATA, 28=PROBE_LED
 
 **Source of truth**: `hardware/generator/components.py` (J8 symbol definition) and `hardware/generator/gen_footprint_j8.py`. Always verify against the generator code, not KB labels or connector type names.
@@ -165,8 +165,11 @@ Every KiCad project using custom footprints needs `hardware/kicad/fp-lib-table` 
 Without it, every custom footprint causes "Cannot add XN (footprint not found)" during "Update PCB from Schematic".
 Format documented in `docs/kb/kicad-10-reference.md §8`.
 
-### J8 pin 40 (VBUS) is NC — do not connect to +5V
-Pin 40 of J8 is USB VBUS from the Waveshare board's USB Type-C connector. In the primary use case (PoE-only, no USB), VBUS = 0V. Connecting pin 40 to the daughter board's +5V rail back-feeds 5V onto the Waveshare USB VBUS line via the PCB trace. **Pin 40 must remain NC.** Use only pin 39 (VSYS, PoE PD output) as the +5V power source for the daughter board.
+### J8 pin 40 (VBUS) is the 5V power source for the daughter board
+Pin 40 of J8 is VBUS (USB bus voltage from the Waveshare board's USB Type-C connector). In the
+primary use case (PoE-powered), the PoE module supplies power through the VBUS rail. **Pin 40 (VBUS)
+must be connected to the daughter board's +5V rail.** Do NOT use pin 39 (VSYS) as the primary 5V
+source — VSYS is the system regulated voltage. Use pin 40 (VBUS) exclusively.
 
 ### LAN8720A RBIAS mandatory
 Pin 4 (RBIAS) of LAN8720A requires 6.04 kΩ to GND. Without it the PHY has no internal current reference and will not operate. Currently implemented as R15 in this project.
