@@ -25,6 +25,7 @@
 // Forward declarations — defined in their respective modules
 void fan_init();
 void temp_init();
+void probe_init();
 void web_init();
 void ota_init();
 void ota_register(void* server);
@@ -70,6 +71,7 @@ void setup()
     // P-FW-05: Set fans to 100% immediately, before config is loaded
     fan_init();
     temp_init();
+    probe_init();  // DS18B20 external probe (GPIO19/GPIO20)
     ota_init();  // Initialise prog LED (GPIO15) — held LOW until OTA starts
 
     // Register Ethernet event handler

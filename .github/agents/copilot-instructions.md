@@ -21,7 +21,8 @@ PoE-FanController controls 4× PWM fans using Power over Ethernet as its sole po
 - **Microcontroller**: ESP32-P4 (via Waveshare ESP32-P4-POE-ETH module, SKU 32088)
 - **Power input**: PoE 802.3at (30 W) — handled entirely by Waveshare board; daughter board is SELV-only
 - **Fan outputs**: 4-wire PWM fans, 12 V, controlled via ESP32 LEDC peripheral (25 kHz)
-- **Temperature sensing**: NTC thermistor (10 kΩ B=3950) on GPIO16
+- **Temperature sensing**: NTC thermistor (10 kΩ B=3950) on GPIO16 + external DS18B20 1-Wire probe on GPIO19 (issue #97, in-progress)
+- **Status LEDs**: GPIO2 (board status LED), GPIO20 (DS18B20 probe LED); per-fan LEDs D2–D5 are passive (+12V rail, no GPIO)
 - **PCB**: 2-layer, FR4, 42 × 78 mm daughter board (portrait layout)
 
 ### Firmware

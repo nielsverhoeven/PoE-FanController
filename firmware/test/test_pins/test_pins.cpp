@@ -54,6 +54,7 @@ void test_no_gpio_collisions()
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
         NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
         ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
+        DS18B20_DATA_PIN, PROBE_LED_PIN,
     };
     const int N = sizeof(pins) / sizeof(pins[0]);
 
@@ -77,6 +78,7 @@ void test_no_rmii_collision()
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
         NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
         ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
+        DS18B20_DATA_PIN, PROBE_LED_PIN,
     };
 
     for (int u = 0; u < (int)(sizeof(user_pins)/sizeof(user_pins[0])); u++) {
@@ -85,6 +87,45 @@ void test_no_rmii_collision()
                 "User GPIO conflicts with RMII fixed IO_MUX pin");
         }
     }
+}
+
+// ---------------------------------------------------------------------------
+// DS18B20 probe pin checks — GPIO19 / GPIO20
+// ---------------------------------------------------------------------------
+void test_gpio19_no_conflict()
+{
+    // GPIO19 (DS18B20_DATA_PIN) must not equal any existing pin constant
+    const int existing[] = {
+        FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
+        FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
+        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
+    };
+    for (int i = 0; i < (int)(sizeof(existing)/sizeof(existing[0])); i++) {
+        TEST_ASSERT_NOT_EQUAL_MESSAGE(DS18B20_DATA_PIN, existing[i],
+            "GPIO19 (DS18B20_DATA_PIN) conflicts with existing pin constant");
+    }
+}
+
+void test_gpio20_no_conflict()
+{
+    // GPIO20 (PROBE_LED_PIN) must not equal any existing pin constant
+    const int existing[] = {
+        FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
+        FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
+        NTC_ADC_PIN,   STATUS_LED_PIN, PROG_LED_PIN,  BOOT_PIN,
+        ETH_MDIO_PIN,  ETH_MDC_PIN,   ETH_PHY_RST_PIN,
+    };
+    for (int i = 0; i < (int)(sizeof(existing)/sizeof(existing[0])); i++) {
+        TEST_ASSERT_NOT_EQUAL_MESSAGE(PROBE_LED_PIN, existing[i],
+            "GPIO20 (PROBE_LED_PIN) conflicts with existing pin constant");
+    }
+}
+
+void test_gpio19_gpio20_distinct()
+{
+    TEST_ASSERT_NOT_EQUAL_MESSAGE(DS18B20_DATA_PIN, PROBE_LED_PIN,
+        "DS18B20_DATA_PIN (GPIO19) and PROBE_LED_PIN (GPIO20) must be distinct");
 }
 
 // ---------------------------------------------------------------------------
@@ -114,6 +155,9 @@ int main(int argc, char** argv)
     RUN_TEST(test_no_gpio_collisions);
     RUN_TEST(test_no_rmii_collision);
     RUN_TEST(test_fan_pwm_params);
+    RUN_TEST(test_gpio19_no_conflict);
+    RUN_TEST(test_gpio20_no_conflict);
+    RUN_TEST(test_gpio19_gpio20_distinct);
 
     return UNITY_END();
 }

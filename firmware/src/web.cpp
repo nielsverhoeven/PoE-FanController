@@ -22,6 +22,8 @@ uint32_t fan_get_rpm(uint8_t idx);
 uint8_t  fan_get_duty(uint8_t idx);
 void     fan_set_duty(uint8_t idx, uint8_t duty);
 void     ota_register(AsyncWebServer* server);
+float    probe_get_temp_celsius();
+int      probe_get_state();   // probe_state_t, cast to int for forward decl
 
 static AsyncWebServer _server(80);
 
@@ -35,6 +37,14 @@ static void handle_status(AsyncWebServerRequest* request)
     doc["link_mbps"] = ETH.linkSpeed();
     doc["full_duplex"] = ETH.fullDuplex();
     doc["temp_c"]    = (float)((int)(temp_read_celsius() * 10)) / 10.0f;
+
+    // DS18B20 external probe — null if absent (-127.0f sentinel), float otherwise
+    float probe_t = probe_get_temp_celsius();
+    if (probe_t <= -126.0f) {
+        doc["probe_temp_c"] = nullptr;  // JSON null — probe absent
+    } else {
+        doc["probe_temp_c"] = (float)((int)(probe_t * 10)) / 10.0f;  // 1 decimal
+    }
 
     JsonArray fans = doc["fans"].to<JsonArray>();
     for (int i = 0; i < 4; i++) {
