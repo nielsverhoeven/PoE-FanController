@@ -1,14 +1,14 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-09T22:42:10 **
+** Created on 2026-06-09T22:47:11 **
 ** Report includes: Errors, Warnings **
 
 ** Found 16 DRC violations **
 [isolated_copper]: Isolated copper fill
     Local override; warning
-    @(40.0000 mm, 5.0000 mm): Zone 'GND_BOT' [Net-(U1-GND)] on B.Cu, priority 0
+    @(40.0000 mm, 5.0000 mm): Zone 'GND_TOP' [Net-(U1-GND)] on F.Cu, priority 0
 [isolated_copper]: Isolated copper fill
     Local override; warning
-    @(40.0000 mm, 5.0000 mm): Zone 'GND_TOP' [Net-(U1-GND)] on F.Cu, priority 0
+    @(40.0000 mm, 5.0000 mm): Zone 'GND_BOT' [Net-(U1-GND)] on B.Cu, priority 0
 [silk_edge_clearance]: Silkscreen clipped by board edge
     Rule: board setup constraints silk; warning
     @(0.0000 mm, 0.0000 mm): Rectangle on Edge.Cuts
@@ -165,7 +165,7 @@
 [unconnected_items]: Missing connection between items
     Local override; error
     @(23.7000 mm, 6.0000 mm): PTH pad 2 [+5V] of U1
-    @(18.1900 mm, 7.2100 mm): PTH pad 39 [+5V] of J8
+    @(18.1900 mm, 4.6700 mm): PTH pad 40 [+5V] of J8
 [unconnected_items]: Missing connection between items
     Local override; error
     @(23.7000 mm, 6.0000 mm): PTH pad 2 [+5V] of U1
