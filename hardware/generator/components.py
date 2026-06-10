@@ -11,22 +11,23 @@ header) that receives +5V and GPIO signals from the Waveshare board's male heade
 
 Daughter board provides:
   - J8      2x20 female header (PinSocket_2x20_P2.54mm_Vertical) receiving +5V
-            on pin 40 (VBUS) — pin 39 (VSYS) left NC (issue #137)
+            on pins 2,4,40 (VBUS) — pin 39 (VSYS) left NC (issue #137)
             and GPIO signals from Waveshare ESP32-P4-POE-ETH (SKU 32088)
    # U1 (formerly U_BOOST) — 5V->12V boost converter (TI LM2587-12, TO-220-3)
   - J2-J5   4-pin fan headers (12V PWM, side-edge placement)
-  - R5-R8   TACH pull-up resistors (10kOhm to 3.3V from Waveshare via J8)
+  - R5-R8   TACH pull-up resistors (10kOhm to 3.3V from Waveshare via J8 pin 36)
   # R4/NTC1 NTC temperature sensing (10kOhm NTC + 10kOhm divider) — REMOVED (issue #135)
   # HUM1    DHT11 temperature+humidity breakout (3-pin, 3.3V, single-wire)
-  - R3/LED1 status LED circuit (GPIO2 via J8)
+  - R3/LED1 status LED circuit (GPIO2 via J8 left pin 6)
 
 Power chain:
-  J8 pin 40 (VBUS) — +5V to U_BOOST VIN
+  J8 pin 40 (VBUS) — +5V to U_BOOST VIN  (also pins 2, 4 — VBUS duplicates)
     # U1 (LM2587-12, 5V -> 12V boost converter)
       -> +12V rail -> fans J2-J5
-  J8 pins 1,17 (+3V3 from Waveshare on-board LDO)
+  J8 pin 36 (+3V3 from Waveshare on-board LDO) — SOLE +3V3 source (issue #148)
     -> TACH pull-ups R5-R8
-    -> NTC voltage divider R4
+    -> DS18B20 pull-up R14
+    -> DHT11 VCC (HUM1)
 
 Schematic layout (A2 portrait, 420x594mm):
   Column A (x~91):   J8  Waveshare interface header (2x20, 50.8mm tall body)
@@ -119,10 +120,16 @@ def build_schematic():
     #   Row A (near edge, 2.81mm from long edge):  pins  1..20  (top → bottom)
     #   Row B (far edge, 18.19mm from same edge):  pins 21..40  (top → bottom)
     #
-    # OQ-02 RESOLVED: +5V is on pin 39 (VSYS, PoE PD output).
-    #                  Pin 40 (VBUS) is USB 5V — left NC to avoid back-feed when PoE-only.
-    #                  Pins 2 and 4 are NOT power pins — confirmed from Waveshare schematic.
-    # OQ-03 PENDING: Confirm GPIO4-7/8-11/16/2 positions on SKU 32088 header.
+    # CORRECTED ASSIGNMENTS (issue #148 — architecture validation v4.2.0):
+    #   Left col  (Row A, pins  1-20): +5V on 2,4; GND on 3,8,13,18,20;
+    #             STATUS_LED/GPIO2 on pin 6; PROG_LED/GPIO15 on pin 14;
+    #             DHT11_DATA/GPIO16 on pin 15; DS18B20_DATA/GPIO19 on pin 19.
+    #             All others NC (GPIO25, EMAC_*, reserved).
+    #   Right col (Row B, pins 21-40): ALL 8 fan signals here (GPIO20-23,26,27,46,47);
+    #             PROBE_LED/GPIO48 on pin 21; +3V3 output on pin 36; +5V/VBUS on pin 40.
+    #             FORBIDDEN: pins 25,26 = GPIO33/32 = EMAC_RXD1/RXD0 — left NC.
+    #             Reserved: pin 37 = EN (chip-enable) — left NC.
+    #
     # Row spacing: 15.38mm = 21.00mm board width - 2x2.81mm edge offsets (see P-HW-04)
     # body_w = 10 * 2.54 = 25.4 mm,  body_h = 20 * 2.54 = 50.8 mm
     s.define("Custom:J8_Waveshare", "J", "Waveshare_ESP32P4POEETH",
@@ -131,49 +138,49 @@ def build_schematic():
              body_w=25.4, body_h=50.8,
              pins_left=[
                  # Consecutive pins 1..20 — Row A (top-to-bottom)
-                 ("+3V3",         "1",  "power_out"),     # 3.3V from Waveshare LDO
-                 ("NC",           "2",  "no_connect"),    # NOT a power pin (confirmed OQ-02)
-                 ("LED",          "3",  "bidirectional"), # GPIO2 - status LED
-                 ("NC",           "4",  "no_connect"),    # NOT a power pin (confirmed OQ-02)
-                 ("NC",           "5",  "no_connect"),    # GPIO3
-                 ("GND",          "6",  "passive"),
-                 ("FAN1_PWM",     "7",  "output"),        # GPIO4 LEDC CH0
-                 ("FAN2_PWM",     "8",  "output"),        # GPIO5 LEDC CH1
-                 ("GND",          "9",  "passive"),
-                 ("FAN3_PWM",     "10", "output"),        # GPIO6 LEDC CH2
-                 ("FAN4_PWM",     "11", "output"),        # GPIO7 LEDC CH3
-                 ("FAN1_TACH",    "12", "input"),         # GPIO8 tach input
-                 ("FAN2_TACH",    "13", "input"),         # GPIO9 tach input
-                 ("GND",          "14", "passive"),
-                 ("FAN3_TACH",    "15", "input"),         # GPIO10 tach input
-                 ("FAN4_TACH",    "16", "input"),         # GPIO11 tach input
-                 ("+3V3",         "17", "power_out"),     # 3.3V duplicate
-                 ("NC",           "18", "no_connect"),    # GPIO12
-                 ("NC",           "19", "no_connect"),    # GPIO13
-                 ("GND",          "20", "passive"),
+                 ("NC",           "1",  "no_connect"),    # GPIO25 — NC (not used)
+                 ("+5V",          "2",  "power_out"),     # VBUS — 5V duplicate
+                 ("GND",          "3",  "passive"),       # Physical GND
+                 ("+5V",          "4",  "power_out"),     # VBUS — 5V duplicate
+                 ("NC",           "5",  "no_connect"),    # unassigned — NC
+                 ("STATUS_LED",   "6",  "output"),        # GPIO2 — status LED output
+                 ("NC",           "7",  "no_connect"),    # unassigned — NC
+                 ("GND",          "8",  "passive"),       # Physical GND
+                 ("NC",           "9",  "no_connect"),    # unassigned — NC
+                 ("NC",           "10", "no_connect"),    # unassigned — NC
+                 ("NC",           "11", "no_connect"),    # unassigned — NC
+                 ("NC",           "12", "no_connect"),    # unassigned — NC
+                 ("GND",          "13", "passive"),       # Physical GND
+                 ("PROG_LED",     "14", "output"),        # GPIO15 — OTA/write LED
+                 ("DHT11_DATA",   "15", "input"),         # GPIO16 — DHT11 single-wire
+                 ("NC",           "16", "no_connect"),    # unassigned — NC
+                 ("NC",           "17", "no_connect"),    # unassigned — NC
+                 ("GND",          "18", "passive"),       # Physical GND
+                 ("DS18B20_DATA", "19", "bidirectional"), # GPIO19 — 1-Wire data
+                 ("GND",          "20", "passive"),       # Physical GND
              ],
              pins_right=[
                  # Consecutive pins 21..40 — Row B (top-to-bottom)
-                 ("NC",           "21", "no_connect"),    # GPIO14
-                 ("PROG_LED",     "22", "output"),        # GPIO15 OTA/prog LED
-                 ("DHT11_DATA",   "23", "input"),         # GPIO16 DHT11 single-wire
-                 ("NC",           "24", "no_connect"),    # GPIO17
-                 ("GND",          "25", "passive"),
-                 ("NC",           "26", "no_connect"),    # GPIO18
-                 ("DS18B20_DATA", "27", "bidirectional"), # GPIO19 — 1-Wire data
-                 ("PROBE_LED",    "28", "output"),        # GPIO20 — probe health LED
-                 ("NC",           "29", "no_connect"),    # GPIO21
-                 ("GND",          "30", "passive"),       # GND — confirmed board-reference.md §4.1
-                 ("NC",           "31", "no_connect"),    # GPIO22
-                 ("NC",           "32", "no_connect"),    # GPIO26
-                 ("NC",           "33", "no_connect"),    # GPIO27(?)
-                 ("GND",          "34", "passive"),       # GND — confirmed board-reference.md §4.1
-                 ("NC",           "35", "no_connect"),    # GPIO28 ETH_MDIO (NC)
-                 ("NC",           "36", "no_connect"),    # 3V3_EN/RUN
-                 ("NC",           "37", "no_connect"),    # GPIO29
-                 ("GND",          "38", "passive"),
-                 ("NC",           "39", "no_connect"),    # VSYS — system regulated voltage; do NOT use as 5V source (issue #137)
-                 ("+5V",          "40", "power_out"),     # VBUS — 5V power source for daughter board (confirmed from authoritative pinout image)
+                 ("PROBE_LED",    "21", "output"),        # GPIO48 — probe health LED
+                 ("FAN4_TACH",    "22", "input"),         # GPIO47 — FAN4 tach IRQ
+                 ("GND",          "23", "passive"),       # Physical GND
+                 ("FAN3_TACH",    "24", "input"),         # GPIO46 — FAN3 tach IRQ
+                 ("GND",          "25", "passive"),       # Physical GND
+                 ("GND",          "26", "passive"),       # Physical GND
+                 ("FAN4_PWM",     "27", "output"),        # GPIO27 — FAN4 LEDC CH3
+                 ("GND",          "28", "passive"),       # Physical GND
+                 ("FAN3_PWM",     "29", "output"),        # GPIO26 — FAN3 LEDC CH2
+                 ("GND",          "30", "passive"),       # Physical GND
+                 ("FAN2_TACH",    "31", "input"),         # GPIO23 — FAN2 tach IRQ
+                 ("FAN1_TACH",    "32", "input"),         # GPIO22 — FAN1 tach IRQ
+                 ("FAN2_PWM",     "33", "output"),        # GPIO21 — FAN2 LEDC CH1
+                 ("GND",          "34", "passive"),       # Physical GND
+                 ("FAN1_PWM",     "35", "output"),        # GPIO20 — FAN1 LEDC CH0
+                 ("+3V3",         "36", "power_out"),     # +3V3 from Waveshare LDO — SOLE source (issue #148)
+                 ("NC",           "37", "no_connect"),    # EN / chip-enable — RESERVED, do NOT use
+                 ("GND",          "38", "passive"),       # Physical GND
+                 ("NC",           "39", "no_connect"),    # VSYS — system regulated; do NOT use as 5V source (issue #137)
+                 ("+5V",          "40", "power_out"),     # VBUS — 5V power source for daughter board
              ])
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)
@@ -502,19 +509,22 @@ def build_schematic():
     #   Row A (left  side of symbol): pins  1..20  top → bottom
     #   Row B (right side of symbol): pins 21..40  top → bottom
     #
-    # Power in from Waveshare (OQ-02 RESOLVED — confirmed from authoritative pinout image):
-    #   pin 39 (VSYS, Row B) -> NC  (system regulated voltage — do NOT use as 5V source)
-    #   pin 40 (VBUS, Row B) -> +5V -> U_BOOST VIN  (5V power source, issue #137)
-    #   pins 2,4 are NOT power pins — leave NC
-    #   GND: pins 6,9,14,20 (Row A) and pins 25,30,34,38 (Row B)
-    #   pins 1,17 (Row A) -> +3V3 -> TACH pull-ups + DHT11 VCC
+    # CORRECTED ASSIGNMENTS (issue #148 — architecture validation v4.2.0):
+    #
+    # Power in from Waveshare:
+    #   pins 2,4,40 (VBUS) -> +5V -> U_BOOST VIN
+    #   pin 36 (+3V3) -> TACH pull-ups R5-R8, DS18B20 pull-up R14, DHT11 VCC
+    #   pin 39 (VSYS) -> NC  (system regulated voltage — do NOT use as 5V source)
+    #   GND: left col pins 3,8,13,18,20 + right col pins 23,25,26,28,30,34,38
     #
     # GPIO signals:
-    #   Row A (pins 1-20, angle=180): STATUS_LED(3), FAN1_PWM(7), FAN2_PWM(8),
-    #                                 FAN3_PWM(10), FAN4_PWM(11), FAN1_TACH(12),
-    #                                 FAN2_TACH(13), FAN3_TACH(15), FAN4_TACH(16)
-    #   Row B (pins 21-40, angle=0):  PROG_LED(22), DHT11_DATA(23), DS18B20_DATA(27),
-    #                                 PROBE_LED(28)
+    #   Left col  (pins 1-20, angle=180): STATUS_LED/GPIO2(6), PROG_LED/GPIO15(14),
+    #                                     DHT11_DATA/GPIO16(15), DS18B20_DATA/GPIO19(19)
+    #   Right col (pins 21-40, angle=0):  PROBE_LED/GPIO48(21),
+    #                                     FAN4_TACH/GPIO47(22), FAN3_TACH/GPIO46(24),
+    #                                     FAN4_PWM/GPIO27(27),  FAN3_PWM/GPIO26(29),
+    #                                     FAN2_TACH/GPIO23(31), FAN1_TACH/GPIO22(32),
+    #                                     FAN2_PWM/GPIO21(33),  FAN1_PWM/GPIO20(35)
     #
     # NC pins: symbol type "no_connect" suppresses ERC — no explicit markers needed.
     # -----------------------------------------------------------------------
@@ -525,41 +535,43 @@ def build_schematic():
                     J8_CX, J8_CY)
 
     # --- Row A (pins 1-20, left side) — use angle=180 for global_labels ---
-    s.power("+3V3", *p["1"],  pin_type="power_out")                    # +3V3 output
-    # pin 2: NC
-    s.global_label("STATUS_LED", *p["3"],  shape="output", angle=180)  # GPIO2
-    # pins 4,5: NC
-    s.power("GND", *p["6"])
-    s.global_label("FAN1_PWM",   *p["7"],  shape="output", angle=180)  # GPIO4
-    s.global_label("FAN2_PWM",   *p["8"],  shape="output", angle=180)  # GPIO5
-    s.power("GND", *p["9"])
-    s.global_label("FAN3_PWM",   *p["10"], shape="output", angle=180)  # GPIO6
-    s.global_label("FAN4_PWM",   *p["11"], shape="output", angle=180)  # GPIO7
-    s.global_label("FAN1_TACH",  *p["12"], shape="input",  angle=180)  # GPIO8
-    s.global_label("FAN2_TACH",  *p["13"], shape="input",  angle=180)  # GPIO9
-    s.power("GND", *p["14"])
-    s.global_label("FAN3_TACH",  *p["15"], shape="input",  angle=180)  # GPIO10
-    s.global_label("FAN4_TACH",  *p["16"], shape="input",  angle=180)  # GPIO11
-    s.power("+3V3", *p["17"], pin_type="power_out")                    # +3V3 duplicate
-    # pins 18,19: NC
-    s.power("GND", *p["20"])
+    # pin 1: NC (GPIO25 — not used)
+    s.power("+5V", *p["2"], pin_type="power_out")                      # VBUS duplicate
+    s.power("GND", *p["3"])                                            # Physical GND
+    s.power("+5V", *p["4"], pin_type="power_out")                      # VBUS duplicate
+    # pin 5: NC
+    s.global_label("STATUS_LED", *p["6"],  shape="output", angle=180)  # GPIO2
+    # pin 7: NC
+    s.power("GND", *p["8"])                                            # Physical GND
+    # pins 9,10,11,12: NC
+    s.power("GND", *p["13"])                                           # Physical GND
+    s.global_label("PROG_LED",     *p["14"], shape="output",       angle=180)  # GPIO15
+    s.global_label("DHT11_DATA",   *p["15"], shape="bidirectional",angle=180)  # GPIO16
+    # pins 16,17: NC
+    s.power("GND", *p["18"])                                           # Physical GND
+    s.global_label("DS18B20_DATA", *p["19"], shape="bidirectional",angle=180)  # GPIO19
+    s.power("GND", *p["20"])                                           # Physical GND
 
     # --- Row B (pins 21-40, right side) — use angle=0 for global_labels ---
-    # pin 21: NC
-    s.global_label("PROG_LED",     *p["22"], shape="output")            # GPIO15 — prog/OTA LED
-    s.global_label("DHT11_DATA",    *p["23"], shape="input")             # GPIO16
-    # pin 24: NC
-    s.power("GND", *p["25"])
-    # pin 26: NC
-    s.global_label("DS18B20_DATA", *p["27"], shape="bidirectional")     # GPIO19
-    s.global_label("PROBE_LED",    *p["28"], shape="output")            # GPIO20 — probe health LED
-    # pin 29: NC
-    s.power("GND", *p["30"])                                            # GND — board-reference.md §4.1
-    # pins 31,32,33: NC
-    s.power("GND", *p["34"])                                            # GND — board-reference.md §4.1
-    # pins 35,36,37: NC
-    s.power("GND", *p["38"])
-    # pin 39 (VSYS) — system regulated voltage; leave NC (issue #137)
-    s.power("+5V", *p["40"], pin_type="power_out")                      # VBUS — 5V source for daughter board (issue #137)
+    s.global_label("PROBE_LED",  *p["21"], shape="output")             # GPIO48 — probe health LED
+    s.global_label("FAN4_TACH", *p["22"], shape="input")               # GPIO47 — FAN4 tach IRQ
+    s.power("GND", *p["23"])                                            # Physical GND
+    s.global_label("FAN3_TACH", *p["24"], shape="input")               # GPIO46 — FAN3 tach IRQ
+    s.power("GND", *p["25"])                                            # Physical GND
+    s.power("GND", *p["26"])                                            # Physical GND
+    s.global_label("FAN4_PWM",  *p["27"], shape="output")              # GPIO27 — FAN4 LEDC CH3
+    s.power("GND", *p["28"])                                            # Physical GND
+    s.global_label("FAN3_PWM",  *p["29"], shape="output")              # GPIO26 — FAN3 LEDC CH2
+    s.power("GND", *p["30"])                                            # Physical GND
+    s.global_label("FAN2_TACH", *p["31"], shape="input")               # GPIO23 — FAN2 tach IRQ
+    s.global_label("FAN1_TACH", *p["32"], shape="input")               # GPIO22 — FAN1 tach IRQ
+    s.global_label("FAN2_PWM",  *p["33"], shape="output")              # GPIO21 — FAN2 LEDC CH1
+    s.power("GND", *p["34"])                                            # Physical GND
+    s.global_label("FAN1_PWM",  *p["35"], shape="output")              # GPIO20 — FAN1 LEDC CH0
+    s.power("+3V3", *p["36"], pin_type="power_out")                    # +3V3 SOLE source (issue #148)
+    # pin 37: NC (EN/chip-enable — RESERVED)
+    s.power("GND", *p["38"])                                            # Physical GND
+    # pin 39: NC (VSYS — do NOT use as 5V source)
+    s.power("+5V", *p["40"], pin_type="power_out")                     # VBUS — 5V source for daughter board
 
     return s
