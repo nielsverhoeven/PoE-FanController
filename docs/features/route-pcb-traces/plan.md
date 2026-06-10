@@ -26,10 +26,12 @@ The daughter board sits wholly in the SELV secondary domain. The isolation
 barrier is internal to the Waveshare SKU 32088 module; P-ISO-01 through
 P-ISO-05 are not engaged by this routing task.
 
-J8 geometry (from constitution P-HW-04, Amendment v3.1.0):
-- Row A (pads 1–20): PCB x ~= 2.81 mm — signals route LEFT then across board
-- Row B (pads 21–40): PCB x ~= 18.19 mm — signals route RIGHT toward fan headers
-- J8 centre at PCB position (10.50, 28.80) mm, rotated 90 degrees
+J8 geometry (from constitution P-HW-04, updated for new ESP32 x=15–36mm layout):
+- Row A (pads 1–20): PCB x = 17.81 mm — signals route LEFT (x < 17.81 mm)
+- Row B (pads 21–40): PCB x = 33.19 mm — signals route RIGHT (x > 33.19 mm)
+- J8 centre at PCB position (25.50, 28.80) mm, rotated 90 degrees
+- Left component zone: x = 0–17.81 mm (J9, LED1+R3, LED2+R13, J6)
+- Right component zone: x = 33.19–56 mm (J2–J5, R5–R8, U1, L1, D1, C1, C2, LED6+R15, D2–D5)
 
 Corrected power flow that routing must physically implement:
 
@@ -49,7 +51,7 @@ Corrected power flow that routing must physically implement:
 
 ### 1.3 Authoritative J8 Pad-to-Net Mapping (from Issue #148)
 
-**Row B, pads 21–40 (PCB x ~= 18.19 mm) — route RIGHT toward fan headers:**
+**Row B, pads 21–40 (PCB x = 33.19 mm) — route RIGHT toward fan headers:**
 
 | Pad | Net | GPIO | Notes |
 |-----|-----|------|-------|
@@ -74,7 +76,7 @@ Corrected power flow that routing must physically implement:
 | 39 | NC | VSYS | No route |
 | 40 | +5V | VBUS | Sole 5V source on J8 |
 
-**Row A, pads 1–20 (PCB x ~= 2.81 mm) — route LEFT then across board:**
+**Row A, pads 1–20 (PCB x = 17.81 mm) — route LEFT toward left-zone components:**
 
 | Pad | Net | GPIO | Notes |
 |-----|-----|------|-------|
@@ -104,7 +106,7 @@ Corrected power flow that routing must physically implement:
 |---|---|---|
 | P-HW-01 | Two-layer FR4 only | F.Cu for traces; B.Cu for GND pour and via returns |
 | P-HW-02 | All components on F.Cu | All pads to connect are on F.Cu; confirmed |
-| P-HW-04 | 78 x 56 mm board, portrait layout | J8 Row A at x=2.81 mm, Row B at x=18.19 mm |
+| P-HW-04 | 78 x 56 mm board, portrait layout | J8 Row A at x=17.81mm, Row B at x=33.19mm; ESP32 at x=15–36mm; left zone x=0–17.81mm; right zone x=33.19–56mm |
 | P-HW-07 | Power >= 1.0 mm; signal >= 0.25 mm | Governs every trace width decision in §3 |
 | P-HW-08 | GND copper pour on both layers | Zones already assigned to GND (issue #148); fill in Phase 8 |
 | P-KI-01 | KiCad 10.0.3 locked | All GUI and scripting must use this version only |
@@ -170,7 +172,7 @@ routes wherever board density allows.
 
 ---
 
-## 3. Nine-Phase Implementation Approach
+## 3. Ten-Phase Implementation Approach
 
 All phases must be executed in order. The `.kicad_pcb` file must pass DRC
 with 0 errors at the relevant gate before committing the result of each phase.
@@ -201,69 +203,116 @@ The script must:
 **Verification:** Open the saved file in KiCad GUI. Confirm all traces are gone
 (board shows airwires/ratsnest only). Run DRC — the 35 `shorting_items` and
 125 `solder_mask_bridge` violations must be gone. Commit this single-purpose
-change separately before beginning trace routing.
+change separately before Phase 1.
 
 **GND zones unchanged:** The Phase 0 script must NOT touch zone objects.
 Both GND zones remain correctly assigned to `GND` net (per issue #148).
 
 ---
 
-### Phase 1 — Route BOOST_SW Switching Loop (>= 1.0 mm, EMI Critical)
+### Phase 1 — Reposition J8 Footprint and Move J6 to Left Zone *(CRITICAL PREREQUISITE — must precede ALL routing)*
 
-**Loop:** `L1 SW-side pin --> D1 anode --> [BOOST_SW net] --> U1 SW pin`
+**Goal:** Align PCB component positions with the new ESP32 x = 15 mm layout
+so that every signal's source pad (J8 Row A or Row B) is physically adjacent
+to its destination component, enabling zero-crossing trace routing.
+
+**Actions (KiCad GUI — P-KI-07):**
+
+1. **Move J8 footprint centre** from (10.50, 28.80) mm to **(25.50, 28.80) mm**.
+   - This shifts Row A pads from x = 2.81 mm → **x = 17.81 mm**
+   - This shifts Row B pads from x = 18.19 mm → **x = 33.19 mm**
+   - In KiCad GUI: select J8 footprint → Properties → set X to 25.50 mm
+     (or use `E` → Position X field); Y and rotation are unchanged.
+
+2. **Move J6 (DS18B20 connector)** from its current right-side position to the
+   **left zone (x < 17.81 mm)**, near J9 and LED2+R13.
+   - DS18B20_DATA (GPIO19) is a Row A signal; placing J6 left keeps the trace
+     entirely in x ≤ 17.81 mm (FR-10, FR-12).
+
+3. **Verify left-zone components** — all of the following must be within
+   x = 0–17.81 mm: J9 (DHT11 connector), LED1+R3 (STATUS_LED chain),
+   LED2+R13 (PROG_LED chain), J6 (DS18B20 connector).
+
+4. **Verify right-zone components** — all of the following must be within
+   x = 33.19–56 mm: J2–J5 (fan headers), R5–R8 (TACH pull-ups), U1, L1, D1,
+   C1, C2 (boost converter chain), LED6+R15 (PROBE_LED chain), D2–D5 (fan
+   indicator LEDs).
+
+**Acceptance gate:**
+- J8 Row A pads at x ≈ 17.81 mm (verify in KiCad footprint properties)
+- J8 Row B pads at x ≈ 33.19 mm
+- J6 positioned in left zone (x < 17.81 mm)
+- DRC shows 0 courtyard violations introduced by repositioning
+- Isolated git commit (e.g. `hw: reposition J8 to x=25.50mm and move J6 to left zone`)
+
+---
+
+### Phase 2 — Route BOOST_SW Switching Loop *(EMI Critical)*
+
+**Net:** `BOOST_SW` — the loop `L1 SW-side pin → D1 anode → U1 SW pin`
+
+**Zone:** RIGHT (all components in x = 33.19–56 mm)
 
 This loop carries high-frequency switching current (~100 kHz). Loop area is
 directly proportional to radiated EMI. Route this before all other traces to
 guarantee the tightest possible copper geometry.
 
 **Routing rules:**
-- Route all three segments (`L1 --> BOOST_SW`, `BOOST_SW --> U1 SW`,
-  `D1 anode --> BOOST_SW`) before any other routes.
+- Route all three segments (`L1 → BOOST_SW`, `BOOST_SW → U1 SW`,
+  `D1 anode → BOOST_SW`) before any other routes.
 - Keep total enclosed loop area < 200 mm² (measure in KiCad board inspector).
 - Use >= 1.0 mm trace width throughout (BOOST_SW is a power-class net).
 - D1 is an SMA-package SMD component; route U1 SW pin first (shortest
   segment from IC), then connect D1 anode, then close the loop at L1.
 - No signal traces may pass through the interior of the BOOST_SW loop.
 
+**Acceptance:** BOOST_SW loop fully routed; trace width ≥ 1.0 mm; enclosed
+loop area < 200 mm²; isolated git commit.
+
 ---
 
-### Phase 2 — Route Power Rails (>= 1.0 mm)
+### Phase 3 — Route Power Rails (>= 1.0 mm)
 
 Route in current priority order (heaviest first):
 
-**+5V rail:**
+**+5V rail (RIGHT zone):**
 ```
 J8 pad 40 --> C1 positive pad --> L1 pin 1 --> U1 VIN
 ```
 Keep C1 bypass cap close to the inductor to minimise input ripple loop area.
 
-**+12V rail:**
+**+12V rail (RIGHT zone):**
 ```
 D1 cathode --> C2 positive pad
 C2 positive pad --> J2 pin 2, J3 pin 2, J4 pin 2, J5 pin 2 (daisy-chain or star)
 ```
 
-**+3V3 rail (single source — J8 pad 36):**
+**+3V3 rail:**
 ```
-J8 pad 36 --> R5 pin 1, R6 pin 1, R7 pin 1, R8 pin 1 (TACH pull-up rail)
-J8 pad 36 --> J9 pin 1 (DHT11 VCC)
-J8 pad 36 --> R14 pin 1 (DS18B20 pull-up to +3V3)
+J8 pad 36 --> R5 pin 1, R6 pin 1, R7 pin 1, R8 pin 1  (RIGHT zone — TACH pull-ups)
+J8 pad 36 --> R14 pin 1 (DS18B20 pull-up; R14 may sit near left zone boundary)
 ```
-Route as a +3V3 tree from the single source at pad 36.
+Note: +3V3 is a power rail (not a signal), so it is exempt from the
+zero-crossing trace constraint in FR-10. Keep the +3V3 tree as short as
+possible regardless of zone boundary.
 
 **GND connections (>= 1.0 mm):**
 ```
-J8 Row A GND pads (3, 8, 13, 18) --> C1 GND, J9 pin 3, LED cathodes
-J8 Row B GND pads (23, 28, 33, 38) --> C2 GND, J6 pin 3, R5-R8 GND sides, U1 GND area
+J8 Row A GND pads (3, 8, 13, 18) --> GND pour / C1 GND / J9 pin 3 / LED cathodes
+J8 Row B GND pads (23, 28, 33, 38) --> GND pour / C2 GND / J6 pin 3 / U1 GND area
 ```
 GND traces partially replaced by copper pour in Phase 8, but explicit traces
 ensure connectivity even if pour islands occur.
 
+**Acceptance:** All power rail ratsnest cleared; trace widths ≥ 1.0 mm;
+isolated git commit.
+
 ---
 
-### Phase 3 — Route Fan PWM Signals (>= 0.25 mm)
+### Phase 4 — Route Fan PWM Signals (>= 0.25 mm)
 
-Straight runs from Row B of J8 (x ~= 18.19 mm) rightward to fan headers:
+Straight runs from Row B of J8 (x = 33.19 mm) rightward to fan headers
+(x ≈ 46–56 mm):
 
 | Net | J8 pad | Fan header | Pin |
 |---|---|---|---|
@@ -275,9 +324,12 @@ Straight runs from Row B of J8 (x ~= 18.19 mm) rightward to fan headers:
 Route parallel traces at 0.25 mm. Maintain >= 0.25 mm clearance between
 adjacent signal traces. Dog-leg to avoid the BOOST_SW loop region if needed.
 
+**Acceptance:** All 4 FAN_PWM ratsnest cleared; trace width ≥ 0.25 mm; all
+traces remain in x ≥ 33.19 mm.
+
 ---
 
-### Phase 4 — Route Fan TACH Signals (>= 0.25 mm)
+### Phase 5 — Route Fan TACH Signals + R5–R8 Pull-ups (>= 0.25 mm)
 
 **Pull-up topology** (identical for all four channels):
 
@@ -285,7 +337,7 @@ adjacent signal traces. Dog-leg to avoid the BOOST_SW loop region if needed.
                        |
     J2-J5 pin 3 ------ R_n pin 2   (same node)
                        |
-    R_n pin 1 -------- +3V3 (routed in Phase 2)
+    R_n pin 1 -------- +3V3 (routed in Phase 3)
 
 | Net | J8 pad | Resistor | Fan header | Pin |
 |---|---|---|---|---|
@@ -294,22 +346,50 @@ adjacent signal traces. Dog-leg to avoid the BOOST_SW loop region if needed.
 | `FAN3_TACH` | 24 | R7 | J4 | pin 3 |
 | `FAN4_TACH` | 22 | R8 | J5 | pin 3 |
 
+**Acceptance:** All 4 FAN_TACH nets connected; R5–R8 both pads connected;
+all traces in x ≥ 33.19 mm.
+
 ---
 
-### Phase 5 — Route PROBE_LED (>= 0.25 mm)
+### Phase 6 — Route Right-Side LED Chains (>= 0.25 mm)
 
+**PROBE_LED (GPIO48 — Row B, RIGHT zone):**
 ```
 J8 pad 21 (PROBE_LED / GPIO48) --> R15 pin 1
 R15 pin 2 --> [/PROBE_LED_A] --> LED6 anode (pin 1)
 LED6 cathode (pin 2) --> GND (via pour or explicit trace)
 ```
 
+**Fan indicator LED chains (passive — +12V rail driven, RIGHT zone):**
+
+Four identical per-channel indicator chains:
+
+```
+J2-J5 pin 2 (+12V branch) --> D_n anode --> [/FANn_IND] --> R_n --> GND
+```
+
+| Net | LED | Resistor | Fan header |
+|---|---|---|---|
+| `/FAN1_IND` | D2 | R9 | J2 pin 2 |
+| `/FAN2_IND` | D3 | R10 | J3 pin 2 |
+| `/FAN3_IND` | D4 | R11 | J4 pin 2 |
+| `/FAN4_IND` | D5 | R12 | J5 pin 2 |
+
+The +12V trace to each J_n pin 2 (from Phase 3) must branch: one segment
+continues to the fan connector at >= 1.0 mm (power class), and a separate
+branch at >= 0.25 mm feeds D_n anode. The D_n → R_n → GND chain is a
+signal-class net.
+
+**Acceptance:** PROBE_LED net connected; D2–D5 chains connected; all traces
+in x ≥ 33.19 mm.
+
 ---
 
-### Phase 6 — Route Left-Column Signals (>= 0.25 mm)
+### Phase 7 — Route Left-Side Signals (>= 0.25 mm)
 
-These signals originate from Row A of J8 (x ~= 2.81 mm). Route leftward
-from each pad then across the board to the destination:
+All signals originate from Row A of J8 (x = 17.81 mm) and route leftward
+into the left zone (x < 17.81 mm). No trace in this phase may cross the
+ESP32 footprint boundary (FR-10).
 
 **Status LED (LED1, green):**
 ```
@@ -335,45 +415,28 @@ Single-wire signal. No PCB pull-up required — DHT11 breakout (Reichelt
 **DS18B20 data:**
 ```
 J8 pad 19 (DS18B20_DATA / GPIO19) --> R14 pin 2 --> J6 pin 2
-R14 pin 1 --> +3V3 (routed in Phase 2)
+R14 pin 1 --> +3V3 (routed in Phase 3)
 ```
-R14 is the 4.7 kOhm DS18B20 pull-up; route in-line, do not bypass it.
+R14 is the 4.7 kΩ DS18B20 pull-up; route in-line, do not bypass it. J6 is
+in the left zone after Phase 1, so the full signal path stays at x ≤ 17.81 mm.
+
+**Acceptance:** All 4 left-side signal nets (STATUS_LED, PROG_LED, DHT11_DATA,
+DS18B20_DATA) connected; no trace crosses ESP32 footprint boundary
+(x = 15–36 mm); isolated git commit.
 
 ---
 
-### Phase 7 — Route Fan Indicator LEDs (>= 0.25 mm)
-
-Four identical per-channel indicator chains:
-
-```
-J2-J5 pin 2 (+12V branch) --> D_n anode --> [/FANn_IND] --> R_n --> GND
-```
-
-| Net | LED | Resistor | Fan header |
-|---|---|---|---|
-| `/FAN1_IND` | D2 | R9 | J2 pin 2 |
-| `/FAN2_IND` | D3 | R10 | J3 pin 2 |
-| `/FAN3_IND` | D4 | R11 | J4 pin 2 |
-| `/FAN4_IND` | D5 | R12 | J5 pin 2 |
-
-The +12V trace to each J_n pin 2 (from Phase 2) must branch: one segment
-continues to the fan connector at >= 1.0 mm (power class), and a separate
-branch at >= 0.25 mm feeds D_n anode. The D_n --> R_n --> GND chain is a
-signal-class net.
-
----
-
-### Phase 8 — Fill GND Zones and Run DRC
+### Phase 8 — Fill GND Zones and Run DRC *(Convergence Gate)*
 
 **Step 8a — Zone fill:**
-In the KiCad GUI (Edit --> Fill All Zones, shortcut: `B`):
+In the KiCad GUI (Edit → Fill All Zones, shortcut: `B`):
 1. Both zones — `GND_TOP` (F.Cu) and `GND_BOT` (B.Cu) — fill with copper
    connected to the `GND` net (already correctly assigned per issue #148).
 2. Inspect for isolated islands: any region not connected back to a GND pad
    must be bridged with an explicit GND via or removed with a keepout zone.
 
 **Step 8b — DRC:**
-Run full DRC: Tools --> Design Rules Checker --> Run DRC.
+Run full DRC: Tools → Design Rules Checker → Run DRC.
 
 Target outcome:
 
@@ -384,15 +447,18 @@ Target outcome:
 | Shorting items | **0** (all eliminated in Phase 0) |
 | Solder mask bridge | **0** (all eliminated in Phase 0) |
 
+Verify J8 pads 25, 26, 30, 37, and 39 have zero connected tracks in the
+`.kicad_pcb` file.
+
 If violations remain, resolve before committing:
 - `unconnected`: add the missing trace manually.
 - `clearance`: re-route the offending segment.
 - `isolated_copper`: add GND via or keepout zone.
 
 **Step 8c — Gerbers:**
-Generate Gerber files: File --> Fabrication Outputs --> Gerbers.
-Output to `hardware/kicad/gerbers/`. Commit with message:
-`hw: regenerate Gerbers after full PCB routing`
+Generate Gerber files: File → Fabrication Outputs → Gerbers.
+Output to `hardware/kicad/gerbers/`. Commit updated `.kicad_pcb` and Gerbers
+together with message: `hw: regenerate Gerbers after full PCB routing`
 
 ---
 
@@ -407,13 +473,17 @@ touched.
 | Change type | Detail |
 |---|---|
 | Delete legacy traces | All existing signal/power traces (Phase 0) — removes 35 shorts |
-| New traces — power class | `+5V`, `+12V`, `+3V3`, `GND`, `BOOST_SW` (Phases 1–2) |
-| New traces — signal class | All signal nets using corrected pad numbers (Phases 3–7) |
+| Reposition J8 footprint | Move centre from (10.50, 28.80) to (25.50, 28.80) mm (Phase 1) |
+| Relocate J6 to left zone | Move DS18B20 connector from right side to x < 17.81 mm (Phase 1) |
+| New traces — power class | `+5V`, `+12V`, `+3V3`, `GND`, `BOOST_SW` (Phases 2–3) |
+| New traces — signal class | All signal nets using corrected pad numbers (Phases 4–7) |
 | Zone fill | Both layers filled after all traces are placed (Phase 8) |
 | Gerber regeneration | All copper, drill, mask, and silkscreen layers (Phase 8c) |
 
 ### 4.3 Component Selection
 No new components. All 33 footprints are already placed. No BOM changes.
+Two footprint positions are updated in Phase 1 (J8 and J6); no component
+values, packages, or netlists change.
 
 ### 4.4 Power Budget Impact
 Routing does not add electrical loads. Power budget is unchanged from the
@@ -501,11 +571,11 @@ This is a mechanical bulk deletion (not a design decision), is fully auditable,
 and follows the project's established precedent (`hardware/pcb_cleanup_v2.py`,
 `hardware/fix_pcb_placement_v3.py`, etc.).
 
-**Mitigation:** All trace routing (Phases 1–7) is performed interactively in
+**Mitigation:** All trace routing (Phases 2–7) is performed interactively in
 the KiCad GUI, satisfying the spirit of P-KI-07 for design-critical work. The
 Phase 0 script is a documented exception, committed separately and
 code-reviewed. A P-KI-07 PATCH amendment must be documented if auto-routing
-scripts are used for Phases 1–7.
+scripts are used for Phases 2–7.
 
 **Residual risk:** Low — track deletion is fully reversible via `git checkout`.
 
@@ -513,18 +583,19 @@ scripts are used for Phases 1–7.
 
 ### R-02 — Router Congestion Near J8
 
-**Risk:** J8 is a 2×20 header with 15.38 mm row spacing. Signals from Row A
-(x ~= 2.81 mm) must route left then across the board, potentially crossing
-under J8 pads. At >= 0.25 mm trace width + 0.25 mm clearance, density in the
-J8 exit zone may cause DRC spacing violations.
+**Risk:** J8 is a 2×20 header with 15.38 mm row spacing. After Phase 1
+repositioning, Row A pads are at x = 17.81 mm and Row B pads are at
+x = 33.19 mm. The 15.38 mm gap between rows now sits over the ESP32 footprint
+(x = 17.81–33.19 mm) and is free of routing — which is the design intent of
+the zero-crossing constraint. Congestion risk is reduced compared to the old
+layout, since each row's signals route exclusively into the adjacent zone.
 
 **Mitigation:** Route Row B signals rightward in a fanned pattern with 45°
-angles or gentle curves. Route Row A signals leftward then north/south before
-turning toward destinations. Use vias to route short B.Cu segments if
-congestion is unavoidable on F.Cu.
+angles. Route Row A signals leftward. Use vias to route short B.Cu segments if
+congestion is unavoidable on F.Cu within a zone.
 
 **Residual risk:** Low — signal density is modest (20 signal nets, 8 power
-pads) for a 78 × 56 mm board.
+pads) for a 78 × 56 mm board, and the two routing zones are now well-separated.
 
 ---
 
@@ -561,9 +632,9 @@ correctly marks them NC (confirmed by issue #148).
 | Principle | How this plan satisfies it |
 |---|---|
 | **P-HW-01** (2-layer FR4) | All routing on F.Cu and B.Cu only; no layer additions |
-| **P-HW-02** (all components on F.Cu) | No component moves; all pads already on F.Cu |
+| **P-HW-02** (all components on F.Cu) | J8 and J6 are repositioned in Phase 1 (position changes only; both remain on F.Cu); all other pads already on F.Cu |
 | **P-HW-03** (J2–J5 on side edge) | Routing terminates at these connectors without moving them |
-| **P-HW-04** (78 x 56 mm board) | No board outline change; J8 Row A/B x-positions confirmed from constitution |
+| **P-HW-04** (78 x 56 mm board) | No board outline change; J8 repositioned to centre (25.50, 28.80) mm; Row A at x=17.81mm, Row B at x=33.19mm |
 | **P-HW-05 / P-KI-04** (generator is schematic source of truth) | `.kicad_sch` is not touched |
 | **P-HW-06** (grid discipline) | All new vias on 0.1 mm grid; traces follow KiCad router constraints |
 | **P-HW-07** (trace widths) | Power >= 1.0 mm; signal >= 0.25 mm; via 0.8/0.4 mm — enforced per §3 |
@@ -573,7 +644,7 @@ correctly marks them NC (confirmed by issue #148).
 | **P-KI-03** (PCB format version 20260206) | KiCad 10.0.3 writes this version; no other tool writes to the PCB |
 | **P-KI-05** (custom footprints in-project) | No new footprints; `Custom:ESP32-P4-PoE-ETH-PinSocket` already in `hardware/kicad/footprints/Custom.pretty/` |
 | **P-KI-06** (Gerbers in `hardware/kicad/gerbers/`) | Phase 8c regenerates Gerbers to this path and commits them |
-| **P-KI-07** (PCB layout in KiCad GUI) | Trace routing (Phases 1–7) done interactively in GUI; Phase 0 script is a documented exception — see R-01 |
+| **P-KI-07** (PCB layout in KiCad GUI) | Phase 1 repositioning and trace routing (Phases 2–7) done interactively in GUI; Phase 0 script is a documented exception — see R-01 |
 | **P-POE-01** (802.3at Class 4) | No power topology changes |
 | **P-POE-02** (no primary-side changes) | No primary-side touches |
 | **P-ISO-01 to P-ISO-05** (isolation) | No traces cross the isolation barrier; all routing on secondary (SELV) side |
@@ -584,15 +655,19 @@ correctly marks them NC (confirmed by issue #148).
 ## 11. Acceptance Criteria
 
 - [ ] All legacy invalid signal traces deleted (Phase 0 complete; git commit separate)
+- [ ] J8 footprint repositioned to centre (25.50, 28.80) mm; Row A at x=17.81mm, Row B at x=33.19mm (Phase 1 complete; git commit separate)
+- [ ] J6 (DS18B20 connector) repositioned to left zone (x < 17.81 mm) (Phase 1)
 - [ ] DRC: 0 `shorting_items` after Phase 0
 - [ ] DRC: 0 `solder_mask_bridge` after Phase 0
-- [ ] All nets routed in Phases 1–7 using the authoritative pad table from issue #148
+- [ ] All nets routed in Phases 2–7 using the authoritative pad table from issue #148
 - [ ] 0 unconnected items (pads 25, 26, 30, 37, 39 intentionally NC — excluded)
 - [ ] DRC: 0 rule violations (shorts, clearance) after Phase 8
 - [ ] All power traces >= 1.0 mm: `+5V`, `+12V`, `+3V3`, `GND`, `BOOST_SW`
 - [ ] All signal traces >= 0.25 mm
 - [ ] J8 pads 25, 26, 30, 37, 39 have zero connected tracks in the PCB file
 - [ ] BOOST_SW loop (L1 --> U1 --> D1) enclosed area < 200 mm²
+- [ ] Zero signal traces cross the ESP32 footprint boundary (x = 15–36 mm)
+- [ ] All Row A GPIO traces at x ≤ 17.81 mm; all Row B GPIO traces at x ≥ 33.19 mm
 - [ ] Both GND zones filled; no isolated copper islands
 - [ ] Gerber files in `hardware/kicad/gerbers/` committed on branch
 - [ ] DRC report `hardware/kicad/drc_result.rpt` attached to PR

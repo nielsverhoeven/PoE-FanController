@@ -17,21 +17,40 @@ board carries **invalid legacy signal traces** that cause **35 DRC
 were routed against the pre-correction pad-to-net mapping and must be deleted
 before any new routing begins.
 
+The board layout has been revised to place the ESP32 at **x = 15 mm to
+x = 36 mm** (previously x = 0–21 mm). This shift moves J8 Row A pads to
+**PCB x = 17.81 mm** (previously 2.81 mm) and J8 Row B pads to
+**PCB x = 33.19 mm** (previously 18.19 mm). As a result, all left-column
+GPIO signals now have short direct traces to components in the left zone
+(x = 0–17.81 mm) and all right-column GPIO signals route directly to
+components in the right zone (x = 33.19–56 mm) — **no signal trace needs to
+cross the ESP32 footprint boundary**.
+
 The GND copper pour zones (`GND_TOP` on F.Cu, `GND_BOT` on B.Cu) are
 **already correctly assigned** to the `GND` net — this was fixed as part of
 issue #148 and is **not** a routing task.
 
-This feature completes the PCB by:
+This feature completes the PCB in two sequential stages:
 
+**Phase 1 — Component repositioning (critical prerequisite):**
+Before any routing begins, the J8 footprint must be repositioned to centre
+(25.50, 28.80) mm (aligning Row A pads at x = 17.81 mm and Row B pads at
+x = 33.19 mm), and J6 (DS18B20 connector) must be moved from its current
+right-side position to the left zone (x < 17.81 mm) since DS18B20_DATA is a
+Row A (left-column) signal.
+
+**Routing Phases 2–8:**
 1. Deleting all existing invalid signal traces (the source of all current DRC
    shorts).
 2. Routing every net to its correct destination using the authoritative J8
-   pad-to-net mapping established by issue #148.
+   pad-to-net mapping established by issue #148, respecting the zero-crossing
+   trace discipline (Row A signals route left; Row B signals route right).
 3. Performing a GND zone fill so that the design reaches a fabrication-ready
    state: **0 errors, 0 unconnected** in DRC.
 
-The routing scope is exclusively copper — no component moves, no netlist
-changes, and no schematic touches are permitted.
+The netlist is frozen — no netlist changes and no schematic touches are
+permitted. Component moves are restricted to the two repositioning actions
+described in Phase 1.
 
 ---
 
@@ -100,7 +119,26 @@ changes, and no schematic touches are permitted.
    carry the `NC` net. No trace may connect to or pass through these pads.
    Similarly, pads 30 (RUN), 37 (EN), and 39 (VSYS) must remain unconnected.
 
-10. **FR-10 — Gerbers regenerated.** After the routed `.kicad_pcb` is
+10. **FR-10 — Zero crossing traces (design goal).** No signal trace may cross
+    the ESP32 footprint boundary (x = 15 mm to x = 36 mm). Left-column GPIO
+    signals (J8 Row A, x = 17.81 mm) must be routed entirely within
+    x ≤ 17.81 mm. Right-column GPIO signals (J8 Row B, x = 33.19 mm) must be
+    routed entirely within x ≥ 33.19 mm. Power rails (+3V3, +5V, +12V, GND)
+    are exempt from this rule as they serve both zones.
+
+11. **FR-11 — J8 footprint repositioning (prerequisite).** Before any routing
+    begins, the J8 footprint must be moved so that its centre is at PCB
+    position (25.50, 28.80) mm. This places Row A pads at x = 17.81 mm and
+    Row B pads at x = 33.19 mm, enabling the zero-crossing trace discipline in
+    FR-10.
+
+12. **FR-12 — J6 moved to left zone (prerequisite).** J6 (DS18B20 connector)
+    must be repositioned to the left zone (x < 17.81 mm) before routing begins.
+    DS18B20_DATA (GPIO19) is a Row A signal; routing it rightward across the
+    board would violate FR-10. J6 must be placed near J9 and the left-side
+    LED circuits.
+
+13. **FR-13 — Gerbers regenerated.** After the routed `.kicad_pcb` is
     committed, Gerber and drill files must be regenerated into
     `hardware/kicad/gerbers/` and committed on the same branch.
 
@@ -141,12 +179,17 @@ changes, and no schematic touches are permitted.
 7. J8 pads 25, 26, 30, 37, and 39 have no connected tracks in the `.kicad_pcb`
    file.
 8. Gerber files in `hardware/kicad/gerbers/` reflect the fully routed board.
+9. J6 (DS18B20 connector) is positioned in the LEFT zone (x < 17.81 mm).
+10. Zero signal traces cross the ESP32 footprint boundary (x = 15 mm to
+    x = 36 mm).
+11. All Row A GPIO traces stay left of J8 Row A (x ≤ 17.81 mm).
+12. All Row B GPIO traces stay right of J8 Row B (x ≥ 33.19 mm).
 
 ---
 
 ## J8 Authoritative Pad-to-Net Mapping (Issue #148)
 
-### Row B — pads 21–40 (PCB x ≈ 18.19 mm) — route RIGHT toward fan headers
+### Row B — pads 21–40 (PCB x = 33.19 mm) — route RIGHT (x > 33.19 mm)
 
 | Pad | Net | GPIO | Notes |
 |-----|-----|------|-------|
@@ -171,7 +214,7 @@ changes, and no schematic touches are permitted.
 | 39 | NC | VSYS | No route |
 | 40 | +5V | VBUS | Sole 5V source on J8 |
 
-### Row A — pads 1–20 (PCB x ≈ 2.81 mm) — route LEFT then across board
+### Row A — pads 1–20 (PCB x = 17.81 mm) — route LEFT (x < 17.81 mm)
 
 | Pad | Net | GPIO | Notes |
 |-----|-----|------|-------|
@@ -191,8 +234,9 @@ changes, and no schematic touches are permitted.
 
 - Schematic changes — the netlist is frozen after issue #148; `.kicad_sch`
   must not be touched.
-- Component placement changes — all 33 footprints are placed; no repositioning
-  is permitted.
+- Component placement changes (except J8 footprint repositioning and J6
+  relocation to the left zone, which are required as Phase 1 routing
+  prerequisites — see FR-11 and FR-12).
 - GND zone net reassignment — already completed in issue #148.
 - Re-evaluation of isolated nets at the schematic level — that is a schematic
   design decision for a future issue.
@@ -214,7 +258,11 @@ changes, and no schematic touches are permitted.
    zone reassignment script is needed.
 3. The J8 footprint is `Custom:ESP32-P4-PoE-ETH-PinSocket` (renamed from
    `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` by Amendment v4.2.1).
-   Geometry is unchanged; only the name was updated.
+   Before routing, the footprint must be repositioned so that its **centre is
+   at PCB (25.50, 28.80) mm**, placing **Row A pads at x = 17.81 mm** and
+   **Row B pads at x = 33.19 mm**. This reflects the new ESP32 x = 15–36 mm
+   layout (previously x = 0–21 mm). The footprint internal geometry (15.38 mm
+   row spacing, 2.54 mm pin pitch) is unchanged.
 4. The DHT11 breakout (Reichelt 239086) includes an onboard pull-up resistor
    for `DHT11_DATA`; no additional PCB pull-up resistor is needed (see §2.2
    note in constitution v4.2.1).
