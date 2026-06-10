@@ -103,8 +103,8 @@ python -m platformio test -e native
   - **5V power source: pin 40 (VBUS)** — do NOT use pin 39 (VSYS)
   - First pin: y = 4.67 mm from top board edge, 2.54 mm pitch → 20 pins per row
   - J8 PCB placement: (10.50, 28.80) mm, rotated 90°
-- **Custom J8 footprint**: `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`
-  - File: `hardware/kicad/footprints/Custom.pretty/PinSocket_2x20_P2.54mm_P15.38mm_Vertical.kicad_mod`
+- **Custom J8 footprint**: `Custom:ESP32-P4-PoE-ETH-PinSocket`
+  - File: `hardware/kicad/footprints/Custom.pretty/ESP32-P4-PoE-ETH-PinSocket.kicad_mod`
   - Generator: `hardware/generator/gen_footprint_j8.py` (re-run if dimensions change)
 - **EMAC pin corrections** (ESP32-P4, confirmed from Waveshare official Kconfig):
   - EMAC_MDC = **GPIO31**
@@ -114,6 +114,81 @@ python -m platformio test -e native
 - **DRC baseline** (current, 0 routing): 4 silk warnings, 0 errors, 0 unconnected ✅
 
 <!-- MANUAL ADDITIONS START -->
+
+## AgentDB MCP — Persistent Memory (PRIMARY knowledge source)
+
+AgentDB is available as an **MCP server** via built-in tools. Use it as the **first** step before reading files or spawning sub-agents.
+
+### Query AgentDB (always try first)
+
+```
+# Semantic search — use agentdb-agentdb_search tool
+query: "YOUR QUESTION HERE"
+k: 5
+```
+
+Or use `agentdb-recall_with_certificate` for highest-quality retrieval with provenance scoring.
+
+### What is indexed in AgentDB
+
+| Tag | Topics |
+|-----|--------|
+| `project-rules` | Constitution, board dims, design rules, BOM-locked choices |
+| `hardware` | PCB layout, J8 pin assignments, footprints, KiCad format, ERC/DRC |
+| `gpio-pins` | Full 40-pin ESP32-P4-POE-ETH header layout (authoritative) |
+| `dev-workflow` | Build commands, feature pipeline stages, agent model routing |
+| `firmware` | EMAC pins, GPIO allocations, PlatformIO config |
+| `constitution` | All amendment history, version tags |
+
+### MANDATORY: Store new facts discovered during a session
+
+After **any** of the following, immediately store the result using `agentdb-reflexion_store` or `agentdb-agentdb_insert`:
+- Expert agent consultation (esp32.expert, kicad.expert, poe.expert)
+- Web research that reveals a verified fact
+- GitHub issue/PR investigation uncovering a non-obvious fact
+- Component datasheet lookup
+- Debugging session revealing a root cause
+- Implementation that changes schematic, PCB, firmware, or BOM
+
+```
+# Single fact — use agentdb-agentdb_insert tool:
+text: "FACT TEXT"
+tags: ["hardware", "gpio-pins"]   # use appropriate tags
+session_id: "poe-fancontroller"
+```
+
+```
+# Batch facts — use agentdb-agentdb_insert_batch tool:
+items: [{ text: "...", tags: [...], session_id: "poe-fancontroller" }, ...]
+```
+
+```
+# Episode with self-critique — use agentdb-reflexion_store tool:
+session_id: "poe-fancontroller"
+task: "TASK SLUG"
+input: "QUESTION"
+output: "ANSWER / RESULT"
+critique: "WHAT WORKED / WHAT TO DO DIFFERENTLY"
+reward: 0.9
+success: true
+```
+
+### MANDATORY: Update AgentDB after every implementation (Stage 5)
+
+After any implementation task completes (schematic change, PCB change, firmware change, constitution amendment):
+1. Store the implementation result with `agentdb-reflexion_store`
+2. Store any new facts discovered with `agentdb-agentdb_insert_batch`
+3. Update any outdated memories with a new `agentdb-agentdb_insert` that supersedes old ones
+
+### Routing: AgentDB → docs/kb/ → sub-agent
+
+**Step 0 — AgentDB (`agentdb-agentdb_search`):** Free, instant. If the answer is there, done.
+**Step 1 — `docs/kb/` files:** Static markdown KB. Fast grep/view.
+**Step 2 — Sub-agent:** Only if steps 0–1 fail.
+
+After any sub-agent adds a new verified fact: store it in AgentDB AND update the KB file.
+
+---
 
 ## Windows-First Tool Rules (CRITICAL — violations cause wasted retries)
 
@@ -146,55 +221,9 @@ When using `session_store_sql`:
 2. After **2 consecutive queries returning 0 rows**, stop — the data is not available; report that and move on
 3. Never ILIKE-scan large tables (`turns`, `events`) without a `WHERE timestamp >` time filter
 
-## Knowledge Base — agentdb RAG (Primary) + docs/kb/ (Fallback)
+## Knowledge Base — AgentDB MCP (Primary) + docs/kb/ (Fallback)
 
-Project knowledge is stored in **agentdb** at `C:\Users\Niels\.agentdb\github-copilot-memory.db`.
-Query it semantically before reading files or spawning sub-agents.
-
-### agentdb Query (always try first)
-
-```powershell
-# Semantic RAG query — works from any directory (AGENTDB_PATH set in env)
-agentdb query --query "YOUR QUESTION HERE" --k 5 --synthesize-context
-```
-
-`AGENTDB_PATH` points to `C:\Users\<user>\.agentdb\github-copilot-memory.db`.
-`AGENTDB_FORCE_SQLJS=1` is required — both set permanently in Windows user env + PS profile.
-**CRITICAL:** Use `AGENTDB_PATH` env var for writes; never pass `--db` flag (it bypasses `save()`).
-
-### What is indexed in agentdb
-
-| Domain | Topics covered |
-|--------|---------------|
-| `project-rules` | Constitution v4.0.0, board dimensions, BOM, design rules |
-| `hardware` | PCB component positions, footprints, KiCad API env, DRC/ERC gates, KiKit, PoE reference, component library |
-| `dev-workflow` | Build commands, feature pipeline stages, agent model routing, local AI setup |
-
-### MANDATORY: Store every new fact discovered during a session
-
-After **any** of the following, immediately store the result in agentdb:
-- Expert agent consultation (esp32.expert, kicad.expert, poe.expert)
-- Web research or webcrawl
-- GitHub issue/PR investigation that reveals a non-obvious fact
-- Component datasheet lookup
-- Debugging session that reveals a root cause
-- CI failure diagnosis
-
-```powershell
-# Store a fact (use AGENTDB_PATH env var — NOT --db flag)
-agentdb reflexion store "poe-fc" "TASK-SLUG" 0.99 true "SOURCE" "QUESTION" "ANSWER" 0 0
-```
-
-After completing significant work in a session, run the export skill to persist to the repo:
-```powershell
-# Invoke skill: agentdb-export  (or run manually)
-# Commits .github/agentdb_memory/memory-export.json to main
-```
-
-### Cross-device memory transfer
-
-On a new device: clone the repo, run the **agentdb-import** skill.
-On this device: run the **agentdb-export** skill before switching devices.
+Project knowledge is stored in **AgentDB via MCP tools** (built-in). See the "AgentDB MCP" section above for the full protocol.
 
 ### Fallback: docs/kb/ files
 
@@ -215,7 +244,7 @@ After any expert consultation adds a new verified fact: store it in agentdb AND 
 
 ## Model Routing — Use the Cheapest Appropriate Model
 
-**Step 0 — agentdb RAG (free):** Query agentdb before anything else. If the answer is there, no model needed.
+**Step 0 — AgentDB MCP (`agentdb-agentdb_search`, free):** Query before anything else. If the answer is there, no model needed.
 
 | Task complexity | Model choice |
 |---|---|
