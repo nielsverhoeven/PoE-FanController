@@ -1,4 +1,4 @@
-ERC report (2026-06-10T21:37:47, Encoding UTF8)
+ERC report (2026-06-10T22:57:08, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
@@ -62,9 +62,9 @@ Report includes: Errors, Warnings
 [lib_symbol_issues]: Symbol 'Cap_Elec' not found in symbol library 'Custom'
     ; warning
     @(172.72 mm, 91.44 mm): Symbol C1 [Cap_Elec]
-[lib_symbol_issues]: Symbol 'DHT11_Breakout' not found in symbol library 'Custom'
+[lib_symbol_issues]: Symbol 'Conn_1x03' not found in symbol library 'Custom'
     ; warning
-    @(175.26 mm, 264.16 mm): Symbol HUM1 [DHT11_Breakout]
+    @(175.26 mm, 264.16 mm): Symbol HUM1 [Conn_1x03]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
     @(177.80 mm, 91.44 mm): Symbol #PWR002 [GND]

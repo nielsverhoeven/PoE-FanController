@@ -103,11 +103,13 @@ seg('+3V3', 13,60, 7,60, PWR)
 seg('+3V3', 7,60, 7,68, PWR)                               # →HUM1.1
 print('+3V3 done')
 
-# ── Fan PWM (F.Cu, 0.25mm) — x=89.62 is new fan pin4 x ──────────────────────
-poly('FAN1_PWM',[(33.19,17.37),(89.62,17.37),(89.62,10)])
-poly('FAN2_PWM',[(33.19,19.91),(89.62,19.91),(89.62,22)])
-poly('FAN3_PWM',[(33.19,32.61),(89.62,32.61),(89.62,34)])
-poly('FAN4_PWM',[(33.19,37.69),(89.62,37.69),(89.62,46)])
+# ── Fan PWM (F.Cu, 0.25mm) — new y-positions after PWM/TACH swap ─────────────
+# FAN1_PWM: J8.34 y=19.91  FAN2_PWM: J8.31 y=27.53
+# FAN3_PWM: J8.26 y=40.23  FAN4_PWM: J8.21 y=52.93
+poly('FAN1_PWM',[(33.19,19.91),(89.62,19.91),(89.62,10)])
+poly('FAN2_PWM',[(33.19,27.53),(89.62,27.53),(89.62,22)])
+poly('FAN3_PWM',[(33.19,40.23),(89.62,40.23),(89.62,34)])
+poly('FAN4_PWM',[(33.19,52.93),(89.62,52.93),(89.62,46)])
 print('Fan PWM done')
 
 # ── Fan TACH (B.Cu to avoid crossing F.Cu PWM) ───────────────────────────────
@@ -123,9 +125,11 @@ def tach(j8net,j8x,j8y, rpad2x,rpad2y, fanx,fany, bcu_y, xchan):
     via(j8net, fanx, bcu_y)
     seg(j8net, fanx,bcu_y, fanx,fany)                       # F.Cu drop to pin3
 
-tach('FAN1_TACH', 33.19,24.99, 38.38,16, 87.08,10, bcu_y=8,  xchan=35)
-tach('FAN2_TACH', 33.19,27.53, 38.38,28, 87.08,22, bcu_y=18, xchan=36)  # bcu_y=18 clears PWM at y=19.91
-tach('FAN3_TACH', 33.19,45.31, 38.38,38, 87.08,34, bcu_y=32, xchan=37)
+# FAN1_TACH: J8.35 y=17.37  FAN2_TACH: J8.32 y=24.99
+# FAN3_TACH: J8.27 y=37.69  FAN4_TACH: J8.22 y=50.39
+tach('FAN1_TACH', 33.19,17.37, 38.38,16, 87.08,10, bcu_y=8,  xchan=35)
+tach('FAN2_TACH', 33.19,24.99, 38.38,28, 87.08,22, bcu_y=18, xchan=36)
+tach('FAN3_TACH', 33.19,37.69, 38.38,38, 87.08,34, bcu_y=32, xchan=37)
 tach('FAN4_TACH', 33.19,50.39, 38.38,48, 87.08,46, bcu_y=44, xchan=38)
 print('Fan TACH done')
 
@@ -134,7 +138,8 @@ print('Fan TACH done')
 # ── PWM indicator LEDs (issue #175) ──────────────────────────────────────────
 # R9-R12 at (53,10/22/34/46), D2-D5 at (62,10/22/34/46)
 # R*.1 taps the FAN_PWM signal line; R*.2→D*.1 anode hop; D*.2→GND via pour
-pwm_levels = {'FAN1_PWM':17.37,'FAN2_PWM':19.91,'FAN3_PWM':32.61,'FAN4_PWM':37.69}
+# PWM indicator LED taps — updated y-levels after PWM/TACH swap
+pwm_levels = {'FAN1_PWM':19.91,'FAN2_PWM':27.53,'FAN3_PWM':40.23,'FAN4_PWM':52.93}
 r9x,r9y   = p('R9.1');  r92x,r92y  = p('R9.2')
 r10x,r10y = p('R10.1'); r102x,r102y= p('R10.2')
 r11x,r11y = p('R11.1'); r112x,r112y= p('R11.2')

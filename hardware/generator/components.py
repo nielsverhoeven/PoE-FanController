@@ -153,21 +153,21 @@ def build_schematic():
                  ("GND",          "38", "passive"),       # Physical GND
                  ("NC",           "37", "no_connect"),    # EN       — chip-enable RESERVED
                  ("+3V3",         "36", "power_out"),     # +3V3     — SOLE 3.3V source
-                 ("FAN1_PWM",     "35", "output"),        # GPIO20   — FAN1 speed control
-                 ("FAN1_TACH",    "34", "input"),         # GPIO21   — FAN1 tach IRQ
+                 ("FAN1_PWM",     "34", "output"),        # GPIO21   — FAN1 speed control (was TACH)
+                 ("FAN1_TACH",    "35", "input"),         # GPIO20   — FAN1 tach IRQ (was PWM)
                  ("GND",          "33", "passive"),       # Physical GND
-                 ("FAN2_PWM",     "32", "output"),        # GPIO22   — FAN2 speed control
-                 ("FAN2_TACH",    "31", "input"),         # GPIO23   — FAN2 tach IRQ (R6 pull-up)
+                 ("FAN2_TACH",    "32", "input"),         # GPIO22   — FAN2 tach IRQ (was PWM)
+                 ("FAN2_PWM",     "31", "output"),        # GPIO23   — FAN2 speed control (was TACH)
                  ("NC",           "30", "no_connect"),    # RUN      — system control RESERVED
                  ("NC",           "29", "no_connect"),    # GPIO26   — NC
                  ("GND",          "28", "passive"),       # Physical GND
-                 ("FAN3_PWM",     "27", "output"),        # GPIO27   — FAN3 speed control
-                 ("FAN3_TACH",    "26", "input"),         # GPIO32   — FAN3 tach (EMAC—verify not used)
+                 ("FAN3_TACH",    "27", "input"),         # GPIO27   — FAN3 tach IRQ (was PWM)
+                 ("FAN3_PWM",     "26", "output"),        # GPIO32   — FAN3 speed control (was TACH; verify EMAC)
                  ("NC",           "25", "no_connect"),    # GPIO33   — EMAC_RXD1 FORBIDDEN
                  ("NC",           "24", "no_connect"),    # GPIO46   — NC
                  ("GND",          "23", "passive"),       # Physical GND
-                 ("FAN4_PWM",     "22", "output"),        # GPIO47   — FAN4 speed control
-                 ("FAN4_TACH",    "21", "input"),         # GPIO48   — bottom-right FAN4 tach
+                 ("FAN4_TACH",    "22", "input"),         # GPIO47   — FAN4 tach IRQ (was PWM)
+                 ("FAN4_PWM",     "21", "output"),        # GPIO48   — FAN4 speed control (was TACH) bottom-right
              ])
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)
@@ -447,18 +447,18 @@ def build_schematic():
     s.power("GND",        *p1["2"])
 
     # -----------------------------------------------------------------------
-    # DHT11 temperature + humidity sensor (HUM1)
-    # Replaces NTC1 + R4 voltage-divider (issue #135, constitution v4.1.0)
-    # VCC → +3V3, DATA → DHT11_DATA (GPIO16 via J8 pin 23), GND → GND
+    # DHT11 Temperature + Humidity Sensor (HUM1) — direct solder (3 pins)
+    # No breakout module — solder DHT11 legs directly to the 3 PCB pads.
+    # Pins: VCC (+3V3) | DATA (DHT11_DATA) | GND
     # -----------------------------------------------------------------------
-    s.text("DHT11 Temp+Humidity Sensor (HUM1)", 128, 251, size=2.54, bold=True, color=BLUE)
-    HUM1_CX = SMALL_CX + 7*G   # 175.26 — centre DHT11 in this area
-    p1 = s.component("Custom:DHT11_Breakout", "HUM1", "DHT11_Breakout",
+    s.text("DHT11 Temp+Humidity (HUM1 — direct solder)", 128, 251, size=2.54, bold=True, color=BLUE)
+    HUM1_CX = SMALL_CX + 7*G
+    p1 = s.component("Custom:Conn_1x03", "HUM1", "DHT11_Direct",
                      "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
                      HUM1_CX, DHT11_CY)
-    s.power("+3V3",                *p1["1"])                              # VCC
-    s.global_label("DHT11_DATA",   *p1["2"], shape="bidirectional")       # DATA
-    s.power("GND",                 *p1["3"])                              # GND
+    s.power("+3V3",                *p1["1"])
+    s.global_label("DHT11_DATA",   *p1["2"], shape="bidirectional")
+    s.power("GND",                 *p1["3"])
 
     # -----------------------------------------------------------------------
     # DS18B20 Temperature Probe + Probe Health LED  (J6 / R14 / R15 / LED6)
@@ -489,7 +489,9 @@ def build_schematic():
     s.global_label("DS18B20_DATA",*p1["2"], shape="bidirectional", angle=180)
     s.power("+3V3",               *p1["3"])
 
-    # R15 + LED6 — probe health LED (PROBE_LED = GPIO3, directly above J6 on PCB)
+    # R15 + LED6 — probe health LED (PROBE_LED = GPIO3)
+    # LED blinks when data is actively received from the DS18B20 probe
+    # (firmware drives GPIO3 with a short pulse on each 1-Wire read cycle)
     p1 = s.component("Custom:R", "R15", "330R",
                      "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
                      SMALL_CX, PROBE_LED_CY)
@@ -527,16 +529,16 @@ def build_schematic():
     s.power("+5V",  *p["40"], pin_type="power_out")                            # VBUS → boost input
     s.power("GND",  *p["38"])
     s.power("+3V3", *p["36"], pin_type="power_out")                            # sole +3V3 source
-    s.global_label("FAN1_TACH", *p["34"], shape="input")                       # GPIO21
-    s.global_label("FAN1_PWM",  *p["35"], shape="output")                      # GPIO20 — re-added
+    s.global_label("FAN1_TACH",  *p["35"], shape="input")                       # GPIO20 — FAN1 tach (was PWM)
+    s.global_label("FAN1_PWM",   *p["34"], shape="output")                      # GPIO21 — FAN1 PWM  (was TACH)
     s.power("GND",  *p["33"])
-    s.global_label("FAN2_PWM",  *p["32"], shape="output")                      # GPIO22
-    s.global_label("FAN2_TACH", *p["31"], shape="input")                       # GPIO23 — R6 pull-up
-    s.global_label("FAN3_PWM",  *p["27"], shape="output")                      # GPIO27
-    s.global_label("FAN3_TACH", *p["26"], shape="input")                       # GPIO32 (verify EMAC)
+    s.global_label("FAN2_TACH",  *p["32"], shape="input")                       # GPIO22 — FAN2 tach (was PWM)
+    s.global_label("FAN2_PWM",   *p["31"], shape="output")                      # GPIO23 — FAN2 PWM  (was TACH)
+    s.global_label("FAN3_TACH",  *p["27"], shape="input")                       # GPIO27 — FAN3 tach (was PWM)
+    s.global_label("FAN3_PWM",   *p["26"], shape="output")                      # GPIO32 — FAN3 PWM  (was TACH; verify EMAC)
     s.power("GND",  *p["28"])
-    s.global_label("FAN4_PWM",  *p["22"], shape="output")                      # GPIO47
-    s.global_label("FAN4_TACH", *p["21"], shape="input")                       # GPIO48
+    s.global_label("FAN4_TACH",  *p["22"], shape="input")                       # GPIO47 — FAN4 tach (was PWM)
+    s.global_label("FAN4_PWM",   *p["21"], shape="output")                      # GPIO48 — FAN4 PWM  (was TACH)
     s.power("GND",  *p["23"])
 
     return s
