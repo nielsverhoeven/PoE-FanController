@@ -1,251 +1,204 @@
 # Tasks: Correct GPIO Pin Assignments for J8 (ESP32-P4-POE-ETH Right Column)
 
 ## Summary
-- **Total tasks:** 5
+
+- **Total tasks:** 6
 - **Layers covered:** Hardware (Schematic, ERC, Layout, DRC), Documentation, Issue update
 - **GitHub parent issue:** #148
-- **GitHub task issues:** #149 (T001), #151 (T002), #152 (T003), #153 (T004), #154 (T005), #155 (T006)
+- **GitHub task issues:** #149 (T001), #156 (T002), #151 (T003), #152 (T004), #154 (T005), #155 (T006)
 - **Branch:** `feature/148-correct-gpio-pin-assignments`
 - **Architecture validation:** ✅ APPROVED (docs/features/correct-gpio-pin-assignments/architecture.md)
 - **Constitution amendment:** v4.2.0 (applied to docs/constitution.md)
+- **Scope note (2026-06-10):** PCB trace routing is **OUT OF SCOPE** — issue #153 is closed. Unconnected airwires after netlist sync (T004) are expected and are NOT a DRC failure gate.
 
 ---
 
 ## Dependency Graph
 
 ```
-T001 (Update schematic generator)
+T001 (Fix all J8 pin assignments in components.py)
   ↓
-T002 (ERC check & fix)
+T002 (Rename footprint to Custom:ESP32-P4-PoE-ETH-PinSocket)
   ↓
-T003 (Sync PCB netlist & reassign pads)
+T003 (Regenerate schematic + run ERC — 0 errors gate)
   ↓
-T004 (Route PCB traces on corrected layout)
+T004 (Sync PCB netlist from corrected schematic)
   ↓
-T005 (DRC check & verify clean)
+T005 (Run DRC — 0 rule violations gate; airwires not a failure)
   ↓
-T006 (Documentation & issue update) [parallel with T005 completion]
+T006 (Documentation & issue closure)
 ```
 
-**Critical path:** T001 → T002 → T003 → T004 → T005
+**Critical path:** T001 → T002 → T003 → T004 → T005 → T006
 
-**Merge-blocking gates:** 
-- T002 must achieve **0 ERC errors**
-- T005 must achieve **0 DRC errors** (excluding pre-existing solder_mask_bridge suppressions)
+**Merge-blocking gates:**
+- T003 must achieve **0 ERC errors**
+- T005 must achieve **0 DRC rule violations** (unconnected airwires excluded; pre-existing solder_mask_bridge suppressions excluded)
 
 ---
 
 ## Task List
 
-### T001: Update schematic generator with correct J8 pin assignments
+### T001: Fix all J8 pin assignments in hardware/generator/components.py
 
 - **Layer:** Hardware: Schematic
-- **File(s):** 
-  - `hardware/generator/components.py` (primary)
-  - `hardware/generator/` any related files
-- **Description:** 
-  
-  Update the schematic generator to assign all J8 net labels and pin types to their correct physical pin functions on the ESP32-P4-POE-ETH Waveshare module (SKU 32088):
-  
-  **Right column (pins 21–40) — all 8 fan signals move here:**
-  - Pin 35 (GPIO20) ← FAN1_PWM (LEDC CH0)
-  - Pin 34 (GPIO21) ← FAN2_PWM (LEDC CH1)
-  - Pin 29 (GPIO26) ← FAN3_PWM (LEDC CH2)
-  - Pin 27 (GPIO27) ← FAN4_PWM (LEDC CH3)
-  - Pin 32 (GPIO22) ← FAN1_TACH (IRQ with pull-up R5)
-  - Pin 31 (GPIO23) ← FAN2_TACH (IRQ with pull-up R6)
-  - Pin 24 (GPIO46) ← FAN3_TACH (IRQ with pull-up R7)
-  - Pin 22 (GPIO47) ← FAN4_TACH (IRQ with pull-up R8)
-  - Pin 21 (GPIO48) ← PROBE_LED (health indicator)
-  - Pin 36 (3V3 output) ← +3V3 (sole source for TACH pull-ups and sensor VCC)
-  - Pin 40 (VBUS 5V) ← +5V (daughter board power input to U_BOOST)
-  - Pins 23, 28, 33, 38 ← GND (passive, physical ground pads)
-  - Pins 25, 26 ← NC (no_connect) — GPIO33/32 are EMAC_RXD1/RXD0 (FORBIDDEN)
-  - Pin 30 ← NC (no_connect) — RUN (chip enable, reserved)
-  
-  **Left column (pins 1–20) — corrected signal routing:**
+- **File(s):**
+  - `hardware/generator/components.py` (define block ~lines 110–184, wiring block ~lines 506–575)
+- **Description:**
+
+  Fix **all** incorrect J8 pin assignments in `components.py` so every pin matches the authoritative `docs/kb/ESP32-P4-POE-ETH/pin-layout.md` table exactly.
+
+  **Specific errors to correct:**
+
+  | Pin | Current (wrong) | Correct | Reason |
+  |-----|----------------|---------|--------|
+  | 2 (left) | `+5V` (power_out) | `NC` (no_connect) | DM/GPIO24 = USB D- line, NOT a power pin |
+  | 4 (left) | `+5V` (power_out) | `NC` (no_connect) | SDA/GPIO7 = I2C Data, NOT a power pin |
+  | 20 (left) | `GND` (passive) | `NC` (no_connect) | GPIO54, not GND |
+  | 25 (right) | `GND` (passive) | `NC` (no_connect) | GPIO33/EMAC_RXD1 — FORBIDDEN by IO_MUX |
+  | 26 (right) | `GND` (passive) | `NC` (no_connect) | GPIO32/EMAC_RXD0 — FORBIDDEN by IO_MUX |
+  | 30 (right) | `GND` (passive) | `NC` (no_connect) | RUN = system control, reserved |
+  | 33 (right) | `FAN2_PWM` (output) | `GND` (passive) | Physical GND pad — cannot carry signal |
+  | 34 (right) | `GND` (passive) | `FAN2_PWM` (output) | GPIO21 = FAN2_PWM LEDC CH1 |
+
+  **Full correct right-column assignments (pins 21–40):**
+  - Pin 21 (GPIO48) ← PROBE_LED (output)
+  - Pin 22 (GPIO47) ← FAN4_TACH (input, IRQ)
+  - Pin 23 ← GND (physical pad)
+  - Pin 24 (GPIO46) ← FAN3_TACH (input, IRQ)
+  - Pin 25 ← NC (GPIO33/EMAC_RXD1, FORBIDDEN)
+  - Pin 26 ← NC (GPIO32/EMAC_RXD0, FORBIDDEN)
+  - Pin 27 (GPIO27) ← FAN4_PWM (output, LEDC CH3)
+  - Pin 28 ← GND (physical pad)
+  - Pin 29 (GPIO26) ← FAN3_PWM (output, LEDC CH2)
+  - Pin 30 ← NC (RUN, reserved)
+  - Pin 31 (GPIO23) ← FAN2_TACH (input, IRQ)
+  - Pin 32 (GPIO22) ← FAN1_TACH (input, IRQ)
+  - Pin 33 ← GND (physical pad) ← **was FAN2_PWM — corrected**
+  - Pin 34 (GPIO21) ← FAN2_PWM (output, LEDC CH1) ← **was GND — corrected**
+  - Pin 35 (GPIO20) ← FAN1_PWM (output, LEDC CH0)
+  - Pin 36 ← +3V3 (power output)
+  - Pin 37 ← NC (EN, reserved)
+  - Pin 38 ← GND (physical pad)
+  - Pin 39 ← NC (VSYS, do not use)
+  - Pin 40 ← +5V / VBUS (power input)
+
+  **Full correct left-column assignments (pins 1–20):**
+  - Pin 2 ← NC ← **was +5V — corrected**
+  - Pin 4 ← NC ← **was +5V — corrected**
   - Pin 6 (GPIO2) ← STATUS_LED (output)
-  - Pin 14 (GPIO15) ← PROG_LED (output, OTA write indicator)
+  - Pin 14 (GPIO15) ← PROG_LED (output)
   - Pin 15 (GPIO16) ← DHT11_DATA (input, single-wire)
-  - Pin 19 (GPIO19) ← DS18B20_DATA (bidirectional, 1-Wire probe)
-  - Pins 3, 8, 13, 18 ← GND (passive, physical ground pads)
-  - Pins 1, 2, 4, 5, 7, 9, 10, 11, 12, 16, 17, 20 ← NC (no_connect, unused GPIOs)
-  
-  **Acceptance criteria within this task:**
-  1. All pin entries in `pins_left` and `pins_right` lists in `components.py` have inline comments identifying the physical signal name (e.g., `# GPIO20`, `# Physical GND`, `# EMAC_RXD1: FORBIDDEN`)
-  2. The generator runs without Python errors: `python hardware/generate_project.py` completes successfully
-  3. The regenerated `.kicad_sch` file reflects all corrected pin assignments (visible in git diff)
-  4. No hand-edits to `.kicad_sch` — file is a build artefact only (git diff shows only downstream changes)
-  5. The schematic generator version and format tokens remain unchanged (KiCad 10.0.3, `20260101` format)
+  - Pin 19 (GPIO19) ← DS18B20_DATA (bidirectional, 1-Wire)
+  - Pin 20 ← NC ← **was GND — corrected**
+  - Pins 3, 8, 13, 18 ← GND (physical pads)
+  - All remaining pins ← NC
 
 - **Depends on:** none
-- **Acceptance:** `.kicad_sch` regenerated via `python hardware/generate_project.py` with all 40 J8 pins correctly assigned; git diff shows only generator-derived changes, no hand-edits to schematic
+- **Acceptance:** `python hardware/generate_project.py` completes without errors; all J8 pin assignments in `components.py` match `pin-layout.md` exactly; no hand-edits to `.kicad_sch`
 - **GitHub issue:** #149
 
 ---
 
-### T002: Run ERC and fix any errors
+### T002: Rename J8 footprint to Custom:ESP32-P4-PoE-ETH-PinSocket
 
-- **Layer:** Hardware: ERC
-- **File(s):** 
-  - `hardware/kicad/PoE-FanController.kicad_sch` (regenerated by T001)
-  - `hardware/erc_output.json` (output, commit alongside schematic)
-- **Description:** 
-  
-  Run KiCad ERC (Electrical Rules Check) on the regenerated schematic to validate that all pin types, net connections, and power symbols are correct and unambiguous:
-  
-  1. Execute: `kicad-cli sch erc hardware/kicad/PoE-FanController.kicad_sch --output hardware/erc_output.json`
-  2. Inspect the output JSON file and KiCad GUI ERC report
-  3. **Expected result:** Zero errors (0 violations in all categories)
-  4. If errors appear:
-     - Diagnose the error (e.g., undriven input, unconnected output, power pin inconsistency)
-     - Loop back to T001: update `components.py` pin definitions or wiring block
-     - Re-run `python hardware/generate_project.py`
-     - Re-run ERC
-     - Repeat until 0 errors
-  5. Commit `erc_output.json` alongside the final `.kicad_sch` to track validation state
-  
-  **Note:** Pre-existing ERC suppressions or annotations in the `.kicad_sch` may remain if they are documented and intentional; this task only requires that no **new** errors are introduced by the J8 reassignment.
+- **Layer:** Hardware: Schematic
+- **File(s):**
+  - `hardware/generator/components.py` — footprint reference string in J8 define block
+  - `hardware/generator/gen_footprint_j8.py` — footprint name string
+  - `hardware/kicad/footprints/Custom.pretty/PinSocket_2x20_P2.54mm_P15.38mm_Vertical.kicad_mod` — rename file + update internal module name
+  - All generated files (`.kicad_sch`, `.kicad_pcb`, `Custom.kicad_sym`, `bom.csv`) — updated by re-running the generator
+- **Description:**
+
+  Rename the J8 connector footprint from the generic auto-generated name to the board-specific descriptive name throughout all source and generated files.
+
+  - **Old name:** `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`
+  - **New name:** `Custom:ESP32-P4-PoE-ETH-PinSocket`
+
+  Steps:
+  1. Rename `PinSocket_2x20_P2.54mm_P15.38mm_Vertical.kicad_mod` → `ESP32-P4-PoE-ETH-PinSocket.kicad_mod` in `hardware/kicad/footprints/Custom.pretty/`
+  2. Update the internal `module` name string inside the `.kicad_mod` file to match the new filename
+  3. Update the footprint reference string in `hardware/generator/components.py`
+  4. Update the footprint name string in `hardware/generator/gen_footprint_j8.py`
+  5. Re-run `python hardware/generate_project.py` to propagate the new name to all generated files
+  6. Verify: `git grep "PinSocket_2x20" -- hardware/` returns zero matches
 
 - **Depends on:** T001
-- **Acceptance:** `kicad-cli sch erc` reports **0 errors** in `erc_output.json`; result is committed to git
+- **Acceptance:** `git grep "PinSocket_2x20" -- hardware/` returns zero matches; `hardware/kicad/footprints/Custom.pretty/ESP32-P4-PoE-ETH-PinSocket.kicad_mod` exists; old `.kicad_mod` file is deleted; generator runs without errors
+- **GitHub issue:** #156
+
+---
+
+### T003: Regenerate schematic and run ERC (0 errors gate)
+
+- **Layer:** Hardware: ERC
+- **File(s):**
+  - `hardware/kicad/PoE-FanController.kicad_sch` (regenerated from T001 + T002 fixes)
+  - `hardware/erc_output.json` (output, commit alongside schematic)
+- **Description:**
+
+  Regenerate the schematic from the corrected generator (incorporating both the pin fixes from T001 and the renamed footprint from T002), then validate using KiCad ERC.
+
+  1. Run: `python hardware/generate_project.py`
+     - Produces `.kicad_sch` with all corrected pin assignments AND footprint name `Custom:ESP32-P4-PoE-ETH-PinSocket`
+  2. Run ERC: `kicad-cli sch erc hardware/kicad/PoE-FanController.kicad_sch --output hardware/erc_output.json`
+  3. Inspect output — **expected: 0 errors**
+  4. If errors appear: loop back to T001/T002, fix, re-run generator, re-run ERC. Repeat until clean.
+  5. Commit `erc_output.json` alongside the final `.kicad_sch`
+
+- **Depends on:** T001, T002
+- **Acceptance:** `kicad-cli sch erc` reports **0 errors** in `erc_output.json`; schematic was regenerated via generator (not hand-edited); `erc_output.json` is committed to git
 - **GitHub issue:** #151
 
 ---
 
-### T003: Sync PCB pad net assignments
+### T004: Sync PCB netlist from corrected schematic
 
 - **Layer:** Hardware: Layout
-- **File(s):** 
-  - `hardware/kicad/PoE-FanController.kicad_pcb` (main PCB file)
-  - `hardware/kicad/PoE-FanController.kicad_sch` (netlist source after T002)
-- **Description:** 
-  
-  Synchronize the `.kicad_pcb` pad-to-net mappings with the regenerated schematic netlist. After the J8 pin assignments change in the schematic (T001–T002), the PCB footprint pads must be updated to match the new nets. This step must **clear all existing routing tracks** that were built on the old pin assignments, as they are now invalid and will cause electrical faults.
-  
-  1. In KiCad GUI, open both the schematic (already regenerated) and the PCB
-  2. Execute: **Tools → Update PCB from Schematic** (or equivalent "Update PCB" command)
-  3. KiCad will scan the schematic netlist and update pad net assignments in the `.kicad_pcb` footprints
-  4. Review the netlist sync report for any unconnected pads or net mismatches
-  5. Delete all existing fan signal traces (8 traces: FAN1–4 PWM and FAN1–4 TACH) — they route to the wrong pads and must be rerouted in T004
-  6. Confirm that airwires appear on all deleted trace endpoints
-  7. Save the PCB file
-  
-  **Expected airwires after pad sync:**
-  - FAN1_PWM, FAN2_PWM, FAN3_PWM, FAN4_PWM (PWM signals now on right column pads 35, 34, 29, 27)
-  - FAN1_TACH, FAN2_TACH, FAN3_TACH, FAN4_TACH (TACH signals now on right column pads 32, 31, 24, 22)
-  - STATUS_LED, PROG_LED, DHT11_DATA, DS18B20_DATA (left column GPIO nets — confirm pads are connected correctly; traces may be reusable if pad locations match)
-  - +3V3 net (now sourced from pad 36 instead of pads 1/17; airwires expected on R5–R8 pin 1 and J9 VCC connector)
-  
-  **Acceptance criteria within this task:**
-  1. "Update PCB from Schematic" completes without fatal errors
-  2. All J8 pads show correct net assignments in the KiCad pad inspector (`Inspect → Pad properties`)
-  3. All fan signal traces have been deleted; no traces remain on the old (invalid) pin pads
-  4. Airwires appear for all disconnected nets
-  5. PCB file is saved (no unsaved changes warning)
-  6. Net inspector confirms zero unconnected signal pads (GND and +3V3 may show airwires until T004 routing is complete)
+- **File(s):**
+  - `hardware/kicad/PoE-FanController.kicad_pcb`
+- **Description:**
 
-- **Depends on:** T002
-- **Acceptance:** PCB pads match schematic nets; all old routing tracks deleted; airwires present for all 8 fan signals + power redistribution; net inspector shows 0 unconnected items (excluding GND/+3V3 which route during T004)
-- **GitHub issue:** #152
+  Synchronize the `.kicad_pcb` pad-to-net mappings with the regenerated schematic netlist after the J8 pin reassignment and footprint rename.
 
----
+  **Routing is OUT OF SCOPE.** Unconnected airwires are expected after this step and are acceptable.
 
-### T004: Route all PCB traces on correct right-column layout
+  1. Open PCB in KiCad GUI
+  2. Execute: **Tools → Update PCB from Schematic**
+  3. Review the netlist sync report; resolve any **fatal** errors (net mismatches that prevent sync)
+  4. Save the PCB file
 
-- **Layer:** Hardware: Layout
-- **File(s):** 
-  - `hardware/kicad/PoE-FanController.kicad_pcb` (main PCB file)
-  - `hardware/route_*.py` (optional routing helper scripts, if used)
-- **Description:** 
-  
-  After the PCB netlist has been synchronized and old fan traces deleted (T003), route all PCB traces to reconnect the signals on the corrected pin assignments. The right-column GPIO reassignment brings all 8 fan signals closer to the J2–J5 fan headers (which are in the right zone at x > 21 mm), enabling shorter, cleaner trace runs with reduced routing congestion.
-  
-  **Routing strategy:**
-  
-  1. **Right-column fan signals (8 traces):**
-     - FAN1_PWM (GPIO20, J8 pad 35) → J2 pin 4
-     - FAN2_PWM (GPIO21, J8 pad 34) → J3 pin 4
-     - FAN3_PWM (GPIO26, J8 pad 29) → J4 pin 4
-     - FAN4_PWM (GPIO27, J8 pad 27) → J5 pin 4
-     - FAN1_TACH (GPIO22, J8 pad 32) → J2 pin 3
-     - FAN2_TACH (GPIO23, J8 pad 31) → J3 pin 3
-     - FAN3_TACH (GPIO46, J8 pad 24) → J4 pin 3
-     - FAN4_TACH (GPIO47, J8 pad 22) → J5 pin 3
-     
-     **Routing path:** All right-column signals route **east** (toward positive x) to the fan header zone. Expected trace length: **15–18 mm per signal** (significant reduction from old left-column paths). Minimum clearance: **0.254 mm** (10 mil) from board edge and other traces.
-  
-  2. **PROBE_LED (GPIO48, J8 pad 21):**
-     - Route from J8 pad 21 → R15 (330 Ω current-limit resistor) → LED6 (green probe-health LED)
-     - Expected length: **10–15 mm**
-  
-  3. **Left-column signals (GPIO2, 15, 16, 19 — STATUS_LED, PROG_LED, DHT11_DATA, DS18B20_DATA):**
-     - These signals change pad numbers but **not GPIO values**; existing traces may be partially reusable if pad coordinates permit
-     - Confirm existing traces now connect to the correct left-column pads after netlist sync
-     - Add new routing as needed if existing traces are broken or blocked
-     - STATUS_LED (GPIO2, J8 pad 6) → R3 → LED1 (green status LED)
-     - PROG_LED (GPIO15, J8 pad 14) → R13 → LED2 (orange OTA/write LED)
-     - DHT11_DATA (GPIO16, J8 pad 15) → J9 (DHT11 sensor connector)
-     - DS18B20_DATA (GPIO19, J8 pad 19) → R14 (4.7 kΩ pull-up) → J6 (temperature probe connector)
-  
-  4. **Power routing (revisit after netlist sync):**
-     - +3V3 net now sourced from J8 pad 36 (right column) instead of pads 1/17 (left column)
-     - Connect J8 pad 36 (+3V3) to R5–R8 pin 1 (TACH pull-up resistors) and J9 pin 1 (DHT11 VCC)
-     - Ensure +3V3 connects to the GND pour zones via vias for low impedance
-     - +5V continues from J8 pad 40 (VBUS) to U_BOOST input — confirm existing trace is correct
-     - All GND pads (J8 pins 3, 8, 13, 18, 23, 28, 33, 38) connect to the GND copper pour zones on both layers via multiple vias
-  
-  5. **Copper pour zones:**
-     - Regenerate / reflow GND and +3V3 copper pour zones to ensure all new traces are properly supported
-     - Minimum clearance between zones: **0.254 mm**; zones to traces/pads: **0.254 mm**
-  
-  6. **Via strategy:**
-     - Place vias at all signal layer transitions (top ↔ bottom)
-     - Via diameter: **0.3 mm** (standard); annular ring: **0.15 mm** on each layer
-     - Group vias near test points or headers for accessibility
-  
-  7. **DRC readiness:**
-     - After routing, ensure all airwires are resolved (0 unconnected items)
-     - No traces should overlap or touch unintended nets
-     - All traces should meet minimum width (**0.254 mm** for signal, **0.508 mm** for power) and clearance rules
-     - Pre-existing solder_mask_bridge suppressions are allowed and do not block DRC completion
+  After sync, airwires will appear on nets that moved to new pads — this is expected and does not block this task.
 
 - **Depends on:** T003
-- **Acceptance:** All fan signal pads (8 PWM + 8 TACH) are routed to their respective headers with no airwires; PROBE_LED is routed; left-column signal traces are verified connected; power (+3V3, +5V, GND) is routed; no overlapping traces; 0 unconnected items (excluding intentional NC pads)
-- **GitHub issue:** #153
+- **Acceptance:** "Update PCB from Schematic" completes without fatal errors; all J8 pads show correct net assignments in KiCad pad inspector; PCB file is saved; footprint J8 references `Custom:ESP32-P4-PoE-ETH-PinSocket`
+- **GitHub issue:** #152
 
 ---
 
 ### T005: Run DRC and verify clean
 
 - **Layer:** Hardware: DRC
-- **File(s):** 
-  - `hardware/kicad/PoE-FanController.kicad_pcb` (routed PCB)
+- **File(s):**
+  - `hardware/kicad/PoE-FanController.kicad_pcb`
   - `hardware/drc_output.json` (output, commit for validation record)
-- **Description:** 
-  
-  Run KiCad DRC (Design Rules Check) on the fully routed PCB to verify that all traces, vias, pads, and copper pours comply with electrical and manufacturing rules. This is the final validation gate before the PCB can be fabricated and before the PR is merged.
-  
-  1. Execute: `kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb --output hardware/drc_output.json`
-  2. Inspect the output JSON file and KiCad GUI DRC report
-  3. **Expected result:** Zero **new** violations:
+- **Description:**
+
+  Run KiCad DRC on the PCB after netlist sync. Validate that no **rule violations** have been introduced.
+
+  **Unconnected airwires are NOT a DRC failure for this PR** — routing is out of scope.
+
+  1. Run: `kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb --output hardware/drc_output.json`
+  2. Inspect output — **expected: 0 rule violations**
      - 0 shorts (net violations)
      - 0 clearance violations
-     - 0 unconnected items
-  4. **Pre-existing violations allowed:**
-     - `solder_mask_bridge` suppressions from earlier PCB iterations (known, not caused by this feature)
-     - These are documented in the PCB design notes and do not affect functionality
-  5. If new errors appear:
-     - Diagnose the error (e.g., trace clearance too close, via too small, unrouted airwire)
-     - Loop back to T004: adjust trace routing, widen traces, add vias, or reroute
-     - Re-run DRC
-     - Repeat until 0 **new** errors
-  6. Commit `drc_output.json` to track validation state
-  
-  **Note:** DRC output should be committed to preserve the validation record. Reviewers can later verify that the stated "0 errors" condition was met at merge time.
+     - Unconnected items: **not counted as failures** for this issue
+  3. Pre-existing `solder_mask_bridge` suppressions are allowed
+  4. If new rule violations appear: diagnose and fix, then re-run DRC
+  5. Commit `drc_output.json` for validation record
 
 - **Depends on:** T004
-- **Acceptance:** `kicad-cli pcb drc` reports **0 shorts, 0 clearance violations, 0 unconnected items** in `drc_output.json` (pre-existing solder_mask_bridge suppressions excluded); result is committed to git
+- **Acceptance:** `kicad-cli pcb drc` reports **0 rule violations** (shorts + clearance) in `drc_output.json`; unconnected airwires are explicitly excluded from the pass/fail gate; pre-existing `solder_mask_bridge` suppressions are excluded; `drc_output.json` is committed to git
 - **GitHub issue:** #154
 
 ---
@@ -253,101 +206,61 @@ T006 (Documentation & issue update) [parallel with T005 completion]
 ### T006: Documentation & issue closure
 
 - **Layer:** Documentation + Issue update
-- **File(s):** 
+- **File(s):**
   - `docs/constitution.md` (already amended v4.2.0)
-  - `docs/features/correct-gpio-pin-assignments/` (tasks.md, spec.md, plan.md, architecture.md — all reference docs)
+  - `docs/features/correct-gpio-pin-assignments/` (tasks.md, spec.md, plan.md, architecture.md)
   - GitHub issue #148 (parent issue)
-- **Description:** 
-  
-  After all routing and DRC validation is complete (T005), verify that all documentation is consistent with the implemented changes, update the GitHub issue with final status, and ensure all task sub-issues are closed or marked complete.
-  
-  1. **Verify documentation alignment:**
-     - `docs/constitution.md` P-FW-02 peripheral ownership table reflects the new GPIO assignments (v4.2.0 amendments)
-     - `docs/kb/ESP32-P4-POE-ETH/pin-layout.md` is unchanged (it is the authoritative source)
-     - `docs/features/correct-gpio-pin-assignments/spec.md` success criteria (SC-01 through SC-11) are all satisfied
-     - `docs/features/correct-gpio-pin-assignments/architecture.md` validation summary is accurate
-     - `docs/features/correct-gpio-pin-assignments/plan.md` reflects the implemented approach
-  
-  2. **Update GitHub issue #148:**
-     - Post a summary comment detailing all changes:
-       - Schematic generator updated (components.py)
-       - Schematic regenerated with 0 ERC errors
-       - PCB netlist synced and traces rerouted
-       - PCB DRC clean (0 new errors)
-       - Constitution amended (v4.2.0)
-     - List all sub-task issues (T001–T005) as completed
-     - Confirm that the branch is ready for PR merge
-  
-  3. **Close or mark sub-task issues:**
-     - Verify that all child task issues (if created) have been addressed
-     - Mark each task issue as complete (closed with "done" comment)
-  
-  4. **Prepare PR merge summary:**
-     - Compile final commit message for the feature branch:
-       ```
-       hw(sch): correct all J8 pin assignments to match ESP32-P4-POE-ETH physical layout
-       
-       - Update schematic generator (components.py) with correct GPIO assignments
-       - Move all 8 fan signals to right-column GPIO pins (GPIO20–23, 26, 27, 46, 47)
-       - Move PROBE_LED to GPIO48 (J8 pin 21)
-       - Fix STATUS_LED, PROG_LED, DHT11_DATA, DS18B20_DATA pin references
-       - Correct +3V3 source to J8 pin 36 only (not pins 1 & 17)
-       - Regenerate .kicad_sch with 0 ERC errors
-       - Sync PCB netlist and reroute all traces
-       - Verify PCB DRC clean (0 new errors)
-       - Amendment v4.2.0 applied to docs/constitution.md P-FW-02
-       
-       Fixes: #148
-       ```
+- **Description:**
 
-- **Depends on:** T005 (ERC and DRC gates must be passed; routing must be complete and verified)
-- **Acceptance:** Documentation verified and up-to-date; GitHub issue #148 updated with final status and all sub-tasks marked complete; branch is ready for PR merge
+  After DRC validation is complete (T005), verify all documentation is consistent with the implemented changes, update GitHub issue #148 with final status, and ensure all sub-task issues are closed.
+
+  1. Verify documentation alignment:
+     - `docs/constitution.md` P-FW-02 reflects new GPIO assignments (v4.2.0 amendments)
+     - `docs/kb/ESP32-P4-POE-ETH/pin-layout.md` is unchanged (authoritative source)
+     - `docs/features/correct-gpio-pin-assignments/spec.md` success criteria are satisfied
+     - `docs/features/correct-gpio-pin-assignments/tasks.md` reflects the final T001–T006 breakdown with correct issue numbers
+  2. Update GitHub issue #148:
+     - Post a summary comment: T001 (#149) pin fixes, T002 (#156) footprint rename, T003 (#151) ERC clean, T004 (#152) netlist synced, T005 (#154) DRC clean
+     - Confirm branch is ready for PR merge
+  3. Close all sub-task issues: #149, #156, #151, #152, #154, #155
+
+- **Depends on:** T005
+- **Acceptance:** Documentation verified and up-to-date; issue #148 updated with final status; all sub-tasks (#149, #156, #151, #152, #154, #155) marked complete/closed; branch is ready for PR merge
 - **GitHub issue:** #155
 
 ---
 
 ## Notes for Reviewers
 
-### Validation Timeline
-- **T001–T002:** Generator-level schematic validation (typically **1–2 hours**, loop time depends on ERC diagnostics)
-- **T003–T004:** PCB-level layout and routing (typically **2–4 hours**, trace count is manageable: 8 fan signals + 4 control signals + power)
-- **T005:** DRC validation (typically **<30 minutes**)
-- **T006:** Documentation and closure (typically **<1 hour**)
+### Scope Clarification (2026-06-10 re-scope)
+
+- **PCB trace routing is OUT OF SCOPE** for this issue. Issue #153 (route PCB traces) has been closed.
+- After T004 (netlist sync), airwires will be visible in the PCB. This is the correct end state for this PR.
+- Routing will be addressed in a future dedicated routing issue.
 
 ### Key Merge Conditions
-1. ✅ ERC = 0 errors (T002 gate)
-2. ✅ DRC = 0 new errors (T005 gate)
-3. ✅ `docs/constitution.md` amendment v4.2.0 is applied
-4. ✅ All sub-task issues are marked complete
-5. ✅ Commit messages and documentation are clear and traceable
+
+1. ✅ ERC = 0 errors (T003 gate)
+2. ✅ DRC rule violations = 0 (T005 gate — unconnected airwires do NOT block merge)
+3. ✅ `git grep "PinSocket_2x20" -- hardware/` returns zero matches (T002 gate)
+4. ✅ `docs/constitution.md` amendment v4.2.0 is applied
+5. ✅ All sub-task issues are marked complete
 
 ### Post-Merge Follow-up
-- Firmware team must update `platformio.ini` `build_flags` to reflect new GPIO numbers (FAN1_PWM_PIN=GPIO20, etc.)
-- This is tracked separately and is **out of scope** for this hardware task list
 
----
-
-## Risk Mitigation
-
-| Risk | Mitigation | Owner |
-|------|-----------|-------|
-| ERC fails on new pin definitions | Loop T001→T002 until clean; check pin types and power rail assignments | T001–T002 implementer |
-| PCB layout becomes congested after netlist sync | Pre-existing traces may be reused where pad coordinates permit; new routing uses right-column proximity to fan headers to reduce congestion | T004 implementer |
-| DRC violations appear after routing | Adjust trace width, clearance, or via placement per KiCad rules; verify no unintended net overlaps | T004 implementer (loop to T004 if needed) |
-| Firmware GPIO references become stale | Document new GPIO values in architecture.md; update constitution P-FW-02; firmware changes are tracked separately, post-merge | T006 / firmware team |
+- Firmware team must update `platformio.ini` `build_flags` to reflect new GPIO numbers (FAN1_PWM_PIN=GPIO20, etc.) — tracked separately, out of scope here.
+- PCB routing tracked separately — out of scope here.
 
 ---
 
 ## Acceptance Sign-Off Template
-
-Use this template to confirm task completion at the end of each work session:
 
 ```
 ## Task T00X Completion Checklist
 
 - [ ] Work item is complete and ready for review
 - [ ] All acceptance criteria (listed in task description) are satisfied
-- [ ] Git diff is clean (no unintended changes; only files listed in "File(s)" are modified)
+- [ ] Git diff is clean (only files listed in "File(s)" are modified)
 - [ ] No new warnings or errors introduced
 - [ ] Related task(s) (if any) are unblocked
 - [ ] GitHub issue comment posted with summary
@@ -359,8 +272,9 @@ Use this template to confirm task completion at the end of each work session:
 
 ---
 
-**Document version:** 1.0  
-**Created:** 2026-06-10  
-**Branch:** `feature/148-correct-gpio-pin-assignments`  
-**Issue:** #148  
+**Document version:** 2.0
+**Created:** 2026-06-10
+**Revised:** 2026-06-10 (Stage 4 re-run — footprint rename added as T002; routing removed; pin errors 2, 4, 20 added to T001)
+**Branch:** `feature/148-correct-gpio-pin-assignments`
+**Issue:** #148
 **Constitution version:** 4.2.0
