@@ -129,44 +129,67 @@ tach('FAN3_TACH', 33.19,45.31, 38.38,38, 87.08,34, bcu_y=32, xchan=37)
 tach('FAN4_TACH', 33.19,50.39, 38.38,48, 87.08,46, bcu_y=44, xchan=38)
 print('Fan TACH done')
 
-# ── PROBE_LED ─────────────────────────────────────────────────────────────────
-r151x,r151y = p('R15.1'); r152x,r152y = p('R15.2')
-poly('PROBE_LED',   [(33.19,52.93),(r151x,52.93),(r151x,r151y)])
-seg('/PROBE_LED_A', r152x,r152y, 48,r152y)
-
-# ── Fan indicator LEDs (F.Cu) ─────────────────────────────────────────────────
-# R9-R12 at (70,14/24/36/48). R9.2 → D2.1(48,10), etc.
-r92x,r92y = p('R9.2')
-poly('/FAN1_IND', [(r92x,r92y),(r92x,10),(48,10)])
-r102x,r102y = p('R10.2')
-poly('/FAN2_IND', [(r102x,r102y),(r102x,22.5),(48,22.5),(48,22)])
-r112x,r112y = p('R11.2')
-poly('/FAN3_IND', [(r112x,r112y),(r112x,34.5),(48,34.5),(48,34)])
-r122x,r122y = p('R12.2')
-poly('/FAN4_IND', [(r122x,r122y),(r122x,46.5),(48,46.5),(48,46)])
-print('Indicator LEDs done')
+# ── PROBE_LED routing now handled in left-zone signals section below ──────────
+# (PROBE_LED moved from right column pin 21 to left column pin 7 in v0.6)
+# ── PWM indicator LEDs (issue #175) ──────────────────────────────────────────
+# R9-R12 at (53,10/22/34/46), D2-D5 at (62,10/22/34/46)
+# R*.1 taps the FAN_PWM signal line; R*.2→D*.1 anode hop; D*.2→GND via pour
+pwm_levels = {'FAN1_PWM':17.37,'FAN2_PWM':19.91,'FAN3_PWM':32.61,'FAN4_PWM':37.69}
+r9x,r9y   = p('R9.1');  r92x,r92y  = p('R9.2')
+r10x,r10y = p('R10.1'); r102x,r102y= p('R10.2')
+r11x,r11y = p('R11.1'); r112x,r112y= p('R11.2')
+r12x,r12y = p('R12.1'); r122x,r122y= p('R12.2')
+d2x = p('D2.1')[0]; d3x = p('D3.1')[0]; d4x = p('D4.1')[0]; d5x = p('D5.1')[0]
+# Stubs from R*.1 to PWM horizontal (vertical segment connecting to main PWM trace)
+seg('FAN1_PWM', r9x, r9y,   r9x,  pwm_levels['FAN1_PWM'])
+seg('FAN2_PWM', r10x,r10y,  r10x, pwm_levels['FAN2_PWM'])
+seg('FAN3_PWM', r11x,r11y,  r11x, pwm_levels['FAN3_PWM'])
+seg('FAN4_PWM', r12x,r12y,  r12x, pwm_levels['FAN4_PWM'])
+# Anode connections R*.2 → D*.1
+# FAN1: route via y=4 to avoid BOOST_SW vertical at x=62.1 (y=5-15)
+seg('FAN1_PWM_A', r92x, r9y,   r92x, 4)        # R9.2 up to y=4 (above BOOST_SW)
+seg('FAN1_PWM_A', r92x, 4,     d2x,  4)        # across to D2 x
+seg('FAN1_PWM_A', d2x,  4,     d2x,  r9y)      # drop to D2.1 y
+# FAN2-4: direct horizontal (BOOST_SW ends at y=15, these are at y=22,34,46)
+seg('FAN2_PWM_A', r102x,r10y,  d3x, r10y)
+seg('FAN3_PWM_A', r112x,r11y,  d4x, r11y)
+seg('FAN4_PWM_A', r122x,r12y,  d5x, r12y)
+print('PWM indicator LEDs done')
 
 # ── Left-zone signals (F.Cu + B.Cu) ──────────────────────────────────────────
-# STATUS_LED: J8.6(17.81,40.23) → R3.1(7,18) — route via y=41.5 to clear LED2
-poly('STATUS_LED',[(17.81,40.23),(17.81,41.5),(7,41.5),(5,41.5),(5,18),(7,18)])
+# New pin positions (v0.6 overhaul):
+#   J8.17(17.81,12.29)=PWR_LED   J8.16(17.81,14.83)=PROG_LED
+#   J8.14(17.81,19.91)=DHT11     J8.7(17.81,37.69)=PROBE_LED
+#   J8.6(17.81,40.23)=DS18B20
 
-# /LED_A: via y=22 to avoid LED1.2(9.54,24) GND pad
+# PWR_LED: J8.17(17.81,12.29) → R3.1(7,18) — via y=13.5 to stay above DHT11 at y=19.91
+poly('PWR_LED',[(17.81,12.29),(5,12.29),(5,18),(7,18)])
+
+# /LED_A: R3.2(14.62,18) → LED1.1(7,24) — via y=22 to avoid LED1.2(9.54,24)
 poly('/LED_A',[(14.62,18),(14.62,22),(7,22),(7,24)])
 
-# PROG_LED: x=6 vertical avoids LED1.1(7,24) THT pad
-poly('PROG_LED',[(17.81,19.91),(6,19.91),(6,34),(7,34)])
+# PROG_LED: J8.16(17.81,14.83) → R13.1(7,34) — use x=6 to avoid LED1.1(7,24)
+poly('PROG_LED',[(17.81,14.83),(6,14.83),(6,34),(7,34)])
 
-# /PROG_LED_A: via y=38 to avoid LED2.2(9.54,40) GND pad
+# /PROG_LED_A: R13.2(14.62,34) → LED2.1(7,40) — via y=38 to avoid LED2.2(9.54,40)
 poly('/PROG_LED_A',[(14.62,34),(14.62,38),(7,38),(7,40)])
 
-# DHT11_DATA: F.Cu up to y=16, via to B.Cu at y=16 (clears R3.2 annular ring)
-seg('DHT11_DATA', 17.81,17.37, 17.81,16)
-via('DHT11_DATA', 17.81, 16)
-poly('DHT11_DATA',[(17.81,16),(8,16),(8,68),(9.54,68)], SIG, B)
+# PROBE_LED: J8.7(17.81,37.69) → R15.1(7,50) → LED6.1(7,44)
+# Use B.Cu at x=4 to avoid crossing +3V3 F.Cu column at x=12 (y=14.83-50)
+via('PROBE_LED', 17.81, 37.69)
+poly('PROBE_LED',[(17.81,37.69),(4,37.69),(4,50)], SIG, B)  # B.Cu west then south
+via('PROBE_LED', 4, 50)
+seg('PROBE_LED', 4,50, 7,50)                                  # F.Cu short hop → R15.1
+poly('/PROBE_LED_A',[(14.62,50),(14.62,42),(7,42),(7,44)])   # R15.2→LED6.1 via y=42 (via y=42 avoids LED6.2 at y=44)
 
-# DS18B20_DATA: B.Cu at x=5.5, via at y=54 (clears R14.1 annular ring)
-via('DS18B20_DATA', 17.81, 7.21)
-poly('DS18B20_DATA',[(17.81,7.21),(5.5,7.21),(5.5,54)], SIG, B)
+# DHT11_DATA: J8.14(17.81,19.91) → HUM1.2(9.54,68) via B.Cu
+seg('DHT11_DATA', 17.81,19.91, 17.81,19)
+via('DHT11_DATA', 17.81, 19)
+poly('DHT11_DATA',[(17.81,19),(8,19),(8,68),(9.54,68)], SIG, B)
+
+# DS18B20_DATA: J8.6(17.81,40.23) → R14.2 → J6.2 via B.Cu at x=5.5
+via('DS18B20_DATA', 17.81, 40.23)
+poly('DS18B20_DATA',[(17.81,40.23),(5.5,40.23),(5.5,54)], SIG, B)
 via('DS18B20_DATA', 5.5, 54)
 poly('DS18B20_DATA',[(5.5,54),(11.62,54),(11.62,52)])
 poly('DS18B20_DATA',[(11.62,52),(11.62,56),(9.54,56)])

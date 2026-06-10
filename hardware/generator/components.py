@@ -153,7 +153,7 @@ def build_schematic():
                  ("GND",          "38", "passive"),       # Physical GND
                  ("NC",           "37", "no_connect"),    # EN       — chip-enable RESERVED
                  ("+3V3",         "36", "power_out"),     # +3V3     — SOLE 3.3V source
-                 ("NC",           "35", "no_connect"),    # GPIO20   — NC (no FAN1_PWM)
+                 ("FAN1_PWM",     "35", "output"),        # GPIO20   — FAN1 speed control
                  ("FAN1_TACH",    "34", "input"),         # GPIO21   — FAN1 tach IRQ
                  ("GND",          "33", "passive"),       # Physical GND
                  ("FAN2_PWM",     "32", "output"),        # GPIO22   — FAN2 speed control
@@ -341,10 +341,10 @@ def build_schematic():
     s.text("Fan Headers  (4x 12V PWM)", 240, 64, size=2.54, bold=True, color=BLUE)
 
     fan_data = [
-        ("NC",        "FAN1_TACH"),   # J2: TACH monitored, no PWM (full speed)
-        ("FAN2_PWM",  "NC"),          # J3: PWM controlled, no TACH monitoring
-        ("FAN3_PWM",  "FAN3_TACH"),   # J4: full control + monitoring
-        ("FAN4_PWM",  "FAN4_TACH"),   # J5: full control + monitoring
+        ("FAN1_PWM", "FAN1_TACH"),   # J2: PWM + TACH (full control)
+        ("FAN2_PWM", "NC"),           # J3: PWM only (no TACH monitoring)
+        ("FAN3_PWM", "FAN3_TACH"),   # J4: PWM + TACH (full control)
+        ("FAN4_PWM", "FAN4_TACH"),   # J5: PWM + TACH (full control)
     ]
 
     for i, (pwm_net, tach_net) in enumerate(fan_data):
@@ -377,6 +377,44 @@ def build_schematic():
             s.global_label(tach_net, *pr["2"], shape="output")
 
     # Per-fan passive indicator LEDs removed (cleanup v0.6 — reduces schematic noise)
+
+    # -----------------------------------------------------------------------
+    # PWM Fan Activity Indicator LEDs  (D2-D5 + R9-R12)  — issue #175
+    #
+    # Each LED is tapped directly on the FAN{n}_PWM signal line:
+    #   FAN{n}_PWM ──[R 150Ω]──[LED anode]──[LED cathode]── GND
+    #
+    # LED brightness is proportional to PWM duty cycle:
+    #   duty=100% → LED full brightness  (fan full speed)
+    #   duty=50%  → LED medium brightness (fan half speed)
+    #   duty=0%   → LED off              (fan stopped)
+    #
+    # Placement: schematically between TACH pull-ups and fan headers.
+    #            On PCB: between J8 right column and fan headers.
+    # -----------------------------------------------------------------------
+    s.text("Fan PWM Activity LEDs  (D2-D5 / R9-R12)", 340, 64, size=2.54, bold=True, color=BLUE)
+
+    PWM_LED_R_CX = 118*G   # 299.72 mm — resistors (between TACH column and fan headers)
+    PWM_LED_D_CX = 124*G   # 314.96 mm — LEDs
+
+    pwm_signals = ["FAN1_PWM", "FAN2_PWM", "FAN3_PWM", "FAN4_PWM"]
+    for i, pwm_net in enumerate(pwm_signals):
+        FJ_CY = FAN_CY0 + i * FAN_STEP
+        led_anode_net = f"FAN{i+1}_PWM_A"
+
+        # R9-R12: 150 Ω current-limit on PWM line
+        pr = s.component("Custom:R", f"R{9+i}", "150R",
+                         "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+                         PWM_LED_R_CX, FJ_CY)
+        s.global_label(pwm_net,     *pr["1"], shape="input",  angle=180)  # left  pin ← PWM signal
+        s.label(led_anode_net,      *pr["2"])                              # right pin → LED anode
+
+        # D2-D5: green 3mm THT activity LED
+        pd = s.component("Custom:LED", f"D{2+i}", "LED_GREEN",
+                         "LED_THT:LED_D3.0mm",
+                         PWM_LED_D_CX, FJ_CY)
+        s.label(led_anode_net,  *pd["1"], angle=180)  # left  pin — anode
+        s.power("GND",          *pd["2"])             # right pin — cathode → GND
 
     # -----------------------------------------------------------------------
     # PWR_LED circuit: GPIO18 (J8 pin 17) → R3 → LED1 → GND
@@ -490,6 +528,7 @@ def build_schematic():
     s.power("GND",  *p["38"])
     s.power("+3V3", *p["36"], pin_type="power_out")                            # sole +3V3 source
     s.global_label("FAN1_TACH", *p["34"], shape="input")                       # GPIO21
+    s.global_label("FAN1_PWM",  *p["35"], shape="output")                      # GPIO20 — re-added
     s.power("GND",  *p["33"])
     s.global_label("FAN2_PWM",  *p["32"], shape="output")                      # GPIO22
     s.global_label("FAN3_PWM",  *p["27"], shape="output")                      # GPIO27
