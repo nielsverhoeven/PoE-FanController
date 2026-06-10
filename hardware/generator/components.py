@@ -139,10 +139,10 @@ def build_schematic():
              pins_left=[
                  # Consecutive pins 1..20 — Row A (top-to-bottom)
                  ("NC",           "1",  "no_connect"),    # GPIO25 — NC (not used)
-                 ("+5V",          "2",  "power_out"),     # VBUS — 5V duplicate
+                 ("NC",           "2",  "no_connect"),    # GPIO24 — NC (USB D-)
                  ("GND",          "3",  "passive"),       # Physical GND
-                 ("+5V",          "4",  "power_out"),     # VBUS — 5V duplicate
-                 ("NC",           "5",  "no_connect"),    # unassigned — NC
+                 ("NC",           "4",  "no_connect"),    # GPIO7 — NC (SDA/I2C)
+                 ("NC",           "5",  "no_connect"),    # GPIO8 — NC (SCL/I2C)
                  ("STATUS_LED",   "6",  "output"),        # GPIO2 — status LED output
                  ("NC",           "7",  "no_connect"),    # unassigned — NC
                  ("GND",          "8",  "passive"),       # Physical GND
@@ -157,7 +157,7 @@ def build_schematic():
                  ("NC",           "17", "no_connect"),    # unassigned — NC
                  ("GND",          "18", "passive"),       # Physical GND
                  ("DS18B20_DATA", "19", "bidirectional"), # GPIO19 — 1-Wire data
-                 ("GND",          "20", "passive"),       # Physical GND
+                 ("NC",           "20", "no_connect"),    # GPIO54 — NC (not GND)
              ],
              pins_right=[
                  # Consecutive pins 21..40 — Row B (top-to-bottom)
@@ -165,16 +165,16 @@ def build_schematic():
                  ("FAN4_TACH",    "22", "input"),         # GPIO47 — FAN4 tach IRQ
                  ("GND",          "23", "passive"),       # Physical GND
                  ("FAN3_TACH",    "24", "input"),         # GPIO46 — FAN3 tach IRQ
-                 ("GND",          "25", "passive"),       # Physical GND
-                 ("GND",          "26", "passive"),       # Physical GND
+                 ("NC",           "25", "no_connect"),    # GPIO33/EMAC_RXD1 — FORBIDDEN by IO_MUX
+                 ("NC",           "26", "no_connect"),    # GPIO32/EMAC_RXD0 — FORBIDDEN by IO_MUX
                  ("FAN4_PWM",     "27", "output"),        # GPIO27 — FAN4 LEDC CH3
                  ("GND",          "28", "passive"),       # Physical GND
                  ("FAN3_PWM",     "29", "output"),        # GPIO26 — FAN3 LEDC CH2
-                 ("GND",          "30", "passive"),       # Physical GND
+                 ("NC",           "30", "no_connect"),    # RUN = system control, reserved
                  ("FAN2_TACH",    "31", "input"),         # GPIO23 — FAN2 tach IRQ
                  ("FAN1_TACH",    "32", "input"),         # GPIO22 — FAN1 tach IRQ
-                 ("FAN2_PWM",     "33", "output"),        # GPIO21 — FAN2 LEDC CH1
-                 ("GND",          "34", "passive"),       # Physical GND
+                 ("GND",          "33", "passive"),       # Physical GND (was wrongly FAN2_PWM)
+                 ("FAN2_PWM",     "34", "output"),        # GPIO21 — FAN2 LEDC CH1 (was wrongly GND)
                  ("FAN1_PWM",     "35", "output"),        # GPIO20 — FAN1 LEDC CH0
                  ("+3V3",         "36", "power_out"),     # +3V3 from Waveshare LDO — SOLE source (issue #148)
                  ("NC",           "37", "no_connect"),    # EN / chip-enable — RESERVED, do NOT use
@@ -509,13 +509,13 @@ def build_schematic():
     #   Row A (left  side of symbol): pins  1..20  top → bottom
     #   Row B (right side of symbol): pins 21..40  top → bottom
     #
-    # CORRECTED ASSIGNMENTS (issue #148 — architecture validation v4.2.0):
+    # CORRECTED ASSIGNMENTS (issue #148 — architecture validation v4.2.1):
     #
     # Power in from Waveshare:
-    #   pins 2,4,40 (VBUS) -> +5V -> U_BOOST VIN
+    #   pin 40 (VBUS) -> +5V -> U_BOOST VIN
     #   pin 36 (+3V3) -> TACH pull-ups R5-R8, DS18B20 pull-up R14, DHT11 VCC
     #   pin 39 (VSYS) -> NC  (system regulated voltage — do NOT use as 5V source)
-    #   GND: left col pins 3,8,13,18,20 + right col pins 23,25,26,28,30,34,38
+    #   GND: left col pins 3,8,13,18 + right col pins 23,28,33,38
     #
     # GPIO signals:
     #   Left col  (pins 1-20, angle=180): STATUS_LED/GPIO2(6), PROG_LED/GPIO15(14),
@@ -524,9 +524,11 @@ def build_schematic():
     #                                     FAN4_TACH/GPIO47(22), FAN3_TACH/GPIO46(24),
     #                                     FAN4_PWM/GPIO27(27),  FAN3_PWM/GPIO26(29),
     #                                     FAN2_TACH/GPIO23(31), FAN1_TACH/GPIO22(32),
-    #                                     FAN2_PWM/GPIO21(33),  FAN1_PWM/GPIO20(35)
+    #                                     FAN2_PWM/GPIO21(34),  FAN1_PWM/GPIO20(35)
     #
-    # NC pins: symbol type "no_connect" suppresses ERC — no explicit markers needed.
+    # NC pins (no_connect type — ERC suppressed, no wiring needed):
+    #   Left: 1,2,4,5,7,9,10,11,12,16,17,20
+    #   Right: 25,26,30,37,39
     # -----------------------------------------------------------------------
     s.text("Waveshare ESP32-P4-POE-ETH  Interface  (J8)",
            22, 112, size=2.54, bold=True, color=BLUE)
@@ -535,10 +537,8 @@ def build_schematic():
                     J8_CX, J8_CY)
 
     # --- Row A (pins 1-20, left side) — use angle=180 for global_labels ---
-    # pin 1: NC (GPIO25 — not used)
-    s.power("+5V", *p["2"], pin_type="power_out")                      # VBUS duplicate
+    # pins 1,2,4,5,7,9-12,16,17,20: NC (no wiring needed — no_connect type suppresses ERC)
     s.power("GND", *p["3"])                                            # Physical GND
-    s.power("+5V", *p["4"], pin_type="power_out")                      # VBUS duplicate
     # pin 5: NC
     s.global_label("STATUS_LED", *p["6"],  shape="output", angle=180)  # GPIO2
     # pin 7: NC
@@ -550,23 +550,22 @@ def build_schematic():
     # pins 16,17: NC
     s.power("GND", *p["18"])                                           # Physical GND
     s.global_label("DS18B20_DATA", *p["19"], shape="bidirectional",angle=180)  # GPIO19
-    s.power("GND", *p["20"])                                           # Physical GND
+    # pin 20: NC (GPIO54 — not GND)
 
     # --- Row B (pins 21-40, right side) — use angle=0 for global_labels ---
     s.global_label("PROBE_LED",  *p["21"], shape="output")             # GPIO48 — probe health LED
     s.global_label("FAN4_TACH", *p["22"], shape="input")               # GPIO47 — FAN4 tach IRQ
     s.power("GND", *p["23"])                                            # Physical GND
     s.global_label("FAN3_TACH", *p["24"], shape="input")               # GPIO46 — FAN3 tach IRQ
-    s.power("GND", *p["25"])                                            # Physical GND
-    s.power("GND", *p["26"])                                            # Physical GND
+    # pins 25,26: NC (GPIO33/EMAC_RXD1 and GPIO32/EMAC_RXD0 — FORBIDDEN by IO_MUX)
     s.global_label("FAN4_PWM",  *p["27"], shape="output")              # GPIO27 — FAN4 LEDC CH3
     s.power("GND", *p["28"])                                            # Physical GND
     s.global_label("FAN3_PWM",  *p["29"], shape="output")              # GPIO26 — FAN3 LEDC CH2
-    s.power("GND", *p["30"])                                            # Physical GND
+    # pin 30: NC (RUN = system control, reserved)
     s.global_label("FAN2_TACH", *p["31"], shape="input")               # GPIO23 — FAN2 tach IRQ
     s.global_label("FAN1_TACH", *p["32"], shape="input")               # GPIO22 — FAN1 tach IRQ
-    s.global_label("FAN2_PWM",  *p["33"], shape="output")              # GPIO21 — FAN2 LEDC CH1
-    s.power("GND", *p["34"])                                            # Physical GND
+    s.power("GND", *p["33"])                                            # Physical GND (was wrongly FAN2_PWM)
+    s.global_label("FAN2_PWM",  *p["34"], shape="output")              # GPIO21 — FAN2 LEDC CH1 (moved from 33→34)
     s.global_label("FAN1_PWM",  *p["35"], shape="output")              # GPIO20 — FAN1 LEDC CH0
     s.power("+3V3", *p["36"], pin_type="power_out")                    # +3V3 SOLE source (issue #148)
     # pin 37: NC (EN/chip-enable — RESERVED)

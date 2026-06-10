@@ -7,7 +7,7 @@ The Waveshare ESP32-P4-POE-ETH (SKU 32088) main board is purchased separately an
 not listed here. It provides PoE PD, Ethernet PHY, RJ45, ESP32-P4, USB-C, and the
 2×20 male header that mates with J8 on this daughter board.
 
-Power chain: J8 pins 2,4 (+5V from Waveshare) → U1 / LM2587-12 (5V→12V boost) → fans J2–J5.
+Power chain: J8 pin 40 (+5V from Waveshare VBUS) → U1 / LM2587-12 (5V→12V boost) → fans J2–J5.
 """
 
 import csv
