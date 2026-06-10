@@ -2,9 +2,9 @@
 
 > Feature: `correct-gpio-pin-assignments`
 > Branch: `feature/148-correct-gpio-pin-assignments`
-> Architect validation date: 2026-06-10
-> Constitution version at validation: **4.2.0** (amended by this feature)
-> Result: **APPROVED WITH CHANGES** — constitution amendment v4.2.0 applied
+> Architect validation date: 2026-06-10 (re-validated 2026-06-10 — Stage 3 re-run)
+> Constitution version at validation: **4.2.1** (v4.2.0 amended by this feature; v4.2.1 PATCH applied in Stage 3 re-run)
+> Result: **APPROVED** — constitution amendments v4.2.0 (MINOR) and v4.2.1 (PATCH) applied; routing out of scope confirmed
 
 ---
 
@@ -197,7 +197,7 @@ graph TB
 | T-02 | ✅ Merge-blocking | Zero ERC errors after `python hardware/generate_project.py` + `kicad-cli sch erc` |
 | T-03 | Required | Net inspector spot-check per plan §6 T-03 table |
 | T-04 | Required | Verify +3V3 net (pad 36) connects to R5–R8 pin 1 and J9 VCC |
-| T-05 | ✅ Merge-blocking | Zero DRC errors after PCB netlist sync + re-routing |
+| T-05 | ✅ Merge-blocking | Zero DRC **rule** violations after PCB netlist sync (routing is **out of scope** — airwires from re-assigned fan signals are expected and tracked separately; unconnected airwires are explicitly excluded from this gate per plan §Change 8) |
 | T-06 | Required | Confirm P-FW-02 table diff matches constitution v4.2.0 values |
 
 ---
@@ -213,7 +213,83 @@ P-HW-05 and P-KI-04. Constitution amendment v4.2.0 has been applied to `docs/con
 
 **Merge conditions:**
 1. ERC must report **zero errors** (T-02) — blocking
-2. DRC must report **zero errors** after PCB netlist sync and re-routing (T-05) — blocking
+2. DRC must report **zero rule violations** after PCB netlist sync (T-05) — blocking. PCB re-routing is **out of scope** for this issue; unconnected airwires produced by the netlist sync are expected, tracked separately, and are NOT a DRC failure gate for this PR.
 3. `erc_output.json` must be updated and committed alongside the schematic change
 4. Firmware `platformio.ini` `build_flags` (FAN*_PIN, PROBE_LED_PIN) must be updated to
    new GPIO numbers in a follow-on firmware commit (tracked separately per spec §Out of Scope)
+
+---
+
+## 9. Stage 3 Re-validation — 2026-06-10
+
+> Re-validation triggered by: issue #148 updated 2026-06-10 with scope changes and additional
+> confirmed pin errors.
+> Constitution version at re-validation: **4.2.1** (PATCH applied during this re-run — see below).
+> Re-validation result: **APPROVED** (no new blocking issues found)
+
+### 9.1 Scope Changes Validated
+
+| Change | Architecture Assessment |
+|--------|------------------------|
+| **T4 "Route PCB Traces" — OUT OF SCOPE** | ✅ **CORRECT.** Routing is not required for schematic correctness or ERC compliance. DRC after netlist sync is still required (zero rule violations); unconnected airwires from the netlist sync are a routing concern tracked separately and are explicitly excluded from the DRC merge gate for this PR. `§7 T-05` and `§8 Merge condition 2` updated in this document to reflect this. |
+| **New footprint rename (FR-12, T002):** `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` → `Custom:ESP32-P4-PoE-ETH-PinSocket` | ✅ **NO CONSTITUTION VIOLATION.** The rename is a purely cosmetic/identity change. Physical pad geometry, row-to-row spacing (15.38 mm), pad pitch (2.54 mm), pad numbering, and all mechanical constraints are **unchanged**. The new name is self-documenting and consistent with the project naming convention. No new footprint library source is introduced (custom footprint remains in `hardware/kicad/footprints/Custom.pretty/`). Satisfies P-KI-05 (custom footprints in-project). |
+
+### 9.2 Additional Confirmed Pin Errors — Architecture Assessment
+
+The following pin errors were confirmed by the 2026-06-10 audit. Each is validated against
+`docs/kb/ESP32-P4-POE-ETH/pin-layout.md` (HIGH confidence source):
+
+| Pin | Error | Physical type per pin-layout.md | Plan correction | Status |
+|-----|-------|--------------------------------|-----------------|--------|
+| 2 | Generator assigns `+5V (power_out)` | GPIO (DM/GPIO24) — not a power rail | NC (`no_connect`) | ✅ CORRECT per pin-layout.md line: "DM / GPIO24 \| GPIO" |
+| 4 | Generator assigns `+5V (power_out)` | GPIO (SDA/GPIO7) — not a power rail | NC (`no_connect`) | ✅ CORRECT per pin-layout.md line: "SDA / GPIO7 \| GPIO" |
+| 20 | Generator assigns `GND (passive)` | GPIO (GPIO54) — not GND | NC (`no_connect`) | ✅ CORRECT per pin-layout.md line: "GPIO54 \| GPIO" |
+| 25 | Generator assigns `GND (passive)` | GPIO33 (EMAC_RXD1, forbidden) | NC (`no_connect`) | ✅ CORRECT — GPIO, not GND; EMAC-forbidden so NC is right choice |
+| 26 | Generator assigns `GND (passive)` | GPIO32 (EMAC_RXD0, forbidden) | NC (`no_connect`) | ✅ CORRECT per pin-layout.md line: "GPIO32 \| GPIO" + board-reference.md §2 EMAC conflict |
+| 30 | Generator assigns `GND (passive)` | RUN (system control) | NC (`no_connect`) | ✅ CORRECT per pin-layout.md line: "RUN \| System Control" |
+| 33 | Generator assigns `FAN2_PWM` signal | **GND** (physical GND pad) | GND (`passive`) | ✅ CORRECT per pin-layout.md line: "GND \| Ground"; signal on physical GND = PCB short |
+| 34 | Generator assigns `GND (passive)` | GPIO21 | FAN2_PWM (`output`) | ✅ CORRECT per pin-layout.md line: "GPIO21 \| GPIO"; FAN2_PWM correctly moves here from pin 33 |
+
+All eight additional pin errors are consistent with `pin-layout.md` and are correctly
+handled in the plan's target state (§3.1 table). No architectural concerns raised.
+
+### 9.3 Footprint Rename — Constitution Compliance
+
+The footprint rename was checked against all constitution principles:
+
+| Principle | Impact | Status |
+|-----------|--------|--------|
+| **P-KI-05** — Custom footprints in-project | Rename stays within `Custom.pretty/`; no external library reference added | ✅ PASS |
+| **P-HW-05** — Schematic generated | Rename applied in `components.py` and `gen_footprint_j8.py`; `.kicad_sch` is downstream artefact | ✅ PASS |
+| **P-KI-07** — PCB is hand-edited | Footprint rename propagates to `.kicad_pcb` via "Update PCB from Schematic" (T004); no script writes to `.kicad_pcb` | ✅ PASS |
+| **P-HW-04** — J8 placement constraints | Physical pad geometry, row spacing, and origin position **unchanged**; only the name string changes | ✅ PASS |
+| **§2.2 BOM lock** — Footprint name entry | The footprint name in §2.2 is a BOM reference, not a component substitution. The **physical component is unchanged**. Rename does not trigger the MAJOR-amendment clause (which governs component substitutions, not identifier changes). | ✅ PASS |
+
+**Constitution PATCH applied:** Amendment v4.2.1 (2026-06-10) updates:
+- `§2.2` J8 BOM table: `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` → `Custom:ESP32-P4-PoE-ETH-PinSocket`
+- `§3.1 P-HW-03` exception note: same old name → new name
+- `§2.2` J8 Role description: stale "+5V (pins 2 & 4), +3.3V (pins 1 & 17)" language corrected to reflect Amendment v4.2.0 pin assignments (VBUS pin 40, +3V3 pin 36)
+- `§10 Amendment History`: v4.2.1 entry added
+
+### 9.4 DRC Gate — Clarification for Routing-Out-of-Scope
+
+After the netlist sync ("Update PCB from Schematic"), the following are expected and **do not block merge**:
+- Airwires (unconnected connections) on all 8 fan signal pads (FAN1–4 PWM and TACH), as signals move from left column pads to right column pads
+- Airwires on +3V3 consumers (R5–R8 pin 1, HUM1 pin 1) as +3V3 source moves to pad 36
+
+The DRC gate for this PR covers **rule violations only** (clearance, courtyard overlap, footprint validity). The unconnected-net count is tracked separately in the PR description and is a routing follow-on task.
+
+### 9.5 Residual Observations (Non-Blocking)
+
+The following items were observed during re-validation. They are **not blocking** for this PR but should be tracked as follow-on:
+
+| Item | Location | Observation |
+|------|----------|-------------|
+| `§5.1` Power chain diagram | `docs/constitution.md` | Still shows `+3V3 back to carrier via J8 pin 1/17`. Pin 36 is the correct +3V3 source per Amendment v4.2.0. The §5.1 ASCII diagram was not updated in v4.2.0; needs a PATCH amendment (separate from footprint rename) |
+| `§8.4` Bring-up checklist items 3, 6 | `docs/constitution.md` | Item 3 references "J8 pin 2 (after D2)" for +5V measurement; item 6 references "J8 pin 1" for +3.3V. Per Amendment v4.2.0 corrections, pin 40 (VBUS) is the +5V source and pin 36 is the +3V3 output. Checklist needs a PATCH amendment |
+| `§2.2` DHT11 description | `docs/constitution.md` | Still says "J8 pin 23" (physically GND); Amendment v4.2.0 corrects this in §2.3 and P-FW-02 but the DHT11 BOM row Role text was not updated |
+| `§2.2` verification warning | `docs/constitution.md` | Still says "+5V on pins 2 & 4" which is the old incorrect assignment; this warning is now superseded by Amendment v4.2.0 |
+
+All four observations are documentation cleanup items only; none affect the correctness of the generator changes or the ERC/DRC gates.
+
+---
