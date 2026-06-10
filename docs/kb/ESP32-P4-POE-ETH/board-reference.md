@@ -96,7 +96,7 @@ GPIO31, GPIO32–37, GPIO50, GPIO51, GPIO52
 > The two rows are on OPPOSITE long edges: row 1 at 2.81 mm, row 2 at 21.00−2.81 = 18.19 mm from the same edge.
 > Row-to-row pitch = 18.19 − 2.81 = **15.38 mm**.
 > The KiCad footprint `PinSocket_2x20_P2.54mm_Vertical` AND `PinSocket_2x20_P2.54mm_P2.81mm_Vertical` are BOTH WRONG.
-> Use: `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`
+> Use: `Custom:ESP32-P4-PoE-ETH-PinSocket` (renamed from `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` by Amendment v4.2.1)
 > (stored in `hardware/kicad/footprints/Custom.pretty/`)
 
 **Daughter board implication (portrait layout — per `docs/kb/Sample-PCB-Sketch.png`):**
