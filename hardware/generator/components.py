@@ -157,7 +157,7 @@ def build_schematic():
                  ("FAN1_TACH",    "34", "input"),         # GPIO21   — FAN1 tach IRQ
                  ("GND",          "33", "passive"),       # Physical GND
                  ("FAN2_PWM",     "32", "output"),        # GPIO22   — FAN2 speed control
-                 ("NC",           "31", "no_connect"),    # GPIO23   — NC (no FAN2_TACH)
+                 ("FAN2_TACH",    "31", "input"),         # GPIO23   — FAN2 tach IRQ (R6 pull-up)
                  ("NC",           "30", "no_connect"),    # RUN      — system control RESERVED
                  ("NC",           "29", "no_connect"),    # GPIO26   — NC
                  ("GND",          "28", "passive"),       # Physical GND
@@ -342,7 +342,7 @@ def build_schematic():
 
     fan_data = [
         ("FAN1_PWM", "FAN1_TACH"),   # J2: PWM + TACH (full control)
-        ("FAN2_PWM", "NC"),           # J3: PWM only (no TACH monitoring)
+        ("FAN2_PWM", "FAN2_TACH"),   # J3: PWM + TACH (R6 pull-up restored)
         ("FAN3_PWM", "FAN3_TACH"),   # J4: PWM + TACH (full control)
         ("FAN4_PWM", "FAN4_TACH"),   # J5: PWM + TACH (full control)
     ]
@@ -368,7 +368,7 @@ def build_schematic():
         # TACH pull-up: only for fans that have TACH monitoring (R5=FAN1, R7=FAN3, R8=FAN4)
         # R6 (FAN2) omitted — FAN2 has no TACH
         if tach_net != "NC":
-            res_idx = {0: 5, 2: 7, 3: 8}[i]   # fan 0→R5, fan 2→R7, fan 3→R8
+            res_idx = {0: 5, 1: 6, 2: 7, 3: 8}[i]   # fan 0→R5, 1→R6, 2→R7, 3→R8
             FR_CY = p["3"][1]
             pr = s.component("Custom:R", f"R{res_idx}", "10k",
                              "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
@@ -531,6 +531,7 @@ def build_schematic():
     s.global_label("FAN1_PWM",  *p["35"], shape="output")                      # GPIO20 — re-added
     s.power("GND",  *p["33"])
     s.global_label("FAN2_PWM",  *p["32"], shape="output")                      # GPIO22
+    s.global_label("FAN2_TACH", *p["31"], shape="input")                       # GPIO23 — R6 pull-up
     s.global_label("FAN3_PWM",  *p["27"], shape="output")                      # GPIO27
     s.global_label("FAN3_TACH", *p["26"], shape="input")                       # GPIO32 (verify EMAC)
     s.power("GND",  *p["28"])
