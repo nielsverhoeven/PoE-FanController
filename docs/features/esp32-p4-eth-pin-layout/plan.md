@@ -1,12 +1,92 @@
 # Technical Plan: ESP32-P4-ETH Module Pin Layout Fix
 
-> Issue: [#133](https://github.com/nielsverhoeven/PoE-FanController/issues/133)
-> Branch: `bugfix/133-esp32-p4-eth-pin-layout`
-> Status: Planning
+> Issue: [#133](https://github.com/nielsverhoeven/PoE-FanController/issues/133) (original), [#148](https://github.com/nielsverhoeven/PoE-FanController/issues/148) (pin corrections)
+> Branch: `feature/148-correct-gpio-pin-assignments`
+> Status: **IMPLEMENTED** (2026-06-10, constitution v4.2.1)
 
 ---
 
-## Problem Statement
+## Summary of Implemented State
+
+The ESP32-P4-POE-ETH (Waveshare SKU 32088) J8 connector is correctly defined in
+`hardware/generator/components.py` with the following properties:
+
+- **Footprint**: `Custom:ESP32-P4-PoE-ETH-PinSocket` (15.38mm row spacing, 2.54mm pitch)
+- **Pin numbering**: Consecutive-column (NOT Pico-style) — pins 1–20 left, 21–40 right
+- **Symbol orientation**: Matches physical board — pin 40 (VBUS/+5V) at **top-right**, pin 21 (GPIO48) at **bottom-right**; pin 20 (GPIO54) at **top-left**, pin 1 (DP/GPIO25) at **bottom-left**
+
+### Authoritative pin assignments (left column, pins 1–20, bottom → top)
+
+| Pin | Physical signal | This project | Notes |
+|-----|----------------|--------------|-------|
+| 1  | DP / GPIO25 | NC | USB D+ |
+| 2  | DM / GPIO24 | NC | USB D- |
+| 3  | GND | GND | |
+| 4  | SDA / GPIO7 | NC | I2C Data |
+| 5  | SCL / GPIO8 | NC | I2C Clock |
+| 6  | GPIO2 | STATUS_LED | Status indicator |
+| 7  | GPIO3 | NC | |
+| 8  | GND | GND | |
+| 9  | GPIO4 | NC | |
+| 10 | GPIO5 | NC | |
+| 11 | GPIO6 | NC | |
+| 12 | GPIO14 | NC | |
+| 13 | GND | GND | |
+| 14 | GPIO15 | PROG_LED | OTA/write indicator |
+| 15 | GPIO16 | DHT11_DATA | Single-wire sensor |
+| 16 | GPIO17 | NC | |
+| 17 | GPIO18 | NC | |
+| 18 | GND | GND | |
+| 19 | GPIO19 | DS18B20_DATA | 1-Wire probe |
+| 20 | GPIO54 | NC | NOT GND |
+
+### Authoritative pin assignments (right column, pins 21–40, bottom → top)
+
+| Pin | Physical signal | This project | Notes |
+|-----|----------------|--------------|-------|
+| 21 | GPIO48 | PROBE_LED | Probe health LED |
+| 22 | GPIO47 | FAN4_TACH | IRQ pull-up via R8 |
+| 23 | GND | GND | |
+| 24 | GPIO46 | FAN3_TACH | IRQ pull-up via R7 |
+| 25 | GPIO33 | NC | EMAC_RXD1 — FORBIDDEN by IO_MUX |
+| 26 | GPIO32 | NC | EMAC_RXD0 — FORBIDDEN by IO_MUX |
+| 27 | GPIO27 | FAN4_PWM | LEDC CH3 |
+| 28 | GND | GND | |
+| 29 | GPIO26 | FAN3_PWM | LEDC CH2 |
+| 30 | RUN | NC | System control — reserved |
+| 31 | GPIO23 | FAN2_TACH | IRQ pull-up via R6 |
+| 32 | GPIO22 | FAN1_TACH | IRQ pull-up via R5 |
+| 33 | GND | GND | Physical GND — NOT a signal |
+| 34 | GPIO21 | FAN2_PWM | LEDC CH1 |
+| 35 | GPIO20 | FAN1_PWM | LEDC CH0 |
+| 36 | 3V3 | +3V3 | SOLE 3.3V source for daughter board |
+| 37 | EN | NC | Chip enable — reserved |
+| 38 | GND | GND | |
+| 39 | VSYS | NC | Do NOT use as 5V source (issue #137) |
+| 40 | VBUS | +5V | SOLE 5V source for U_BOOST |
+
+### Key corrections applied (issue #148)
+
+| Pin | Was | Correct | Reason |
+|-----|-----|---------|--------|
+| 2 (left) | +5V | NC | DM/GPIO24 = USB D- |
+| 4 (left) | +5V | NC | SDA/GPIO7 = I2C Data |
+| 20 (left) | GND | NC | GPIO54, not GND |
+| 25 (right) | GND | NC | GPIO33/EMAC_RXD1 FORBIDDEN |
+| 26 (right) | GND | NC | GPIO32/EMAC_RXD0 FORBIDDEN |
+| 30 (right) | GND | NC | RUN = system control |
+| 33 (right) | FAN2_PWM | GND | Physical GND pad |
+| 34 (right) | GND | FAN2_PWM | GPIO21 = FAN2 LEDC CH1 |
+
+### Symbol orientation correction (2026-06-10)
+
+The schematic symbol pin list order was corrected so the symbol visually matches
+the physical board layout in KiCad Eeschema:
+- `pins_left` lists pins **20 → 1** (top-to-bottom in symbol)
+- `pins_right` lists pins **40 → 21** (top-to-bottom in symbol)
+
+This puts VBUS (+5V, pin 40) at the **top-right** and GPIO48 (pin 21) at the
+**bottom-right** — matching the physical Waveshare board image.
 
 The `Custom:J8_Waveshare` schematic symbol (defined in `hardware/generator/components.py`) assigns
 pins to left/right sides using an **alternating odd/even (PICO-style)** numbering scheme:

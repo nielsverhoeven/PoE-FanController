@@ -1,40 +1,40 @@
-ERC report (2026-06-10T12:27:24, Encoding UTF8)
+ERC report (2026-06-10T13:11:57, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 133.35 mm): Symbol #PWR038 [GND]
+    @(76.20 mm, 133.35 mm): Symbol #PWR041 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 146.05 mm): Symbol #PWR039 [GND]
+    @(76.20 mm, 146.05 mm): Symbol #PWR040 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 158.75 mm): Symbol #PWR040 [GND]
+    @(76.20 mm, 158.75 mm): Symbol #PWR039 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 171.45 mm): Symbol #PWR041 [GND]
+    @(76.20 mm, 171.45 mm): Symbol #PWR038 [GND]
 [lib_symbol_mismatch]: Symbol 'J8_Waveshare' doesn't match copy in library 'Custom'
     ; warning
     @(91.44 mm, 152.40 mm): Symbol J8 [J8_Waveshare]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 133.35 mm): Symbol #PWR042 [GND]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 146.05 mm): Symbol #PWR043 [GND]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 158.75 mm): Symbol #PWR044 [GND]
-[lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 166.37 mm): Symbol #PWR045 [+3V3]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(106.68 mm, 171.45 mm): Symbol #PWR046 [GND]
 [lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
     ; warning
-    @(106.68 mm, 176.53 mm): Symbol #PWR047 [+5V]
+    @(106.68 mm, 128.27 mm): Symbol #PWR047 [+5V]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(106.68 mm, 133.35 mm): Symbol #PWR046 [GND]
+[lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
+    ; warning
+    @(106.68 mm, 138.43 mm): Symbol #PWR045 [+3V3]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(106.68 mm, 146.05 mm): Symbol #PWR044 [GND]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(106.68 mm, 158.75 mm): Symbol #PWR043 [GND]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(106.68 mm, 171.45 mm): Symbol #PWR042 [GND]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
     @(152.40 mm, 302.26 mm): Symbol #PWR035 [+3V3]

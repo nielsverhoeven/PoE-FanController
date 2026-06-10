@@ -15,6 +15,14 @@ RIGHT COLUMN: Pin 21 (bottom-right) →  Pin 40 (top-right)
 
 **Never use Pico-style (dual-row interleaved) numbering for this board.**
 
+### KiCad schematic symbol orientation
+
+The `Custom:J8_Waveshare` symbol in the schematic is oriented to **match the physical board**:
+- `pins_right` list runs **40 → 21** (top-to-bottom in symbol) so pin 40 (VBUS) appears at the **top-right** and pin 21 (GPIO48) at the **bottom-right**
+- `pins_left` list runs **20 → 1** (top-to-bottom in symbol) so pin 20 (GPIO54) appears at the **top-left** and pin 1 (DP/GPIO25) at the **bottom-left**
+
+This matches the physical Waveshare board where VBUS is at the top-right corner and GPIO48 is at the bottom-right corner.
+
 ---
 
 ## Left Column — Pins 1–20

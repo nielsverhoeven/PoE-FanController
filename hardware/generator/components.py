@@ -117,18 +117,25 @@ def build_schematic():
     # Custom footprint: Custom:ESP32-P4-PoE-ETH-PinSocket (in Custom.pretty)
     #
     # PIN LAYOUT (issue #133): CONSECUTIVE column numbering — NOT alternating/PICO style.
-    #   Row A (near edge, 2.81mm from long edge):  pins  1..20  (top → bottom)
-    #   Row B (far edge, 18.19mm from same edge):  pins 21..40  (top → bottom)
+    #   Row A (near edge, 2.81mm from long edge):  pins  1..20  (bottom → top on physical board)
+    #   Row B (far edge, 18.19mm from same edge):  pins 21..40  (bottom → top on physical board)
     #
-    # CORRECTED ASSIGNMENTS (issue #148 — architecture validation v4.2.0):
-    #   Left col  (Row A, pins  1-20): +5V on 2,4; GND on 3,8,13,18,20;
+    # CORRECTED ASSIGNMENTS (issue #148 — architecture validation v4.2.1):
+    #   Left col  (Row A, pins  1-20): GND on 3,8,13,18;
     #             STATUS_LED/GPIO2 on pin 6; PROG_LED/GPIO15 on pin 14;
     #             DHT11_DATA/GPIO16 on pin 15; DS18B20_DATA/GPIO19 on pin 19.
-    #             All others NC (GPIO25, EMAC_*, reserved).
+    #             All others NC.
     #   Right col (Row B, pins 21-40): ALL 8 fan signals here (GPIO20-23,26,27,46,47);
     #             PROBE_LED/GPIO48 on pin 21; +3V3 output on pin 36; +5V/VBUS on pin 40.
     #             FORBIDDEN: pins 25,26 = GPIO33/32 = EMAC_RXD1/RXD0 — left NC.
-    #             Reserved: pin 37 = EN (chip-enable) — left NC.
+    #             Reserved: pin 37 = EN, pin 30 = RUN — left NC.
+    #
+    # SYMBOL ORIENTATION — matches physical board (issue #148 v4.2.1 correction):
+    #   Lists run TOP → BOTTOM of symbol = HIGH pin# → LOW pin# so that:
+    #     Pin 20 (GPIO54)    appears at TOP-LEFT    = physical board top-left
+    #     Pin  1 (DP/GPIO25) appears at BOTTOM-LEFT = physical board bottom-left
+    #     Pin 40 (VBUS/+5V)  appears at TOP-RIGHT   = physical board top-right
+    #     Pin 21 (GPIO48)    appears at BOTTOM-RIGHT = physical board bottom-right
     #
     # Row spacing: 15.38mm = 21.00mm board width - 2x2.81mm edge offsets (see P-HW-04)
     # body_w = 10 * 2.54 = 25.4 mm,  body_h = 20 * 2.54 = 50.8 mm
@@ -137,50 +144,50 @@ def build_schematic():
              "https://www.waveshare.com/wiki/ESP32-P4-POE-ETH",
              body_w=25.4, body_h=50.8,
              pins_left=[
-                 # Consecutive pins 1..20 — Row A (top-to-bottom)
-                 ("NC",           "1",  "no_connect"),    # GPIO25 — NC (not used)
-                 ("NC",           "2",  "no_connect"),    # GPIO24 — NC (USB D-)
-                 ("GND",          "3",  "passive"),       # Physical GND
-                 ("NC",           "4",  "no_connect"),    # GPIO7 — NC (SDA/I2C)
-                 ("NC",           "5",  "no_connect"),    # GPIO8 — NC (SCL/I2C)
-                 ("STATUS_LED",   "6",  "output"),        # GPIO2 — status LED output
-                 ("NC",           "7",  "no_connect"),    # unassigned — NC
-                 ("GND",          "8",  "passive"),       # Physical GND
-                 ("NC",           "9",  "no_connect"),    # unassigned — NC
-                 ("NC",           "10", "no_connect"),    # unassigned — NC
-                 ("NC",           "11", "no_connect"),    # unassigned — NC
-                 ("NC",           "12", "no_connect"),    # unassigned — NC
-                 ("GND",          "13", "passive"),       # Physical GND
-                 ("PROG_LED",     "14", "output"),        # GPIO15 — OTA/write LED
-                 ("DHT11_DATA",   "15", "input"),         # GPIO16 — DHT11 single-wire
-                 ("NC",           "16", "no_connect"),    # unassigned — NC
-                 ("NC",           "17", "no_connect"),    # unassigned — NC
+                 # Pins 20..1, Row A — TOP → BOTTOM (matches physical board orientation)
+                 ("NC",           "20", "no_connect"),    # GPIO54   — top-left
+                 ("DS18B20_DATA", "19", "bidirectional"), # GPIO19   — 1-Wire data
                  ("GND",          "18", "passive"),       # Physical GND
-                 ("DS18B20_DATA", "19", "bidirectional"), # GPIO19 — 1-Wire data
-                 ("NC",           "20", "no_connect"),    # GPIO54 — NC (not GND)
+                 ("NC",           "17", "no_connect"),    # GPIO18   — NC
+                 ("NC",           "16", "no_connect"),    # GPIO17   — NC
+                 ("DHT11_DATA",   "15", "input"),         # GPIO16   — DHT11 single-wire
+                 ("PROG_LED",     "14", "output"),        # GPIO15   — OTA/write LED
+                 ("GND",          "13", "passive"),       # Physical GND
+                 ("NC",           "12", "no_connect"),    # GPIO14   — NC
+                 ("NC",           "11", "no_connect"),    # GPIO6    — NC
+                 ("NC",           "10", "no_connect"),    # GPIO5    — NC
+                 ("NC",           "9",  "no_connect"),    # GPIO4    — NC
+                 ("GND",          "8",  "passive"),       # Physical GND
+                 ("NC",           "7",  "no_connect"),    # GPIO3    — NC
+                 ("STATUS_LED",   "6",  "output"),        # GPIO2    — status LED output
+                 ("NC",           "5",  "no_connect"),    # SCL/GPIO8 — NC
+                 ("NC",           "4",  "no_connect"),    # SDA/GPIO7 — NC (I2C Data)
+                 ("GND",          "3",  "passive"),       # Physical GND
+                 ("NC",           "2",  "no_connect"),    # DM/GPIO24 — NC (USB D-)
+                 ("NC",           "1",  "no_connect"),    # DP/GPIO25 — bottom-left
              ],
              pins_right=[
-                 # Consecutive pins 21..40 — Row B (top-to-bottom)
-                 ("PROBE_LED",    "21", "output"),        # GPIO48 — probe health LED
-                 ("FAN4_TACH",    "22", "input"),         # GPIO47 — FAN4 tach IRQ
-                 ("GND",          "23", "passive"),       # Physical GND
-                 ("FAN3_TACH",    "24", "input"),         # GPIO46 — FAN3 tach IRQ
-                 ("NC",           "25", "no_connect"),    # GPIO33/EMAC_RXD1 — FORBIDDEN by IO_MUX
-                 ("NC",           "26", "no_connect"),    # GPIO32/EMAC_RXD0 — FORBIDDEN by IO_MUX
-                 ("FAN4_PWM",     "27", "output"),        # GPIO27 — FAN4 LEDC CH3
-                 ("GND",          "28", "passive"),       # Physical GND
-                 ("FAN3_PWM",     "29", "output"),        # GPIO26 — FAN3 LEDC CH2
-                 ("NC",           "30", "no_connect"),    # RUN = system control, reserved
-                 ("FAN2_TACH",    "31", "input"),         # GPIO23 — FAN2 tach IRQ
-                 ("FAN1_TACH",    "32", "input"),         # GPIO22 — FAN1 tach IRQ
-                 ("GND",          "33", "passive"),       # Physical GND (was wrongly FAN2_PWM)
-                 ("FAN2_PWM",     "34", "output"),        # GPIO21 — FAN2 LEDC CH1 (was wrongly GND)
-                 ("FAN1_PWM",     "35", "output"),        # GPIO20 — FAN1 LEDC CH0
-                 ("+3V3",         "36", "power_out"),     # +3V3 from Waveshare LDO — SOLE source (issue #148)
-                 ("NC",           "37", "no_connect"),    # EN / chip-enable — RESERVED, do NOT use
+                 # Pins 40..21, Row B — TOP → BOTTOM (matches physical board orientation)
+                 ("+5V",          "40", "power_out"),     # VBUS     — top-right (5V power source)
+                 ("NC",           "39", "no_connect"),    # VSYS     — do NOT use (issue #137)
                  ("GND",          "38", "passive"),       # Physical GND
-                 ("NC",           "39", "no_connect"),    # VSYS — system regulated; do NOT use as 5V source (issue #137)
-                 ("+5V",          "40", "power_out"),     # VBUS — 5V power source for daughter board
+                 ("NC",           "37", "no_connect"),    # EN       — chip-enable RESERVED
+                 ("+3V3",         "36", "power_out"),     # +3V3     — SOLE 3.3V source (issue #148)
+                 ("FAN1_PWM",     "35", "output"),        # GPIO20   — FAN1 LEDC CH0
+                 ("FAN2_PWM",     "34", "output"),        # GPIO21   — FAN2 LEDC CH1
+                 ("GND",          "33", "passive"),       # Physical GND
+                 ("FAN1_TACH",    "32", "input"),         # GPIO22   — FAN1 tach IRQ
+                 ("FAN2_TACH",    "31", "input"),         # GPIO23   — FAN2 tach IRQ
+                 ("NC",           "30", "no_connect"),    # RUN      — system control RESERVED
+                 ("FAN3_PWM",     "29", "output"),        # GPIO26   — FAN3 LEDC CH2
+                 ("GND",          "28", "passive"),       # Physical GND
+                 ("FAN4_PWM",     "27", "output"),        # GPIO27   — FAN4 LEDC CH3
+                 ("NC",           "26", "no_connect"),    # GPIO32   — EMAC_RXD0 FORBIDDEN
+                 ("NC",           "25", "no_connect"),    # GPIO33   — EMAC_RXD1 FORBIDDEN
+                 ("FAN3_TACH",    "24", "input"),         # GPIO46   — FAN3 tach IRQ
+                 ("GND",          "23", "passive"),       # Physical GND
+                 ("FAN4_TACH",    "22", "input"),         # GPIO47   — FAN4 tach IRQ
+                 ("PROBE_LED",    "21", "output"),        # GPIO48   — bottom-right
              ])
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)
@@ -506,8 +513,11 @@ def build_schematic():
     # J8 — Waveshare ESP32-P4-POE-ETH Interface (2x20 female PinSocket)
     #
     # PIN LAYOUT (issue #133 fix): CONSECUTIVE column numbering.
-    #   Row A (left  side of symbol): pins  1..20  top → bottom
-    #   Row B (right side of symbol): pins 21..40  top → bottom
+    #   Row A (left  side of symbol): pins 20..1   top → bottom (pin 20 at top-left)
+    #   Row B (right side of symbol): pins 40..21  top → bottom (pin 40 at top-right)
+    #
+    # Symbol orientation matches physical board (issue #148 v4.2.1):
+    #   +5V (VBUS, pin 40) at TOP-RIGHT;  PROBE_LED (GPIO48, pin 21) at BOTTOM-RIGHT
     #
     # CORRECTED ASSIGNMENTS (issue #148 — architecture validation v4.2.1):
     #
