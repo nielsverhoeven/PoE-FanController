@@ -2,15 +2,27 @@
 
 > Issue: [#148](https://github.com/nielsverhoeven/PoE-FanController/issues/148)
 > Branch: `feature/148-correct-gpio-pin-assignments`
-> Status: Planning
+> Status: Planning — **RE-RUN v2 (2026-06-10): scope updated per issue comment**
 > Spec: `docs/features/correct-gpio-pin-assignments/spec.md`
+
+---
+
+## ⚠️ Scope Change Notice (2026-06-10)
+
+The issue was updated on 2026-06-10 with a validated pin audit and the following changes to scope:
+
+| Change | Detail |
+|--------|--------|
+| **T4 (Route PCB Traces) — OUT OF SCOPE** | Routing is explicitly excluded from this issue. Netlist sync is in scope; re-routing existing and new traces is not. |
+| **New: Footprint rename (T002)** | `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` → `Custom:ESP32-P4-PoE-ETH-PinSocket` across all generator files and the `.kicad_mod` file. |
+| **Additional pin errors found** | Pins 2, 4, 26, and 33 had different wrong assignments than originally captured (see §1.3 below). |
 
 ---
 
 ## 1. Problem Summary
 
-The generator in `hardware/generator/components.py` has two independent classes of error for the J8
-symbol definition and its wiring block:
+The generator in `hardware/generator/components.py` has three independent classes of error for the
+J8 symbol definition and its wiring block.
 
 ### Class A — Signal on a physical GND or power pin (CRITICAL — will cause PCB short)
 
@@ -24,14 +36,35 @@ symbol definition and its wiring block:
 | 13 | **GND** | FAN2_TACH ← signal on a GND pin |
 | 14 | GPIO15 | GND ← GND symbol on a GPIO pin |
 | 17 | GPIO18 | +3V3 ← power symbol on a GPIO pin |
-| 20 | GPIO54 | GND ← GND symbol on a GPIO pin |
 | 23 | **GND** | DHT11_DATA ← signal on a GND pin |
-| 25 | GPIO33 (EMAC!) | GND ← GND symbol on EMAC pin |
 | 28 | **GND** | PROBE_LED ← signal on a GND pin |
-| 30 | RUN (reserved) | GND ← GND symbol on reserved control pin |
+| 33 | **GND** | FAN2_PWM ← signal on physical GND pad ⚠️ **NEW** |
 | 34 | GPIO21 | GND ← GND symbol on a GPIO pin |
 
-### Class B — Signal on wrong GPIO (firmware mismatch — will cause wrong MCU pin to be driven)
+### Class B — Wrong power symbol on a GPIO pin (CRITICAL — incorrect schematic semantics)
+
+Discovered by the 2026-06-10 pin audit against `docs/kb/ESP32-P4-POE-ETH/pin-layout.md`:
+
+| J8 Pin | Physical function | Current net in generator | Correct net |
+|--------|------------------|--------------------------|-------------|
+| 2 | DM / GPIO24 (USB D−) | **+5V** (power_out) | NC (no_connect) — USB D-, not a power pin |
+| 4 | SDA / GPIO7 (I²C Data) | **+5V** (power_out) | NC (no_connect) — I²C SDA, not a power pin |
+| 20 | GPIO54 | **GND** (passive) | NC (no_connect) — valid GPIO, not GND |
+| 25 | GPIO33 (EMAC_RXD1) | **GND** (passive) | NC (no_connect) — EMAC forbidden, not GND |
+| 26 | GPIO32 (EMAC_RXD0) | **GND** (passive) | NC (no_connect) — EMAC forbidden, not GND ⚠️ **NEW** |
+| 30 | RUN (system control) | **GND** (passive) | NC (no_connect) — reserved control pin |
+
+> **Note on pins 2 and 4:** The original plan assumed these were already NC in `components.py`.
+> The 2026-06-10 audit confirmed they are currently assigned `+5V (power_out)` — a critical error
+> that misrepresents these GPIO lines as a power rail.
+
+> **Note on pin 26:** The original plan assumed GPIO32/EMAC_RXD0 was already NC. The audit
+> confirmed it is currently assigned GND — incorrect because it is a GPIO (albeit EMAC-forbidden).
+
+> **Note on pin 33:** The original plan assumed pin 33 was NC → GND. The audit confirmed it
+> currently carries `FAN2_PWM` — a signal on a physical GND pad, which is a Class A PCB-shorting error.
+
+### Class C — Signal on wrong GPIO (firmware mismatch — will cause wrong MCU pin to be driven)
 
 | J8 Pin | Physical GPIO | Current net | Expected GPIO | Source |
 |--------|--------------|-------------|---------------|--------|
@@ -42,11 +75,11 @@ symbol definition and its wiring block:
 | 15 | GPIO16 | FAN3_TACH | GPIO10 (IRQ) | constitution P-FW-02 |
 | 16 | GPIO17 | FAN4_TACH | GPIO11 (IRQ) | constitution P-FW-02 |
 
-> **Note on Class B:** The fan signal GPIOs in the current constitution (GPIO4–11) were themselves
-> derived from the old (incorrect) pin layout. This fix takes the opportunity to move all fan
-> signals to the right column — where physical proximity to J2–J5 fan headers minimises PCB trace
-> length — and to adopt GPIO20–27, 46, 47 which are confirmed available on the right column.
-> This requires a **constitution amendment** to P-FW-02 before merge (see §7).
+> **Note on Class C:** The fan signal GPIOs in the current constitution (GPIO4–11) were themselves
+> derived from the old (incorrect) pin layout. This fix moves all fan signals to the right column —
+> where physical proximity to J2–J5 fan headers minimises PCB trace length — adopting GPIO20–27,
+> 46, 47 which are confirmed available on the right column. This requires a **constitution
+> amendment** to P-FW-02 before merge (see §7).
 
 ---
 
@@ -126,9 +159,9 @@ This table defines the **target state** for the generator. Every J8 pin is liste
 | J8 Pin | Physical | Target Net | Pin Type | Change from current |
 |--------|----------|------------|----------|---------------------|
 | 1 | GPIO25 | NC | no_connect | +3V3 → NC ⚠️ |
-| 2 | GPIO24 | NC | no_connect | unchanged |
+| 2 | GPIO24 | NC | no_connect | **+5V → NC** ⚠️ NEW |
 | 3 | GND | GND | passive | STATUS_LED → GND ⚠️ |
-| 4 | GPIO7 | NC | no_connect | unchanged |
+| 4 | GPIO7 | NC | no_connect | **+5V → NC** ⚠️ NEW |
 | 5 | GPIO8 | NC | no_connect | unchanged |
 | 6 | GPIO2 | STATUS_LED | output | GND → STATUS_LED ⚠️ |
 | 7 | GPIO3 | NC | no_connect | FAN1_PWM → NC ⚠️ |
@@ -144,7 +177,7 @@ This table defines the **target state** for the generator. Every J8 pin is liste
 | 17 | GPIO18 | NC | no_connect | +3V3 → NC ⚠️ |
 | 18 | GND | GND | passive | NC → GND ⚠️ |
 | 19 | GPIO19 | DS18B20_DATA | bidirectional | NC → DS18B20_DATA ⚠️ |
-| 20 | GPIO54 | NC | no_connect | GND → NC ⚠️ |
+| 20 | GPIO54 | NC | no_connect | **GND → NC** ⚠️ |
 
 **Right column — `pins_right` in `s.define("Custom:J8_Waveshare", ...)`, wired in Row B block:**
 
@@ -154,16 +187,16 @@ This table defines the **target state** for the generator. Every J8 pin is liste
 | 22 | GPIO47 | FAN4_TACH | input | PROG_LED → FAN4_TACH ⚠️ |
 | 23 | GND | GND | passive | DHT11_DATA → GND ⚠️ |
 | 24 | GPIO46 | FAN3_TACH | input | NC → FAN3_TACH ⚠️ |
-| 25 | GPIO33 (EMAC) | NC | no_connect | GND → NC ⚠️ |
-| 26 | GPIO32 (EMAC) | NC | no_connect | NC → NC (unchanged) |
+| 25 | GPIO33 (EMAC) | NC | no_connect | **GND → NC** ⚠️ |
+| 26 | GPIO32 (EMAC) | NC | no_connect | **GND → NC** ⚠️ NEW |
 | 27 | GPIO27 | FAN4_PWM | output | DS18B20_DATA → FAN4_PWM ⚠️ |
 | 28 | GND | GND | passive | PROBE_LED → GND ⚠️ |
 | 29 | GPIO26 | FAN3_PWM | output | NC → FAN3_PWM ⚠️ |
-| 30 | RUN | NC | no_connect | GND → NC ⚠️ |
+| 30 | RUN | NC | no_connect | **GND → NC** ⚠️ |
 | 31 | GPIO23 | FAN2_TACH | input | NC → FAN2_TACH ⚠️ |
 | 32 | GPIO22 | FAN1_TACH | input | NC → FAN1_TACH ⚠️ |
-| 33 | GND | GND | passive | NC → GND ⚠️ |
-| 34 | GPIO21 | FAN2_PWM | output | GND → FAN2_PWM ⚠️ |
+| 33 | GND | GND | passive | **FAN2_PWM → GND** ⚠️ NEW |
+| 34 | GPIO21 | FAN2_PWM | output | **GND → FAN2_PWM** ⚠️ |
 | 35 | GPIO20 | FAN1_PWM | output | NC → FAN1_PWM ⚠️ |
 | 36 | 3V3 | +3V3 | power_out | NC → +3V3 ⚠️ |
 | 37 | EN | NC | no_connect | NC → NC (unchanged) |
@@ -334,17 +367,41 @@ s.power("+5V",               *p["40"], pin_type="power_out")             # VBUS 
 > introduce a short wire stub + label (e.g. `s.wlabel_r("+3V3", *p["36"])`) and rely on the power
 > symbol net propagation to connect R5–R8 and HUM1 via name-matching. Both approaches are ERC-clean.
 
-### Change 4 — Regenerate schematic
+### Change 4 — Rename J8 footprint (NEW — T002)
+
+**Scope added 2026-06-10.** The footprint must be renamed from:
+- **Old:** `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`
+- **New:** `Custom:ESP32-P4-PoE-ETH-PinSocket`
+
+Apply the rename in all of the following locations:
+
+| File | Change |
+|------|--------|
+| `hardware/generator/components.py` | Update the `footprint=` argument in the `s.define("Custom:J8_Waveshare", ...)` call and any `s.component(...)` call referencing the old name |
+| `hardware/generator/gen_footprint_j8.py` | Update the footprint name string at the top of the generated `.kicad_mod` output |
+| `hardware/kicad/footprints/Custom.pretty/` | Rename `PinSocket_2x20_P2.54mm_P15.38mm_Vertical.kicad_mod` → `ESP32-P4-PoE-ETH-PinSocket.kicad_mod` and update the `(footprint "Custom:ESP32-P4-PoE-ETH-PinSocket" ...)` header inside the file |
+| `hardware/bom/bom.py` (if present) | Update any string referencing the old footprint name |
+
+> The rename propagates automatically to `.kicad_sch` and `.kicad_pcb` when the schematic is
+> regenerated (T003) and the PCB netlist is synced (T004). No hand-editing of those files is
+> required.
+
+### Change 5 — Regenerate schematic (T003)
 
 ```bash
 cd hardware
 python generate_project.py
 ```
 
-This writes `hardware/kicad/PoE-FanController.kicad_sch`. Run after every iteration of Changes 1–3
-to get fast ERC feedback.
+This writes `hardware/kicad/PoE-FanController.kicad_sch`. Run after Changes 1–4 are complete.
+Immediately follow with ERC (gate: 0 errors):
 
-### Change 5 — Amend `docs/constitution.md` P-FW-02 peripheral ownership table
+```bash
+kicad-cli sch erc hardware/kicad/PoE-FanController.kicad_sch \
+  --output hardware/kicad/erc_output.json
+```
+
+### Change 6 — Amend `docs/constitution.md` P-FW-02 peripheral ownership table
 
 Update the peripheral ownership table for the `fan` and `probe` modules:
 
@@ -358,48 +415,83 @@ Update the peripheral ownership table for the `fan` and `probe` modules:
 | GPIO digital input (DHT11) | `temp` | GPIO16 — Via J8 **right** pin 23 | GPIO16 — Via J8 **left** pin 15 |
 | 1-Wire bus (DS18B20) | `probe` | GPIO19 — Via J8 **left** pin 27 | GPIO19 — Via J8 **left** pin 19 |
 
-> The constitution amendment should also remove the incorrect "Via J8 right pin 22" note for OTA
-> LED and the "Via J8 pin 23" note for DHT11 that currently reference GND pins.
+Also update the J8 BOM entry in §2.2 to reflect the new footprint name
+`Custom:ESP32-P4-PoE-ETH-PinSocket`.
 
-### Change 6 — PCB netlist sync and re-routing
+### Change 7 — PCB netlist sync (T004)
 
 Open `hardware/kicad/PoE-FanController.kicad_pcb` in KiCad GUI:
 
 1. **Inspect → Board Statistics** — note current connected/unconnected counts for baseline.
-2. **Tools → Update PCB from Schematic** — accept all changes.
+2. **Tools → Update PCB from Schematic** — accept all changes (new net assignments, renamed
+   footprint reference propagation).
 3. **Inspect → Net Inspector** — verify FAN1_PWM net is on J8 pad 35 and fan header J2 pin 4;
    FAN1_TACH on pad 32 and J2 pin 3; etc.
-4. Route any new airwires (fan signal traces from right-column J8 pads to J2–J5 headers).
-5. Run DRC — target zero errors.
+
+> **⛔ Routing is OUT OF SCOPE for this issue.** After the netlist sync, airwires will appear on
+> previously-routed fan signal pads. These are expected and will remain unrouted. PCB re-routing
+> is a separate follow-on task.
+
+### Change 8 — DRC (T005)
+
+After PCB netlist sync (Change 7), run DRC from the KiCad PCB editor:
+
+- Target: zero DRC rule violations.
+- Unconnected airwires from the routing gap are expected and are **not** a DRC failure (they are
+  "unconnected" violations, separately gated by the PR checklist).
+- Pre-existing solder-mask-bridge suppressions are excluded.
 
 ---
 
-## 6. Testing Strategy
+## 6. Task Summary and Testing Strategy
+
+### Task Map
+
+| Task | Description | Gate |
+|------|-------------|------|
+| **T001** | Fix all J8 pin assignments in `components.py` (define block + wiring block) | Code review: every pin matches §3.1 table |
+| **T002** | Rename footprint from `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` to `Custom:ESP32-P4-PoE-ETH-PinSocket` in all files | No references to old name remain in repo |
+| **T003** | Regenerate schematic via `python hardware/generate_project.py` + run ERC | **ERC = 0 errors** (blocking) |
+| **T004** | Sync PCB netlist from corrected schematic via "Update PCB from Schematic" | Net Inspector spot-check passes |
+| **T005** | Run DRC and verify clean | **DRC = 0 rule violations** (blocking) |
+| **T006** | Update `docs/constitution.md` P-FW-02 + BOM entry + close issue | Diff review passes |
+
+> ⛔ **"Route PCB Traces" is NOT a task in this issue.** Airwires produced by the netlist sync are
+> expected and are tracked as a separate follow-on. This scope boundary was confirmed in the
+> 2026-06-10 issue update.
+
+---
 
 ### T-01 — Pre-implementation: cross-check against authoritative image
 
 Before editing any file, open
 `docs/kb/ESP32-P4-POE-ETH/ESP32-P4-ETH-details-inter-d78f8087f1a1597badd3a1d077c4c057.webp` and
-verify the following against §2 tables above:
+verify the following against §2 tables:
 
 | Check | Expected |
 |-------|----------|
+| Pin 2 (left col) | DM / GPIO24 — NOT a 5V power rail |
+| Pin 4 (left col) | SDA / GPIO7 — NOT a 5V power rail |
 | Pin 3 (left col) | GND label |
 | Pin 6 (left col) | GPIO2 label |
 | Pin 23 (right col) | GND label |
+| Pin 26 (right col) | GPIO32 label — EMAC, NOT GND |
 | Pin 28 (right col) | GND label |
+| Pin 33 (right col) | GND label — NOT a signal pad |
+| Pin 34 (right col) | GPIO21 label |
 | Pin 35 (right col) | GPIO20 label |
 | Pin 36 (right col) | 3V3 label |
 | Pin 40 (right col) | VBUS label |
 
 ### T-02 — Generator self-test: ERC after each change
 
-After each iteration of Changes 1–3, run:
+After Changes 1–4 (T001 + T002), run:
 ```bash
 cd hardware && python generate_project.py
 kicad-cli sch erc hardware/kicad/PoE-FanController.kicad_sch --output hardware/kicad/erc_output.json
 ```
-Target: zero errors. Any ERC error indicates a pin-type mismatch or floating net.
+Target: zero errors. Any ERC error indicates a pin-type mismatch, floating net, or footprint
+reference inconsistency.
 
 ### T-03 — Net membership spot-check (post-generation)
 
@@ -407,11 +499,12 @@ Open the generated `.kicad_sch` in KiCad. Use **Inspect → Net Inspector** to v
 
 | Net | Must include | Must NOT include |
 |-----|-------------|-----------------|
-| GND | J8 pads 3, 8, 13, 18, 23, 28, 33, 38 | J8 pads 1, 6, 14, 15, 17, 19 |
+| GND | J8 pads 3, 8, 13, 18, 23, 28, 33, 38 | J8 pads 2, 4, 20, 25, 26, 30 |
 | +3V3 | J8 pad 36 | J8 pads 1, 17 |
+| +5V | J8 pad 40 | J8 pads 2, 4 |
 | STATUS_LED | J8 pad 6, R3 pin 1 | J8 pad 3 |
 | FAN1_PWM | J8 pad 35, J2 pin 4 | J8 pads 7, 8 |
-| FAN2_PWM | J8 pad 34, J3 pin 4 | J8 pads 8 |
+| FAN2_PWM | J8 pad 34, J3 pin 4 | J8 pad 33 |
 | FAN3_PWM | J8 pad 29, J4 pin 4 | J8 pads 10 |
 | FAN4_PWM | J8 pad 27, J5 pin 4 | J8 pads 11 |
 | FAN1_TACH | J8 pad 32, J2 pin 3, R5 pin 2 | J8 pad 12 |
@@ -429,26 +522,30 @@ Verify that the +3V3 net (sourced from J8 pad 36) is connected to:
 - R5 pin 1, R6 pin 1, R7 pin 1, R8 pin 1 (TACH pull-ups)
 - HUM1 pin 1 (DHT11 VCC)
 
-If the generator currently wires these pull-ups directly to `s.power("+3V3", ...)` calls, they will
-automatically merge with the J8 pad-36 +3V3 power symbol by KiCad net name propagation. No
-additional wiring change is needed in those blocks.
-
 ### T-05 — PCB DRC after netlist sync
 
-After PCB netlist sync (Change 6):
+After PCB netlist sync (T004):
 - Run DRC from KiCad PCB editor.
-- Zero unconnected nets (all airwires routed).
-- Zero clearance violations.
+- Zero DRC rule violations (clearance, footprint courtyard, etc.).
+- Unconnected airwires (from out-of-scope routing) are noted but do not block this issue.
 - Pre-existing solder-mask-bridge suppressions are excluded.
 
-### T-06 — Constitution amendment diff review
+### T-06 — Footprint rename verification
+
+Confirm no reference to `PinSocket_2x20_P2.54mm_P15.38mm_Vertical` remains in:
+```bash
+git grep "PinSocket_2x20" -- hardware/
+```
+Expected: zero matches.
+
+### T-07 — Constitution amendment diff review
 
 Confirm that `docs/constitution.md` P-FW-02 table shows:
 - LEDC channels: GPIO20, 21, 26, 27
 - TACH interrupts: GPIO22, 23, 46, 47
 - PROBE_LED: GPIO48
-- J8 pin references corrected for STATUS_LED (pin 6), PROG_LED (pin 14), DHT11 (pin 15),
-  DS18B20 (pin 19)
+- J8 pin references corrected for STATUS_LED (pin 6), PROG_LED (pin 14), DHT11 (pin 15), DS18B20 (pin 19)
+- J8 BOM entry (§2.2) reflects new footprint name `Custom:ESP32-P4-PoE-ETH-PinSocket`
 
 ---
 
@@ -456,11 +553,14 @@ Confirm that `docs/constitution.md` P-FW-02 table shows:
 
 | Risk | Likelihood | Severity | Mitigation |
 |------|-----------|----------|-----------|
-| Issue #148 description marks GPIO32/33 (EMAC) as usable — acting on this would drive EMAC signals with fan PWM | HIGH (if not caught) | CRITICAL — ethernet failure + possible GPIO contention | Plan explicitly uses GPIO27/GPIO46 instead of GPIO33/GPIO32; EMAC conflict noted in §2 and confirmed from board-reference.md §2 and constitution P-FW-02 |
-| GPIO47/48 not confirmed usable in existing KB docs | LOW — only GPIO31, 32–37, 50–52 are listed as forbidden | MEDIUM | Consult `esp32.expert` before merge; GPIO47/48 are not in the forbidden list and appear freely on J8 header at pins 22/21 |
-| PCB has existing routed fan traces from left-column J8 pads; after netlist sync all those traces become unrouted airwires | HIGH | LOW — routing work needed, no net-topology error | Expected consequence; document and track as follow-on PCB routing task |
-| `s.power("+3V3", *p["36"], pin_type="power_out")` conflicts with existing +3V3 power_out from another source in schematic (ERC: multiple power-out drivers on same net) | LOW — KiCad allows multiple power_out on one net | LOW | Use `pin_type="power_in"` if ERC reports conflict; the physical 3V3 pin is a source (it drives +3V3 into the daughter board) |
-| Symbol pin count or ordering change shifts all subsequent pin y-positions in the generator, misaligning wire stubs from neighbouring blocks | MEDIUM — any pin list rewrite risks position drift | MEDIUM — wires land at wrong coordinates → ERC disconnected stubs | After regeneration, run ERC immediately; any "pin not connected" error reveals a missed wire stub. Run `python generate_project.py && kicad-cli sch erc ...` in CI |
+| Issue #148 description marks GPIO32/33 (EMAC) as usable — acting on this would drive EMAC signals with fan PWM | HIGH (if not caught) | CRITICAL — ethernet failure + possible GPIO contention | Plan explicitly uses GPIO27/GPIO46 instead; EMAC conflict noted in §2 and confirmed from board-reference.md §2 and constitution P-FW-02 |
+| Pins 2 and 4 were `+5V` in components.py — KiCad treats this as a power source on a USB D± line | HIGH (already confirmed) | HIGH — ERC "power pin not driven" or net conflict | T001 correction changes these to `no_connect`; ERC gate (T003) enforces this |
+| Pin 33 carries FAN2_PWM in components.py — signal wire short-circuits to physical GND pad | HIGH (already confirmed) | CRITICAL — PCB short if routed | T001 correction moves FAN2_PWM to pin 34 (GPIO21) and makes pin 33 `GND (passive)` |
+| Footprint rename (`PinSocket_...` → `ESP32-P4-PoE-ETH-PinSocket`) may leave orphaned footprint reference in `.kicad_pcb` if netlist sync is not performed after rename | MEDIUM | MEDIUM — DRC "footprint not found" error | T004 netlist sync resolves this; T002 must be completed before T003/T004 |
+| GPIO47/48 not confirmed usable in existing KB docs | LOW — only GPIO31, 32–37, 50–52 are listed as forbidden | MEDIUM | Consult `esp32.expert` before merge; GPIO47/48 are not in the forbidden list and appear freely on J8 at pins 22/21 |
+| PCB has existing routed fan traces from left-column J8 pads; after netlist sync those traces become unrouted airwires | HIGH | LOW — routing work needed, no net-topology error | Expected consequence; routing is explicitly out of scope for this issue; tracked as follow-on |
+| `s.power("+3V3", *p["36"], pin_type="power_out")` conflicts with existing +3V3 power_out from another source (ERC: multiple power-out drivers on same net) | LOW | LOW | Use `pin_type="power_in"` if ERC reports conflict |
+| Symbol pin count or ordering change shifts all subsequent pin y-positions in the generator, misaligning wire stubs from neighbouring blocks | MEDIUM | MEDIUM — wires land at wrong coordinates → ERC disconnected stubs | Run ERC immediately after every regeneration (T003 gate) |
 | Constitution amendment to P-FW-02 may conflict with in-progress firmware work in a parallel branch | LOW | LOW | Coordinate with firmware author before merge; no firmware source files exist yet per project status |
 
 ---
@@ -469,20 +569,20 @@ Confirm that `docs/constitution.md` P-FW-02 table shows:
 
 | Principle | How satisfied |
 |-----------|--------------|
-| **P-HW-05** — Schematic generated, never hand-edited | All changes in `components.py`; `.kicad_sch` is a build artefact of `generate_project.py`. |
-| **P-HW-06** — Grid discipline | Symbol body unchanged (25.4 × 50.8 mm, both multiples of G=2.54). `snap()` enforces grid on all wire endpoints. |
+| **P-HW-05** — Schematic generated, never hand-edited | All changes in `components.py` and `gen_footprint_j8.py`; `.kicad_sch` is a build artefact of `generate_project.py`. |
+| **P-HW-06** — Grid discipline | Symbol body unchanged (25.4 × 50.8 mm). `snap()` enforces grid on all wire endpoints. Only net name strings, pin type strings, and the footprint name string change. |
 | **P-HW-01/02** — Two-layer, top-side placement | No layer or component placement changes. |
-| **P-HW-04** — Board outline | J8 physical position unchanged. Only pad nets change. |
+| **P-HW-04** — Board outline | J8 physical position unchanged. Only pad nets and footprint name change. |
 | **P-HW-09** — Polarised connectors | J8 explicitly exempt; no change. |
 | **P-KI-01/02/03** — File format locks | Generator emits the same format version tokens; no format upgrade. |
-| **P-KI-04** — Generator is schematic source of truth | Plan modifies only `components.py`. |
+| **P-KI-04** — Generator is schematic source of truth | Plan modifies only `components.py` and `gen_footprint_j8.py`. |
 | **P-KI-07** — PCB is hand-edited | PCB updated via KiCad GUI only; no script writes to `.kicad_pcb`. |
-| **P-TEST-01** — Zero ERC errors | ERC run after regeneration (T-02); blocking criterion for merge. |
-| **P-TEST-03** — Zero DRC errors | DRC run after netlist sync (T-05); blocking criterion for merge. |
-| **P-FW-02** — Peripheral ownership documented | Constitution amendment (Change 5) updates GPIO table; new values match physical pin layout and avoid all EMAC-forbidden GPIOs. |
+| **P-TEST-01** — Zero ERC errors | ERC run after regeneration (T003); blocking criterion for merge. |
+| **P-TEST-03** — Zero DRC errors | DRC run after netlist sync (T005); blocking criterion for merge. |
+| **P-FW-02** — Peripheral ownership documented | Constitution amendment (Change 6) updates GPIO table; new values match physical pin layout and avoid all EMAC-forbidden GPIOs. |
 | **P-SCH-01** — Global labels | All inter-block signals continue to use `global_label` elements. |
 | **P-SCH-03** — Section header style | Section header text calls in components.py are unchanged. |
-| **P-SCH-05** — Correct pin types | NC pins → `no_connect`; GND pins → `passive`; signal output/input/bidir correctly assigned per updated lists. |
+| **P-SCH-05** — Correct pin types | NC pins → `no_connect`; GND pins → `passive`; signal output/input/bidir correctly assigned per updated lists. Pins 2, 4 corrected from `power_out` to `no_connect`. |
 
 ---
 

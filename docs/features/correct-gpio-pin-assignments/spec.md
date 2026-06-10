@@ -2,7 +2,7 @@
 
 > Issue: [#148](https://github.com/nielsverhoeven/PoE-FanController/issues/148)
 > Branch: `feature/148-correct-gpio-pin-assignments`
-> Status: Planning
+> Status: Planning — **RE-RUN v2 (2026-06-10): scope updated per issue comment**
 
 ---
 
@@ -71,6 +71,13 @@ routing and firmware operation.
 11. **FR-11** — The constitution (`docs/constitution.md` §P-FW-02 peripheral ownership table) shall
     be updated to reflect the new GPIO numbers for all fan signals and for PROBE_LED.
 
+12. **FR-12** — The J8 connector footprint shall be renamed from
+    `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` to `Custom:ESP32-P4-PoE-ETH-PinSocket` in
+    all files: `hardware/generator/components.py`, `hardware/generator/gen_footprint_j8.py`,
+    `hardware/kicad/footprints/Custom.pretty/` (both the filename and the internal footprint
+    header), and any BOM or generated files that reference the old name. No reference to the old
+    footprint name shall remain in the repository after this change.
+
 ---
 
 ## Non-Functional Requirements
@@ -97,25 +104,35 @@ routing and firmware operation.
 | SC-04 | +3V3 rail is connected to J8 pad 36 only (not pads 1 or 17) | Net inspector: +3V3 net contains J8 pad 36 |
 | SC-05 | All eight fan signals use right-column GPIO pins: FAN1_PWM=GPIO20, FAN2_PWM=GPIO21, FAN3_PWM=GPIO26, FAN4_PWM=GPIO27, FAN1_TACH=GPIO22, FAN2_TACH=GPIO23, FAN3_TACH=GPIO46, FAN4_TACH=GPIO47 | Net inspector pin list for each signal |
 | SC-06 | STATUS_LED on J8 pad 6 (GPIO2); PROG_LED on pad 14 (GPIO15); DHT11_DATA on pad 15 (GPIO16); DS18B20_DATA on pad 19 (GPIO19); PROBE_LED on pad 21 (GPIO48) | Net inspector |
-| SC-07 | ERC reports 0 errors after `python hardware/generate_project.py` | `kicad-cli sch erc` output |
-| SC-08 | DRC reports 0 errors after PCB netlist sync | KiCad DRC dialog |
+| SC-07 | ERC reports **0 errors** after `python hardware/generate_project.py` | `kicad-cli sch erc` output |
+| SC-08 | DRC reports **0 rule violations** after PCB netlist sync | KiCad DRC dialog |
 | SC-09 | `docs/constitution.md` P-FW-02 table updated with new GPIO assignments for FAN1–4 PWM/TACH and PROBE_LED | Diff review |
-| SC-10 | The `.kicad_sch` file is not modified by any hand-edit; it is produced exclusively by running `python hardware/generate_project.py` (the file's `(generator "eeschema")` header is intact and the git diff shows only the build artefact changed, not `components.py` → `.kicad_sch` in isolation) | Git diff review: no direct `.kicad_sch` edits |
-| SC-11 | Every pin entry in the updated `pins_left` / `pins_right` lists in `components.py` has an inline comment identifying the physical signal name (e.g. `# GPIO20`, `# Physical GND`, `# EMAC_RXD1: FORBIDDEN`) | Code review of `components.py` diff |
+| SC-10 | The `.kicad_sch` file is not modified by any hand-edit; produced exclusively by `python hardware/generate_project.py` | Git diff: no direct `.kicad_sch` edits |
+| SC-11 | Every pin entry in `pins_left` / `pins_right` in `components.py` has an inline comment identifying the physical signal name | Code review of `components.py` diff |
+| SC-12 | Pins 2 and 4 (left column) are `NC` — no `+5V` power symbol on DM/GPIO24 or SDA/GPIO7 | Net inspector: pads 2 and 4 absent from +5V net; ERC passes |
+| SC-13 | Pin 20 (left column, GPIO54) is `NC` — not assigned to GND | Net inspector: pad 20 absent from GND net |
+| SC-14 | Pins 25 and 26 (GPIO33/GPIO32, EMAC-forbidden) are `NC` — not assigned to GND or any signal | Net inspector: pads 25 and 26 carry no net |
+| SC-15 | Pin 30 (RUN, reserved) is `NC` — not assigned to GND | Net inspector: pad 30 absent from GND net |
+| SC-16 | Pin 33 is `GND` (physical GND pad) — not assigned to FAN2_PWM or any signal | Net inspector: pad 33 is in GND net only |
+| SC-17 | Pin 34 is `FAN2_PWM` on GPIO21 — not assigned to GND | Net inspector: pad 34 is in FAN2_PWM net; pad 33 is in GND net |
+| SC-18 | Footprint renamed to `Custom:ESP32-P4-PoE-ETH-PinSocket` in all files; `git grep "PinSocket_2x20" -- hardware/` returns zero matches | Shell search result |
+| SC-19 | PCB netlist synced from corrected schematic ("Update PCB from Schematic" run in KiCad GUI) | KiCad net change log shows accepted changes |
+| SC-20 | "Route PCB Traces" is NOT performed as part of this issue — airwires from the netlist sync remain unrouted | PR description explicitly states routing is out of scope |
 
 ---
 
 ## Out of Scope
 
+- **PCB re-routing of traces** — explicitly excluded per 2026-06-10 issue update. After PCB
+  netlist sync, airwires produced by re-assigned fan signals are expected and will remain unrouted.
+  Re-routing is a separate follow-on task.
 - Changes to left-column pin **numbers** 1–20 in the generator symbol `pins_left` list definition
   (pin position indices are already correct from issue #133 fix; only nets and pin-type annotations
   change where they are wrong).
 - Firmware source code changes (updating `#define FAN1_PWM_PIN` constants etc.) — these are a
   downstream consequence tracked separately.
-- PCB re-routing of fan traces — this is a PCB layout task following the netlist sync.
-- Changes to J8 footprint pad coordinates or the custom
-  `PinSocket_2x20_P2.54mm_P15.38mm_Vertical.kicad_mod` footprint (pad numbering was already fixed
-  in issue #133; physical coordinates are unchanged).
+- Changes to J8 footprint pad coordinates or pad numbering — only the footprint **name** changes;
+  pad positions and numbering (already fixed in issue #133) are unchanged.
 - Adding any new components to the schematic or PCB.
 
 ---
@@ -127,18 +144,25 @@ routing and firmware operation.
   `docs/kb/ESP32-P4-POE-ETH/pin-layout.md`. This source is treated as HIGH confidence.
 - GPIO32 and GPIO33 (J8 pins 26 and 25) are EMAC-reserved (EMAC_RXD0 and EMAC_RXD1) per
   `docs/kb/ESP32-P4-POE-ETH/board-reference.md §2` and `docs/constitution.md P-FW-02`. They appear
-  on J8 but cannot be used as general GPIO by the daughter board.
+  on J8 but cannot be used as general GPIO by the daughter board. Both pins are currently assigned
+  GND in `components.py` and must be changed to NC.
+- J8 pins 2 (DM/GPIO24) and 4 (SDA/GPIO7) are currently assigned `+5V (power_out)` in
+  `components.py`. This is incorrect — both are GPIO lines (USB D− and I²C SDA respectively) and
+  carry no power. They must be changed to NC.
+- J8 pin 33 is currently assigned `FAN2_PWM` in `components.py`. This is a physical GND pad and
+  must not carry any signal. FAN2_PWM belongs on pin 34 (GPIO21).
 - J8 pin 30 (physical: RUN/chip-enable) is reserved and must not carry any daughter-board signal.
+  Currently assigned GND, must be changed to NC.
 - GPIO47 and GPIO48 (J8 pins 22, 21) are not listed as forbidden in `board-reference.md §4.3` and
-  are available for general use.
-- The 3.3 V power supply to the daughter board (for TACH pull-ups R5–R8 and DHT11 VCC) is sourced
-  from J8 pin 36 (+3V3). The current generator's incorrect assignment of +3V3 to pins 1 (GPIO25)
-  and 17 (GPIO18) is part of this bug and must be corrected.
+  are available for general use (FAN4_TACH and PROBE_LED respectively).
+- The 3.3 V power supply to the daughter board is sourced from J8 pin 36 (+3V3 output). The
+  current generator incorrectly assigns +3V3 to pins 1 (GPIO25) and 17 (GPIO18) — this is part of
+  this bug and must be corrected.
 - Fan signal GPIO assignments will change from the values in the current constitution (GPIO4–11) to
-  new values (GPIO20–23, 26, 27, 46, 47). A constitution amendment is required to make this change
-  official before implementation is merged.
+  new values (GPIO20–23, 26, 27, 46, 47). A constitution amendment is required before merge.
 - PROBE_LED GPIO changes from GPIO20 (current constitution) to GPIO48 because GPIO20 is now
   assigned to FAN1_PWM.
+- PCB re-routing is NOT part of this issue's scope. Airwires from the netlist sync are expected.
 
 ---
 
