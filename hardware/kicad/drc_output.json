@@ -1,524 +1,364 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-10T18:38:24 **
+** Created on 2026-06-10T19:52:59 **
 ** Report includes: Errors, Warnings **
 
-** Found 405 DRC violations **
+** Found 318 DRC violations **
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
-    @(14.6200 mm, 18.0000 mm): Track [/LED_A] on F.Cu, length 4.0000 mm
-    @(17.8100 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 11.8100 mm
-[shorting_items]: Items shorting two nets (nets DS18B20_DATA and +3V3)
-    Local override; error
-    @(11.6200 mm, 52.0000 mm): Track [DS18B20_DATA] on F.Cu, length 4.0000 mm
-    @(13.0000 mm, 56.0000 mm): Track [+3V3] on F.Cu, length 0.9200 mm
-[shorting_items]: Items shorting two nets (nets  and DHT11_DATA)
-    Local override; error
-    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
-    @(17.8100 mm, 16.0000 mm): Via [DHT11_DATA] on F.Cu - B.Cu
-[shorting_items]: Items shorting two nets (nets +3V3 and FAN4_PWM)
-    Local override; error
-    @(46.0000 mm, 38.0000 mm): Track [+3V3] on F.Cu, length 10.0000 mm
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 32.4300 mm
-[shorting_items]: Items shorting two nets (nets +12V and FAN3_TACH)
-    Local override; error
-    @(66.0000 mm, 35.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(63.0800 mm, 34.0000 mm): PTH pad 3 [FAN3_TACH] of J4
-[shorting_items]: Items shorting two nets (nets DS18B20_DATA and +3V3)
-    Local override; error
-    @(11.6200 mm, 56.0000 mm): Track [DS18B20_DATA] on F.Cu, length 2.0800 mm
-    @(13.0000 mm, 56.0000 mm): Track [+3V3] on F.Cu, length 0.9200 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0750 mm)
-    Rule: netclass 'Default'; error
-    @(53.0000 mm, 19.0000 mm): PTH pad 1 [+12V] of R10
-    @(36.0000 mm, 20.0000 mm): Track [FAN2_TACH] on B.Cu, length 27.0800 mm
-[shorting_items]: Items shorting two nets (nets +12V and FAN1_PWM)
-    Local override; error
-    @(66.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(65.6200 mm, 10.0000 mm): PTH pad 4 [FAN1_PWM] of J2
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0750 mm)
-    Rule: netclass 'Default'; error
-    @(53.0000 mm, 43.0000 mm): PTH pad 1 [+12V] of R12
-    @(38.0000 mm, 44.0000 mm): Track [FAN4_TACH] on B.Cu, length 25.0800 mm
-[shorting_items]: Items shorting two nets (nets +12V and /FAN2_IND)
-    Local override; error
-    @(66.0000 mm, 19.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1000 mm)
-    Rule: netclass 'Default'; error
-    @(63.0800 mm, 8.0000 mm): Via [FAN1_TACH] on F.Cu - B.Cu
-    @(66.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
+    @(91.0000 mm, 14.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(89.6200 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 7.3700 mm
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
     @(14.6200 mm, 22.0000 mm): Track [/LED_A] on F.Cu, length 7.6200 mm
     @(12.0000 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 35.1700 mm
-[shorting_items]: Items shorting two nets (nets +12V and /FAN3_IND)
-    Local override; error
-    @(66.0000 mm, 30.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-    @(60.6200 mm, 30.0000 mm): PTH pad 2 [/FAN3_IND] of R11
-[shorting_items]: Items shorting two nets (nets /FAN1_IND and GND)
-    Local override; error
-    @(60.6200 mm, 7.0000 mm): Track [/FAN1_IND] on F.Cu, length 12.9717 mm
-    @(50.5400 mm, 10.0000 mm): PTH pad 2 [GND] of D2
-[shorting_items]: Items shorting two nets (nets BOOST_SW and GND)
-    Local override; error
-    @(50.0000 mm, 5.0000 mm): Track [BOOST_SW] on F.Cu, length 2.9000 mm
-    @(48.8000 mm, 6.0000 mm): PTH pad 5 [GND] of U1
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0750 mm)
-    Rule: netclass 'Default'; error
-    @(53.0000 mm, 43.0000 mm): PTH pad 1 [+12V] of R12
-    @(60.6200 mm, 44.0000 mm): Track [/FAN4_IND] on F.Cu, length 12.6200 mm
-[shorting_items]: Items shorting two nets (nets FAN4_TACH and +12V)
-    Local override; error
-    @(63.0800 mm, 46.0000 mm): PTH pad 3 [FAN4_TACH] of J5
-    @(66.0000 mm, 47.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 32.4300 mm
-    @(46.0000 mm, 16.0000 mm): Track [+3V3] on F.Cu, length 12.0000 mm
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(60.6200 mm, 43.0000 mm): Track [/FAN4_IND] on F.Cu, length 1.0000 mm
-    @(66.0000 mm, 43.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-[shorting_items]: Items shorting two nets (nets /FAN4_IND and +12V)
-    Local override; error
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
-    @(66.0000 mm, 43.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0250 mm)
-    Rule: netclass 'Default'; error
-    @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[shorting_items]: Items shorting two nets (nets FAN2_PWM and +12V)
-    Local override; error
-    @(65.6200 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 2.0900 mm
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
-[shorting_items]: Items shorting two nets (nets +3V3 and )
-    Local override; error
-    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 21.1900 mm
-    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(12.0000 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 35.1700 mm
-    @(17.8100 mm, 41.5000 mm): Track [STATUS_LED] on F.Cu, length 10.8100 mm
-[shorting_items]: Items shorting two nets (nets FAN1_PWM and +12V)
-    Local override; error
-    @(65.6200 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 7.3700 mm
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
-[shorting_items]: Items shorting two nets (nets +3V3 and FAN1_TACH)
-    Local override; error
-    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 12.8100 mm
-    @(38.3800 mm, 16.0000 mm): PTH pad 2 [FAN1_TACH] of R5
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0750 mm)
-    Rule: netclass 'Default'; error
-    @(36.5000 mm, 7.0000 mm): PTH pad 2 [GND] of C1
-    @(35.0000 mm, 8.0000 mm): Track [FAN1_TACH] on B.Cu, length 28.0800 mm
-[shorting_items]: Items shorting two nets (nets FAN2_TACH and +12V)
-    Local override; error
-    @(63.0800 mm, 22.0000 mm): PTH pad 3 [FAN2_TACH] of J3
-    @(66.0000 mm, 23.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1950 mm)
-    Rule: netclass 'Default'; error
-    @(17.8100 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 9.8100 mm
-    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(33.1900 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 32.4300 mm
-    @(46.0000 mm, 16.0000 mm): Track [+3V3] on F.Cu, length 12.0000 mm
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(46.0000 mm, 28.0000 mm): Track [+3V3] on F.Cu, length 10.0000 mm
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 32.4300 mm
-[shorting_items]: Items shorting two nets (nets +12V and FAN1_PWM)
-    Local override; error
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
-    @(65.6200 mm, 10.0000 mm): PTH pad 4 [FAN1_PWM] of J2
-[shorting_items]: Items shorting two nets (nets +3V3 and FAN4_PWM)
-    Local override; error
-    @(46.0000 mm, 38.0000 mm): PTH pad 1 [+3V3] of R7
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 32.4300 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0250 mm)
-    Rule: netclass 'Default'; error
-    @(8.0000 mm, 68.0000 mm): Track [DHT11_DATA] on B.Cu, length 1.5400 mm
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[shorting_items]: Items shorting two nets (nets /LED_A and PROG_LED)
-    Local override; error
-    @(7.0000 mm, 24.0000 mm): PTH pad 1 [/LED_A] of LED1
-    @(6.0000 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 14.0900 mm
-[shorting_items]: Items shorting two nets (nets +5V and )
-    Local override; error
-    @(34.0000 mm, 4.6700 mm): Track [+5V] on F.Cu, length 2.3300 mm
-    @(33.1900 mm, 7.2100 mm): PTH pad 39 [<no net>] of J8
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(66.0000 mm, 43.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-    @(65.6200 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 8.3100 mm
-[shorting_items]: Items shorting two nets (nets FAN2_PWM and FAN2_TACH)
-    Local override; error
-    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 32.4300 mm
-    @(63.0800 mm, 20.0000 mm): Track [FAN2_TACH] on F.Cu, length 2.0000 mm
-[shorting_items]: Items shorting two nets (nets GND and +12V)
-    Local override; error
-    @(58.5000 mm, 4.0000 mm): PTH pad 2 [GND] of C2
-    @(56.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 10.0000 mm
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(12.0000 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 35.1700 mm
-    @(17.8100 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 11.8100 mm
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(33.1900 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 32.4300 mm
-    @(63.0800 mm, 32.0000 mm): Track [FAN3_TACH] on F.Cu, length 2.0000 mm
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
     @(12.0000 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 35.1700 mm
     @(14.6200 mm, 38.0000 mm): Track [/PROG_LED_A] on F.Cu, length 7.6200 mm
+[shorting_items]: Items shorting two nets (nets FAN3_TACH and +12V)
+    Local override; error
+    @(87.0800 mm, 34.0000 mm): PTH pad 3 [FAN3_TACH] of J4
+    @(91.0000 mm, 35.0000 mm): Track [+12V] on F.Cu, length 6.4600 mm
+[shorting_items]: Items shorting two nets (nets /FAN4_IND and +12V)
+    Local override; error
+    @(77.6200 mm, 48.0000 mm): PTH pad 2 [/FAN4_IND] of R12
+    @(91.0000 mm, 48.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+[shorting_items]: Items shorting two nets (nets +12V and FAN1_TACH)
+    Local override; error
+    @(73.0000 mm, 8.0000 mm): PTH pad 1 [+12V] of C2
+    @(35.0000 mm, 8.0000 mm): Track [FAN1_TACH] on B.Cu, length 52.0800 mm
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
-    @(66.0000 mm, 30.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-    @(60.6200 mm, 30.0000 mm): Track [/FAN3_IND] on F.Cu, length 1.5000 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0850 mm)
-    Rule: netclass 'Default'; error
-    @(33.1900 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 32.4300 mm
-    @(63.0800 mm, 32.0000 mm): Via [FAN3_TACH] on F.Cu - B.Cu
-[shorting_items]: Items shorting two nets (nets GND and +5V)
-    Local override; error
-    @(42.0000 mm, 6.0000 mm): PTH pad 1 [GND] of U1
-    @(37.0000 mm, 4.6700 mm): Track [+5V] on F.Cu, length 6.7000 mm
-[shorting_items]: Items shorting two nets (nets FAN3_PWM and +12V)
-    Local override; error
-    @(65.6200 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 1.3900 mm
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
+    @(77.6200 mm, 10.0000 mm): Track [/FAN1_IND] on F.Cu, length 29.6200 mm
+    @(62.1000 mm, 5.0000 mm): Track [BOOST_SW] on F.Cu, length 10.0000 mm
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
-    @(33.1900 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 32.4300 mm
-    @(48.0000 mm, 31.5000 mm): Track [/FAN3_IND] on F.Cu, length 2.5000 mm
+    @(87.0800 mm, 18.0000 mm): Track [FAN2_TACH] on F.Cu, length 4.0000 mm
+    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 56.4300 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 56.4300 mm
+    @(46.0000 mm, 16.0000 mm): Track [+3V3] on F.Cu, length 32.0000 mm
+[shorting_items]: Items shorting two nets (nets +3V3 and )
+    Local override; error
+    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 21.1900 mm
+    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
+[shorting_items]: Items shorting two nets (nets DS18B20_DATA and +3V3)
+    Local override; error
+    @(11.6200 mm, 52.0000 mm): Track [DS18B20_DATA] on F.Cu, length 4.0000 mm
+    @(12.0800 mm, 56.0000 mm): PTH pad 3 [+3V3] of J6
+[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1950 mm)
+    Rule: netclass 'Default'; error
+    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
+    @(17.8100 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 9.8100 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(17.8100 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 11.8100 mm
+    @(14.6200 mm, 18.0000 mm): Track [/LED_A] on F.Cu, length 4.0000 mm
+[shorting_items]: Items shorting two nets (nets +12V and /FAN3_IND)
+    Local override; error
+    @(91.0000 mm, 36.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 36.0000 mm): PTH pad 2 [/FAN3_IND] of R11
+[shorting_items]: Items shorting two nets (nets DS18B20_DATA and +3V3)
+    Local override; error
+    @(11.6200 mm, 52.0000 mm): Track [DS18B20_DATA] on F.Cu, length 4.0000 mm
+    @(13.0000 mm, 56.0000 mm): Track [+3V3] on F.Cu, length 0.9200 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(91.0000 mm, 12.0000 mm): Track [+12V] on F.Cu, length 6.4600 mm
+    @(89.6200 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 7.3700 mm
+[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0250 mm)
+    Rule: netclass 'Default'; error
+    @(8.0000 mm, 68.0000 mm): Track [DHT11_DATA] on B.Cu, length 1.5400 mm
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[shorting_items]: Items shorting two nets (nets +3V3 and DS18B20_DATA)
+    Local override; error
+    @(12.0800 mm, 56.0000 mm): PTH pad 3 [+3V3] of J6
+    @(11.6200 mm, 56.0000 mm): Track [DS18B20_DATA] on F.Cu, length 2.0800 mm
+[shorting_items]: Items shorting two nets (nets GND and /FAN3_IND)
+    Local override; error
+    @(50.5400 mm, 34.0000 mm): PTH pad 2 [GND] of D4
+    @(77.6200 mm, 34.5000 mm): Track [/FAN3_IND] on F.Cu, length 29.6200 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(91.0000 mm, 36.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 36.0000 mm): Track [/FAN3_IND] on F.Cu, length 1.5000 mm
+[shorting_items]: Items shorting two nets (nets /LED_A and DHT11_DATA)
+    Local override; error
+    @(7.0000 mm, 24.0000 mm): PTH pad 1 [/LED_A] of LED1
+    @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
+[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0100 mm)
+    Rule: netclass 'Default'; error
+    @(89.6200 mm, 46.0000 mm): PTH pad 4 [FAN4_PWM] of J5
+    @(91.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 45.0000 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(77.6200 mm, 10.0000 mm): Track [/FAN1_IND] on F.Cu, length 29.6200 mm
+    @(58.7000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 6.0000 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(41.0000 mm, 4.6700 mm): Track [+5V] on F.Cu, length 10.3300 mm
+    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 12.8100 mm
+[shorting_items]: Items shorting two nets (nets /FAN2_IND and +12V)
+    Local override; error
+    @(77.6200 mm, 24.0000 mm): PTH pad 2 [/FAN2_IND] of R10
+    @(91.0000 mm, 24.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(91.0000 mm, 14.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 14.0000 mm): Track [/FAN1_IND] on F.Cu, length 4.0000 mm
 [clearance]: Clearance violation (rule 'USB-C pad clearance' clearance 0,1000 mm; actual 0,0800 mm)
     Rule: USB-C pad clearance; error
-    @(11.6200 mm, 52.0000 mm): PTH pad 2 [DS18B20_DATA] of R14
     @(13.0000 mm, 50.0000 mm): Track [+3V3] on F.Cu, length 6.0000 mm
+    @(11.6200 mm, 52.0000 mm): PTH pad 2 [DS18B20_DATA] of R14
+[shorting_items]: Items shorting two nets (nets GND and /FAN2_IND)
+    Local override; error
+    @(50.5400 mm, 22.0000 mm): PTH pad 2 [GND] of D3
+    @(77.6200 mm, 22.5000 mm): Track [/FAN2_IND] on F.Cu, length 29.6200 mm
+[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1050 mm)
+    Rule: netclass 'Default'; error
+    @(87.0800 mm, 18.0000 mm): Via [FAN2_TACH] on F.Cu - B.Cu
+    @(33.1900 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 56.4300 mm
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
-    @(46.0000 mm, 28.0000 mm): Track [+3V3] on F.Cu, length 10.0000 mm
-    @(33.1900 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 32.4300 mm
-[shorting_items]: Items shorting two nets (nets FAN2_PWM and FAN2_TACH)
+    @(91.0000 mm, 48.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 48.0000 mm): Track [/FAN4_IND] on F.Cu, length 1.5000 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(33.1900 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 56.4300 mm
+    @(87.0800 mm, 32.0000 mm): Track [FAN3_TACH] on F.Cu, length 2.0000 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(91.0000 mm, 24.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 24.0000 mm): Track [/FAN2_IND] on F.Cu, length 1.5000 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(12.0000 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 35.1700 mm
+    @(17.8100 mm, 41.5000 mm): Track [STATUS_LED] on F.Cu, length 10.8100 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(46.0000 mm, 16.0000 mm): Track [+3V3] on F.Cu, length 32.0000 mm
+    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 56.4300 mm
+[tracks_crossing]: Tracks crossing
+    Rule: netclass 'Default'; error
+    @(46.0000 mm, 16.0000 mm): Track [+3V3] on F.Cu, length 32.0000 mm
+    @(33.1900 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 56.4300 mm
+[shorting_items]: Items shorting two nets (nets GND and /FAN4_IND)
     Local override; error
-    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 32.4300 mm
-    @(63.0800 mm, 20.0000 mm): Via [FAN2_TACH] on F.Cu - B.Cu
+    @(50.5400 mm, 46.0000 mm): PTH pad 2 [GND] of D5
+    @(77.6200 mm, 46.5000 mm): Track [/FAN4_IND] on F.Cu, length 29.6200 mm
 [clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1950 mm)
     Rule: netclass 'Default'; error
     @(17.8100 mm, 17.3700 mm): Track [DHT11_DATA] on F.Cu, length 1.3700 mm
     @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1000 mm)
-    Rule: netclass 'Default'; error
-    @(63.0800 mm, 44.0000 mm): Via [FAN4_TACH] on F.Cu - B.Cu
-    @(66.0000 mm, 43.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
+[shorting_items]: Items shorting two nets (nets +5V and GND)
+    Local override; error
+    @(50.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 8.7000 mm
+    @(50.5400 mm, 10.0000 mm): PTH pad 2 [GND] of D2
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
-    @(66.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(63.0800 mm, 8.0000 mm): Track [FAN1_TACH] on F.Cu, length 2.0000 mm
+    @(33.1900 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 56.4300 mm
+    @(46.0000 mm, 16.0000 mm): Track [+3V3] on F.Cu, length 32.0000 mm
+[shorting_items]: Items shorting two nets (nets DHT11_DATA and )
+    Local override; error
+    @(17.8100 mm, 16.0000 mm): Via [DHT11_DATA] on F.Cu - B.Cu
+    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
+[shorting_items]: Items shorting two nets (nets FAN4_PWM and +3V3)
+    Local override; error
+    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 56.4300 mm
+    @(46.0000 mm, 38.0000 mm): PTH pad 1 [+3V3] of R7
+[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0850 mm)
+    Rule: netclass 'Default'; error
+    @(33.1900 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 56.4300 mm
+    @(87.0800 mm, 32.0000 mm): Via [FAN3_TACH] on F.Cu - B.Cu
+[shorting_items]: Items shorting two nets (nets /LED_A and PROG_LED)
+    Local override; error
+    @(7.0000 mm, 24.0000 mm): PTH pad 1 [/LED_A] of LED1
+    @(6.0000 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 14.0900 mm
+[shorting_items]: Items shorting two nets (nets +5V and GND)
+    Local override; error
+    @(50.0000 mm, 5.0000 mm): Track [+5V] on F.Cu, length 4.0000 mm
+    @(50.5400 mm, 10.0000 mm): PTH pad 2 [GND] of D2
 [tracks_crossing]: Tracks crossing
     Rule: netclass 'Default'; error
-    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 32.4300 mm
-    @(60.6200 mm, 19.0000 mm): Track [/FAN2_IND] on F.Cu, length 1.5000 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0000 mm)
-    Rule: netclass 'Default'; error
-    @(34.0000 mm, 7.0000 mm): PTH pad 1 [+5V] of C1
-    @(33.1900 mm, 7.2100 mm): PTH pad 39 [<no net>] of J8
+    @(12.0000 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 35.1700 mm
+    @(17.8100 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 11.8100 mm
 [hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0,2500 mm; actual 0,1200 mm)
     Rule: board setup constraints hole; error
     @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
     @(17.8100 mm, 16.0000 mm): Via [DHT11_DATA] on F.Cu - B.Cu
 [courtyards_overlap]: Courtyards overlap
     Rule: board setup constraints courtyard; error
-    @(37.0000 mm, 2.0000 mm): Footprint L1
-    @(42.0000 mm, 6.0000 mm): Footprint U1
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(37.0000 mm, 2.0000 mm): Footprint L1
-    @(34.0000 mm, 7.0000 mm): Footprint C1
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(52.0000 mm, 3.0000 mm): Footprint D1
-    @(42.0000 mm, 6.0000 mm): Footprint U1
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(52.0000 mm, 3.0000 mm): Footprint D1
-    @(56.0000 mm, 4.0000 mm): Footprint C2
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(58.0000 mm, 22.0000 mm): Footprint J3
-    @(53.0000 mm, 19.0000 mm): Footprint R10
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
-    @(58.0000 mm, 22.0000 mm): Footprint J3
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
     @(46.0000 mm, 48.0000 mm): Footprint R8
     @(48.0000 mm, 46.0000 mm): Footprint D5
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(53.0000 mm, 43.0000 mm): Footprint R12
-    @(58.0000 mm, 46.0000 mm): Footprint J5
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
-    @(58.0000 mm, 46.0000 mm): Footprint J5
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(53.0000 mm, 30.0000 mm): Footprint R11
-    @(58.0000 mm, 34.0000 mm): Footprint J4
 [courtyards_overlap]: Courtyards overlap
     Rule: board setup constraints courtyard; error
     @(4.0000 mm, 52.0000 mm): Footprint R14
     @(7.0000 mm, 56.0000 mm): Footprint J6
 [courtyards_overlap]: Courtyards overlap
     Rule: board setup constraints courtyard; error
-    @(34.0000 mm, 7.0000 mm): Footprint C1
-    @(25.5000 mm, 28.8000 mm): Footprint J8
+    @(46.0000 mm, 16.0000 mm): Footprint R5
+    @(41.0000 mm, 15.0000 mm): Footprint C1
 [pth_inside_courtyard]: PTH inside courtyard
     Local override; error
-    @(33.1900 mm, 9.7500 mm): PTH pad 38 [GND] of J8
-    @(34.0000 mm, 7.0000 mm): Footprint C1
+    @(41.0000 mm, 15.0000 mm): PTH pad 1 [+5V] of C1
+    @(46.0000 mm, 16.0000 mm): Footprint R5
 [pth_inside_courtyard]: PTH inside courtyard
     Local override; error
-    @(33.1900 mm, 7.2100 mm): PTH pad 39 [<no net>] of J8
-    @(34.0000 mm, 7.0000 mm): Footprint C1
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(33.1900 mm, 4.6700 mm): PTH pad 40 [+5V] of J8
-    @(34.0000 mm, 7.0000 mm): Footprint C1
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(34.0000 mm, 7.0000 mm): PTH pad 1 [+5V] of C1
-    @(25.5000 mm, 28.8000 mm): Footprint J8
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(53.0000 mm, 7.0000 mm): Footprint R9
-    @(56.0000 mm, 4.0000 mm): Footprint C2
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(53.0000 mm, 7.0000 mm): Footprint R9
-    @(58.0000 mm, 10.0000 mm): Footprint J2
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(60.6200 mm, 7.0000 mm): PTH pad 2 [/FAN1_IND] of R9
-    @(58.0000 mm, 10.0000 mm): Footprint J2
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(56.0000 mm, 4.0000 mm): Footprint C2
-    @(58.0000 mm, 10.0000 mm): Footprint J2
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(36.0000 mm, 20.0000 mm): Track [FAN2_TACH] on B.Cu, length 27.0800 mm
-    @(53.0000 mm, 19.0000 mm): PTH pad 1 [+12V] of R10
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(36.0000 mm, 20.0000 mm): Track [FAN2_TACH] on B.Cu, length 27.0800 mm
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
+    @(43.5000 mm, 15.0000 mm): PTH pad 2 [GND] of C1
+    @(46.0000 mm, 16.0000 mm): Footprint R5
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 32.4300 mm
-    @(38.3800 mm, 38.0000 mm): PTH pad 2 [FAN3_TACH] of R7
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(34.0000 mm, 4.6700 mm): Track [+5V] on F.Cu, length 2.3300 mm
-    @(33.1900 mm, 7.2100 mm): PTH pad 39 [<no net>] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 32.4300 mm
-    @(53.0000 mm, 19.0000 mm): PTH pad 1 [+12V] of R10
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(60.6200 mm, 7.0000 mm): Track [/FAN1_IND] on F.Cu, length 12.9717 mm
+    @(50.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 8.7000 mm
     @(50.5400 mm, 10.0000 mm): PTH pad 2 [GND] of D2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 32.4300 mm
-    @(46.0000 mm, 38.0000 mm): PTH pad 1 [+3V3] of R7
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 32.4300 mm
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(13.0000 mm, 50.0000 mm): Track [+3V3] on F.Cu, length 6.0000 mm
     @(11.6200 mm, 52.0000 mm): PTH pad 2 [DS18B20_DATA] of R14
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(6.0000 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 14.0900 mm
-    @(7.0000 mm, 24.0000 mm): PTH pad 1 [/LED_A] of LED1
+    @(50.0000 mm, 5.0000 mm): Track [+5V] on F.Cu, length 4.0000 mm
+    @(50.5400 mm, 10.0000 mm): PTH pad 2 [GND] of D2
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(11.6200 mm, 52.0000 mm): Track [DS18B20_DATA] on F.Cu, length 4.0000 mm
-    @(12.0800 mm, 56.0000 mm): PTH pad 3 [+3V3] of J6
+    @(17.8100 mm, 16.0000 mm): Via [DHT11_DATA] on F.Cu - B.Cu
+    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(91.0000 mm, 14.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 14.0000 mm): PTH pad 2 [/FAN1_IND] of R9
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 21.1900 mm
+    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(17.8100 mm, 16.0000 mm): Via [DHT11_DATA] on F.Cu - B.Cu
+    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(77.6200 mm, 34.5000 mm): Track [/FAN3_IND] on F.Cu, length 29.6200 mm
+    @(50.5400 mm, 34.0000 mm): PTH pad 2 [GND] of D4
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(77.6200 mm, 10.0000 mm): Track [/FAN1_IND] on F.Cu, length 29.6200 mm
+    @(50.5400 mm, 10.0000 mm): PTH pad 2 [GND] of D2
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(91.0000 mm, 48.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 48.0000 mm): PTH pad 2 [/FAN4_IND] of R12
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 12.8100 mm
+    @(41.0000 mm, 15.0000 mm): PTH pad 1 [+5V] of C1
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(77.6200 mm, 22.5000 mm): Track [/FAN2_IND] on F.Cu, length 29.6200 mm
+    @(50.5400 mm, 22.0000 mm): PTH pad 2 [GND] of D3
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 12.8100 mm
+    @(43.5000 mm, 15.0000 mm): PTH pad 2 [GND] of C1
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(8.0000 mm, 68.0000 mm): Track [DHT11_DATA] on B.Cu, length 1.5400 mm
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 12.8100 mm
     @(38.3800 mm, 16.0000 mm): PTH pad 2 [FAN1_TACH] of R5
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(37.0000 mm, 4.6700 mm): Track [+5V] on F.Cu, length 6.7000 mm
-    @(42.0000 mm, 6.0000 mm): PTH pad 1 [GND] of U1
+    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 56.4300 mm
+    @(38.3800 mm, 38.0000 mm): PTH pad 2 [FAN3_TACH] of R7
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 35.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(63.0800 mm, 34.0000 mm): PTH pad 3 [FAN3_TACH] of J4
+    @(6.0000 mm, 19.9100 mm): Track [PROG_LED] on F.Cu, length 14.0900 mm
+    @(7.0000 mm, 24.0000 mm): PTH pad 1 [/LED_A] of LED1
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(11.6200 mm, 56.0000 mm): Track [DS18B20_DATA] on F.Cu, length 2.0800 mm
-    @(12.0800 mm, 56.0000 mm): PTH pad 3 [+3V3] of J6
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(17.8100 mm, 16.0000 mm): Via [DHT11_DATA] on F.Cu - B.Cu
-    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 21.1900 mm
-    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(50.0000 mm, 5.0000 mm): Track [BOOST_SW] on F.Cu, length 2.9000 mm
-    @(48.8000 mm, 6.0000 mm): PTH pad 5 [GND] of U1
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(34.0000 mm, 7.0000 mm): PTH pad 1 [+5V] of C1
-    @(33.1900 mm, 7.2100 mm): PTH pad 39 [<no net>] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(66.0000 mm, 35.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(65.6200 mm, 34.0000 mm): PTH pad 4 [FAN3_PWM] of J4
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(35.0000 mm, 8.0000 mm): Track [FAN1_TACH] on B.Cu, length 28.0800 mm
-    @(36.5000 mm, 7.0000 mm): PTH pad 2 [GND] of C1
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(35.0000 mm, 8.0000 mm): Track [FAN1_TACH] on B.Cu, length 28.0800 mm
-    @(53.0000 mm, 7.0000 mm): PTH pad 1 [+12V] of R9
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(35.0000 mm, 8.0000 mm): Track [FAN1_TACH] on B.Cu, length 28.0800 mm
-    @(60.6200 mm, 7.0000 mm): PTH pad 2 [/FAN1_IND] of R9
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(66.0000 mm, 19.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(17.8100 mm, 16.0000 mm): Via [DHT11_DATA] on F.Cu - B.Cu
-    @(17.8100 mm, 14.8300 mm): PTH pad 16 [<no net>] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(66.0000 mm, 30.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-    @(60.6200 mm, 30.0000 mm): PTH pad 2 [/FAN3_IND] of R11
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(34.0000 mm, 7.0000 mm): PTH pad 1 [+5V] of C1
-    @(33.1900 mm, 7.2100 mm): PTH pad 39 [<no net>] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(66.0000 mm, 47.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(63.0800 mm, 46.0000 mm): PTH pad 3 [FAN4_TACH] of J5
+    @(91.0000 mm, 36.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 36.0000 mm): PTH pad 2 [/FAN3_IND] of R11
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
     @(7.0000 mm, 40.0000 mm): PTH pad 1 [/PROG_LED_A] of LED2
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 47.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(65.6200 mm, 46.0000 mm): PTH pad 4 [FAN4_PWM] of J5
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(66.0000 mm, 23.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(63.0800 mm, 22.0000 mm): PTH pad 3 [FAN2_TACH] of J3
+    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 56.4300 mm
+    @(46.0000 mm, 38.0000 mm): PTH pad 1 [+3V3] of R7
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
     @(7.0000 mm, 34.0000 mm): PTH pad 1 [PROG_LED] of R13
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 23.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(65.6200 mm, 22.0000 mm): PTH pad 4 [FAN2_PWM] of J3
+    @(91.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 45.0000 mm
+    @(89.6200 mm, 46.0000 mm): PTH pad 4 [FAN4_PWM] of J5
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
-    @(65.6200 mm, 46.0000 mm): PTH pad 4 [FAN4_PWM] of J5
+    @(11.6200 mm, 52.0000 mm): Track [DS18B20_DATA] on F.Cu, length 4.0000 mm
+    @(12.0800 mm, 56.0000 mm): PTH pad 3 [+3V3] of J6
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
-    @(65.6200 mm, 34.0000 mm): PTH pad 4 [FAN3_PWM] of J4
+    @(91.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 45.0000 mm
+    @(89.6200 mm, 34.0000 mm): PTH pad 4 [FAN3_PWM] of J4
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
-    @(65.6200 mm, 10.0000 mm): PTH pad 4 [FAN1_PWM] of J2
+    @(11.6200 mm, 56.0000 mm): Track [DS18B20_DATA] on F.Cu, length 2.0800 mm
+    @(12.0800 mm, 56.0000 mm): PTH pad 3 [+3V3] of J6
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(91.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 45.0000 mm
+    @(89.6200 mm, 22.0000 mm): PTH pad 4 [FAN2_PWM] of J3
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
     @(7.0000 mm, 56.0000 mm): PTH pad 1 [GND] of J6
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 44.0000 mm
-    @(65.6200 mm, 22.0000 mm): PTH pad 4 [FAN2_PWM] of J3
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(56.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 10.0000 mm
-    @(58.5000 mm, 4.0000 mm): PTH pad 2 [GND] of C2
+    @(91.0000 mm, 3.0000 mm): Track [+12V] on F.Cu, length 45.0000 mm
+    @(89.6200 mm, 10.0000 mm): PTH pad 4 [FAN1_PWM] of J2
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
     @(7.0000 mm, 24.0000 mm): PTH pad 1 [/LED_A] of LED1
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(66.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(63.0800 mm, 10.0000 mm): PTH pad 3 [FAN1_TACH] of J2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(66.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 5.4600 mm
-    @(65.6200 mm, 10.0000 mm): PTH pad 4 [FAN1_PWM] of J2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(66.0000 mm, 43.0000 mm): Track [+12V] on F.Cu, length 13.0000 mm
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
+    @(91.0000 mm, 24.0000 mm): Track [+12V] on F.Cu, length 21.0000 mm
+    @(77.6200 mm, 24.0000 mm): PTH pad 2 [/FAN2_IND] of R10
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(8.0000 mm, 16.0000 mm): Track [DHT11_DATA] on B.Cu, length 52.0000 mm
     @(7.0000 mm, 18.0000 mm): PTH pad 1 [STATUS_LED] of R3
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(8.0000 mm, 68.0000 mm): Track [DHT11_DATA] on B.Cu, length 1.5400 mm
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(38.0000 mm, 44.0000 mm): Track [FAN4_TACH] on B.Cu, length 25.0800 mm
-    @(53.0000 mm, 43.0000 mm): PTH pad 1 [+12V] of R12
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(38.0000 mm, 44.0000 mm): Track [FAN4_TACH] on B.Cu, length 25.0800 mm
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
+    @(35.0000 mm, 8.0000 mm): Track [FAN1_TACH] on B.Cu, length 52.0800 mm
+    @(73.0000 mm, 8.0000 mm): PTH pad 1 [+12V] of C2
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(60.6200 mm, 44.0000 mm): Track [/FAN4_IND] on F.Cu, length 12.6200 mm
-    @(53.0000 mm, 43.0000 mm): PTH pad 1 [+12V] of R12
-[silk_edge_clearance]: Silkscreen clipped by board edge
-    Rule: board setup constraints silk; warning
-    @(0.0000 mm, 0.0000 mm): Rectangle on Edge.Cuts
-    @(52.0000 mm, 0.5000 mm): Reference field of D1
-[silk_edge_clearance]: Silkscreen clipped by board edge
-    Rule: board setup constraints silk; warning
-    @(0.0000 mm, 0.0000 mm): Rectangle on Edge.Cuts
-    @(57.2500 mm, -0.4000 mm): Reference field of C2
+    @(91.0000 mm, 35.0000 mm): Track [+12V] on F.Cu, length 6.4600 mm
+    @(87.0800 mm, 34.0000 mm): PTH pad 3 [FAN3_TACH] of J4
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(35.0000 mm, 8.0000 mm): Track [FAN1_TACH] on B.Cu, length 52.0800 mm
+    @(75.5000 mm, 8.0000 mm): PTH pad 2 [GND] of C2
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(91.0000 mm, 35.0000 mm): Track [+12V] on F.Cu, length 6.4600 mm
+    @(89.6200 mm, 34.0000 mm): PTH pad 4 [FAN3_PWM] of J4
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(77.6200 mm, 46.5000 mm): Track [/FAN4_IND] on F.Cu, length 29.6200 mm
+    @(50.5400 mm, 46.0000 mm): PTH pad 2 [GND] of D5
 [holes_co_located]: Drilled holes co-located
     Local override; warning
     @(17.8100 mm, 7.2100 mm): PTH pad 19 [DS18B20_DATA] of J8
     @(17.8100 mm, 7.2100 mm): Via [DS18B20_DATA] on F.Cu - B.Cu
-[hole_to_hole]: Drilled hole too close to other hole (board setup constraints min 0,2495 mm; actual 0,0000 mm)
-    Rule: board setup constraints; warning
-    @(33.1900 mm, 7.2100 mm): PTH pad 39 [<no net>] of J8
-    @(34.0000 mm, 7.0000 mm): PTH pad 1 [+5V] of C1
 [holes_co_located]: Drilled holes co-located
     Local override; warning
     @(17.8100 mm, 7.2100 mm): PTH pad 19 [DS18B20_DATA] of J8
@@ -540,12 +380,96 @@
     @(7.0000 mm, 36.5000 mm): Reference field of LED2
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
+    @(9.5400 mm, 70.5000 mm): Reference field of HUM1
+    @(10.4531 mm, 69.0540 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(10.9202 mm, 70.1510 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 70.5000 mm): Reference field of HUM1
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.4900 mm, 69.2448 mm): Polygon of G*** on F.Silkscreen
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.6949 mm, 65.5960 mm): Polygon of G*** on F.Silkscreen
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.4643 mm, 68.7587 mm): Polygon of G*** on F.Silkscreen
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(13.3949 mm, 68.7884 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.8048 mm, 69.1824 mm): Polygon of G*** on F.Silkscreen
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(12.1941 mm, 69.3384 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(13.4573 mm, 68.1344 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(13.6159 mm, 66.9394 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(15.6429 mm, 66.9708 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
+    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(9.6086 mm, 65.6249 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(12.1255 mm, 66.2915 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(11.7885 mm, 66.1016 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(13.6949 mm, 65.5960 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
     @(7.5214 mm, 65.8365 mm): Polygon of G*** on F.Silkscreen
     @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(3.3885 mm, 68.1704 mm): Polygon of G*** on F.Silkscreen
+    @(10.8006 mm, 66.5764 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(10.4531 mm, 69.0540 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(12.1941 mm, 69.3384 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(8.7852 mm, 69.3327 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(8.7441 mm, 69.3560 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(7.4110 mm, 69.4018 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(3.3885 mm, 68.1704 mm): Polygon of G*** on F.Silkscreen
@@ -553,15 +477,15 @@
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(5.6447 mm, 68.6277 mm): Polygon of G*** on F.Silkscreen
+    @(3.3885 mm, 68.1704 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(5.7190 mm, 68.1340 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
+    @(8.0477 mm, 58.9726 mm): Polygon of G*** on F.Silkscreen
     @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
-    @(5.8099 mm, 58.9411 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(8.4323 mm, 58.9781 mm): Polygon of G*** on F.Silkscreen
+    @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(6.4384 mm, 59.0190 mm): Polygon of G*** on F.Silkscreen
@@ -572,31 +496,15 @@
     @(7.0697 mm, 58.8419 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(8.0477 mm, 58.9726 mm): Polygon of G*** on F.Silkscreen
     @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
+    @(13.3814 mm, 59.0289 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(12.1269 mm, 58.6334 mm): Polygon of G*** on F.Silkscreen
-    @(12.0800 mm, 57.9900 mm): Segment of J6 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(11.4527 mm, 58.9558 mm): Polygon of G*** on F.Silkscreen
-    @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(8.4323 mm, 58.9781 mm): Polygon of G*** on F.Silkscreen
-    @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(9.5400 mm, 70.5000 mm): Reference field of HUM1
-    @(10.4531 mm, 69.0540 mm): Polygon of G*** on F.Silkscreen
+    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
+    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(10.4933 mm, 70.9387 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 70.5000 mm): Reference field of HUM1
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(10.4882 mm, 70.7663 mm): Polygon of G*** on F.Silkscreen
     @(9.5400 mm, 70.5000 mm): Reference field of HUM1
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
@@ -608,88 +516,12 @@
     @(11.4625 mm, 70.9572 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(10.9202 mm, 70.1510 mm): Polygon of G*** on F.Silkscreen
+    @(10.4882 mm, 70.7663 mm): Polygon of G*** on F.Silkscreen
     @(9.5400 mm, 70.5000 mm): Reference field of HUM1
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(12.1255 mm, 66.2915 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(9.6086 mm, 65.6249 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(11.7885 mm, 66.1016 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.6949 mm, 65.5960 mm): Polygon of G*** on F.Silkscreen
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.6949 mm, 65.5960 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(13.6159 mm, 66.9394 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.4643 mm, 68.7587 mm): Polygon of G*** on F.Silkscreen
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(13.3949 mm, 68.7884 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(12.1941 mm, 69.3384 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(12.1941 mm, 69.3384 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.8048 mm, 69.1824 mm): Polygon of G*** on F.Silkscreen
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(15.6429 mm, 66.9708 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(7.6810 mm, 69.9226 mm): Polygon of G*** on F.Silkscreen
     @(9.5400 mm, 70.5000 mm): Reference field of HUM1
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(5.6154 mm, 69.0674 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(7.9306 mm, 68.6031 mm): Polygon of G*** on F.Silkscreen
-    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(6.4007 mm, 68.7630 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(6.4007 mm, 68.7630 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(7.4110 mm, 69.4018 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(7.0000 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(7.4110 mm, 69.4018 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(7.4110 mm, 69.4018 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(7.6859 mm, 70.1535 mm): Polygon of G*** on F.Silkscreen
@@ -708,6 +540,10 @@
     @(9.5400 mm, 70.5000 mm): Reference field of HUM1
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
+    @(9.5400 mm, 70.5000 mm): Reference field of HUM1
+    @(8.2398 mm, 69.9796 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
     @(8.2325 mm, 70.7431 mm): Polygon of G*** on F.Silkscreen
     @(9.5400 mm, 70.5000 mm): Reference field of HUM1
 [silk_overlap]: Silkscreen clearance
@@ -720,20 +556,8 @@
     @(8.2467 mm, 70.8823 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(9.5400 mm, 70.5000 mm): Reference field of HUM1
-    @(8.2398 mm, 69.9796 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(8.7852 mm, 69.3327 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
     @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
     @(8.2551 mm, 69.1281 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(8.7441 mm, 69.3560 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(8.2868 mm, 68.9925 mm): Polygon of G*** on F.Silkscreen
@@ -744,6 +568,14 @@
     @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
+    @(7.0000 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(7.4110 mm, 69.4018 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(7.4110 mm, 69.4018 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
     @(8.4081 mm, 66.9690 mm): Polygon of G*** on F.Silkscreen
     @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
@@ -752,595 +584,579 @@
     @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
     @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(6.4007 mm, 68.7630 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(13.4900 mm, 69.2448 mm): Polygon of G*** on F.Silkscreen
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(7.9306 mm, 68.6031 mm): Polygon of G*** on F.Silkscreen
+    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
-    @(13.4573 mm, 68.1344 mm): Polygon of G*** on F.Silkscreen
+    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(6.4007 mm, 68.7630 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
-    @(13.4600 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(5.6154 mm, 69.0674 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(10.8006 mm, 66.5764 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 66.6200 mm): Segment of HUM1 on F.Silkscreen
+    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(5.6447 mm, 68.6277 mm): Polygon of G*** on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
-    @(10.4531 mm, 69.0540 mm): Polygon of G*** on F.Silkscreen
-    @(8.2700 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(5.6200 mm, 69.3800 mm): Segment of HUM1 on F.Silkscreen
+    @(5.7190 mm, 68.1340 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.9600 mm): Segment of R5 on F.Silkscreen
+    @(45.4900 mm, 14.5980 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(45.4900 mm, 14.5980 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.9600 mm): Segment of R5 on F.Silkscreen
+    @(42.2500 mm, 15.0000 mm): Circle of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.9600 mm): Segment of R5 on F.Silkscreen
+    @(45.3700 mm, 14.0610 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4100 mm, 14.1990 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.9600 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4500 mm, 14.3670 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.9600 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.4900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.5300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.8900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.9300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.9700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.0100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.0500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.0900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.1300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.1700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.2100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.2500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.2900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.3300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.3700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.4100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+    @(44.4500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+    @(42.9300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.9700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.0100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.0500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(42.4100 mm, 11.7740 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.4100 mm, 11.7740 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(42.4500 mm, 11.7760 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.4500 mm, 11.7760 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.0900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+    @(43.1300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.1700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.2100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.2500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.2900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.3300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.3700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.4100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.4500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.4900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+    @(42.4900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.5300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.5700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.6100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.6500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.6900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.7300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.7700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.8100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.8500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.8900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+    @(43.5300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.5700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.6100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.6500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.6900 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.7300 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.7700 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.8100 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(43.8500 mm, 16.0400 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(42.2500 mm, 15.0000 mm): Circle of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.2500 mm, 15.0000 mm): Circle of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(42.2500 mm, 11.7700 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.2500 mm, 11.7700 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(45.3700 mm, 14.0610 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(42.2900 mm, 11.7700 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.2900 mm, 11.7700 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(42.3300 mm, 11.7710 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+    @(42.3300 mm, 11.7710 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.3700 mm, 11.7720 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(42.3700 mm, 11.7720 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.5700 mm, 12.7360 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.5700 mm, 12.7360 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 17.3700 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.6100 mm, 12.7770 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.6500 mm, 12.8190 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.6900 mm, 12.8630 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.7300 mm, 12.9090 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.7700 mm, 12.9560 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.8100 mm, 13.0050 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.8500 mm, 13.0570 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.8900 mm, 13.1100 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(44.9300 mm, 13.1660 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(44.9700 mm, 13.2250 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.0100 mm, 13.2860 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(45.0500 mm, 13.3510 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(45.0900 mm, 13.4190 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(45.1300 mm, 13.4910 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.1700 mm, 13.5680 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(45.2100 mm, 13.6500 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(45.2500 mm, 13.7390 mm): Segment of C1 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.2900 mm, 13.8350 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.3300 mm, 13.9420 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4100 mm, 14.1990 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(45.4500 mm, 14.3670 mm): Segment of C1 on F.Silkscreen
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(7.0000 mm, 52.5000 mm): Reference field of J6
+    @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(4.5400 mm, 53.3700 mm): Segment of R14 on F.Silkscreen
+    @(6.2000 mm, 52.9700 mm): Segment of J6 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(4.5400 mm, 53.3700 mm): Segment of R14 on F.Silkscreen
+    @(7.8000 mm, 53.5700 mm): Segment of J6 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(8.7400 mm, 52.9700 mm): Segment of J6 on F.Silkscreen
+    @(4.5400 mm, 53.3700 mm): Segment of R14 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(4.5400 mm, 53.3700 mm): Segment of R14 on F.Silkscreen
+    @(10.3400 mm, 53.5700 mm): Segment of J6 on F.Silkscreen
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
-    @(13.3814 mm, 59.0289 mm): Polygon of G*** on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 18.9700 mm): Rectangle of J3 on F.Silkscreen
-    @(53.5400 mm, 20.3700 mm): Segment of R10 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 44.3700 mm): Segment of R12 on F.Silkscreen
-    @(56.3300 mm, 44.0000 mm): Segment of J5 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 44.3700 mm): Segment of R12 on F.Silkscreen
-    @(56.6200 mm, 42.9700 mm): Rectangle of J5 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 31.3700 mm): Segment of R11 on F.Silkscreen
-    @(56.6200 mm, 30.9700 mm): Rectangle of J4 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 31.3700 mm): Segment of R11 on F.Silkscreen
-    @(57.2000 mm, 30.9700 mm): Segment of J4 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 31.3700 mm): Segment of R11 on F.Silkscreen
-    @(58.8000 mm, 31.5700 mm): Segment of J4 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.7400 mm, 30.9700 mm): Segment of J4 on F.Silkscreen
-    @(53.5400 mm, 31.3700 mm): Segment of R11 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(60.0800 mm, 31.3700 mm): Segment of R11 on F.Silkscreen
-    @(56.6200 mm, 30.9700 mm): Rectangle of J4 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.3300 mm, 20.0000 mm): Segment of J3 on F.Silkscreen
-    @(53.5400 mm, 20.3700 mm): Segment of R10 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(40.2900 mm, 7.3600 mm): Segment of U1 on F.Silkscreen
-    @(38.4600 mm, 0.2300 mm): Rectangle of L1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(43.5500 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-    @(38.4600 mm, 0.2300 mm): Rectangle of L1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(45.4000 mm, 1.9000 mm): Reference field of U1
-    @(38.4600 mm, 0.2300 mm): Rectangle of L1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(46.1200 mm, 2.0000 mm): Segment of L1 on F.Silkscreen
-    @(45.4000 mm, 1.9000 mm): Reference field of U1
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(40.2900 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-    @(38.4600 mm, 0.2300 mm): Rectangle of L1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(48.4900 mm, 1.3500 mm): Segment of D1 on F.Silkscreen
-    @(40.2900 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(48.4900 mm, 1.3500 mm): Segment of D1 on F.Silkscreen
-    @(40.2900 mm, 4.1200 mm): Segment of U1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 8.3700 mm): Segment of R9 on F.Silkscreen
-    @(56.3300 mm, 8.0000 mm): Segment of J2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(50.5100 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-    @(48.4900 mm, 4.6500 mm): Segment of D1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(48.4900 mm, 4.6500 mm): Segment of D1 on F.Silkscreen
-    @(57.2500 mm, 4.0000 mm): Circle of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(53.5400 mm, 8.3700 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(60.0800 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(57.2500 mm, 4.0000 mm): Circle of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.9700 mm, 2.2250 mm): Segment of C2 on F.Silkscreen
-    @(60.0800 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(60.0800 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(60.0100 mm, 2.2860 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(60.0800 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(60.0500 mm, 2.3510 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(60.0900 mm, 2.4190 mm): Segment of C2 on F.Silkscreen
-    @(60.0800 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.3300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.3700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(59.4100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.4500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.4900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.5300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(57.4900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.4900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.5300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.5300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.6100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.6100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.6500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.6500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(57.6900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.6900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.7300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.7300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.7700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.7700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(57.8100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.8100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(57.8500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.8500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.8900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.8900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.9300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.9700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.0100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.0500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.0900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(59.1300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.1700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.2100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(59.2500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(59.2900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.2000 mm, 6.9700 mm): Segment of J2 on F.Silkscreen
-    @(57.2900 mm, 0.7700 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.2000 mm, 6.9700 mm): Segment of J2 on F.Silkscreen
-    @(57.2500 mm, 4.0000 mm): Circle of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.2500 mm, 0.7700 mm): Segment of C2 on F.Silkscreen
-    @(57.2000 mm, 6.9700 mm): Segment of J2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.8000 mm, 7.5700 mm): Segment of J2 on F.Silkscreen
-    @(58.7300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.8000 mm, 7.5700 mm): Segment of J2 on F.Silkscreen
-    @(58.7700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(57.2900 mm, 0.7700 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.3300 mm, 0.7710 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.2500 mm, 4.0000 mm): Circle of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.2500 mm, 0.7700 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.3700 mm, 0.7720 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.4100 mm, 0.7740 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.5700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.4500 mm, 0.7760 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.9300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(57.9700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.0100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.0500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.0900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.1300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.1700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.2100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(58.2500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.2900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(58.3300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.3700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(58.4100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.4500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.4900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.5300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.5700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(58.6100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.6500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.6900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.7300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.7700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.8100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.8500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(58.8900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.5700 mm, 1.7360 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.6100 mm, 1.7770 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.6500 mm, 1.8190 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.6900 mm, 1.8630 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.7300 mm, 1.9090 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.7700 mm, 1.9560 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.8100 mm, 2.0050 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.8500 mm, 2.0570 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.8900 mm, 2.1100 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.9300 mm, 2.1660 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(59.9700 mm, 2.2250 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-    @(60.0100 mm, 2.2860 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(60.0500 mm, 2.3510 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(60.0900 mm, 2.4190 mm): Segment of C2 on F.Silkscreen
-    @(53.5400 mm, 5.6300 mm): Segment of R9 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.2900 mm, 0.7700 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.3300 mm, 0.7710 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.2500 mm, 4.0000 mm): Circle of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.2500 mm, 0.7700 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.3700 mm, 0.7720 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.4100 mm, 0.7740 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.5700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.4500 mm, 0.7760 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.9300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(57.9700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.0100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.0500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.0900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.1300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.1700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.2100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.2500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.2900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.3300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.3700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.4100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.4500 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.4900 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.5300 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.5700 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(58.6100 mm, 5.0400 mm): Segment of C2 on F.Silkscreen
+    @(4.5400 mm, 53.3700 mm): Segment of R14 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
+    @(11.0800 mm, 53.3700 mm): Segment of R14 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(11.4527 mm, 58.9558 mm): Polygon of G*** on F.Silkscreen
+    @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(5.6200 mm, 52.9700 mm): Rectangle of J6 on F.Silkscreen
+    @(5.8099 mm, 58.9411 mm): Polygon of G*** on F.Silkscreen
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(12.1269 mm, 58.6334 mm): Polygon of G*** on F.Silkscreen
+    @(12.0800 mm, 57.9900 mm): Segment of J6 on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(9.5131 mm, 67.8646 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(9.4594 mm, 67.6460 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(9.2721 mm, 67.5029 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(9.5141 mm, 67.9546 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(11.7312 mm, 67.3875 mm): Polygon of G*** on F.Silkscreen
+    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(11.7378 mm, 68.1276 mm): Polygon of G*** on F.Silkscreen
+    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(12.9037 mm, 67.8084 mm): Polygon of G*** on F.Silkscreen
+    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.1910 mm, 68.1059 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(3.3885 mm, 68.1704 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
     @(6.3815 mm, 68.8490 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(3.3885 mm, 68.1704 mm): Polygon of G*** on F.Silkscreen
+    @(6.2836 mm, 67.9019 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
+    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.5247 mm, 68.5852 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.5491 mm, 68.5535 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.2751 mm, 68.3545 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.3336 mm, 67.7971 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.7544 mm, 67.9715 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.9971 mm, 67.4127 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.6404 mm, 67.5861 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.7847 mm, 67.9363 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.7768 mm, 67.4312 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.0584 mm, 67.4022 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(8.6277 mm, 67.3677 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(10.6811 mm, 67.5039 mm): Polygon of G*** on F.Silkscreen
+    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.5747 mm, 67.7138 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(7.9306 mm, 68.6031 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.4007 mm, 68.7630 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.2789 mm, 68.8490 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.2789 mm, 68.0869 mm): Polygon of G*** on F.Silkscreen
+    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(6.9091 mm, 68.8490 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
@@ -1352,63 +1168,7 @@
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(6.6404 mm, 67.5861 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.6844 mm, 68.2164 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.5232 mm, 68.1034 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.2836 mm, 67.9019 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(7.2572 mm, 68.7856 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
     @(6.9180 mm, 68.7941 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(12.9037 mm, 67.8084 mm): Polygon of G*** on F.Silkscreen
-    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.2789 mm, 68.8490 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.2789 mm, 68.0869 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.5574 mm, 68.2481 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.9091 mm, 68.8490 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(7.0997 mm, 68.0576 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(7.1910 mm, 68.1059 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(7.9306 mm, 68.6031 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.4007 mm, 68.7630 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
@@ -1428,27 +1188,23 @@
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(7.5247 mm, 68.5852 mm): Polygon of G*** on F.Silkscreen
+    @(7.2572 mm, 68.7856 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(7.5491 mm, 68.5535 mm): Polygon of G*** on F.Silkscreen
+    @(6.5574 mm, 68.2481 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(7.2751 mm, 68.3545 mm): Polygon of G*** on F.Silkscreen
+    @(7.0997 mm, 68.0576 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(7.7544 mm, 67.9715 mm): Polygon of G*** on F.Silkscreen
+    @(6.6844 mm, 68.2164 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(6.7847 mm, 67.9363 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(6.7768 mm, 67.4312 mm): Polygon of G*** on F.Silkscreen
+    @(6.5232 mm, 68.1034 mm): Polygon of G*** on F.Silkscreen
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
@@ -1456,160 +1212,56 @@
     @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(6.9971 mm, 67.4127 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+    @(45.4900 mm, 14.5980 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(7.0584 mm, 67.4022 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+    @(42.2500 mm, 15.0000 mm): Circle of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(7.3336 mm, 67.7971 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+    @(42.2500 mm, 15.0000 mm): Circle of C1 on F.Silkscreen
+    @(38.3800 mm, 16.0000 mm): PTH pad 2 [FAN1_TACH] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(7.5747 mm, 67.7138 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+    @(45.3700 mm, 14.0610 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(9.5131 mm, 67.8646 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+    @(45.1700 mm, 13.5680 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(9.4594 mm, 67.6460 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+    @(45.2100 mm, 13.6500 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(9.2721 mm, 67.5029 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+    @(45.2500 mm, 13.7390 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(9.5141 mm, 67.9546 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+    @(45.2900 mm, 13.8350 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(8.6277 mm, 67.3677 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+    @(45.3300 mm, 13.9420 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(11.7378 mm, 68.1276 mm): Polygon of G*** on F.Silkscreen
-    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(41.0000 mm, 15.0000 mm): PTH pad 1 [+5V] of C1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(10.6811 mm, 67.5039 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
+    @(45.4600 mm, 14.6300 mm): Segment of R5 on F.Silkscreen
+    @(43.5000 mm, 15.0000 mm): PTH pad 2 [GND] of C1
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
-    @(7.0000 mm, 68.0000 mm): PTH pad 1 [+3V3] of HUM1
+    @(45.4100 mm, 14.1990 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
-    @(9.5400 mm, 68.0000 mm): PTH pad 2 [DHT11_DATA] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(10.1518 mm, 67.1847 mm): Polygon of G*** on F.Silkscreen
-    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(11.7312 mm, 67.3875 mm): Polygon of G*** on F.Silkscreen
-    @(12.0800 mm, 68.0000 mm): PTH pad 3 [GND] of HUM1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(56.6200 mm, 18.9700 mm): Rectangle of J3 on F.Silkscreen
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(61.8100 mm, 41.8800 mm): Reference field of J5
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(61.3400 mm, 43.5700 mm): Segment of J5 on F.Silkscreen
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(59.7400 mm, 43.5700 mm): Segment of J5 on F.Silkscreen
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(56.6200 mm, 42.9700 mm): Rectangle of J5 on F.Silkscreen
-    @(60.6200 mm, 43.0000 mm): PTH pad 2 [/FAN4_IND] of R12
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(61.8100 mm, 29.8800 mm): Reference field of J4
-    @(60.6200 mm, 30.0000 mm): PTH pad 2 [/FAN3_IND] of R11
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(61.8100 mm, 17.8800 mm): Reference field of J3
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(59.7400 mm, 19.5700 mm): Segment of J3 on F.Silkscreen
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(61.3400 mm, 19.5700 mm): Segment of J3 on F.Silkscreen
-    @(60.6200 mm, 19.0000 mm): PTH pad 2 [/FAN2_IND] of R10
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(35.2500 mm, 7.0000 mm): Circle of C1 on F.Silkscreen
-    @(33.1900 mm, 4.6700 mm): PTH pad 40 [+5V] of J8
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(35.2500 mm, 7.0000 mm): Circle of C1 on F.Silkscreen
-    @(33.1900 mm, 9.7500 mm): PTH pad 38 [GND] of J8
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(40.2900 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-    @(50.0000 mm, 3.0000 mm): Pad 1 [BOOST_SW] of D1 on F.Cu
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(40.2900 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-    @(47.1600 mm, 2.0000 mm): PTH pad 2 [BOOST_SW] of L1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(47.2500 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-    @(47.1600 mm, 2.0000 mm): PTH pad 2 [BOOST_SW] of L1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(48.0000 mm, 6.5000 mm): Reference field of D2
-    @(47.1000 mm, 6.0000 mm): PTH pad 4 [BOOST_SW] of U1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(50.5100 mm, 2.7400 mm): Segment of U1 on F.Silkscreen
-    @(50.0000 mm, 3.0000 mm): Pad 1 [BOOST_SW] of D1 on F.Cu
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(48.0000 mm, 6.5000 mm): Reference field of D2
-    @(48.8000 mm, 6.0000 mm): PTH pad 5 [GND] of U1
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(57.2500 mm, 4.0000 mm): Circle of C2 on F.Silkscreen
-    @(54.0000 mm, 3.0000 mm): Pad 2 [+12V] of D1 on F.Cu
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(53.7498 mm, 2.1610 mm): Segment of C2 on F.Silkscreen
-    @(54.0000 mm, 3.0000 mm): Pad 2 [+12V] of D1 on F.Cu
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(54.0648 mm, 1.8460 mm): Segment of C2 on F.Silkscreen
-    @(54.0000 mm, 3.0000 mm): Pad 2 [+12V] of D1 on F.Cu
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(59.7400 mm, 7.5700 mm): Segment of J2 on F.Silkscreen
-    @(60.6200 mm, 7.0000 mm): PTH pad 2 [/FAN1_IND] of R9
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(61.3400 mm, 7.5700 mm): Segment of J2 on F.Silkscreen
-    @(60.6200 mm, 7.0000 mm): PTH pad 2 [/FAN1_IND] of R9
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(56.6200 mm, 6.9700 mm): Rectangle of J2 on F.Silkscreen
-    @(60.6200 mm, 7.0000 mm): PTH pad 2 [/FAN1_IND] of R9
-[silk_over_copper]: Silkscreen clipped by solder mask
-    Local override; warning
-    @(61.8100 mm, 5.8800 mm): Reference field of J2
-    @(60.6200 mm, 7.0000 mm): PTH pad 2 [/FAN1_IND] of R9
+    @(45.4500 mm, 14.3670 mm): Segment of C1 on F.Silkscreen
+    @(46.0000 mm, 16.0000 mm): PTH pad 1 [+3V3] of R5
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
     @(16.6100 mm, 52.4300 mm): Segment of J8 on F.Silkscreen
@@ -1619,7 +1271,35 @@
     @(16.6100 mm, 53.4300 mm): Segment of J8 on F.Silkscreen
     @(17.8100 mm, 52.9300 mm): PTH pad 1 [<no net>] of J8
 
-** Found 0 unconnected pads **
+** Found 7 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(50.5400 mm, 22.0000 mm): PTH pad 2 [GND] of D3
+    @(-1.0000 mm, -1.0000 mm): Zone 'GND_TOP' [GND] on F.Cu, priority 0
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(50.5400 mm, 46.0000 mm): PTH pad 2 [GND] of D5
+    @(-1.0000 mm, -1.0000 mm): Zone 'GND_BOT' [GND] on B.Cu, priority 0
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(63.8000 mm, 15.0000 mm): PTH pad 5 [GND] of U1
+    @(75.5000 mm, 8.0000 mm): PTH pad 2 [GND] of C2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(82.0000 mm, 10.0000 mm): PTH pad 1 [GND] of J2
+    @(75.5000 mm, 8.0000 mm): PTH pad 2 [GND] of C2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(82.0000 mm, 22.0000 mm): PTH pad 1 [GND] of J3
+    @(82.0000 mm, 10.0000 mm): PTH pad 1 [GND] of J2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(82.0000 mm, 34.0000 mm): PTH pad 1 [GND] of J4
+    @(82.0000 mm, 22.0000 mm): PTH pad 1 [GND] of J3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(82.0000 mm, 46.0000 mm): PTH pad 1 [GND] of J5
+    @(82.0000 mm, 34.0000 mm): PTH pad 1 [GND] of J4
 
 ** Found 0 Footprint errors **
 
