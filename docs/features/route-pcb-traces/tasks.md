@@ -1,493 +1,277 @@
 # Tasks: Route All PCB Traces
 
-<!-- Feature: route-pcb-traces | Issue: #83 | Branch: feature/83-route-pcb-traces -->
-<!-- Generated: 2026-06-09 | Author: feature-breakdown-agent -->
+<!-- Feature: route-pcb-traces | Issue: #83 | Branch: feature/148-correct-gpio-pin-assignments -->
+<!-- Generated: 2026-06-10 | Author: feature-breakdown-agent -->
+<!-- SUPERSEDES: tasks generated 2026-06-09 (issues #139–#147 closed as OBSOLETE on 2026-06-10) -->
+<!-- Reason: Old tasks pre-dated J8 GPIO pin assignment corrections from issue #148 -->
+
+---
+
+> ⚠️ **OBSOLETE TASKS NOTICE**
+> Issues #139–#147 (created 2026-06-09) were **closed as OBSOLETE on 2026-06-10**.
+> They were based on incorrect J8 GPIO pin assignments prior to issue #148 corrections.
+> Do **not** reopen or reference those issues. The current task set is #157–#165 below.
 
 ---
 
 ## Summary
 
 - **Total tasks:** 9 (T001–T009)
-- **Layers covered:** Hardware: Layout, Hardware: DRC, Documentation, Issue update
-- **GitHub parent issue:** [#83 — hw(pcb): route all PCB traces (51 unconnected ratsnest)](https://github.com/nielsverhoeven/PoE-FanController/issues/83)
-- **Branch:** eature/83-route-pcb-traces
+- **Layers covered:** Hardware: Layout, Hardware: DRC
+- **GitHub parent issue:** [#83 — hw(pcb): route all PCB traces](https://github.com/nielsverhoeven/PoE-FanController/issues/83)
+- **Branch:** `feature/148-correct-gpio-pin-assignments`
 - **Constitution prerequisite:** v4.1.0 (locked; no amendments required)
 - **Layers NOT required:** Hardware: Schematic, Hardware: ERC, Hardware: BOM, Firmware: Module, Firmware: Config, Web UI, Unit Tests
   (hardware layout-only change; no schematic edits, no netlist changes, no firmware logic)
+- **Corrected pad assignments:** Per issue #148 (J8 GPIO pin corrections applied throughout)
 
 ---
 
 ## Dependency Graph
 
-\\\mermaid
+```mermaid
 graph TD
-    T001["T001\nFix GND Zone\nNet Assignment"]
-    T002["T002\nRoute Power Rails\n≥1.0mm"]
-    T003["T003\nRoute BOOST_SW\nSwitching Loop"]
-    T004["T004\nRoute Fan PWM\nSignals"]
-    T005["T005\nRoute Fan TACH &\nIndicator LEDs"]
-    T006["T006\nRoute Sensor\nSignals"]
-    T007["T007\nRoute LED Signal\nChains"]
-    T008["T008\nFill GND Zones\n& Run DRC"]
-    T009["T009\nRegenerate Gerbers\n& Documentation"]
+    T001["T001 #157\nDelete all legacy\nsignal traces"]
+    T002["T002 #158\nRoute BOOST_SW\nswitching loop"]
+    T003["T003 #159\nRoute power rails\n+5V, +3V3, +12V"]
+    T004["T004 #160\nRoute fan PWM\nsignals"]
+    T005["T005 #161\nRoute fan TACH\n+ pull-ups"]
+    T006["T006 #162\nRoute LED signal\nchains"]
+    T007["T007 #163\nRoute sensor\nsignals"]
+    T008["T008 #164\nRoute fan indicator\nLED chains"]
+    T009["T009 #165\nFill GND zones\n& run DRC (gate)"]
 
     T001 --> T002
     T002 --> T003
-    T002 --> T004
-    T002 --> T005
-    T002 --> T006
-    T002 --> T007
+    T003 --> T004
+    T003 --> T005
+    T003 --> T006
+    T003 --> T007
     T003 --> T008
-    T004 --> T008
-    T005 --> T008
-    T006 --> T008
-    T007 --> T008
+    T004 --> T009
+    T005 --> T009
+    T006 --> T009
+    T007 --> T009
     T008 --> T009
-\\\
+    T001 --> T009
+    T002 --> T009
+    T003 --> T009
+```
 
 **Text summary:**
-\\\
-T001 → T002 ─┬─ T003 ─┐
-             ├─ T004 ─┤
-             ├─ T005 ─┼─ T008 → T009
-             ├─ T006 ─┤
-             └─ T007 ─┘
-\\\
+```
+T001 → T002 → T003 ─┬─ T004 ─┐
+                     ├─ T005 ─┤
+                     ├─ T006 ─┼─ T009 (gate: DRC + Gerbers)
+                     ├─ T007 ─┤
+                     └─ T008 ─┘
+```
 
-- T001 (GND zone fix) is a prerequisite with no dependencies; it gates T002.
-- T002 (power rails) completes before the four signal routing tasks (T003–T007) can start.
-- T003–T007 can execute in parallel (all depend only on T002).
-- T008 (zone fill + DRC) is the converging gate; all preceding tasks must be complete.
-- T009 (Gerbers + documentation) closes the feature.
+- **T001** (delete legacy traces) has no dependencies — do this first, as an isolated commit.
+- **T002** (BOOST_SW switching loop) must follow T001; EMI-critical, route before other power rails.
+- **T003** (power rails) must follow T002; gates all signal routing tasks.
+- **T004–T008** can execute in parallel (all depend only on T003).
+- **T009** (zone fill + DRC) is the convergence gate; all preceding tasks must be complete.
 
 ---
 
 ## Task List
 
-### T001: Fix GND Zone Net Assignment
+| ID | GitHub Issue | Title | Status | Depends on |
+|----|-------------|-------|--------|------------|
+| T001 | [#157](https://github.com/nielsverhoeven/PoE-FanController/issues/157) | Delete all legacy signal traces (35 shorts) | Open | none |
+| T002 | [#158](https://github.com/nielsverhoeven/PoE-FanController/issues/158) | Route BOOST_SW switching loop (≥1.0mm, EMI critical) | Open | T001 |
+| T003 | [#159](https://github.com/nielsverhoeven/PoE-FanController/issues/159) | Route power rails (+5V, +3V3, +12V, ≥1.0mm) | Open | T002 |
+| T004 | [#160](https://github.com/nielsverhoeven/PoE-FanController/issues/160) | Route fan PWM signals (4 traces, ≥0.25mm) | Open | T003 |
+| T005 | [#161](https://github.com/nielsverhoeven/PoE-FanController/issues/161) | Route fan TACH signals + R5-R8 pull-ups (≥0.25mm) | Open | T003 |
+| T006 | [#162](https://github.com/nielsverhoeven/PoE-FanController/issues/162) | Route LED signal chains (PROBE_LED, STATUS_LED, PROG_LED) | Open | T003 |
+| T007 | [#163](https://github.com/nielsverhoeven/PoE-FanController/issues/163) | Route sensor signals (DHT11_DATA → J9, DS18B20_DATA → R14 → J6) | Open | T003 |
+| T008 | [#164](https://github.com/nielsverhoeven/PoE-FanController/issues/164) | Route fan indicator LED chains (/FAN1_IND–/FAN4_IND) | Open | T003 |
+| T009 | [#165](https://github.com/nielsverhoeven/PoE-FanController/issues/165) | Fill GND zones and run DRC (gate: 0 shorts, 0 unconnected) | Open | T001–T008 |
+
+---
+
+## Task Details
+
+### T001: Delete All Legacy Signal Traces
 
 - **Layer:** Hardware: Layout
-- **Description:**
-  Create and execute a Python script to reassign the two GND copper pour zones from the isolated
-  \Net-(U1-GND)\ net to the main \GND\ net. This is a documented exception to P-KI-07 (pcbnew
-  scripts forbidden) because no trace routing touches these zones — only their net assignment is
-  corrected. The script must be saved to \hardware/fix_gnd_zones.py\ and executed via the KiCad
-  bundled Python interpreter:
-
-  \\\
-  C:\\Users\\Niels\\AppData\\Local\\Programs\\KiCad\\10.0\\bin\\python.exe hardware/fix_gnd_zones.py
-  \\\
-
-  **Script requirements:**
-  - Load board: \oard = pcbnew.LoadBoard("hardware/kicad/PoE-FanController.kicad_pcb")\
-  - Find GND net: \gnd_net = board.FindNet("GND")\
-  - Iterate all zones; for each zone where \GetNetname() == "Net-(U1-GND)"\, call \zone.SetNet(gnd_net)\
-  - Save: \oard.Save("hardware/kicad/PoE-FanController.kicad_pcb")\
-  - Print summary of modified zones
-
-  **Verification:**
-  Open the modified \.kicad_pcb\ in KiCad GUI, inspect both \GND_TOP\ (F.Cu) and \GND_BOT\ (B.Cu)
-  zone properties — both must show \
-et "GND"\ (not \
-et "Net-(U1-GND)"\). Run DRC; the two
-  \isolated_copper\ baseline warnings must be eliminated. Commit only this change before routing begins.
-
-  **Constraints:**
-  - U1's GND pin (\Net-(U1-GND)\) remains isolated in the netlist — NO routed connection to main GND is permitted.
-  - Only zone \
-et\ assignments are changed; the component pin netlist is untouched.
-
+- **Description:** Use the pcbnew Python API to delete **all** `PCB_TRACK` and `PCB_ARC` objects from
+  the board. The previous routing (issues #139–#147, closed OBSOLETE 2026-06-10) was based on
+  incorrect J8 pad assignments. This must be done as an isolated commit before any corrected routing.
+  Script interpreter: `C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\bin\python.exe`
 - **Depends on:** none
-- **Acceptance:** 
-  DRC report shows 0 isolated_copper warnings for zones; `GND_TOP` and `GND_BOT` both display
-  `net "GND"` in zone properties; script committed to `hardware/fix_gnd_zones.py`.
-- **GitHub issue:** [#139](https://github.com/nielsverhoeven/PoE-FanController/issues/139)
+- **Acceptance:** DRC shows 0 `shorting_items`; all tracks removed from `.kicad_pcb`; isolated git commit.
+- **GitHub issue:** [#157](https://github.com/nielsverhoeven/PoE-FanController/issues/157)
 
 ---
 
-### T002: Route Power Rails (≥1.0 mm)
+### T002: Route BOOST_SW Switching Loop
 
 - **Layer:** Hardware: Layout
-- **Description:**
-  Route all power distribution rails with ≥1.0 mm trace width on F.Cu. All pads are at component positions;
-  all traces run on the front copper layer. Route in priority order:
-
-  **+5V rail (heaviest load — ≤ 2 A boost input):**
-  \\\
-  J8 pin 40 → C1 positive pad → L1 pin 1 → U1 pin 1 (VIN)
-  \\\
-  Keep C1 bypass cap close to L1 connection to minimize input ripple loop.
-
-  **+12V rail (fan power — ≤ 1 A total):**
-  \\\
-  U1 pin 3 (VOUT) / D1 cathode → C2 positive pad
-  C2 positive pad → J2 pin 2 → J3 pin 2 → J4 pin 2 → J5 pin 2 (daisy-chain to fan headers)
-  \\\
-  D1 is SMD (SMA package); route D1 cathode first, then continue the daisy-chain to all fan headers.
-  This rail will branch in Phase 5 to feed the per-fan indicator LED diodes.
-
-  **+3V3 rail (low-current — < 50 mA):**
-  \\\
-  J8 pin 1 → R5 pin 1, R6 pin 1, R7 pin 1, R8 pin 1 (TACH pull-up rail)
-  J8 pin 17 → HUM1 pin 1 (DHT11 VCC)
-  \\\
-  J8 pins 1 and 17 are both +3V3; may be bridged together or routed as separate distribution trees.
-
-  **GND star connections (power return paths — ≥1.0 mm):**
-  \\\
-  J8 GND pads (6, 9, 14, 20, 25, 29, 33, 38) → C1 GND, C2 GND, HUM1 pin 3, J6 pin 3,
-  R5–R8 pin 2 (pull-up cathode side), LED1 cathode, LED2 cathode, LED6 cathode
-  \\\
-  GND traces will be partially replaced by the copper pour in Phase 8; explicit traces ensure
-  connectivity independent of pour fill topology.
-
-  **Method:**
-  Use KiCad interactive router (Ctrl+E from a trace endpoint, or Route → Route Tracks). All traces
-  on F.Cu only. Set trace width to 1.0 mm (or wider if netclass allows). Use vias (0.8 mm pad /
-  0.4 mm drill) only where necessary to avoid DRC spacing violations (prefer F.Cu-only routes).
-
-- **Depends on:** T001
-- **Acceptance:**
-  All five power nets (+5V, +12V, +3V3, GND, BOOST_SW partial) have continuous routed paths from
-  source to all destination pads; every segment ≥1.0 mm wide on F.Cu; DRC still reports 0 errors
-  (ratsnest count reduced from 70 to approximately 40).
-- **GitHub issue:** [#140](https://github.com/nielsverhoeven/PoE-FanController/issues/140)
+- **Description:** Route the L1 → U_BOOST → D1 switching loop on F.Cu. Net: `BOOST_SW`.
+  Trace width ≥ 1.0 mm (power class). Route with minimal enclosed loop area to limit radiated EMI
+  (constitution P-HW-07). All traces on F.Cu only.
+- **Depends on:** T001 (#157)
+- **Acceptance:** `BOOST_SW` loop fully routed; trace width ≥ 1.0 mm verified; minimal loop area achieved.
+- **GitHub issue:** [#158](https://github.com/nielsverhoeven/PoE-FanController/issues/158)
 
 ---
 
-### T003: Route BOOST_SW Switching Loop (≥1.0 mm, Tight EMI Loop)
+### T003: Route Power Rails (+5V, +3V3, +12V)
 
 - **Layer:** Hardware: Layout
-- **Description:**
-  Route the high-frequency switching node (BOOST_SW) connecting the boost converter IC, inductor,
-  and diode. This loop carries ~100 kHz switching current; loop area directly affects radiated EMI.
+- **Description:** Route all power distribution rails on F.Cu at ≥ 1.0 mm (power class).
 
-  **Loop topology:**
-  \\\
-  L1 switching pin → BOOST_SW node → D1 anode → [back to] BOOST_SW node → [back to] U1 SW pin
-  \\\
+  | Rail | From | To |
+  |------|------|----|
+  | +5V | J8 pad 40 (VBUS) | L1 input / U_BOOST VIN |
+  | +3V3 | J8 pad 36 | R5, R6, R7, R8, R14, J9 pin 1 |
+  | +12V | D1 cathode | J2–J5 pin 1 (VCC) |
+  | GND | J8 pads 3,8,13,18,23,28,33,38 | GND zone (copper spurs where needed) |
 
-  **Routing rules — critical for EMI compliance:**
-  - Total enclosed loop area must be < 200 mm² (measure in KiCad PCB editor Inspect tool after routing).
-  - All traces ≥1.0 mm wide (BOOST_SW is a power-class net per FR-03 and P-HW-07).
-  - Route on F.Cu only; no via insertion unless unavoidable.
-  - **Do NOT route any signal traces through the interior of the BOOST_SW loop.**
-  - Use the tightest possible geometry; minimize any dogleg or detour.
-
-  **Recommended sequence (to ensure shortest segments):**
-  1. Route U1 SW pin first (shortest segment from IC to the loop).
-  2. Connect D1 anode to the BOOST_SW node via tight trace.
-  3. Connect L1 switching pin to close the loop (complete the three-segment circuit).
-
-  **Verification:**
-  After routing, measure loop area using KiCad Inspect tool (place a rectangle around the loop and
-  record area in mm²). If area ≥ 200 mm², re-route with tighter geometry before moving to Phase 4.
-
-- **Depends on:** T002
-- **Acceptance:**
-  BOOST_SW node (L1 → D1 → U1 SW) is fully routed with ≥1.0 mm traces; enclosed loop area measures
-  < 200 mm² in KiCad Inspect; no signal traces pass through the loop interior; DRC still 0 errors.
-- **GitHub issue:** [#141](https://github.com/nielsverhoeven/PoE-FanController/issues/141)
+- **Depends on:** T002 (#158)
+- **Acceptance:** All power rail ratsnest cleared; no unconnected power net items; trace widths ≥ 1.0 mm.
+- **GitHub issue:** [#159](https://github.com/nielsverhoeven/PoE-FanController/issues/159)
 
 ---
 
-### T004: Route Fan PWM Signals (≥0.25 mm)
+### T004: Route Fan PWM Signals
 
 - **Layer:** Hardware: Layout
-- **Description:**
-  Route the four fan PWM control signals from the ESP32-P4 (via J8) to the respective fan headers.
-  These are logic-level signals (0–3.3V digital); trace width ≥0.25 mm per signal net class (FR-04).
+- **Description:** Route all four fan PWM signal traces on F.Cu (signal class ≥ 0.25 mm).
 
-  **Routing table:**
+  | Net | From | To |
+  |-----|------|----|
+  | FAN1_PWM | J8 pad 35 | J2 pin 4 |
+  | FAN2_PWM | J8 pad 34 | J3 pin 4 |
+  | FAN3_PWM | J8 pad 29 | J4 pin 4 |
+  | FAN4_PWM | J8 pad 27 | J5 pin 4 |
 
-  | Net | J8 pad | Destination | Trace width |
-  |---|---|---|---|
-  | FAN1_PWM | 7 | J2 pin 4 | ≥0.25 mm |
-  | FAN2_PWM | 8 | J3 pin 4 | ≥0.25 mm |
-  | FAN3_PWM | 10 | J4 pin 4 | ≥0.25 mm |
-  | FAN4_PWM | 11 | J5 pin 4 | ≥0.25 mm |
+  Pad numbers per corrected J8 assignments from issue #148.
 
-  **Routing constraints:**
-  - Parallel traces at ≥0.25 mm width; maintain ≥0.25 mm clearance between adjacent signal traces.
-  - Traces may dog-leg to avoid the +12V power rail area if needed (F.Cu routing only).
-  - No via insertion required (all pads on F.Cu).
-  - Route as independent traces (no daisy-chaining required).
-
-  **Method:**
-  Use KiCad interactive router. Set net to route, set trace width to 0.25 mm, and draw each signal
-  path from J8 to the target fan header pin. If spacing is tight near J8 or the fan headers, carefully
-  position traces to maintain clearance margins.
-
-- **Depends on:** T002
-- **Acceptance:**
-  All four FAN*_PWM nets are fully routed from J8 source pad to J2–J5 pin 4 destinations; every trace
-  ≥0.25 mm wide on F.Cu; no unrouted ratsnest for these nets; DRC still 0 errors.
-- **GitHub issue:** [#142](https://github.com/nielsverhoeven/PoE-FanController/issues/142)
+- **Depends on:** T003 (#159)
+- **Acceptance:** All 4 `FANn_PWM` ratsnest items cleared; trace width ≥ 0.25 mm for all four.
+- **GitHub issue:** [#160](https://github.com/nielsverhoeven/PoE-FanController/issues/160)
 
 ---
 
-### T005: Route Fan TACH Signals and Indicator LED Chains (≥0.25 mm)
+### T005: Route Fan TACH Signals + R5–R8 Pull-ups
 
 - **Layer:** Hardware: Layout
-- **Description:**
-  Route two interconnected signal structures for all four fan channels:
+- **Description:** Route all four fan TACH signal traces including pull-up resistors R5–R8 on F.Cu
+  (signal class ≥ 0.25 mm).
 
-  **1. Fan TACH pull-up topology** (one per channel; identical structure):
-  \\\
-  J8 pad N ─────────── R_n pin 2 (signal side)
-                         │
-  J2–J5 pin 3 ─────── R_n pin 2  (same node — pull-up node, where TACH signal is pulled to +3V3)
-                         │
-  R_n pin 1 ───────── +3V3 (already routed in T002)
-  \\\
+  | Net | From | Via | To |
+  |-----|------|-----|----|
+  | FAN1_TACH | J8 pad 32 | R5 | J2 pin 3 |
+  | FAN2_TACH | J8 pad 31 | R6 | J3 pin 3 |
+  | FAN3_TACH | J8 pad 24 | R7 | J4 pin 3 |
+  | FAN4_TACH | J8 pad 22 | R8 | J5 pin 3 |
 
-  | Net | J8 pad | Resistor | Fan TACH pin |
-  |---|---|---|---|
-  | FAN1_TACH | 12 | R5 | J2 pin 3 |
-  | FAN2_TACH | 13 | R6 | J3 pin 3 |
-  | FAN3_TACH | 15 | R7 | J4 pin 3 |
-  | FAN4_TACH | 16 | R8 | J5 pin 3 |
+  Pull-up resistors R5–R8: one pad on TACH net, other pad on +3V3 (routed in T003).
+  Pad numbers per corrected J8 assignments from issue #148.
 
-  Route the two signal segments in series: J8 pad → R_n pin 2 → J2–J5 pin 3. All three points
-  are electrically the same node (pulled up to +3V3 via R_n pin 1, already connected in T002).
-
-  **2. Fan indicator LED chains** (one per channel; identical structure):
-  \\\
-  J2–J5 pin 2 (+12V branch) ──► D_n (LED anode) ──► [/FANn_IND] ──► R_n ──► GND (copper pour in T008)
-  \\\
-
-  | Net | LED | Current-limit resistor | Source (fan header) |
-  |---|---|---|---|
-  | /FAN1_IND | D2 | R9 | J2 pin 2 |
-  | /FAN2_IND | D3 | R10 | J3 pin 2 |
-  | /FAN3_IND | D4 | R11 | J4 pin 2 |
-  | /FAN4_IND | D5 | R12 | J5 pin 2 |
-
-  The +12V rail routes to each fan header in T002; branch a 0.25 mm signal trace from J2 pin 2
-  to D2 anode, then continue D2 cathode (via /FAN1_IND net) → R9 → GND (GND connection via pour
-  in T008; may use explicit GND trace if needed).
-
-  **Routing method:**
-  1. Draw FAN*_TACH traces (J8 → R_n pin 2 → J*_pin 3) as continuous signal paths, ≥0.25 mm.
-  2. Branch the +12V rail at each fan header (J2–J5 pin 2) to the respective LED diode anode.
-  3. Route each /FAN*_IND net from LED cathode → R_n (current-limit resistor) → GND.
-  4. All traces on F.Cu; no vias required for signal routing.
-
-- **Depends on:** T002
-- **Acceptance:**
-  All eight nets (four FAN*_TACH + four /FAN*_IND) are fully routed; every segment ≥0.25 mm wide
-  on F.Cu; no unrouted ratsnest for these nets; DRC still 0 errors; indicator LED chains connected
-  end-to-end.
-- **GitHub issue:** [#143](https://github.com/nielsverhoeven/PoE-FanController/issues/143)
+- **Depends on:** T003 (#159)
+- **Acceptance:** All 4 `FANn_TACH` nets fully connected; both pads of R5–R8 connected; trace width ≥ 0.25 mm.
+- **GitHub issue:** [#161](https://github.com/nielsverhoeven/PoE-FanController/issues/161)
 
 ---
 
-### T006: Route Sensor Signals (≥0.25 mm)
+### T006: Route LED Signal Chains
 
 - **Layer:** Hardware: Layout
-- **Description:**
-  Route the two sensor data signals connecting the daughter board to external temperature and humidity
-  sensors. Both are single-wire digital signals operating at 3.3V logic levels.
+- **Description:** Route all three LED signal chains on F.Cu (signal class ≥ 0.25 mm).
 
-  **DHT11 temperature + humidity sensor:**
-  \\\
-  J8 pin 23 (DHT11_DATA / GPIO16) ──► HUM1 pin 2
-  \\\
-  Single-wire signal. The Reichelt 239086 DHT11 breakout module includes an onboard pull-up resistor
-  per constitution §2.2 (Assumption A3 in spec); no additional PCB pull-up required. Route directly
-  from J8 pin 23 to HUM1 pin 2 (connector for external DHT11 module).
+  | Net | From | Via | To |
+  |-----|------|-----|----|
+  | PROBE_LED | J8 pad 21 | R15 | LED6 |
+  | STATUS_LED | J8 pad 6 | R3 | LED1 |
+  | PROG_LED | J8 pad 14 | R13 | LED2 |
 
-  **DS18B20 digital temperature sensor:**
-  \\\
-  J8 pin 27 (DS18B20_DATA / GPIO19) ──► R14 pin 2 ──► J6 pin 2
-  \\\
-  The DS18B20 requires a 4.7 kΩ pull-up resistor (R14) already placed on the PCB. Route from J8 pin 27
-  to R14 pin 2 (signal side of the resistor), then from R14 pin 2 to J6 pin 2 (connector for external
-  DS18B20 probe). R14 pin 1 is already connected to +3V3 in T002.
+  **Layout note:** Pads 6 and 14 are on Row A (left column, x ≈ 2.81 mm) — route traces leftward
+  from these pads before turning to reach their targets.
+  Pad numbers per corrected J8 assignments from issue #148.
 
-  **Routing constraints:**
-  - Both traces ≥0.25 mm wide (signal net class per FR-04).
-  - Both on F.Cu; no vias required.
-  - Keep traces away from high-current power rails to minimize noise coupling.
-
-- **Depends on:** T002
-- **Acceptance:**
-  Both DHT11_DATA and DS18B20_DATA nets are fully routed from source (J8 pins 23, 27) to destination
-  connectors (HUM1 pin 2, J6 pin 2); every trace ≥0.25 mm wide on F.Cu; no unrouted ratsnest for these
-  nets; DRC still 0 errors.
-- **GitHub issue:** [#144](https://github.com/nielsverhoeven/PoE-FanController/issues/144)
+- **Depends on:** T003 (#159)
+- **Acceptance:** All 3 LED signal nets fully connected; trace width ≥ 0.25 mm for all three.
+- **GitHub issue:** [#162](https://github.com/nielsverhoeven/PoE-FanController/issues/162)
 
 ---
 
-### T007: Route LED Signal Chains (≥0.25 mm)
+### T007: Route Sensor Signals
 
 - **Layer:** Hardware: Layout
-- **Description:**
-  Route three independent LED indicator chains, each driven by a separate GPIO from the ESP32-P4. All
-  are current-limited via series resistors already placed on the PCB.
+- **Description:** Route both sensor data signal traces on F.Cu (signal class ≥ 0.25 mm).
 
-  **Status LED chain (green LED1):**
-  \\\
-  J8 pin 3 (STATUS_LED / GPIO2) ──► R3 pin 1
-  R3 pin 2 ──► [/LED_A] ──► LED1 anode (pin 1)
-  LED1 cathode (pin 2) ──► GND (via copper pour in T008, or explicit trace)
-  \\\
+  | Net | From | Via | To |
+  |-----|------|-----|----|
+  | DHT11_DATA | J8 pad 15 | — | J9 pin 2 |
+  | DS18B20_DATA | J8 pad 19 | R14 | J6 pin 2 |
 
-  **Program/OTA LED chain (orange LED2):**
-  \\\
-  J8 pin 22 (PROG_LED / GPIO15) ──► R13 pin 1
-  R13 pin 2 ──► [/PROG_LED_A] ──► LED2 anode (pin 1)
-  LED2 cathode (pin 2) ──► GND
-  \\\
+  **Layout note:** Pads 15 and 19 are on Row A (left column, x ≈ 2.81 mm).
+  R14 is the DS18B20 1-Wire pull-up; its other end connects to +3V3 (routed in T003).
+  Pad numbers per corrected J8 assignments from issue #148.
 
-  **Probe status LED chain (green LED6):**
-  \\\
-  J8 pin 28 (PROBE_LED / GPIO20) ──► R15 pin 1
-  R15 pin 2 ──► [/PROBE_LED_A] ──► LED6 anode (pin 1)
-  LED6 cathode (pin 2) ──► GND
-  \\\
-
-  **Current-limit resistor values:**
-  - R3 = 330 Ω (LED1 series resistor)
-  - R13 = 330 Ω (LED2 series resistor)
-  - R15 = 330 Ω (LED6 series resistor)
-
-  **Routing constraints:**
-  - All signal traces (/LED_A, /PROG_LED_A, /PROBE_LED_A) ≥0.25 mm wide (signal net class).
-  - Route in-line without bypassing the current-limit resistors (R3, R13, R15).
-  - All on F.Cu; no vias required.
-  - Connect LED cathodes to GND; may use GND copper pour (T008) or explicit GND trace if needed.
-
-  **Routing sequence:**
-  1. Draw GPIO signal trace from J8 pin to resistor pin 1 (GPIO drive side).
-  2. Draw resistor pin 2 to LED anode trace (the /LED_A net).
-  3. Connect LED cathode to GND (explicit trace or rely on pour).
-
-- **Depends on:** T002
-- **Acceptance:**
-  All three LED chains (STATUS_LED, PROG_LED, PROBE_LED) are fully routed from GPIO source (J8) through
-  resistors to LED anodes; all /LED_A nets are routed; LED cathodes connected to GND; every trace
-  ≥0.25 mm wide on F.Cu; no unrouted ratsnest for these nets; DRC still 0 errors.
-- **GitHub issue:** [#145](https://github.com/nielsverhoeven/PoE-FanController/issues/145)
+- **Depends on:** T003 (#159)
+- **Acceptance:** `DHT11_DATA` and `DS18B20_DATA` nets fully connected; both pads of R14 connected;
+  trace width ≥ 0.25 mm for both nets.
+- **GitHub issue:** [#163](https://github.com/nielsverhoeven/PoE-FanController/issues/163)
 
 ---
 
-### T008: Fill GND Zones and Run DRC
+### T008: Route Fan Indicator LED Chains
+
+- **Layer:** Hardware: Layout
+- **Description:** Route all four fan indicator LED signal chains on F.Cu (signal class ≥ 0.25 mm).
+
+  | Net | From | To |
+  |-----|------|----|
+  | /FAN1_IND | D2 | J2 pin 2 signal branch |
+  | /FAN2_IND | D3 | J3 pin 2 signal branch |
+  | /FAN3_IND | D4 | J4 pin 2 signal branch |
+  | /FAN4_IND | D5 | J5 pin 2 signal branch |
+
+- **Depends on:** T003 (#159)
+- **Acceptance:** All 4 `/FANn_IND` nets fully connected; trace width ≥ 0.25 mm for all four.
+- **GitHub issue:** [#164](https://github.com/nielsverhoeven/PoE-FanController/issues/164)
+
+---
+
+### T009: Fill GND Zones and Run DRC (Convergence Gate)
 
 - **Layer:** Hardware: DRC
-- **Description:**
-  After all trace routing (T003–T007) is complete, fill the two GND copper pour zones and execute
-  a full design rule check to verify the board is DRC-clean.
+- **Description:** This is the **convergence gate** — all T001–T008 must be complete first.
+  1. Fill both GND copper pour zones (`GND_TOP` on F.Cu, `GND_BOT` on B.Cu)
+  2. Check for isolated copper islands; add GND vias if needed
+  3. Run DRC via:
+     ```
+     C:\Users\Niels\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe pcb drc
+     ```
+  4. Verify J8 pads 25, 26, 30, 37, 39 have **zero** connected tracks (unconnected in corrected netlist per #148)
+  5. Regenerate Gerbers into `hardware/kicad/gerbers/`
+  6. Commit Gerbers and updated `.kicad_pcb` to the feature branch
 
-  **Step 8a — Zone fill:**
-  In KiCad GUI, select Edit → Fill All Zones (shortcut: **B**).
-
-  The two zones — GND_TOP (F.Cu) and GND_BOT (B.Cu) — should fill with copper connected to the GND
-  net (reassigned from \Net-(U1-GND)\ in T001). Visually inspect the fill result:
-
-  - **Check for isolated islands:** Any region that cannot trace a path back to a GND pad (via other
-    zones, vias, or routed traces) must either be (a) removed by drawing a keepout polygon, or (b)
-    bridged to GND via an explicit via or trace.
-  - **Check for unintended copper shorting:** Ensure no zone copper inadvertently shorts signal nets.
-  - **Verify layer coverage:** F.Cu zone should not overlap B.Cu pads unless connected via vias.
-
-  **Step 8b — DRC execution:**
-  Run Tools → Design Rules Checker → Run DRC (or command-line: \kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb\).
-
-  **Target outcome:**
-
-  | Category | Target |
-  |---|---|
-  | **Errors** | **0** |
-  | **Unconnected** | **0** |
-  | **Warnings** | ≤ 16 baseline; two \isolated_copper\ warnings must be gone |
-
-  **Resolution of violations (if any):**
-  - **Unconnected:** Add the missing trace manually (go back to T002–T007 if a routed net was missed).
-  - **Spacing violations:** Adjust trace width or position if a 0.25 mm trace conflicts with a 1.0 mm
-    power trace; re-run DRC.
-  - **Via issues:** If DRC flags via spacing, remove or reposition the via.
-
-  Do NOT commit until DRC shows 0 errors and 0 unconnected.
-
-- **Depends on:** T003, T004, T005, T006, T007 (all routing complete)
-- **Acceptance:**
-  DRC report displays **0 errors**, **0 unconnected**, and ≤ 16 warnings (baseline; the two
-  `isolated_copper` warnings from T001 must NOT appear); both GND zones visibly filled and connected
-  to GND pads; board visually complete with all ratsnest cleared from PCB editor.
-- **GitHub issue:** [#146](https://github.com/nielsverhoeven/PoE-FanController/issues/146)
+- **Depends on:** T001 (#157), T002 (#158), T003 (#159), T004 (#160), T005 (#161), T006 (#162), T007 (#163), T008 (#164)
+- **Acceptance:** DRC report shows 0 errors, 0 unconnected; Gerbers committed; issue #83 ready to close.
+- **GitHub issue:** [#165](https://github.com/nielsverhoeven/PoE-FanController/issues/165)
 
 ---
 
-### T009: Regenerate Gerbers and Update Documentation
+## Obsolete Tasks (DO NOT REOPEN)
 
-- **Layer:** Documentation
-- **Description:**
-  After DRC passes (T008), regenerate Gerber and drill files, and update the feature documentation
-  with final task status and issue links.
+The following issues were created on 2026-06-09 under the **wrong branch** (`feature/83-route-pcb-traces`)
+and with **incorrect J8 pad assignments** (pre-dating the GPIO corrections in issue #148).
+They were **closed as OBSOLETE on 2026-06-10** and must not be reopened or referenced.
 
-  **Step 9a — Regenerate Gerber files:**
-  In KiCad GUI, select File → Fabrication Outputs → Gerbers (or use \kicad-cli pcb export gerbers ...\).
-  Output directory: \hardware/kicad/gerbers/\ (per FR-10 and P-KI-06).
-
-  Exported files should include:
-  - \PoE-FanController-F_Cu.gbr\ (front copper with all routed traces)
-  - \PoE-FanController-B_Cu.gbr\ (back copper with GND pour)
-  - \PoE-FanController-F_SilkS.gbr\ (front silk layer)
-  - \PoE-FanController-B_SilkS.gbr\ (back silk layer)
-  - \PoE-FanController-F_Mask.gbr\ (front solder mask)
-  - \PoE-FanController-B_Mask.gbr\ (back solder mask)
-  - \PoE-FanController-Edge_Cuts.gbr\ (board edge)
-  - \PoE-FanController.drl\ (drill file)
-
-  Verify Gerber files are newer than the routed \.kicad_pcb\ file (timestamp check).
-
-  **Step 9b — Commit artifacts:**
-  - Commit the routed \.kicad_pcb\ file with message: \hw: route all PCB traces — all nets routed, 0 DRC errors\
-  - Commit Gerber files (directory \hardware/kicad/gerbers/\) with message: \hw: regenerate Gerbers after PCB routing\
-
-  **Step 9c — Update tasks.md:**
-  Replace all GitHub issue placeholders (\(to be filled by github.issues-manager)\) with actual issue
-  links (\[#NNN](https://github.com/nielsverhoeven/PoE-FanController/issues/NNN)\). Update the
-  Dependency Graph section if any tasks were split or re-sequenced. Commit \	asks.md\ with message:
-  \docs: finalize tasks.md with GitHub issue numbers for #83\.
-
-  **Step 9d — Push and open PR:**
-  Push all commits to the remote \eature/83-route-pcb-traces\ branch. Open a pull request to \main\
-  with the title: \hw: route all PCB traces — [#83]\. Include a summary of:
-  - All nets routed (70 ratsnest items cleared).
-  - DRC: 0 errors, 0 unconnected.
-  - GND zones reassigned and filled.
-  - Gerber files regenerated and included.
-
-- **Depends on:** T008
-- **Acceptance:**
-  Gerber files exist in `hardware/kicad/gerbers/` and are dated after the routed `.kicad_pcb`; all
-  task issue numbers appear in `tasks.md` as hyperlinks; commits are pushed to the remote branch;
-  PR is opened and ready for review.
-- **GitHub issue:** [#147](https://github.com/nielsverhoeven/PoE-FanController/issues/147)
-
----
-
-## Checklist for Reviewers
-
-Before merging the PR, verify:
-
-- [ ] T001: GND zone net reassignment script (\hardware/fix_gnd_zones.py\) committed and working.
-- [ ] T002–T007: All ratsnest items cleared; traces visible in PCB editor; layer constraints observed.
-- [ ] T003: BOOST_SW loop area measured < 200 mm² (documented in PR comment).
-- [ ] T004–T007: Signal traces ≥0.25 mm; power traces ≥1.0 mm (visual or XML inspection).
-- [ ] T008: DRC clean: **0 errors**, **0 unconnected**.
-- [ ] T009: Gerber files present and dated correctly; \	asks.md\ updated with issue links.
-- [ ] Commit history clean: no merge commits; squash or rebase if needed.
-- [ ] PR description includes summary of changes and DRC result.
-
----
-
-## Reference Documents
-
-- **Feature Spec:** \docs/features/route-pcb-traces/spec.md\
-- **Technical Plan:** \docs/features/route-pcb-traces/plan.md\
-- **Constitution v4.1.0:** \docs/constitution.md\ (P-HW-07, P-KI-06, P-KI-07, P-DEV-01)
-- **PCB File:** \hardware/kicad/PoE-FanController.kicad_pcb\ (feature baseline)
-- **GND Zone Script:** \hardware/fix_gnd_zones.py\ (to be created in T001)
+| Old Issue | Title | Closed reason |
+|-----------|-------|---------------|
+| [#139](https://github.com/nielsverhoeven/PoE-FanController/issues/139) | T001: Fix GND Zone Net Assignment | OBSOLETE — wrong pad assignments |
+| [#140](https://github.com/nielsverhoeven/PoE-FanController/issues/140) | T002: Route Power Rails | OBSOLETE — wrong pad assignments |
+| [#141](https://github.com/nielsverhoeven/PoE-FanController/issues/141) | T003: Route BOOST_SW Switching Loop | OBSOLETE — wrong pad assignments |
+| [#142](https://github.com/nielsverhoeven/PoE-FanController/issues/142) | T004: Route Fan PWM Signals | OBSOLETE — wrong pad assignments |
+| [#143](https://github.com/nielsverhoeven/PoE-FanController/issues/143) | T005: Route Fan TACH Signals | OBSOLETE — wrong pad assignments |
+| [#144](https://github.com/nielsverhoeven/PoE-FanController/issues/144) | T006: Route LED Signal Chains | OBSOLETE — wrong pad assignments |
+| [#145](https://github.com/nielsverhoeven/PoE-FanController/issues/145) | T007: Route Sensor Signals | OBSOLETE — wrong pad assignments |
+| [#146](https://github.com/nielsverhoeven/PoE-FanController/issues/146) | T008: Route Fan Indicator LED Chains | OBSOLETE — wrong pad assignments |
+| [#147](https://github.com/nielsverhoeven/PoE-FanController/issues/147) | T009: Fill GND Zones and Run DRC | OBSOLETE — wrong pad assignments |
