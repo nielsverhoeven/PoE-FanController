@@ -35,7 +35,7 @@ cyd_y2 = row2_y + 1.5          # +9.19
 lines = []
 a = lines.append
 
-a('(footprint "PinSocket_2x20_P2.54mm_P15.38mm_Vertical"')
+a('(footprint "ESP32-P4-PoE-ETH-PinSocket"')
 a('  (version 20260206)')
 a('  (generator "custom")')
 a('  (generator_version "10.0")')
@@ -46,7 +46,7 @@ a('  (attr through_hole)')
 
 a(f'  (fp_text reference "J" (at 0 {cyd_y1 - 1.0:.3f} 0) (layer "F.SilkS")')
 a('    (effects (font (size 1.27 1.27) (thickness 0.15))))')
-a(f'  (fp_text value "PinSocket_2x20_P2.54mm_P15.38mm_Vertical" (at 0 {cyd_y2 + 1.0:.3f} 0) (layer "F.Fab")')
+a(f'  (fp_text value "ESP32-P4-PoE-ETH-PinSocket" (at 0 {cyd_y2 + 1.0:.3f} 0) (layer "F.Fab")')
 a('    (effects (font (size 1.27 1.27) (thickness 0.15))))')
 
 a(f'  (fp_rect (start {cyd_x1:.3f} {cyd_y1:.3f}) (end {cyd_x2:.3f} {cyd_y2:.3f})')
@@ -88,7 +88,7 @@ a(')')
 out_path = os.path.join(
     os.path.dirname(__file__),
     "..", "kicad", "footprints", "Custom.pretty",
-    "PinSocket_2x20_P2.54mm_P15.38mm_Vertical.kicad_mod"
+    "ESP32-P4-PoE-ETH-PinSocket.kicad_mod"
 )
 out_path = os.path.normpath(out_path)
 with open(out_path, "w", newline="\n") as f:

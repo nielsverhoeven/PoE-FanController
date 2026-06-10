@@ -21,7 +21,7 @@ def write_bom():
     rows = [
         ["Reference","Value","Footprint","Qty","Manufacturer","MPN","Description","Datasheet"],
         # Waveshare ESP32-P4-POE-ETH Interface (2×20 female PinSocket)
-        ["J8","Waveshare_HAT","Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical","1","Sullins","PPPC202LFBN-RC","2×20 2.54mm female THT pin socket — daughter board ↔ Waveshare ESP32-P4-POE-ETH (SKU 32088) interface","https://www.waveshare.com/wiki/ESP32-P4-POE-ETH"],
+        ["J8","Waveshare_HAT","Custom:ESP32-P4-PoE-ETH-PinSocket","1","Sullins","PPPC202LFBN-RC","2×20 2.54mm female THT pin socket — daughter board ↔ Waveshare ESP32-P4-POE-ETH (SKU 32088) interface","https://www.waveshare.com/wiki/ESP32-P4-POE-ETH"],
         # 5V→12V Boost Converter (U1) + external passives
         ["U1","LM2587-12","Package_TO_SOT_THT:TO-220-5_Vertical","1","TI","LM2587T-12/NOPB","5V→12V fixed-12V boost converter, TO-220-5, 1.5A — powers fan +12V rail","https://www.ti.com/lit/ds/symlink/lm2587.pdf"],
         ["L1","100uH","Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC","1","Fastron","MICC-101K-02","100µH axial THT inductor, 0.8A — boost converter catch inductor","~"],

@@ -10,8 +10,8 @@ The daughter board stacks below the Waveshare board via J8 (2x20 female PinSocke
 header) that receives +5V and GPIO signals from the Waveshare board's male header.
 
 Daughter board provides:
-  - J8      2x20 female header (PinSocket_2x20_P2.54mm_Vertical) receiving +5V
-            on pins 2,4,40 (VBUS) — pin 39 (VSYS) left NC (issue #137)
+  - J8      2x20 female header (ESP32-P4-PoE-ETH-PinSocket) receiving +5V
+            on pin 40 (VBUS) — pin 39 (VSYS) left NC (issue #137)
             and GPIO signals from Waveshare ESP32-P4-POE-ETH (SKU 32088)
    # U1 (formerly U_BOOST) — 5V->12V boost converter (TI LM2587-12, TO-220-3)
   - J2-J5   4-pin fan headers (12V PWM, side-edge placement)
@@ -114,7 +114,7 @@ def build_schematic():
     # CRITICAL: row spacing is 15.38mm (NOT standard 2.54mm).
     # Source: docs/kb/ESP32-P4-POE-ETH/ESP32-P4-ETH-details-size-*.webp
     # Board dimensions confirmed: 78.00 x 21.00 mm; pin pitch 2.54mm, row-to-row 15.38mm.
-    # Custom footprint: Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical (in Custom.pretty)
+    # Custom footprint: Custom:ESP32-P4-PoE-ETH-PinSocket (in Custom.pretty)
     #
     # PIN LAYOUT (issue #133): CONSECUTIVE column numbering — NOT alternating/PICO style.
     #   Row A (near edge, 2.81mm from long edge):  pins  1..20  (top → bottom)
@@ -133,7 +133,7 @@ def build_schematic():
     # Row spacing: 15.38mm = 21.00mm board width - 2x2.81mm edge offsets (see P-HW-04)
     # body_w = 10 * 2.54 = 25.4 mm,  body_h = 20 * 2.54 = 50.8 mm
     s.define("Custom:J8_Waveshare", "J", "Waveshare_ESP32P4POEETH",
-             "Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical",
+             "Custom:ESP32-P4-PoE-ETH-PinSocket",
              "https://www.waveshare.com/wiki/ESP32-P4-POE-ETH",
              body_w=25.4, body_h=50.8,
              pins_left=[
@@ -533,7 +533,7 @@ def build_schematic():
     s.text("Waveshare ESP32-P4-POE-ETH  Interface  (J8)",
            22, 112, size=2.54, bold=True, color=BLUE)
     p = s.component("Custom:J8_Waveshare", "J8", "Waveshare_ESP32P4POEETH",
-                    "Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical",
+                    "Custom:ESP32-P4-PoE-ETH-PinSocket",
                     J8_CX, J8_CY)
 
     # --- Row A (pins 1-20, left side) — use angle=180 for global_labels ---
