@@ -4,7 +4,7 @@ generator.components — build_schematic() for PoE FanController v0.6.
 Signal assignments (user-specified overhaul):
   Left column (pins 1-20, bottom→top on physical board):
     Pin 6  → DS18B20_DATA (GPIO2, 1-Wire probe data)
-    Pin 7  → PROBE_LED    (GPIO3, probe health LED)
+    Pin 10 → PROBE_LED    (GPIO5, probe health LED)
     Pin 11 → DHT11_DATA   (GPIO6, DHT11 single-wire)
     Pin 16 → PROG_LED     (GPIO17, OTA/write indicator)
     Pin 17 → PWR_LED      (GPIO18, power-on status LED)
@@ -137,10 +137,10 @@ def build_schematic():
                  ("GND",          "13", "passive"),       # Physical GND
                  ("NC",           "12", "no_connect"),    # GPIO14   — NC
                  ("DHT11_DATA",   "11", "input"),         # GPIO6    — DHT11 single-wire
-                 ("NC",           "10", "no_connect"),    # GPIO5    — NC
+                 ("PROBE_LED",    "10", "output"),        # GPIO5    — probe health LED
                  ("NC",           "9",  "no_connect"),    # GPIO4    — NC
                  ("GND",          "8",  "passive"),       # Physical GND
-                 ("PROBE_LED",    "7",  "output"),        # GPIO3    — probe health LED
+                 ("NC",           "7",  "no_connect"),    # GPIO3    — NC (was PROBE_LED)
                  ("DS18B20_DATA", "6",  "bidirectional"), # GPIO2    — 1-Wire probe data
                  ("NC",           "5",  "no_connect"),    # SCL/GPIO8 — NC
                  ("NC",           "4",  "no_connect"),    # SDA/GPIO7 — NC
@@ -525,7 +525,7 @@ def build_schematic():
     s.global_label("PWR_LED",      *p["17"], shape="output",        angle=180)  # GPIO18
     s.power("GND",  *p["18"])
     s.global_label("DS18B20_DATA", *p["6"],  shape="bidirectional", angle=180)  # GPIO2
-    s.global_label("PROBE_LED",    *p["7"],  shape="output",        angle=180)  # GPIO3
+    s.global_label("PROBE_LED",    *p["10"], shape="output",        angle=180)  # GPIO5
 
     # --- Row B (pins 21-40, right side) — angle=0 for labels extending right ---
     s.power("+5V",  *p["40"], pin_type="power_out")                            # VBUS → boost input
