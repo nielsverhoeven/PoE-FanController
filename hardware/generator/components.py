@@ -12,16 +12,18 @@ Signal assignments (user-specified overhaul):
     All others → NC
 
   Right column (pins 21-40, bottom→top on physical board):
-    Pin 21 → FAN4_TACH  (GPIO48)
-    Pin 22 → FAN4_PWM   (GPIO47)
-    Pin 26 → FAN3_TACH  (GPIO32) NOTE: EMAC_RXD0 — confirm not used by Ethernet PHY
-    Pin 27 → FAN3_PWM   (GPIO27)
-    Pin 32 → FAN2_PWM   (GPIO22)
-    Pin 34 → FAN1_TACH  (GPIO21)
+    Pin 21 → FAN4_PWM  (GPIO48)
+    Pin 22 → FAN4_TACH (GPIO47)
+    Pin 24 → FAN3_PWM  (GPIO46)
+    Pin 25 → FAN3_TACH (GPIO33)
+    Pin 31 → FAN2_PWM  (GPIO23)
+    Pin 32 → FAN2_TACH (GPIO22)
+    Pin 34 → FAN1_PWM  (GPIO21)
+    Pin 35 → FAN1_TACH (GPIO20)
     Pin 36 → +3V3 (SOLE source for pull-ups and sensor VCC)
     Pin 40 → VBUS (+5V, boost converter input)
     Pins 23,28,33,38 → GND
-    All others → NC  (no FAN1_PWM or FAN2_TACH in this design)
+    All others → NC
 
 Power chain:
   J8 pin 40 (VBUS) — +5V to L1/U1 boost converter input
@@ -161,10 +163,10 @@ def build_schematic():
                  ("NC",           "30", "no_connect"),    # RUN      — system control RESERVED
                  ("NC",           "29", "no_connect"),    # GPIO26   — NC
                  ("GND",          "28", "passive"),       # Physical GND
-                 ("FAN3_TACH",    "27", "input"),         # GPIO27   — FAN3 tach IRQ (was PWM)
-                 ("FAN3_PWM",     "26", "output"),        # GPIO32   — FAN3 speed control (was TACH; verify EMAC)
-                 ("NC",           "25", "no_connect"),    # GPIO33   — EMAC_RXD1 FORBIDDEN
-                 ("NC",           "24", "no_connect"),    # GPIO46   — NC
+                 ("FAN3_TACH",    "25", "input"),         # GPIO33   — FAN3 tach (pins 24/25 = FAN3 pair)
+                 ("FAN3_PWM",     "24", "output"),        # GPIO46   — FAN3 speed control
+                 ("NC",           "27", "no_connect"),    # GPIO27   — NC (was FAN3_TACH)
+                 ("NC",           "26", "no_connect"),    # GPIO32   — NC (was FAN3_PWM)
                  ("GND",          "23", "passive"),       # Physical GND
                  ("FAN4_TACH",    "22", "input"),         # GPIO47   — FAN4 tach IRQ (was PWM)
                  ("FAN4_PWM",     "21", "output"),        # GPIO48   — FAN4 speed control (was TACH) bottom-right
@@ -534,8 +536,8 @@ def build_schematic():
     s.power("GND",  *p["33"])
     s.global_label("FAN2_TACH",  *p["32"], shape="input")                       # GPIO22 — FAN2 tach (was PWM)
     s.global_label("FAN2_PWM",   *p["31"], shape="output")                      # GPIO23 — FAN2 PWM  (was TACH)
-    s.global_label("FAN3_TACH",  *p["27"], shape="input")                       # GPIO27 — FAN3 tach (was PWM)
-    s.global_label("FAN3_PWM",   *p["26"], shape="output")                      # GPIO32 — FAN3 PWM  (was TACH; verify EMAC)
+    s.global_label("FAN3_TACH",  *p["25"], shape="input")                       # GPIO33 — FAN3 tach (pins 24/25 pair)
+    s.global_label("FAN3_PWM",   *p["24"], shape="output")                      # GPIO46 — FAN3 PWM
     s.power("GND",  *p["28"])
     s.global_label("FAN4_TACH",  *p["22"], shape="input")                       # GPIO47 — FAN4 tach (was PWM)
     s.global_label("FAN4_PWM",   *p["21"], shape="output")                      # GPIO48 — FAN4 PWM  (was TACH)

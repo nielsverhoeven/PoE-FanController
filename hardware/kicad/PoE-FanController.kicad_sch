@@ -329,19 +329,19 @@
         (pin input line
           (at 15.2400 -8.8900 180) (length 2.5400)
           (name "FAN3_TACH" (effects (font (size 1.27 1.27))))
-          (number "27" (effects (font (size 1.27 1.27)))))
+          (number "25" (effects (font (size 1.27 1.27)))))
         (pin output line
           (at 15.2400 -11.4300 180) (length 2.5400)
           (name "FAN3_PWM" (effects (font (size 1.27 1.27))))
-          (number "26" (effects (font (size 1.27 1.27)))))
+          (number "24" (effects (font (size 1.27 1.27)))))
         (pin no_connect line
           (at 15.2400 -13.9700 180) (length 2.5400)
           (name "NC" (effects (font (size 1.27 1.27))))
-          (number "25" (effects (font (size 1.27 1.27)))))
+          (number "27" (effects (font (size 1.27 1.27)))))
         (pin no_connect line
           (at 15.2400 -16.5100 180) (length 2.5400)
           (name "NC" (effects (font (size 1.27 1.27))))
-          (number "24" (effects (font (size 1.27 1.27)))))
+          (number "26" (effects (font (size 1.27 1.27)))))
         (pin passive line
           (at 15.2400 -19.0500 180) (length 2.5400)
           (name "GND" (effects (font (size 1.27 1.27))))
@@ -2489,10 +2489,10 @@
     (pin "30" (uuid "000000f8-00f8-00f8-00f8-0000000000f8"))
     (pin "29" (uuid "000000f9-00f9-00f9-00f9-0000000000f9"))
     (pin "28" (uuid "000000fa-00fa-00fa-00fa-0000000000fa"))
-    (pin "27" (uuid "000000fb-00fb-00fb-00fb-0000000000fb"))
-    (pin "26" (uuid "000000fc-00fc-00fc-00fc-0000000000fc"))
-    (pin "25" (uuid "000000fd-00fd-00fd-00fd-0000000000fd"))
-    (pin "24" (uuid "000000fe-00fe-00fe-00fe-0000000000fe"))
+    (pin "25" (uuid "000000fb-00fb-00fb-00fb-0000000000fb"))
+    (pin "24" (uuid "000000fc-00fc-00fc-00fc-0000000000fc"))
+    (pin "27" (uuid "000000fd-00fd-00fd-00fd-0000000000fd"))
+    (pin "26" (uuid "000000fe-00fe-00fe-00fe-0000000000fe"))
     (pin "23" (uuid "000000ff-00ff-00ff-00ff-0000000000ff"))
     (pin "22" (uuid "00000100-0100-0100-0100-000000000100"))
     (pin "21" (uuid "00000101-0101-0101-0101-000000000101"))
