@@ -233,11 +233,11 @@
         (pin input line
           (at -15.2400 1.2700 0) (length 2.5400)
           (name "DHT11_DATA" (effects (font (size 1.27 1.27))))
-          (number "11" (effects (font (size 1.27 1.27)))))
+          (number "10" (effects (font (size 1.27 1.27)))))
         (pin output line
           (at -15.2400 -1.2700 0) (length 2.5400)
           (name "PROBE_LED" (effects (font (size 1.27 1.27))))
-          (number "10" (effects (font (size 1.27 1.27)))))
+          (number "11" (effects (font (size 1.27 1.27)))))
         (pin no_connect line
           (at -15.2400 -3.8100 0) (length 2.5400)
           (name "NC" (effects (font (size 1.27 1.27))))
@@ -294,25 +294,25 @@
           (at 15.2400 13.9700 180) (length 2.5400)
           (name "+3V3" (effects (font (size 1.27 1.27))))
           (number "36" (effects (font (size 1.27 1.27)))))
-        (pin output line
-          (at 15.2400 11.4300 180) (length 2.5400)
-          (name "FAN1_PWM" (effects (font (size 1.27 1.27))))
-          (number "34" (effects (font (size 1.27 1.27)))))
         (pin input line
-          (at 15.2400 8.8900 180) (length 2.5400)
+          (at 15.2400 11.4300 180) (length 2.5400)
           (name "FAN1_TACH" (effects (font (size 1.27 1.27))))
+          (number "34" (effects (font (size 1.27 1.27)))))
+        (pin output line
+          (at 15.2400 8.8900 180) (length 2.5400)
+          (name "FAN1_PWM" (effects (font (size 1.27 1.27))))
           (number "35" (effects (font (size 1.27 1.27)))))
         (pin passive line
           (at 15.2400 6.3500 180) (length 2.5400)
           (name "GND" (effects (font (size 1.27 1.27))))
           (number "33" (effects (font (size 1.27 1.27)))))
-        (pin input line
-          (at 15.2400 3.8100 180) (length 2.5400)
-          (name "FAN2_TACH" (effects (font (size 1.27 1.27))))
-          (number "32" (effects (font (size 1.27 1.27)))))
         (pin output line
-          (at 15.2400 1.2700 180) (length 2.5400)
+          (at 15.2400 3.8100 180) (length 2.5400)
           (name "FAN2_PWM" (effects (font (size 1.27 1.27))))
+          (number "32" (effects (font (size 1.27 1.27)))))
+        (pin input line
+          (at 15.2400 1.2700 180) (length 2.5400)
+          (name "FAN2_TACH" (effects (font (size 1.27 1.27))))
           (number "31" (effects (font (size 1.27 1.27)))))
         (pin no_connect line
           (at 15.2400 -1.2700 180) (length 2.5400)
@@ -326,13 +326,13 @@
           (at 15.2400 -6.3500 180) (length 2.5400)
           (name "GND" (effects (font (size 1.27 1.27))))
           (number "28" (effects (font (size 1.27 1.27)))))
-        (pin input line
-          (at 15.2400 -8.8900 180) (length 2.5400)
-          (name "FAN3_TACH" (effects (font (size 1.27 1.27))))
-          (number "25" (effects (font (size 1.27 1.27)))))
         (pin output line
-          (at 15.2400 -11.4300 180) (length 2.5400)
+          (at 15.2400 -8.8900 180) (length 2.5400)
           (name "FAN3_PWM" (effects (font (size 1.27 1.27))))
+          (number "25" (effects (font (size 1.27 1.27)))))
+        (pin input line
+          (at 15.2400 -11.4300 180) (length 2.5400)
+          (name "FAN3_TACH" (effects (font (size 1.27 1.27))))
           (number "24" (effects (font (size 1.27 1.27)))))
         (pin no_connect line
           (at 15.2400 -13.9700 180) (length 2.5400)
@@ -346,13 +346,13 @@
           (at 15.2400 -19.0500 180) (length 2.5400)
           (name "GND" (effects (font (size 1.27 1.27))))
           (number "23" (effects (font (size 1.27 1.27)))))
-        (pin input line
-          (at 15.2400 -21.5900 180) (length 2.5400)
-          (name "FAN4_TACH" (effects (font (size 1.27 1.27))))
-          (number "22" (effects (font (size 1.27 1.27)))))
         (pin output line
-          (at 15.2400 -24.1300 180) (length 2.5400)
+          (at 15.2400 -21.5900 180) (length 2.5400)
           (name "FAN4_PWM" (effects (font (size 1.27 1.27))))
+          (number "22" (effects (font (size 1.27 1.27)))))
+        (pin input line
+          (at 15.2400 -24.1300 180) (length 2.5400)
+          (name "FAN4_TACH" (effects (font (size 1.27 1.27))))
           (number "21" (effects (font (size 1.27 1.27)))))
       )
     )
@@ -508,7 +508,7 @@
           (number "2" (effects (font (size 1.27 1.27)))))
       )
     )
-    (symbol "Custom:DHT11_Breakout"
+    (symbol "Custom:DHT11_Direct"
       (pin_numbers (hide yes))
       (pin_names (offset 0.508))
       (exclude_from_sim no)
@@ -517,10 +517,10 @@
     (property "Reference" "U"
       (at 0.0000 -5.0800 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "DHT11_Breakout"
+    (property "Value" "DHT11_Direct"
       (at 0.0000 5.0800 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+    (property "Footprint" "Custom:DHT11_Direct"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -528,12 +528,12 @@
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
-      (symbol "DHT11_Breakout_0_1"
+      (symbol "DHT11_Direct_0_1"
         (rectangle (start -5.0800 -3.8100) (end 5.0800 3.8100)
           (stroke (width 0) (type default))
           (fill (type background)))
       )
-      (symbol "DHT11_Breakout_1_1"
+      (symbol "DHT11_Direct_1_1"
         (pin power_in line
           (at -7.6200 2.5400 0) (length 2.5400)
           (name "VCC" (effects (font (size 1.27 1.27))))
@@ -2135,7 +2135,7 @@
     (effects (font (color 0 0 255 1) (bold yes) (size 2.54 2.54)))
     (uuid "000000b4-00b4-00b4-00b4-0000000000b4"))
 
-  (symbol (lib_id "Custom:Conn_1x03") (at 175.2600 264.1600 0)
+  (symbol (lib_id "Custom:DHT11_Direct") (at 175.2600 264.1600 0)
     (unit 1) (exclude_from_sim no) (in_bom yes) (on_board yes) (dnp no)
     (uuid "000000b8-00b8-00b8-00b8-0000000000b8")
     (property "Reference" "HUM1"
@@ -2144,7 +2144,7 @@
     (property "Value" "DHT11_Direct"
       (at 176.5300 265.4300 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+    (property "Footprint" "Custom:DHT11_Direct"
       (at 175.2600 264.1600 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -2465,8 +2465,8 @@
     (pin "14" (uuid "000000e0-00e0-00e0-00e0-0000000000e0"))
     (pin "13" (uuid "000000e1-00e1-00e1-00e1-0000000000e1"))
     (pin "12" (uuid "000000e2-00e2-00e2-00e2-0000000000e2"))
-    (pin "11" (uuid "000000e3-00e3-00e3-00e3-0000000000e3"))
-    (pin "10" (uuid "000000e4-00e4-00e4-00e4-0000000000e4"))
+    (pin "10" (uuid "000000e3-00e3-00e3-00e3-0000000000e3"))
+    (pin "11" (uuid "000000e4-00e4-00e4-00e4-0000000000e4"))
     (pin "9" (uuid "000000e5-00e5-00e5-00e5-0000000000e5"))
     (pin "8" (uuid "000000e6-00e6-00e6-00e6-0000000000e6"))
     (pin "7" (uuid "000000e7-00e7-00e7-00e7-0000000000e7"))
@@ -2708,8 +2708,8 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR040") (unit 1))))
   )
 
-  (global_label "FAN1_TACH"
-    (shape input)
+  (global_label "FAN1_PWM"
+    (shape output)
     (at 106.6800 143.5100 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2719,8 +2719,8 @@
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
   )
 
-  (global_label "FAN1_PWM"
-    (shape output)
+  (global_label "FAN1_TACH"
+    (shape input)
     (at 106.6800 140.9700 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2752,8 +2752,8 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR041") (unit 1))))
   )
 
-  (global_label "FAN2_TACH"
-    (shape input)
+  (global_label "FAN2_PWM"
+    (shape output)
     (at 106.6800 148.5900 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2763,8 +2763,8 @@
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
   )
 
-  (global_label "FAN2_PWM"
-    (shape output)
+  (global_label "FAN2_TACH"
+    (shape input)
     (at 106.6800 151.1300 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2774,8 +2774,8 @@
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
   )
 
-  (global_label "FAN3_TACH"
-    (shape input)
+  (global_label "FAN3_PWM"
+    (shape output)
     (at 106.6800 161.2900 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2785,8 +2785,8 @@
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
   )
 
-  (global_label "FAN3_PWM"
-    (shape output)
+  (global_label "FAN3_TACH"
+    (shape input)
     (at 106.6800 163.8300 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2818,8 +2818,8 @@
     (instances (project "PoE-FanController" (path "/" (reference "#PWR042") (unit 1))))
   )
 
-  (global_label "FAN4_TACH"
-    (shape input)
+  (global_label "FAN4_PWM"
+    (shape output)
     (at 106.6800 173.9900 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
@@ -2829,8 +2829,8 @@
       (effects (font (size 1.27 1.27)) (justify left) (hide yes)))
   )
 
-  (global_label "FAN4_PWM"
-    (shape output)
+  (global_label "FAN4_TACH"
+    (shape input)
     (at 106.6800 176.5300 0)
     (fields_autoplaced yes)
     (effects (font (size 1.27 1.27)) (justify left))
