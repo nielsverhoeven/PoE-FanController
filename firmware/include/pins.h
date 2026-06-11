@@ -20,39 +20,39 @@
 // arduino-esp32 3.x API: ledcAttach(pin, freq, bits) / ledcWrite(pin, duty)
 // ---------------------------------------------------------------------------
 #ifndef FAN1_PWM_PIN
-#define FAN1_PWM_PIN  4   ///< GPIO4  LEDC CH0
+#define FAN1_PWM_PIN  20  ///< GPIO20 LEDC CH0  (J8 pin 35)
 #endif
 #ifndef FAN2_PWM_PIN
-#define FAN2_PWM_PIN  5   ///< GPIO5  LEDC CH1
+#define FAN2_PWM_PIN  22  ///< GPIO22 LEDC CH1  (J8 pin 32)
 #endif
 #ifndef FAN3_PWM_PIN
-#define FAN3_PWM_PIN  6   ///< GPIO6  LEDC CH2
+#define FAN3_PWM_PIN  33  ///< GPIO33 LEDC CH2  (J8 pin 25)
 #endif
 #ifndef FAN4_PWM_PIN
-#define FAN4_PWM_PIN  7   ///< GPIO7  LEDC CH3
+#define FAN4_PWM_PIN  47  ///< GPIO47 LEDC CH3  (J8 pin 22)
 #endif
 
 // ---------------------------------------------------------------------------
 // Fan tachometer inputs — GPIO interrupt (open-drain, pull-up required)
 // ---------------------------------------------------------------------------
 #ifndef FAN1_TACH_PIN
-#define FAN1_TACH_PIN  8   ///< GPIO8
+#define FAN1_TACH_PIN  21  ///< GPIO21  (J8 pin 34)
 #endif
 #ifndef FAN2_TACH_PIN
-#define FAN2_TACH_PIN  9   ///< GPIO9
+#define FAN2_TACH_PIN  23  ///< GPIO23  (J8 pin 31)
 #endif
 #ifndef FAN3_TACH_PIN
-#define FAN3_TACH_PIN  10  ///< GPIO10
+#define FAN3_TACH_PIN  46  ///< GPIO46  (J8 pin 24)
 #endif
 #ifndef FAN4_TACH_PIN
-#define FAN4_TACH_PIN  11  ///< GPIO11
+#define FAN4_TACH_PIN  48  ///< GPIO48  (J8 pin 21)
 #endif
 
 // ---------------------------------------------------------------------------
 // DHT11 temperature + humidity sensor (replaces NTC1/R4, issue #135)
 // ---------------------------------------------------------------------------
 #ifndef DHT11_DATA_PIN
-#define DHT11_DATA_PIN  16  ///< GPIO16 — DHT11 single-wire data (GPIO16, J8 pin 23)
+#define DHT11_DATA_PIN  5   ///< GPIO5 — DHT11 single-wire data (GPIO5, J8 pin 10)
 #endif
 
 // ---------------------------------------------------------------------------
@@ -70,13 +70,13 @@
 
 // ---------------------------------------------------------------------------
 // DS18B20 external temperature probe (Issue #97, constitution v3.3.0)
-// J8 left pin 27 = DS18B20_DATA (GPIO19), J8 right pin 28 = PROBE_LED (GPIO20)
+// J8 left pin 19 = DS18B20_DATA (GPIO19), J8 pin 11 = PROBE_LED (GPIO6)
 // ---------------------------------------------------------------------------
 #ifndef DS18B20_DATA_PIN
-#define DS18B20_DATA_PIN  19  ///< GPIO19 — 1-Wire DATA, J8 left pin 27; 4.7 kΩ pull-up R14 on PCB
+#define DS18B20_DATA_PIN  19  ///< GPIO19 — 1-Wire DATA, J8 left pin 19; 4.7 kΩ pull-up R14 on PCB
 #endif
 #ifndef PROBE_LED_PIN
-#define PROBE_LED_PIN     20  ///< GPIO20 — Status_LED_5 (probe health), J8 right pin 28; 330 Ω series R15
+#define PROBE_LED_PIN      6  ///< GPIO6 — Status_LED_5 (probe health), J8 pin 11; 330 Ω series R15
 #endif
 
 // ---------------------------------------------------------------------------
@@ -110,10 +110,10 @@
 // DS18B20 external temperature probe — 1-Wire bus + status LED
 // ---------------------------------------------------------------------------
 #ifndef DS18B20_DATA_PIN
-#define DS18B20_DATA_PIN  19  ///< GPIO19 — 1-Wire DATA, J8 left pin 27; 4.7kΩ pull-up R14 on PCB
+#define DS18B20_DATA_PIN  19  ///< GPIO19 — 1-Wire DATA, J8 left pin 19; 4.7kΩ pull-up R14 on PCB
 #endif
 #ifndef PROBE_LED_PIN
-#define PROBE_LED_PIN     20  ///< GPIO20 — Status_LED_5 (probe health), J8 right pin 28; 330Ω series R15
+#define PROBE_LED_PIN      6  ///< GPIO6 — Status_LED_5 (probe health), J8 pin 11; 330Ω series R15
 #endif
 
 // ---------------------------------------------------------------------------

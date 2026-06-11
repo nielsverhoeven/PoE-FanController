@@ -15,23 +15,23 @@
 // ---------------------------------------------------------------------------
 void test_fan_pwm_pins()
 {
-    TEST_ASSERT_EQUAL(4,  FAN1_PWM_PIN);
-    TEST_ASSERT_EQUAL(5,  FAN2_PWM_PIN);
-    TEST_ASSERT_EQUAL(6,  FAN3_PWM_PIN);
-    TEST_ASSERT_EQUAL(7,  FAN4_PWM_PIN);
+    TEST_ASSERT_EQUAL(20, FAN1_PWM_PIN);
+    TEST_ASSERT_EQUAL(22, FAN2_PWM_PIN);
+    TEST_ASSERT_EQUAL(33, FAN3_PWM_PIN);
+    TEST_ASSERT_EQUAL(47, FAN4_PWM_PIN);
 }
 
 void test_fan_tach_pins()
 {
-    TEST_ASSERT_EQUAL(8,  FAN1_TACH_PIN);
-    TEST_ASSERT_EQUAL(9,  FAN2_TACH_PIN);
-    TEST_ASSERT_EQUAL(10, FAN3_TACH_PIN);
-    TEST_ASSERT_EQUAL(11, FAN4_TACH_PIN);
+    TEST_ASSERT_EQUAL(21, FAN1_TACH_PIN);
+    TEST_ASSERT_EQUAL(23, FAN2_TACH_PIN);
+    TEST_ASSERT_EQUAL(46, FAN3_TACH_PIN);
+    TEST_ASSERT_EQUAL(48, FAN4_TACH_PIN);
 }
 
 void test_adc_and_misc_pins()
 {
-    TEST_ASSERT_EQUAL(16, DHT11_DATA_PIN);
+    TEST_ASSERT_EQUAL(5,  DHT11_DATA_PIN);
     TEST_ASSERT_EQUAL(2,  STATUS_LED_PIN);
     TEST_ASSERT_EQUAL(15, PROG_LED_PIN);
     TEST_ASSERT_EQUAL(0,  BOOT_PIN);
@@ -90,7 +90,7 @@ void test_no_rmii_collision()
 }
 
 // ---------------------------------------------------------------------------
-// DS18B20 probe pin checks — GPIO19 / GPIO20
+// DS18B20 probe pin checks — GPIO19 / GPIO6
 // ---------------------------------------------------------------------------
 void test_gpio19_no_conflict()
 {
@@ -107,9 +107,9 @@ void test_gpio19_no_conflict()
     }
 }
 
-void test_gpio20_no_conflict()
+void test_probe_led_no_conflict()
 {
-    // GPIO20 (PROBE_LED_PIN) must not equal any existing pin constant
+    // GPIO6 (PROBE_LED_PIN) must not equal any existing pin constant
     const int existing[] = {
         FAN1_PWM_PIN,  FAN2_PWM_PIN,  FAN3_PWM_PIN,  FAN4_PWM_PIN,
         FAN1_TACH_PIN, FAN2_TACH_PIN, FAN3_TACH_PIN, FAN4_TACH_PIN,
@@ -118,14 +118,14 @@ void test_gpio20_no_conflict()
     };
     for (int i = 0; i < (int)(sizeof(existing)/sizeof(existing[0])); i++) {
         TEST_ASSERT_NOT_EQUAL_MESSAGE(PROBE_LED_PIN, existing[i],
-            "GPIO20 (PROBE_LED_PIN) conflicts with existing pin constant");
+            "GPIO6 (PROBE_LED_PIN) conflicts with existing pin constant");
     }
 }
 
-void test_gpio19_gpio20_distinct()
+void test_ds18b20_probe_led_distinct()
 {
     TEST_ASSERT_NOT_EQUAL_MESSAGE(DS18B20_DATA_PIN, PROBE_LED_PIN,
-        "DS18B20_DATA_PIN (GPIO19) and PROBE_LED_PIN (GPIO20) must be distinct");
+        "DS18B20_DATA_PIN (GPIO19) and PROBE_LED_PIN (GPIO6) must be distinct");
 }
 
 // ---------------------------------------------------------------------------
@@ -156,8 +156,8 @@ int main(int argc, char** argv)
     RUN_TEST(test_no_rmii_collision);
     RUN_TEST(test_fan_pwm_params);
     RUN_TEST(test_gpio19_no_conflict);
-    RUN_TEST(test_gpio20_no_conflict);
-    RUN_TEST(test_gpio19_gpio20_distinct);
+    RUN_TEST(test_probe_led_no_conflict);
+    RUN_TEST(test_ds18b20_probe_led_distinct);
 
     return UNITY_END();
 }
