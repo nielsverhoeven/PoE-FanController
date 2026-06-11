@@ -113,6 +113,7 @@ Never guess about component selection, ESP32 peripheral configuration, or PoE co
 - Maintain ≥ 1.5 kV isolation between PoE input and low-voltage side (per constitution)
 - Run ERC after every schematic change: `kicad-cli sch erc hardware/kicad/PoE-FanController.kicad_sch`
 - Run DRC after every layout change: `kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb`
+- **After any net reassignment in `components.py`: use the `update-ratnests` skill** (`.github/skills/update-ratnests/SKILL.md`) to sync the PCB ratsnest.
 
 #### CRITICAL — Symbol pin numbers must match footprint pad numbers
 

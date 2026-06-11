@@ -115,6 +115,17 @@ kicad-cli pcb drc hardware/kicad/PoE-FanController.kicad_pcb --output drc-report
 kicad-cli pcb export gerbers hardware/kicad/PoE-FanController.kicad_pcb --output hardware/gerbers/
 ```
 
+### Ratsnest / Net Synchronisation
+
+When net assignments change in `components.py`, always direct the implementer to use the
+**`update-ratnests` skill** (`.github/skills/update-ratnests/SKILL.md`) to apply the changes
+to the PCB. The workflow is:
+1. Edit `components.py` (both the `s.define()` pin list **and** the `s.global_label()` calls)
+2. Run `python hardware/generate_project.py`
+3. Export netlist via `kicad-cli sch export netlist`
+4. Import nets via `import_netlist.py` (full) or the surgical pcbnew snippet (1–3 pads)
+5. Verify with pcbnew + DRC
+
 ---
 
 ## Response Format
