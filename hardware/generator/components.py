@@ -69,9 +69,10 @@ def build_schematic():
              pins_left=[("~",  "1", "passive")],
              pins_right=[("~", "2", "passive")])
 
-    # Schottky catch diode D1 — SS54, BOOST_SW node to +12V output rail.
-    s.define("Custom:Diode_Schottky", "D", "SS54",
-             "Diode_SMD:D_SMA",
+    # Schottky catch diode D1 — 1N5822 (40V/3A, DO-27 axial through-hole),
+    # BOOST_SW node to +12V output rail. Replaces SS54 SMA for hand-soldering.
+    s.define("Custom:Diode_Schottky", "D", "1N5822",
+             "Diode_THT:D_DO-27_P12.70mm_Horizontal",
              "~",
              body_w=5.08, body_h=2.54,
              pins_left=[("A", "1", "passive")],
@@ -321,8 +322,8 @@ def build_schematic():
     s.power("GND",       *pU1["5"])                         # right pin 5 — OSC bypass to GND
 
     # D1 — catch diode: BOOST_SW (anode/pin 1) → +12V (cathode/pin 2)
-    pD1 = s.component("Custom:Diode_Schottky", "D1", "SS54",
-                      "Diode_SMD:D_SMA",
+    pD1 = s.component("Custom:Diode_Schottky", "D1", "1N5822",
+                      "Diode_THT:D_DO-27_P12.70mm_Horizontal",
                       D1_CX, BOOST_ROW_Y)
     s.label("BOOST_SW",  *pD1["1"], angle=180)              # left  pin 1 — anode
     s.power("+12V",      *pD1["2"], pin_type="power_out")   # right pin 2 — cathode → +12V

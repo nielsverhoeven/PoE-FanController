@@ -105,10 +105,10 @@
     (property "Reference" "D"
       (at 0.0000 -2.5400 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "SS54"
+    (property "Value" "1N5822"
       (at 0.0000 2.5400 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Diode_SMD:D_SMA"
+    (property "Footprint" "Diode_THT:D_DO-27_P12.70mm_Horizontal"
       (at 0.0000 0.0000 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
@@ -917,10 +917,10 @@
     (property "Reference" "D1"
       (at 245.1100 69.8500 0)
       (effects (font (size 1.27 1.27))))
-    (property "Value" "SS54"
+    (property "Value" "1N5822"
       (at 245.1100 72.3900 0)
       (effects (font (size 1.27 1.27))))
-    (property "Footprint" "Diode_SMD:D_SMA"
+    (property "Footprint" "Diode_THT:D_DO-27_P12.70mm_Horizontal"
       (at 243.8400 71.1200 0)
       (hide yes)
       (effects (font (size 1.27 1.27))))
