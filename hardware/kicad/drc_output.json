@@ -1,251 +1,90 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-11T00:28:58 **
+** Created on 2026-06-11T09:59:29 **
 ** Report includes: Errors, Warnings **
 
-** Found 73 DRC violations **
-[shorting_items]: Items shorting two nets (nets FAN4_PWM and FAN4_TACH)
-    Local override; error
-    @(55.5000 mm, 40.0000 mm): Track [FAN4_PWM] on F.Cu, length 26.6200 mm
-    @(55.0000 mm, 64.0800 mm): Via [FAN4_TACH] on F.Cu - B.Cu
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(6.0000 mm, 15.5800 mm): Track [/LED_A] on F.Cu, length 4.3800 mm
-    @(16.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 11.0000 mm
-[shorting_items]: Items shorting two nets (nets FAN2_TACH and +12V)
-    Local override; error
-    @(73.1200 mm, 37.0800 mm): PTH pad 3 [FAN2_TACH] of J3
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-[shorting_items]: Items shorting two nets (nets BOOST_SW and +5V)
-    Local override; error
-    @(59.5000 mm, 8.0500 mm): PTH pad 3 [BOOST_SW] of U1
-    @(41.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 20.2000 mm
-[shorting_items]: Items shorting two nets (nets FAN3_TACH and FAN3_PWM_A)
-    Local override; error
-    @(55.5000 mm, 51.0800 mm): Track [FAN3_TACH] on B.Cu, length 17.6200 mm
-    @(59.1200 mm, 51.0000 mm): PTH pad 1 [FAN3_PWM_A] of D4
-[shorting_items]: Items shorting two nets (nets GND and DHT11_DATA)
-    Local override; error
-    @(6.0000 mm, 44.5400 mm): PTH pad 2 [GND] of LED6
-    @(5.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 49.5400 mm
-[shorting_items]: Items shorting two nets (nets FAN2_TACH and FAN2_PWM_A)
-    Local override; error
-    @(55.5000 mm, 37.0800 mm): Track [FAN2_TACH] on B.Cu, length 17.6200 mm
-    @(59.1200 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM_A] of D3
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(16.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 11.0000 mm
-    @(11.0000 mm, 15.5800 mm): Track [/PROG_LED_A] on F.Cu, length 4.3800 mm
-[shorting_items]: Items shorting two nets (nets FAN1_PWM and FAN1_PWM_A)
-    Local override; error
-    @(58.0000 mm, 25.5800 mm): Track [FAN1_PWM] on F.Cu, length 15.1200 mm
-    @(59.1200 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM_A] of D2
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1931 mm)
-    Rule: netclass 'Default'; error
-    @(54.1200 mm, 63.0000 mm): PTH pad 2 [FAN4_PWM_A] of R12
-    @(55.0000 mm, 64.0800 mm): Via [FAN4_TACH] on F.Cu - B.Cu
-[shorting_items]: Items shorting two nets (nets BOOST_SW and +5V)
-    Local override; error
-    @(59.5000 mm, 4.5000 mm): Track [BOOST_SW] on F.Cu, length 3.5500 mm
-    @(41.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 20.2000 mm
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(45.5000 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 2.3100 mm
-    @(33.5000 mm, 39.0000 mm): Track [FAN3_PWM] on F.Cu, length 22.5000 mm
-[shorting_items]: Items shorting two nets (nets BOOST_SW and +5V)
-    Local override; error
-    @(57.8000 mm, 8.0500 mm): Track [BOOST_SW] on F.Cu, length 1.7000 mm
-    @(41.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 20.2000 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0950 mm)
-    Rule: netclass 'Default'; error
-    @(59.1200 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM_A] of D2
-    @(58.0000 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 8.2100 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,1550 mm)
-    Rule: netclass 'Default'; error
-    @(46.5000 mm, 63.0000 mm): PTH pad 1 [FAN4_PWM] of R12
-    @(40.0000 mm, 64.0800 mm): Track [FAN4_TACH] on F.Cu, length 15.0000 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0550 mm)
-    Rule: netclass 'Default'; error
-    @(59.1200 mm, 63.0000 mm): PTH pad 1 [FAN4_PWM_A] of D5
-    @(55.0000 mm, 64.0800 mm): Track [FAN4_TACH] on B.Cu, length 18.1200 mm
-[tracks_crossing]: Tracks crossing
-    Rule: netclass 'Default'; error
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 12.3100 mm
-    @(33.5000 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 6.3900 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0050 mm)
-    Rule: netclass 'Default'; error
+** Found 38 DRC violations **
+[clearance]: Clearance violation (rule 'Board minimums' clearance 0,2000 mm; actual 0,0050 mm)
+    Rule: Board minimums; error
     @(17.8100 mm, 37.6900 mm): Track [PROBE_LED] on F.Cu, length 11.8100 mm
     @(6.0000 mm, 38.6200 mm): PTH pad 2 [/PROBE_LED_A] of R15
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0929 mm)
-    Rule: netclass 'Default'; error
-    @(46.5000 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM] of R10
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 12.3100 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0929 mm)
-    Rule: netclass 'Default'; error
-    @(46.5000 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM] of R10
-    @(45.5000 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 2.3100 mm
-[clearance]: Clearance violation (netclass 'Default' clearance 0,2000 mm; actual 0,0050 mm)
-    Rule: netclass 'Default'; error
+[clearance]: Clearance violation (rule 'Board minimums' clearance 0,2000 mm; actual 0,0050 mm)
+    Rule: Board minimums; error
     @(6.0000 mm, 38.6200 mm): PTH pad 2 [/PROBE_LED_A] of R15
     @(6.0000 mm, 37.6900 mm): Track [PROBE_LED] on F.Cu, length 6.6900 mm
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(41.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 20.2000 mm
-    @(56.1000 mm, 8.0500 mm): PTH pad 5 [GND] of U1
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(41.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 20.2000 mm
-    @(59.5000 mm, 8.0500 mm): PTH pad 3 [BOOST_SW] of U1
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(41.0000 mm, 9.0000 mm): Track [+5V] on F.Cu, length 20.2000 mm
-    @(57.8000 mm, 8.0500 mm): PTH pad 4 [BOOST_SW] of U1
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 32.0000 mm): PTH pad 1 [GND] of J3
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(5.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 49.5400 mm
-    @(6.0000 mm, 38.6200 mm): PTH pad 2 [/PROBE_LED_A] of R15
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(5.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 49.5400 mm
-    @(6.0000 mm, 42.0000 mm): PTH pad 1 [/PROBE_LED_A] of LED6
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(5.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 49.5400 mm
-    @(6.0000 mm, 44.5400 mm): PTH pad 2 [GND] of LED6
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 17.9600 mm): PTH pad 1 [GND] of J2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(5.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 49.5400 mm
-    @(6.0000 mm, 19.9600 mm): PTH pad 1 [/LED_A] of LED1
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(55.5000 mm, 51.0800 mm): Track [FAN3_TACH] on B.Cu, length 17.6200 mm
-    @(59.1200 mm, 51.0000 mm): PTH pad 1 [FAN3_PWM_A] of D4
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(55.5000 mm, 51.0800 mm): Track [FAN3_TACH] on B.Cu, length 17.6200 mm
-    @(61.6600 mm, 51.0000 mm): PTH pad 2 [GND] of D4
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.0000 mm, 11.5000 mm): PTH pad 2 [GND] of C2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(33.1900 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 12.3100 mm
-    @(46.5000 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM] of R10
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(55.5000 mm, 37.0800 mm): Track [FAN2_TACH] on B.Cu, length 17.6200 mm
-    @(59.1200 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM_A] of D3
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(55.5000 mm, 37.0800 mm): Track [FAN2_TACH] on B.Cu, length 17.6200 mm
-    @(61.6600 mm, 37.5000 mm): PTH pad 2 [GND] of D3
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(58.0000 mm, 25.5800 mm): Track [FAN1_PWM] on F.Cu, length 15.1200 mm
-    @(59.1200 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM_A] of D2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(58.0000 mm, 25.5800 mm): Track [FAN1_PWM] on F.Cu, length 15.1200 mm
-    @(61.6600 mm, 25.0000 mm): PTH pad 2 [GND] of D2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(5.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 49.5400 mm
-    @(6.0000 mm, 22.5000 mm): PTH pad 2 [GND] of LED1
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(5.0000 mm, 18.0000 mm): Track [DHT11_DATA] on F.Cu, length 49.5400 mm
-    @(6.0000 mm, 31.0000 mm): PTH pad 1 [PROBE_LED] of R15
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(45.5000 mm, 37.6900 mm): Track [FAN4_PWM] on F.Cu, length 2.3100 mm
-    @(46.5000 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM] of R10
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 59.0000 mm): PTH pad 1 [GND] of J5
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(58.0000 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 8.2100 mm
-    @(59.1200 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM_A] of D2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 64.0800 mm): PTH pad 3 [FAN4_TACH] of J5
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 66.6200 mm): PTH pad 4 [FAN4_PWM] of J5
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(33.5000 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 6.3900 mm
-    @(33.1900 mm, 37.6900 mm): PTH pad 27 [FAN4_PWM] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 46.0000 mm): PTH pad 1 [GND] of J4
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 51.0800 mm): PTH pad 3 [FAN3_TACH] of J4
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(33.5000 mm, 32.6100 mm): Track [FAN3_PWM] on F.Cu, length 6.3900 mm
-    @(33.1900 mm, 35.1500 mm): PTH pad 28 [GND] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 53.6200 mm): PTH pad 4 [FAN3_PWM] of J4
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(55.0000 mm, 64.0800 mm): Track [FAN4_TACH] on B.Cu, length 18.1200 mm
-    @(59.1200 mm, 63.0000 mm): PTH pad 1 [FAN4_PWM_A] of D5
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 37.0800 mm): PTH pad 3 [FAN2_TACH] of J3
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(57.0000 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 19.7100 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(33.1900 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 23.8100 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(57.0000 mm, 39.6200 mm): Track [FAN2_PWM] on F.Cu, length 16.1200 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(9.9600 mm, 40.3800 mm): Track [DS18B20_DATA] on F.Cu, length 14.6400 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(12.5000 mm, 40.3800 mm): Track [DS18B20_DATA] on F.Cu, length 2.5400 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(17.8100 mm, 40.2300 mm): Track [DS18B20_DATA] on F.Cu, length 5.3100 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(43.0000 mm, 23.0400 mm): Track [FAN1_TACH] on B.Cu, length 30.1200 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(43.0000 mm, 24.9900 mm): Track [FAN1_TACH] on B.Cu, length 1.9500 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(33.1900 mm, 24.9900 mm): Track [FAN1_TACH] on B.Cu, length 9.8100 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(19.0000 mm, 14.8300 mm): Track [PROG_LED] on F.Cu, length 8.8300 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(19.0000 mm, 6.0000 mm): Track [PROG_LED] on F.Cu, length 8.0000 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(11.0000 mm, 6.0000 mm): Track [PROG_LED] on F.Cu, length 1.9600 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(17.8100 mm, 14.8300 mm): Track [PROG_LED] on F.Cu, length 1.1900 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(17.8100 mm, 37.6900 mm): Track [PROBE_LED] on F.Cu, length 11.8100 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(6.0000 mm, 37.6900 mm): Track [PROBE_LED] on F.Cu, length 6.6900 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(16.0000 mm, 37.6900 mm): Track [PROBE_LED] on B.Cu, length 1.8100 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(33.1900 mm, 52.9300 mm): Track [PROBE_LED] on B.Cu, length 2.0700 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(16.0000 mm, 55.0000 mm): Track [PROBE_LED] on B.Cu, length 17.3100 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(33.1900 mm, 55.0000 mm): Track [PROBE_LED] on B.Cu, length 17.1900 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(6.0000 mm, 38.6200 mm): Track [/PROBE_LED_A] on F.Cu, length 3.3800 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(6.0000 mm, 12.2900 mm): Track [PWR_LED] on F.Cu, length 4.3300 mm
+[track_width]: Track width (rule 'Board minimums' min width 0,4000 mm; actual 0,2500 mm)
+    Rule: Board minimums; error
+    @(17.8100 mm, 12.2900 mm): Track [PWR_LED] on F.Cu, length 11.8100 mm
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(17.8100 mm, 37.6900 mm): Track [PROBE_LED] on F.Cu, length 11.8100 mm
     @(6.0000 mm, 38.6200 mm): PTH pad 2 [/PROBE_LED_A] of R15
 [solder_mask_bridge]: Front solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 39.6200 mm): PTH pad 4 [FAN2_PWM] of J3
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
     @(6.0000 mm, 37.6900 mm): Track [PROBE_LED] on F.Cu, length 6.6900 mm
     @(6.0000 mm, 38.6200 mm): PTH pad 2 [/PROBE_LED_A] of R15
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 23.0400 mm): PTH pad 3 [FAN1_TACH] of J2
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(74.0000 mm, 9.0000 mm): Track [+12V] on F.Cu, length 58.0000 mm
-    @(73.1200 mm, 25.5800 mm): PTH pad 4 [FAN1_PWM] of J2
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(55.0000 mm, 64.0800 mm): Track [FAN4_TACH] on B.Cu, length 18.1200 mm
-    @(61.6600 mm, 63.0000 mm): PTH pad 2 [GND] of D5
-[track_dangling]: Track has unconnected end
-    Local override; warning
-    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 20.9300 mm
-[hole_to_hole]: Drilled hole too close to other hole (board setup constraints min 0,2495 mm; actual 0,0000 mm)
-    Rule: board setup constraints; warning
-    @(12.5000 mm, 48.0000 mm): PTH pad 1 [+3V3] of R14
-    @(13.0000 mm, 48.0000 mm): Via [+3V3] on F.Cu - B.Cu
-[hole_to_hole]: Drilled hole too close to other hole (board setup constraints min 0,2495 mm; actual 0,0000 mm)
-    Rule: board setup constraints; warning
-    @(12.5000 mm, 48.0000 mm): PTH pad 1 [+3V3] of R14
-    @(13.0000 mm, 48.0000 mm): Via [+3V3] on F.Cu - B.Cu
 [lib_footprint_issues]: The current configuration does not include the footprint library 'Logos'
     Local override; warning
     @(25.5000 mm, 65.5000 mm): Footprint G***
@@ -293,7 +132,11 @@
     @(54.1200 mm, 62.0000 mm): Reference field of R8
     @(54.1200 mm, 63.0000 mm): PTH pad 2 [FAN4_PWM_A] of R12
 
-** Found 40 unconnected pads **
+** Found 56 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(6.0000 mm, 15.5800 mm): PTH pad 2 [/LED_A] of R3
+    @(6.0000 mm, 19.9600 mm): PTH pad 1 [/LED_A] of LED1
 [unconnected_items]: Missing connection between items
     Local override; error
     @(6.0000 mm, 22.5000 mm): PTH pad 2 [GND] of LED1
@@ -392,6 +235,18 @@
     @(61.6600 mm, 25.0000 mm): PTH pad 2 [GND] of D2
 [unconnected_items]: Missing connection between items
     Local override; error
+    @(41.0000 mm, 4.5000 mm): Track [+5V] on F.Cu, length 4.5000 mm
+    @(61.2000 mm, 8.0500 mm): PTH pad 2 [+5V] of U1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(51.1600 mm, 4.5000 mm): Track [BOOST_SW] on F.Cu, length 17.3400 mm
+    @(57.8000 mm, 8.0500 mm): PTH pad 4 [BOOST_SW] of U1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(57.8000 mm, 8.0500 mm): PTH pad 4 [BOOST_SW] of U1
+    @(59.5000 mm, 8.0500 mm): PTH pad 3 [BOOST_SW] of U1
+[unconnected_items]: Missing connection between items
+    Local override; error
     @(54.1200 mm, 51.0000 mm): PTH pad 2 [FAN3_PWM_A] of R11
     @(59.1200 mm, 51.0000 mm): PTH pad 1 [FAN3_PWM_A] of D4
 [unconnected_items]: Missing connection between items
@@ -400,16 +255,36 @@
     @(59.1200 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM_A] of D3
 [unconnected_items]: Missing connection between items
     Local override; error
+    @(73.0000 mm, 9.0000 mm): PTH pad 1 [+12V] of C2
+    @(73.1200 mm, 20.5000 mm): PTH pad 2 [+12V] of J2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(73.1200 mm, 20.5000 mm): PTH pad 2 [+12V] of J2
+    @(73.1200 mm, 34.5400 mm): PTH pad 2 [+12V] of J3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(73.1200 mm, 34.5400 mm): PTH pad 2 [+12V] of J3
+    @(73.1200 mm, 48.5400 mm): PTH pad 2 [+12V] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(73.1200 mm, 48.5400 mm): PTH pad 2 [+12V] of J4
+    @(73.1200 mm, 61.5400 mm): PTH pad 2 [+12V] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.1900 mm, 27.5300 mm): PTH pad 31 [FAN2_TACH] of J8
     @(46.5000 mm, 33.5000 mm): PTH pad 2 [FAN2_TACH] of R6
-    @(42.0000 mm, 37.0800 mm): Track [FAN2_TACH] on B.Cu, length 3.0000 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(46.5000 mm, 33.5000 mm): PTH pad 2 [FAN2_TACH] of R6
+    @(73.1200 mm, 37.0800 mm): PTH pad 3 [FAN2_TACH] of J3
 [unconnected_items]: Missing connection between items
     Local override; error
     @(46.5000 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM] of R10
     @(57.0000 mm, 19.9100 mm): Track [FAN2_PWM] on F.Cu, length 19.7100 mm
 [unconnected_items]: Missing connection between items
     Local override; error
+    @(43.0000 mm, 14.8300 mm): Track [+3V3] on B.Cu, length 12.8300 mm
     @(54.1200 mm, 21.5000 mm): PTH pad 1 [+3V3] of R5
-    @(33.1900 mm, 14.8300 mm): Track [+3V3] on F.Cu, length 20.9300 mm
 [unconnected_items]: Missing connection between items
     Local override; error
     @(54.1200 mm, 33.5000 mm): PTH pad 1 [+3V3] of R6
@@ -424,38 +299,447 @@
     @(54.1200 mm, 47.0000 mm): PTH pad 1 [+3V3] of R7
 [unconnected_items]: Missing connection between items
     Local override; error
-    @(40.0000 mm, 64.0800 mm): Track [FAN4_TACH] on F.Cu, length 15.0000 mm
+    @(7.5000 mm, 67.5400 mm): PTH pad 2 [DHT11_DATA] of HUM1
+    @(17.8100 mm, 19.9100 mm): PTH pad 14 [DHT11_DATA] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(11.0000 mm, 15.5800 mm): PTH pad 2 [/PROG_LED_A] of R13
+    @(11.0000 mm, 19.9600 mm): PTH pad 1 [/PROG_LED_A] of LED2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.1900 mm, 50.3900 mm): PTH pad 22 [FAN4_TACH] of J8
     @(46.5000 mm, 59.5000 mm): PTH pad 2 [FAN4_TACH] of R8
 [unconnected_items]: Missing connection between items
     Local override; error
+    @(46.5000 mm, 59.5000 mm): PTH pad 2 [FAN4_TACH] of R8
+    @(73.1200 mm, 64.0800 mm): PTH pad 3 [FAN4_TACH] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.1900 mm, 37.6900 mm): PTH pad 27 [FAN4_PWM] of J8
     @(46.5000 mm, 63.0000 mm): PTH pad 1 [FAN4_PWM] of R12
-    @(55.5000 mm, 40.0000 mm): Track [FAN4_PWM] on F.Cu, length 26.6200 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(46.5000 mm, 63.0000 mm): PTH pad 1 [FAN4_PWM] of R12
+    @(73.1200 mm, 66.6200 mm): PTH pad 4 [FAN4_PWM] of J5
 [unconnected_items]: Missing connection between items
     Local override; error
     @(54.1200 mm, 63.0000 mm): PTH pad 2 [FAN4_PWM_A] of R12
     @(59.1200 mm, 63.0000 mm): PTH pad 1 [FAN4_PWM_A] of D5
 [unconnected_items]: Missing connection between items
     Local override; error
+    @(33.1900 mm, 32.6100 mm): PTH pad 29 [FAN3_PWM] of J8
     @(46.5000 mm, 51.0000 mm): PTH pad 1 [FAN3_PWM] of R11
-    @(56.0000 mm, 39.0000 mm): Track [FAN3_PWM] on F.Cu, length 14.6200 mm
 [unconnected_items]: Missing connection between items
     Local override; error
-    @(43.0000 mm, 23.0400 mm): Track [FAN1_TACH] on B.Cu, length 30.1200 mm
+    @(46.5000 mm, 51.0000 mm): PTH pad 1 [FAN3_PWM] of R11
+    @(73.1200 mm, 53.6200 mm): PTH pad 4 [FAN3_PWM] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(43.0000 mm, 24.9900 mm): Track [FAN1_TACH] on B.Cu, length 1.9500 mm
     @(46.5000 mm, 21.5000 mm): PTH pad 2 [FAN1_TACH] of R5
 [unconnected_items]: Missing connection between items
     Local override; error
     @(46.5000 mm, 47.0000 mm): PTH pad 2 [FAN3_TACH] of R7
-    @(41.0000 mm, 51.0800 mm): Track [FAN3_TACH] on B.Cu, length 4.0000 mm
+    @(33.1900 mm, 45.3100 mm): PTH pad 24 [FAN3_TACH] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(73.1200 mm, 51.0800 mm): PTH pad 3 [FAN3_TACH] of J4
+    @(46.5000 mm, 47.0000 mm): PTH pad 2 [FAN3_TACH] of R7
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.1900 mm, 17.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+    @(46.5000 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM] of R9
 [unconnected_items]: Missing connection between items
     Local override; error
     @(46.5000 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM] of R9
-    @(58.0000 mm, 17.3700 mm): Track [FAN1_PWM] on F.Cu, length 8.2100 mm
+    @(73.1200 mm, 25.5800 mm): PTH pad 4 [FAN1_PWM] of J2
 [unconnected_items]: Missing connection between items
     Local override; error
     @(54.1200 mm, 25.0000 mm): PTH pad 2 [FAN1_PWM_A] of R9
     @(59.1200 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM_A] of D2
 
-** Found 0 Footprint errors **
+** Found 127 Footprint errors **
+[footprint_symbol_mismatch]: CP_Radial_D6.3mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:CP_Radial_D6.3mm_P2.50mm)
+    Local override; warning
+    @(41.0000 mm, 9.0000 mm): Footprint C1
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(41.0000 mm, 9.0000 mm): Footprint C1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(41.0000 mm, 9.0000 mm): PTH pad 1 [+5V] of C1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(41.0000 mm, 11.5000 mm): PTH pad 2 [GND] of C1
+[footprint_symbol_mismatch]: CP_Radial_D6.3mm_P2.50mm doesn't match footprint given by symbol (Capacitor_THT:CP_Radial_D6.3mm_P2.50mm)
+    Local override; warning
+    @(73.0000 mm, 9.0000 mm): Footprint C2
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(73.0000 mm, 9.0000 mm): Footprint C2
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.0000 mm, 9.0000 mm): PTH pad 1 [+12V] of C2
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.0000 mm, 11.5000 mm): PTH pad 2 [GND] of C2
+[footprint_symbol_mismatch]: D_SMA doesn't match footprint given by symbol (Diode_SMD:D_SMA)
+    Local override; warning
+    @(70.5000 mm, 4.5000 mm): Footprint D1
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(70.5000 mm, 4.5000 mm): Footprint D1
+[net_conflict]: Pad net (BOOST_SW) doesn't match net given by schematic (/BOOST_SW)
+    Local override; warning
+    @(68.5000 mm, 4.5000 mm): Pad 1 [BOOST_SW] of D1 on F.Cu
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(72.5000 mm, 4.5000 mm): Pad 2 [+12V] of D1 on F.Cu
+[footprint_symbol_mismatch]: Value (D2) doesn't match symbol value (LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 25.0000 mm): Footprint D2
+[footprint_symbol_mismatch]: LED_D3.0mm doesn't match footprint given by symbol (LED_THT:LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 25.0000 mm): Footprint D2
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(59.1200 mm, 25.0000 mm): Footprint D2
+[net_conflict]: Pad net (FAN1_PWM_A) doesn't match net given by schematic (/FAN1_PWM_A)
+    Local override; warning
+    @(59.1200 mm, 25.0000 mm): PTH pad 1 [FAN1_PWM_A] of D2
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(61.6600 mm, 25.0000 mm): PTH pad 2 [GND] of D2
+[footprint_symbol_mismatch]: Value (D3) doesn't match symbol value (LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 37.5000 mm): Footprint D3
+[footprint_symbol_mismatch]: LED_D3.0mm doesn't match footprint given by symbol (LED_THT:LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 37.5000 mm): Footprint D3
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(59.1200 mm, 37.5000 mm): Footprint D3
+[net_conflict]: Pad net (FAN2_PWM_A) doesn't match net given by schematic (/FAN2_PWM_A)
+    Local override; warning
+    @(59.1200 mm, 37.5000 mm): PTH pad 1 [FAN2_PWM_A] of D3
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(61.6600 mm, 37.5000 mm): PTH pad 2 [GND] of D3
+[footprint_symbol_mismatch]: Value (D4) doesn't match symbol value (LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 51.0000 mm): Footprint D4
+[footprint_symbol_mismatch]: LED_D3.0mm doesn't match footprint given by symbol (LED_THT:LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 51.0000 mm): Footprint D4
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(59.1200 mm, 51.0000 mm): Footprint D4
+[net_conflict]: Pad net (FAN3_PWM_A) doesn't match net given by schematic (/FAN3_PWM_A)
+    Local override; warning
+    @(59.1200 mm, 51.0000 mm): PTH pad 1 [FAN3_PWM_A] of D4
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(61.6600 mm, 51.0000 mm): PTH pad 2 [GND] of D4
+[footprint_symbol_mismatch]: Value (D5) doesn't match symbol value (LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 63.0000 mm): Footprint D5
+[footprint_symbol_mismatch]: LED_D3.0mm doesn't match footprint given by symbol (LED_THT:LED_D3.0mm)
+    Local override; warning
+    @(59.1200 mm, 63.0000 mm): Footprint D5
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(59.1200 mm, 63.0000 mm): Footprint D5
+[net_conflict]: Pad net (FAN4_PWM_A) doesn't match net given by schematic (/FAN4_PWM_A)
+    Local override; warning
+    @(59.1200 mm, 63.0000 mm): PTH pad 1 [FAN4_PWM_A] of D5
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(61.6600 mm, 63.0000 mm): PTH pad 2 [GND] of D5
+[footprint_symbol_mismatch]: Value (HUM1) doesn't match symbol value (DHT11_Breakout)
+    Local override; warning
+    @(7.5000 mm, 70.0800 mm): Footprint HUM1
+[footprint_symbol_mismatch]: PinHeader_1x03_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical)
+    Local override; warning
+    @(7.5000 mm, 70.0800 mm): Footprint HUM1
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(7.5000 mm, 70.0800 mm): Footprint HUM1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(7.5000 mm, 70.0800 mm): PTH pad 1 [+3V3] of HUM1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(7.5000 mm, 65.0000 mm): PTH pad 3 [GND] of HUM1
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(73.1200 mm, 17.9600 mm): Footprint J2
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 17.9600 mm): PTH pad 1 [GND] of J2
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 20.5000 mm): PTH pad 2 [+12V] of J2
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(73.1200 mm, 32.0000 mm): Footprint J3
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 32.0000 mm): PTH pad 1 [GND] of J3
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 34.5400 mm): PTH pad 2 [+12V] of J3
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(73.1200 mm, 46.0000 mm): Footprint J4
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 46.0000 mm): PTH pad 1 [GND] of J4
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 48.5400 mm): PTH pad 2 [+12V] of J4
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(73.1200 mm, 59.0000 mm): Footprint J5
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 59.0000 mm): PTH pad 1 [GND] of J5
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(73.1200 mm, 61.5400 mm): PTH pad 2 [+12V] of J5
+[footprint_symbol_mismatch]: Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical doesn't match footprint given by symbol (Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical)
+    Local override; warning
+    @(7.4200 mm, 55.0200 mm): Footprint J6
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(7.4200 mm, 55.0200 mm): Footprint J6
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(7.4200 mm, 55.0200 mm): PTH pad 1 [GND] of J6
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(12.5000 mm, 55.0200 mm): PTH pad 3 [+3V3] of J6
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(17.8100 mm, 47.8500 mm): PTH pad 3 [GND] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(17.8100 mm, 35.1500 mm): PTH pad 8 [GND] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(17.8100 mm, 22.4500 mm): PTH pad 13 [GND] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(17.8100 mm, 9.7500 mm): PTH pad 18 [GND] of J8
+[net_conflict]: Pad net (PROBE_LED) doesn't match net given by schematic (FAN4_PWM)
+    Local override; warning
+    @(33.1900 mm, 52.9300 mm): PTH pad 21 [PROBE_LED] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 47.8500 mm): PTH pad 23 [GND] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 45.3100 mm): PTH pad 24 [FAN3_TACH] of J8
+[net_conflict]: Pad missing net given by schematic (FAN3_PWM)
+    Local override; warning
+    @(33.1900 mm, 40.2300 mm): PTH pad 26 [<no net>] of J8
+[net_conflict]: Pad net (FAN4_PWM) doesn't match net given by schematic (FAN3_TACH)
+    Local override; warning
+    @(33.1900 mm, 37.6900 mm): PTH pad 27 [FAN4_PWM] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 35.1500 mm): PTH pad 28 [GND] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 32.6100 mm): PTH pad 29 [FAN3_PWM] of J8
+[net_conflict]: Pad net (FAN2_TACH) doesn't match net given by schematic (FAN2_PWM)
+    Local override; warning
+    @(33.1900 mm, 27.5300 mm): PTH pad 31 [FAN2_TACH] of J8
+[net_conflict]: Pad net (FAN1_TACH) doesn't match net given by schematic (FAN2_TACH)
+    Local override; warning
+    @(33.1900 mm, 24.9900 mm): PTH pad 32 [FAN1_TACH] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 22.4500 mm): PTH pad 33 [GND] of J8
+[net_conflict]: Pad net (FAN2_PWM) doesn't match net given by schematic (FAN1_PWM)
+    Local override; warning
+    @(33.1900 mm, 19.9100 mm): PTH pad 34 [FAN2_PWM] of J8
+[net_conflict]: Pad net (FAN1_PWM) doesn't match net given by schematic (FAN1_TACH)
+    Local override; warning
+    @(33.1900 mm, 17.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 14.8300 mm): PTH pad 36 [+3V3] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 9.7500 mm): PTH pad 38 [GND] of J8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(33.1900 mm, 4.6700 mm): PTH pad 40 [+5V] of J8
+[footprint_symbol_mismatch]: L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC doesn't match footprint given by symbol (Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC)
+    Local override; warning
+    @(41.0000 mm, 4.5000 mm): Footprint L1
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(41.0000 mm, 4.5000 mm): Footprint L1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(41.0000 mm, 4.5000 mm): PTH pad 1 [+5V] of L1
+[net_conflict]: Pad net (BOOST_SW) doesn't match net given by schematic (/BOOST_SW)
+    Local override; warning
+    @(51.1600 mm, 4.5000 mm): PTH pad 2 [BOOST_SW] of L1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(6.0000 mm, 22.5000 mm): PTH pad 2 [GND] of LED1
+[footprint_symbol_mismatch]: LED_D3.0mm doesn't match footprint given by symbol (LED_THT:LED_D3.0mm)
+    Local override; warning
+    @(11.0000 mm, 19.9600 mm): Footprint LED2
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(11.0000 mm, 19.9600 mm): Footprint LED2
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(11.0000 mm, 22.5000 mm): PTH pad 2 [GND] of LED2
+[footprint_symbol_mismatch]: LED_D3.0mm doesn't match footprint given by symbol (LED_THT:LED_D3.0mm)
+    Local override; warning
+    @(6.0000 mm, 42.0000 mm): Footprint LED6
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(6.0000 mm, 42.0000 mm): Footprint LED6
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(6.0000 mm, 44.5400 mm): PTH pad 2 [GND] of LED6
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(6.0000 mm, 7.9600 mm): Footprint R3
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(6.0000 mm, 7.9600 mm): Footprint R3
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(54.1200 mm, 21.5000 mm): Footprint R5
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(54.1200 mm, 21.5000 mm): Footprint R5
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(54.1200 mm, 21.5000 mm): PTH pad 1 [+3V3] of R5
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(54.1200 mm, 33.5000 mm): Footprint R6
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(54.1200 mm, 33.5000 mm): Footprint R6
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(54.1200 mm, 33.5000 mm): PTH pad 1 [+3V3] of R6
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(54.1200 mm, 47.0000 mm): Footprint R7
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(54.1200 mm, 47.0000 mm): Footprint R7
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(54.1200 mm, 47.0000 mm): PTH pad 1 [+3V3] of R7
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(54.1200 mm, 59.5000 mm): Footprint R8
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(54.1200 mm, 59.5000 mm): Footprint R8
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(54.1200 mm, 59.5000 mm): PTH pad 1 [+3V3] of R8
+[footprint_symbol_mismatch]: Value (R9) doesn't match symbol value (1k)
+    Local override; warning
+    @(46.5000 mm, 25.0000 mm): Footprint R9
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(46.5000 mm, 25.0000 mm): Footprint R9
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(46.5000 mm, 25.0000 mm): Footprint R9
+[net_conflict]: Pad net (FAN1_PWM_A) doesn't match net given by schematic (/FAN1_PWM_A)
+    Local override; warning
+    @(54.1200 mm, 25.0000 mm): PTH pad 2 [FAN1_PWM_A] of R9
+[footprint_symbol_mismatch]: Value (R10) doesn't match symbol value (1k)
+    Local override; warning
+    @(46.5000 mm, 37.5000 mm): Footprint R10
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(46.5000 mm, 37.5000 mm): Footprint R10
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(46.5000 mm, 37.5000 mm): Footprint R10
+[net_conflict]: Pad net (FAN2_PWM_A) doesn't match net given by schematic (/FAN2_PWM_A)
+    Local override; warning
+    @(54.1200 mm, 37.5000 mm): PTH pad 2 [FAN2_PWM_A] of R10
+[footprint_symbol_mismatch]: Value (R11) doesn't match symbol value (1k)
+    Local override; warning
+    @(46.5000 mm, 51.0000 mm): Footprint R11
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(46.5000 mm, 51.0000 mm): Footprint R11
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(46.5000 mm, 51.0000 mm): Footprint R11
+[net_conflict]: Pad net (FAN3_PWM_A) doesn't match net given by schematic (/FAN3_PWM_A)
+    Local override; warning
+    @(54.1200 mm, 51.0000 mm): PTH pad 2 [FAN3_PWM_A] of R11
+[footprint_symbol_mismatch]: Value (R12) doesn't match symbol value (1k)
+    Local override; warning
+    @(46.5000 mm, 63.0000 mm): Footprint R12
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(46.5000 mm, 63.0000 mm): Footprint R12
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(46.5000 mm, 63.0000 mm): Footprint R12
+[net_conflict]: Pad net (FAN4_PWM_A) doesn't match net given by schematic (/FAN4_PWM_A)
+    Local override; warning
+    @(54.1200 mm, 63.0000 mm): PTH pad 2 [FAN4_PWM_A] of R12
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(11.0000 mm, 7.9600 mm): Footprint R13
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(11.0000 mm, 7.9600 mm): Footprint R13
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(12.5000 mm, 48.0000 mm): Footprint R14
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(12.5000 mm, 48.0000 mm): Footprint R14
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(12.5000 mm, 48.0000 mm): PTH pad 1 [+3V3] of R14
+[footprint_symbol_mismatch]: R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal doesn't match footprint given by symbol (Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal)
+    Local override; warning
+    @(6.0000 mm, 31.0000 mm): Footprint R15
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(6.0000 mm, 31.0000 mm): Footprint R15
+[footprint_symbol_mismatch]: TO-220-5_Vertical doesn't match footprint given by symbol (Package_TO_SOT_THT:TO-220-5_Vertical)
+    Local override; warning
+    @(62.9000 mm, 8.0500 mm): Footprint U1
+[footprint_symbol_field_mismatch]: Field 'Datasheet' differs (PCB: '', Schematic: '~')
+    Local override; warning
+    @(62.9000 mm, 8.0500 mm): Footprint U1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(62.9000 mm, 8.0500 mm): PTH pad 1 [GND] of U1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(61.2000 mm, 8.0500 mm): PTH pad 2 [+5V] of U1
+[net_conflict]: Pad net (BOOST_SW) doesn't match net given by schematic (/BOOST_SW)
+    Local override; warning
+    @(59.5000 mm, 8.0500 mm): PTH pad 3 [BOOST_SW] of U1
+[net_conflict]: Pad net (BOOST_SW) doesn't match net given by schematic (/BOOST_SW)
+    Local override; warning
+    @(57.8000 mm, 8.0500 mm): PTH pad 4 [BOOST_SW] of U1
+[net_conflict]: No corresponding pin found in schematic
+    Local override; warning
+    @(56.1000 mm, 8.0500 mm): PTH pad 5 [GND] of U1
 
 ** Ignored checks **
     - Footprint has no courtyard defined
