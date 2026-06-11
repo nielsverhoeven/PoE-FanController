@@ -1,0 +1,2597 @@
+(export
+	(version "E")
+	(design
+		(source "C:\\repos-github\\PoE-FanController\\hardware\\kicad\\PoE-FanController.kicad_sch")
+		(date "2026-06-11T21:32:44")
+		(tool "Eeschema 10.0.3")
+		(sheet
+			(number "1")
+			(name "/")
+			(tstamps "/")
+			(title_block
+				(title "PoE FanController")
+				(company)
+				(rev "v0.1")
+				(date "2026-06-06")
+				(source "PoE-FanController.kicad_sch")
+				(comment
+					(number "1")
+					(value "4-channel PoE-powered PWM fan controller with ESP32")
+				)
+				(comment
+					(number "2")
+					(value "Power: 802.3at PoE+ -> 12V (fans) + 3.3V (logic)")
+				)
+				(comment
+					(number "3")
+					(value "")
+				)
+				(comment
+					(number "4")
+					(value "")
+				)
+				(comment
+					(number "5")
+					(value "")
+				)
+				(comment
+					(number "6")
+					(value "")
+				)
+				(comment
+					(number "7")
+					(value "")
+				)
+				(comment
+					(number "8")
+					(value "")
+				)
+				(comment
+					(number "9")
+					(value "")
+				)
+			)
+		)
+	)
+	(components
+		(comp
+			(ref "C1")
+			(value "100uF_25V")
+			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Cap_Elec")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000004-0004-0004-0004-000000000004")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "C2")
+			(value "100uF_25V")
+			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Cap_Elec")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000025-0025-0025-0025-000000000025")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D1")
+			(value "1N5822")
+			(footprint "Diode_THT:D_DO-27_P12.70mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Diode_THT:D_DO-27_P12.70mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Diode_Schottky")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000001f-001f-001f-001f-00000000001f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D2")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000077-0077-0077-0077-000000000077")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D3")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000082-0082-0082-0082-000000000082")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D4")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000008d-008d-008d-008d-00000000008d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "D5")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000098-0098-0098-0098-000000000098")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "HUM1")
+			(value "DHT11_Direct")
+			(footprint "Custom:DHT11_Direct")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Custom:DHT11_Direct")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "DHT11_Direct")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000b8-00b8-00b8-00b8-0000000000b8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J2")
+			(value "FAN1")
+			(footprint "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Fan_Header")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000002f-002f-002f-002f-00000000002f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J3")
+			(value "FAN2")
+			(footprint "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Fan_Header")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000040-0040-0040-0040-000000000040")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J4")
+			(value "FAN3")
+			(footprint "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Fan_Header")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000051-0051-0051-0051-000000000051")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J5")
+			(value "FAN4")
+			(footprint "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Fan_Header")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000062-0062-0062-0062-000000000062")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J6")
+			(value "Molex_KK254_3pin")
+			(footprint "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Conn_1x03")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000c8-00c8-00c8-00c8-0000000000c8")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "J8")
+			(value "Waveshare_ESP32P4POEETH")
+			(footprint "Custom:ESP32-P4-PoE-ETH-PinSocket")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Custom:ESP32-P4-PoE-ETH-PinSocket")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "J8_Waveshare")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000102-0102-0102-0102-000000000102")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "20")
+						)
+						(pin
+							(num "19")
+						)
+						(pin
+							(num "18")
+						)
+						(pin
+							(num "17")
+						)
+						(pin
+							(num "16")
+						)
+						(pin
+							(num "15")
+						)
+						(pin
+							(num "14")
+						)
+						(pin
+							(num "13")
+						)
+						(pin
+							(num "12")
+						)
+						(pin
+							(num "10")
+						)
+						(pin
+							(num "11")
+						)
+						(pin
+							(num "9")
+						)
+						(pin
+							(num "8")
+						)
+						(pin
+							(num "7")
+						)
+						(pin
+							(num "6")
+						)
+						(pin
+							(num "5")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "40")
+						)
+						(pin
+							(num "39")
+						)
+						(pin
+							(num "38")
+						)
+						(pin
+							(num "37")
+						)
+						(pin
+							(num "36")
+						)
+						(pin
+							(num "34")
+						)
+						(pin
+							(num "35")
+						)
+						(pin
+							(num "33")
+						)
+						(pin
+							(num "32")
+						)
+						(pin
+							(num "31")
+						)
+						(pin
+							(num "30")
+						)
+						(pin
+							(num "29")
+						)
+						(pin
+							(num "28")
+						)
+						(pin
+							(num "25")
+						)
+						(pin
+							(num "24")
+						)
+						(pin
+							(num "27")
+						)
+						(pin
+							(num "26")
+						)
+						(pin
+							(num "23")
+						)
+						(pin
+							(num "22")
+						)
+						(pin
+							(num "21")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "L1")
+			(value "100uH")
+			(footprint "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Inductor")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000000b-000b-000b-000b-00000000000b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "LED1")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000a4-00a4-00a4-00a4-0000000000a4")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "LED2")
+			(value "LED_ORANGE")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000b0-00b0-00b0-00b0-0000000000b0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "LED6")
+			(value "LED_GREEN")
+			(footprint "LED_THT:LED_D3.0mm")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "LED")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000d5-00d5-00d5-00d5-0000000000d5")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R3")
+			(value "330R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000009f-009f-009f-009f-00000000009f")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R5")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000038-0038-0038-0038-000000000038")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R6")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000049-0049-0049-0049-000000000049")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R7")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000005a-005a-005a-005a-00000000005a")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R8")
+			(value "10k")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000006b-006b-006b-006b-00000000006b")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R9")
+			(value "150R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000072-0072-0072-0072-000000000072")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R10")
+			(value "150R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "0000007d-007d-007d-007d-00000000007d")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R11")
+			(value "150R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000088-0088-0088-0088-000000000088")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R12")
+			(value "150R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000093-0093-0093-0093-000000000093")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R13")
+			(value "330R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000ab-00ab-00ab-00ab-0000000000ab")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R14")
+			(value "4k7")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000c1-00c1-00c1-00c1-0000000000c1")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "R15")
+			(value "330R")
+			(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "R")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "000000d0-00d0-00d0-00d0-0000000000d0")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "U1")
+			(value "LM2587-12")
+			(footprint "Package_TO_SOT_THT:TO-220-5_Vertical")
+			(datasheet "~")
+			(fields
+				(field
+					(name "Footprint") "Package_TO_SOT_THT:TO-220-5_Vertical")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "Custom")
+				(part "Boost_Converter")
+				(description "")
+			)
+			(property
+				(name "Sheetname")
+				(value "")
+			)
+			(property
+				(name "Sheetfile")
+				(value "PoE-FanController.kicad_sch")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "00000014-0014-0014-0014-000000000014")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+						(pin
+							(num "3")
+						)
+						(pin
+							(num "4")
+						)
+						(pin
+							(num "5")
+						)
+					)
+				)
+			)
+		)
+	)
+	(groups)
+	(variants)
+	(libparts
+		(libpart
+			(lib "Custom")
+			(part "Boost_Converter")
+			(docs "https://www.ti.com/lit/ds/symlink/lm2587.pdf")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "LM2587-12")
+				(field
+					(name "Footprint") "Package_TO_SOT_THT:TO-220-5_Vertical")
+				(field
+					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/lm2587.pdf")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "GND")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "VIN")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "OUTPUT")
+					(type "output")
+				)
+				(pin
+					(num "4")
+					(name "FB")
+					(type "input")
+				)
+				(pin
+					(num "5")
+					(name "OSC")
+					(type "input")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "Cap_Elec")
+			(docs "~")
+			(fields
+				(field
+					(name "Reference") "C")
+				(field
+					(name "Value") "100uF_25V")
+				(field
+					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "~")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "~")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "Conn_1x03")
+			(docs "https://www.molex.com/molex/products/part-detail/crimp_housings/0022013037")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Connector_1x03")
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "https://www.molex.com/molex/products/part-detail/crimp_housings/0022013037")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "DATA")
+					(type "passive")
+				)
+				(pin
+					(num "3")
+					(name "VCC")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "DHT11_Direct")
+			(docs "https://www.adafruit.com/product/386")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "DHT11_Direct")
+				(field
+					(name "Footprint") "Custom:DHT11_Direct")
+				(field
+					(name "Datasheet") "https://www.adafruit.com/product/386")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "VCC")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "DATA")
+					(type "bidirectional")
+				)
+				(pin
+					(num "3")
+					(name "GND")
+					(type "power_in")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "Diode_Schottky")
+			(docs "~")
+			(fields
+				(field
+					(name "Reference") "D")
+				(field
+					(name "Value") "1N5822")
+				(field
+					(name "Footprint") "Diode_THT:D_DO-27_P12.70mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "K")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "Fan_Header")
+			(docs "https://www.molex.com/en-us/products/part-detail/22232041")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Fan_Header")
+				(field
+					(name "Footprint") "Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical")
+				(field
+					(name "Datasheet") "https://www.molex.com/en-us/products/part-detail/22232041")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "VCC_FAN")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "TACH")
+					(type "output")
+				)
+				(pin
+					(num "4")
+					(name "PWM")
+					(type "input")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "Inductor")
+			(docs "~")
+			(fields
+				(field
+					(name "Reference") "L")
+				(field
+					(name "Value") "100uH")
+				(field
+					(name "Footprint") "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "~")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "~")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "J8_Waveshare")
+			(docs "https://www.waveshare.com/wiki/ESP32-P4-POE-ETH")
+			(fields
+				(field
+					(name "Reference") "J")
+				(field
+					(name "Value") "Waveshare_ESP32P4POEETH")
+				(field
+					(name "Footprint") "Custom:ESP32-P4-PoE-ETH-PinSocket")
+				(field
+					(name "Datasheet") "https://www.waveshare.com/wiki/ESP32-P4-POE-ETH")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "2")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "3")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "4")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "5")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "6")
+					(name "DS18B20_DATA")
+					(type "bidirectional")
+				)
+				(pin
+					(num "7")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "8")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "9")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "10")
+					(name "DHT11_DATA")
+					(type "input")
+				)
+				(pin
+					(num "11")
+					(name "PROBE_LED")
+					(type "output")
+				)
+				(pin
+					(num "12")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "13")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "14")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "15")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "16")
+					(name "PROG_LED")
+					(type "output")
+				)
+				(pin
+					(num "17")
+					(name "PWR_LED")
+					(type "output")
+				)
+				(pin
+					(num "18")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "19")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "20")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "21")
+					(name "FAN4_TACH")
+					(type "input")
+				)
+				(pin
+					(num "22")
+					(name "FAN4_PWM")
+					(type "output")
+				)
+				(pin
+					(num "23")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "24")
+					(name "FAN3_TACH")
+					(type "input")
+				)
+				(pin
+					(num "25")
+					(name "FAN3_PWM")
+					(type "output")
+				)
+				(pin
+					(num "26")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "27")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "28")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "29")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "30")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "31")
+					(name "FAN2_TACH")
+					(type "input")
+				)
+				(pin
+					(num "32")
+					(name "FAN2_PWM")
+					(type "output")
+				)
+				(pin
+					(num "33")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "34")
+					(name "FAN1_TACH")
+					(type "input")
+				)
+				(pin
+					(num "35")
+					(name "FAN1_PWM")
+					(type "output")
+				)
+				(pin
+					(num "36")
+					(name "+3V3")
+					(type "power_out")
+				)
+				(pin
+					(num "37")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "38")
+					(name "GND")
+					(type "passive")
+				)
+				(pin
+					(num "39")
+					(name "NC")
+					(type "no_connect")
+				)
+				(pin
+					(num "40")
+					(name "+5V")
+					(type "power_out")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "LED")
+			(docs "~")
+			(fields
+				(field
+					(name "Reference") "LED")
+				(field
+					(name "Value") "LED")
+				(field
+					(name "Footprint") "LED_THT:LED_D3.0mm")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "A")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "K")
+					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "R")
+			(docs "~")
+			(fields
+				(field
+					(name "Reference") "R")
+				(field
+					(name "Value") "R")
+				(field
+					(name "Footprint") "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+				(field
+					(name "Datasheet") "~")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "~")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "~")
+					(type "passive")
+				)
+			)
+		)
+	)
+	(libraries
+		(library
+			(logical "Custom")
+			(uri "${KIPRJMOD}/symbols/Custom.kicad_sym")
+		)
+	)
+	(nets
+		(net
+			(code "1")
+			(name "/BOOST_SW")
+			(class "Default")
+			(node
+				(ref "D1")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "L1")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "3")
+				(pinfunction "OUTPUT_3")
+				(pintype "output")
+			)
+			(node
+				(ref "U1")
+				(pin "4")
+				(pinfunction "FB_4")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "2")
+			(name "/FAN1_PWM_A")
+			(class "Default")
+			(node
+				(ref "D2")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R9")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "3")
+			(name "/FAN2_PWM_A")
+			(class "Default")
+			(node
+				(ref "D3")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R10")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "4")
+			(name "/FAN3_PWM_A")
+			(class "Default")
+			(node
+				(ref "D4")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R11")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "5")
+			(name "/FAN4_PWM_A")
+			(class "Default")
+			(node
+				(ref "D5")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R12")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "6")
+			(name "/LED_A")
+			(class "Default")
+			(node
+				(ref "LED1")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R3")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "7")
+			(name "/PROBE_LED_A")
+			(class "Default")
+			(node
+				(ref "LED6")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R15")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "8")
+			(name "/PROG_LED_A")
+			(class "Default")
+			(node
+				(ref "LED2")
+				(pin "1")
+				(pinfunction "A_1")
+				(pintype "passive")
+			)
+			(node
+				(ref "R13")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "9")
+			(name "DHT11_DATA")
+			(class "Default")
+			(node
+				(ref "HUM1")
+				(pin "2")
+				(pinfunction "DATA_2")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "J8")
+				(pin "10")
+				(pinfunction "DHT11_DATA_10")
+				(pintype "input")
+			)
+		)
+		(net
+			(code "10")
+			(name "DS18B20_DATA")
+			(class "Default")
+			(node
+				(ref "J6")
+				(pin "2")
+				(pinfunction "DATA_2")
+				(pintype "passive")
+			)
+			(node
+				(ref "J8")
+				(pin "6")
+				(pinfunction "DS18B20_DATA_6")
+				(pintype "bidirectional")
+			)
+			(node
+				(ref "R14")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "11")
+			(name "FAN1_PWM")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "4")
+				(pinfunction "PWM_4")
+				(pintype "input")
+			)
+			(node
+				(ref "J8")
+				(pin "35")
+				(pinfunction "FAN1_PWM_35")
+				(pintype "output")
+			)
+			(node
+				(ref "R9")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "12")
+			(name "FAN1_TACH")
+			(class "Default")
+			(node
+				(ref "J2")
+				(pin "3")
+				(pinfunction "TACH_3")
+				(pintype "output")
+			)
+			(node
+				(ref "J8")
+				(pin "34")
+				(pinfunction "FAN1_TACH_34")
+				(pintype "input")
+			)
+			(node
+				(ref "R5")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "13")
+			(name "FAN2_PWM")
+			(class "Default")
+			(node
+				(ref "J3")
+				(pin "4")
+				(pinfunction "PWM_4")
+				(pintype "input")
+			)
+			(node
+				(ref "J8")
+				(pin "32")
+				(pinfunction "FAN2_PWM_32")
+				(pintype "output")
+			)
+			(node
+				(ref "R10")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "14")
+			(name "FAN2_TACH")
+			(class "Default")
+			(node
+				(ref "J3")
+				(pin "3")
+				(pinfunction "TACH_3")
+				(pintype "output")
+			)
+			(node
+				(ref "J8")
+				(pin "31")
+				(pinfunction "FAN2_TACH_31")
+				(pintype "input")
+			)
+			(node
+				(ref "R6")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "15")
+			(name "FAN3_PWM")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "4")
+				(pinfunction "PWM_4")
+				(pintype "input")
+			)
+			(node
+				(ref "J8")
+				(pin "25")
+				(pinfunction "FAN3_PWM_25")
+				(pintype "output")
+			)
+			(node
+				(ref "R11")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "16")
+			(name "FAN3_TACH")
+			(class "Default")
+			(node
+				(ref "J4")
+				(pin "3")
+				(pinfunction "TACH_3")
+				(pintype "output")
+			)
+			(node
+				(ref "J8")
+				(pin "24")
+				(pinfunction "FAN3_TACH_24")
+				(pintype "input")
+			)
+			(node
+				(ref "R7")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "17")
+			(name "FAN4_PWM")
+			(class "Default")
+			(node
+				(ref "J5")
+				(pin "4")
+				(pinfunction "PWM_4")
+				(pintype "input")
+			)
+			(node
+				(ref "J8")
+				(pin "22")
+				(pinfunction "FAN4_PWM_22")
+				(pintype "output")
+			)
+			(node
+				(ref "R12")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "18")
+			(name "FAN4_TACH")
+			(class "Default")
+			(node
+				(ref "J5")
+				(pin "3")
+				(pinfunction "TACH_3")
+				(pintype "output")
+			)
+			(node
+				(ref "J8")
+				(pin "21")
+				(pinfunction "FAN4_TACH_21")
+				(pintype "input")
+			)
+			(node
+				(ref "R8")
+				(pin "2")
+				(pinfunction "~_2")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "19")
+			(name "PROBE_LED")
+			(class "Default")
+			(node
+				(ref "J8")
+				(pin "11")
+				(pinfunction "PROBE_LED_11")
+				(pintype "output")
+			)
+			(node
+				(ref "R15")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "20")
+			(name "PROG_LED")
+			(class "Default")
+			(node
+				(ref "J8")
+				(pin "16")
+				(pinfunction "PROG_LED_16")
+				(pintype "output")
+			)
+			(node
+				(ref "R13")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+		(net
+			(code "21")
+			(name "PWR_LED")
+			(class "Default")
+			(node
+				(ref "J8")
+				(pin "17")
+				(pinfunction "PWR_LED_17")
+				(pintype "output")
+			)
+			(node
+				(ref "R3")
+				(pin "1")
+				(pinfunction "~_1")
+				(pintype "passive")
+			)
+		)
+	)
+)

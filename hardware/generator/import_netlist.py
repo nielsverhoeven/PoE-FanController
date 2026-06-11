@@ -20,20 +20,18 @@ NETLIST = 'C:/repos-github/PoE-FanController/hardware/kicad/netlist.kicad_net'
 # Note: pins 27 (DS18B20_DATA/GPIO19) and 28 (PROBE_LED/GPIO20) updated for Issue #97
 POWER_NETS = {
     # J8 — Waveshare ESP32-P4-POE-ETH header
-    ('J8', '1'):  '+3V3',  # 3.3V from Waveshare LDO
-    ('J8', '2'):  '+5V',   # +5V from Waveshare PoE PD
-    ('J8', '4'):  '+5V',   # +5V duplicate
-    ('J8', '6'):  'GND',
-    ('J8', '9'):  'GND',
-    ('J8', '14'): 'GND',
-    ('J8', '17'): '+3V3',  # 3.3V duplicate
-    ('J8', '20'): 'GND',
-    ('J8', '25'): 'GND',
-    ('J8', '27'): 'DS18B20_DATA',  # GPIO19 — 1-Wire DATA (Issue #97)
-    ('J8', '28'): 'PROBE_LED',     # GPIO20 — probe health LED (Issue #97)
-    ('J8', '29'): 'GND',
+    # GND on pins 3, 8, 13, 18, 23, 28, 33, 38
+    ('J8', '3'):  'GND',
+    ('J8', '8'):  'GND',
+    ('J8', '13'): 'GND',
+    ('J8', '18'): 'GND',
+    ('J8', '23'): 'GND',
+    ('J8', '28'): 'GND',
     ('J8', '33'): 'GND',
     ('J8', '38'): 'GND',
+    # Power rails on J8
+    ('J8', '36'): '+3V3',        # +3V3 output from Waveshare
+    ('J8', '40'): '+5V',         # VBUS → boost input
     # Fan headers J2-J5
     ('J2', '1'): 'GND',    ('J2', '2'): '+12V',
     ('J3', '1'): 'GND',    ('J3', '2'): '+12V',
@@ -44,14 +42,9 @@ POWER_NETS = {
     ('R6', '1'): '+3V3',
     ('R7', '1'): '+3V3',
     ('R8', '1'): '+3V3',
-    # NTC voltage divider: R4 left pin → +3V3
-    ('R4', '1'): '+3V3',
     # Status LED: LED1 cathode → GND
     ('LED1', '2'): 'GND',
-    # NTC thermistor: NTC1 bottom → GND
-    ('NTC1', '2'): 'GND',
     # U1: 5V→12V boost converter (TI LM2587-12, TO-220-5_Vertical)
-    # Pin 1=GND, Pin 2=VIN(+5V), Pin 3=OUTPUT/SW, Pin 4=FB(tied to OUTPUT), Pin 5=OSC/GND
     ('U1', '1'): 'GND',       # GND
     ('U1', '2'): '+5V',       # VIN
     ('U1', '3'): 'BOOST_SW',  # OUTPUT / switching node
@@ -69,28 +62,33 @@ POWER_NETS = {
     # C2: output filter cap — +12V / GND
     ('C2', '1'): '+12V',
     ('C2', '2'): 'GND',
-    # Per-fan power indicator resistors R9-R12: pin 1 → +12V
-    ('R9',  '1'): '+12V',
-    ('R10', '1'): '+12V',
-    ('R11', '1'): '+12V',
-    ('R12', '1'): '+12V',
-    # Per-fan power indicator LEDs D2-D5: pin 2 (cathode) → GND
+    # PWM activity LED resistors R9-R12: pin 2 → FAN{n}_PWM_A (anode net); pin 1 → FAN{n}_PWM signal
+    ('R9',  '2'): '/FAN1_PWM_A',
+    ('R10', '2'): '/FAN2_PWM_A',
+    ('R11', '2'): '/FAN3_PWM_A',
+    ('R12', '2'): '/FAN4_PWM_A',
+    # Per-fan PWM activity LEDs D2-D5: pin 2 (cathode) → GND
     ('D2', '2'): 'GND',
     ('D3', '2'): 'GND',
     ('D4', '2'): 'GND',
     ('D5', '2'): 'GND',
-    # Prog/OTA LED: LED2 cathode → GND, R13 pin 1 → PROG_LED (from netlist via J8 pin 22)
+    # Prog/OTA LED: LED2 cathode → GND
     ('LED2', '2'): 'GND',
-    # DS18B20 temperature probe components (Issue #97)
+    # DS18B20 temperature probe components
+    # J8 pin 6 = DS18B20_DATA (GPIO2), J8 pin 10 = PROBE_LED (GPIO5)
     ('R14', '1'): '+3V3',          # pull-up resistor: +3V3 → DS18B20_DATA
     ('R14', '2'): 'DS18B20_DATA',  # pull-up resistor: DS18B20_DATA → R14
-    ('R15', '1'): 'PROBE_LED',     # current-limit resistor: GPIO20 → LED6
+    ('R15', '1'): 'PROBE_LED',     # current-limit resistor: GPIO5 → LED6
     ('R15', '2'): '/PROBE_LED_A',  # current-limit resistor: → LED6 anode
     ('LED6', '1'): '/PROBE_LED_A', # probe health LED: anode
     ('LED6', '2'): 'GND',          # probe health LED: cathode → GND
     ('J6', '1'): 'GND',            # DS18B20 probe connector: GND
     ('J6', '2'): 'DS18B20_DATA',   # DS18B20 probe connector: 1-Wire data
     ('J6', '3'): '+3V3',           # DS18B20 probe connector: +3V3 power
+    # HUM1: DHT11 direct-solder — VCC / DATA / GND
+    ('HUM1', '1'): '+3V3',         # VCC
+    ('HUM1', '2'): 'DHT11_DATA',   # single-wire data
+    ('HUM1', '3'): 'GND',          # GND
 }
 
 # ── Step 1: Parse netlist → {(ref, pin): net_name} ──────────────────────────
