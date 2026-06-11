@@ -5,7 +5,7 @@ Signal assignments (user-specified overhaul):
   Left column (pins 1-20, bottom→top on physical board):
     Pin 6  → DS18B20_DATA (GPIO2, 1-Wire probe data)
     Pin 7  → PROBE_LED    (GPIO3, probe health LED)
-    Pin 14 → DHT11_DATA   (GPIO15, DHT11 single-wire)
+    Pin 11 → DHT11_DATA   (GPIO6, DHT11 single-wire)
     Pin 16 → PROG_LED     (GPIO17, OTA/write indicator)
     Pin 17 → PWR_LED      (GPIO18, power-on status LED)
     Pins 3,8,13,18 → GND
@@ -133,10 +133,10 @@ def build_schematic():
                  ("PWR_LED",      "17", "output"),        # GPIO18   — power-on status LED
                  ("PROG_LED",     "16", "output"),        # GPIO17   — OTA/write LED
                  ("NC",           "15", "no_connect"),    # GPIO16   — NC (was DHT11)
-                 ("DHT11_DATA",   "14", "input"),         # GPIO15   — DHT11 single-wire
+                 ("NC",           "14", "no_connect"),    # GPIO15   — NC (was DHT11)
                  ("GND",          "13", "passive"),       # Physical GND
                  ("NC",           "12", "no_connect"),    # GPIO14   — NC
-                 ("NC",           "11", "no_connect"),    # GPIO6    — NC
+                 ("DHT11_DATA",   "11", "input"),         # GPIO6    — DHT11 single-wire
                  ("NC",           "10", "no_connect"),    # GPIO5    — NC
                  ("NC",           "9",  "no_connect"),    # GPIO4    — NC
                  ("GND",          "8",  "passive"),       # Physical GND
@@ -520,7 +520,7 @@ def build_schematic():
     s.power("GND",  *p["3"])
     s.power("GND",  *p["8"])
     s.power("GND",  *p["13"])
-    s.global_label("DHT11_DATA",   *p["14"], shape="bidirectional", angle=180)  # GPIO15
+    s.global_label("DHT11_DATA",   *p["11"], shape="bidirectional", angle=180)  # GPIO6
     s.global_label("PROG_LED",     *p["16"], shape="output",        angle=180)  # GPIO17
     s.global_label("PWR_LED",      *p["17"], shape="output",        angle=180)  # GPIO18
     s.power("GND",  *p["18"])
