@@ -3,6 +3,14 @@
 # Custom DRC rules for PoE FanController
 # See: https://docs.kicad.org/8.0/en/pcb_editor/pcb_editor.html#custom_design_rules
 
+# ── Board-level minimum constraints ──────────────────────────────────────────
+(rule "Board minimums"
+   (constraint clearance     (min 0.2mm))
+   (constraint track_width   (min 0.4mm))
+   (constraint edge_clearance (min 1.0mm))
+   (constraint hole_size     (min 0.6mm))
+)
+
 # USB-C receptacle (J6, GCT USB4085-GF-A) has pads at 0.85 mm pitch.
 # Copper-to-copper clearance between adjacent pads is 0.15 mm, which is
 # below the board default but within the USB-C spec and manufacturable
