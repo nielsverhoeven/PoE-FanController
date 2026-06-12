@@ -387,7 +387,7 @@ When a connector has non-standard row spacing (e.g. J8's 15.38mm), generate the 
 
 **Template:** see `hardware/generator/gen_footprint_j8.py`
 
-Key parameters for `PinSocket_2x20_P2.54mm_P15.38mm_Vertical`:
+Key parameters for `ESP32-P4-PoE-ETH-PinSocket` (formerly `PinSocket_2x20_P2.54mm_P15.38mm_Vertical` — renamed by Amendment v4.2.1):
 ```python
 PITCH = 2.54          # pin-to-pin within a row
 ROW_SPACING = 15.38   # between the two rows (= 21.00 - 2*2.81 for Waveshare ESP32-P4-POE-ETH)
@@ -408,7 +408,7 @@ Pad numbering convention:
 Always output with `newline="\n"` (not Windows CRLF) and add to `Custom.pretty/`.
 
 ### J8 PCB placement (daughter board constitution v3.1.0)
-- Footprint: `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical`
+- Footprint: `Custom:ESP32-P4-PoE-ETH-PinSocket` (renamed from `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` by Amendment v4.2.1)
 - PCB origin: X=10.50mm, Y=28.80mm (centre between rows, centre of pin span)
 - Rotation: 90° (so pin span runs along board Y=4.67..52.93mm)
 - After 90° rotation: row1 at X=2.81mm, row2 at X=18.19mm from board left edge ✓
