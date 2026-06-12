@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\repos-github\\PoE-FanController\\hardware\\kicad\\PoE-FanController.kicad_sch")
-		(date "2026-06-11T21:32:44")
+		(date "2026-06-12T08:43:35")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -131,7 +131,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000025-0025-0025-0025-000000000025")
+			(tstamps "00000026-0026-0026-0026-000000000026")
 			(units
 				(unit
 					(name "A")
@@ -177,7 +177,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000001f-001f-001f-001f-00000000001f")
+			(tstamps "00000020-0020-0020-0020-000000000020")
 			(units
 				(unit
 					(name "A")
@@ -223,7 +223,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000077-0077-0077-0077-000000000077")
+			(tstamps "00000078-0078-0078-0078-000000000078")
 			(units
 				(unit
 					(name "A")
@@ -269,7 +269,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000082-0082-0082-0082-000000000082")
+			(tstamps "00000083-0083-0083-0083-000000000083")
 			(units
 				(unit
 					(name "A")
@@ -315,7 +315,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000008d-008d-008d-008d-00000000008d")
+			(tstamps "0000008e-008e-008e-008e-00000000008e")
 			(units
 				(unit
 					(name "A")
@@ -361,7 +361,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000098-0098-0098-0098-000000000098")
+			(tstamps "00000099-0099-0099-0099-000000000099")
 			(units
 				(unit
 					(name "A")
@@ -407,7 +407,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000b8-00b8-00b8-00b8-0000000000b8")
+			(tstamps "000000b9-00b9-00b9-00b9-0000000000b9")
 			(units
 				(unit
 					(name "A")
@@ -456,7 +456,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000002f-002f-002f-002f-00000000002f")
+			(tstamps "00000030-0030-0030-0030-000000000030")
 			(units
 				(unit
 					(name "A")
@@ -508,7 +508,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000040-0040-0040-0040-000000000040")
+			(tstamps "00000041-0041-0041-0041-000000000041")
 			(units
 				(unit
 					(name "A")
@@ -560,7 +560,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000051-0051-0051-0051-000000000051")
+			(tstamps "00000052-0052-0052-0052-000000000052")
 			(units
 				(unit
 					(name "A")
@@ -612,7 +612,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000062-0062-0062-0062-000000000062")
+			(tstamps "00000063-0063-0063-0063-000000000063")
 			(units
 				(unit
 					(name "A")
@@ -664,7 +664,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000c8-00c8-00c8-00c8-0000000000c8")
+			(tstamps "000000c9-00c9-00c9-00c9-0000000000c9")
 			(units
 				(unit
 					(name "A")
@@ -713,7 +713,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000102-0102-0102-0102-000000000102")
+			(tstamps "00000103-0103-0103-0103-000000000103")
 			(units
 				(unit
 					(name "A")
@@ -919,7 +919,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000a4-00a4-00a4-00a4-0000000000a4")
+			(tstamps "000000a5-00a5-00a5-00a5-0000000000a5")
 			(units
 				(unit
 					(name "A")
@@ -965,7 +965,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000b0-00b0-00b0-00b0-0000000000b0")
+			(tstamps "000000b1-00b1-00b1-00b1-0000000000b1")
 			(units
 				(unit
 					(name "A")
@@ -1011,7 +1011,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000d5-00d5-00d5-00d5-0000000000d5")
+			(tstamps "000000d6-00d6-00d6-00d6-0000000000d6")
 			(units
 				(unit
 					(name "A")
@@ -1057,7 +1057,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000009f-009f-009f-009f-00000000009f")
+			(tstamps "000000a0-00a0-00a0-00a0-0000000000a0")
 			(units
 				(unit
 					(name "A")
@@ -1103,7 +1103,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000038-0038-0038-0038-000000000038")
+			(tstamps "00000039-0039-0039-0039-000000000039")
 			(units
 				(unit
 					(name "A")
@@ -1149,7 +1149,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000049-0049-0049-0049-000000000049")
+			(tstamps "0000004a-004a-004a-004a-00000000004a")
 			(units
 				(unit
 					(name "A")
@@ -1195,7 +1195,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000005a-005a-005a-005a-00000000005a")
+			(tstamps "0000005b-005b-005b-005b-00000000005b")
 			(units
 				(unit
 					(name "A")
@@ -1241,7 +1241,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000006b-006b-006b-006b-00000000006b")
+			(tstamps "0000006c-006c-006c-006c-00000000006c")
 			(units
 				(unit
 					(name "A")
@@ -1287,7 +1287,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000072-0072-0072-0072-000000000072")
+			(tstamps "00000073-0073-0073-0073-000000000073")
 			(units
 				(unit
 					(name "A")
@@ -1333,7 +1333,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000007d-007d-007d-007d-00000000007d")
+			(tstamps "0000007e-007e-007e-007e-00000000007e")
 			(units
 				(unit
 					(name "A")
@@ -1379,7 +1379,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000088-0088-0088-0088-000000000088")
+			(tstamps "00000089-0089-0089-0089-000000000089")
 			(units
 				(unit
 					(name "A")
@@ -1425,7 +1425,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000093-0093-0093-0093-000000000093")
+			(tstamps "00000094-0094-0094-0094-000000000094")
 			(units
 				(unit
 					(name "A")
@@ -1471,7 +1471,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000ab-00ab-00ab-00ab-0000000000ab")
+			(tstamps "000000ac-00ac-00ac-00ac-0000000000ac")
 			(units
 				(unit
 					(name "A")
@@ -1517,7 +1517,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000c1-00c1-00c1-00c1-0000000000c1")
+			(tstamps "000000c2-00c2-00c2-00c2-0000000000c2")
 			(units
 				(unit
 					(name "A")
@@ -1563,7 +1563,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000d0-00d0-00d0-00d0-0000000000d0")
+			(tstamps "000000d1-00d1-00d1-00d1-0000000000d1")
 			(units
 				(unit
 					(name "A")
@@ -2191,12 +2191,6 @@
 				(pin "3")
 				(pinfunction "OUTPUT_3")
 				(pintype "output")
-			)
-			(node
-				(ref "U1")
-				(pin "4")
-				(pinfunction "FB_4")
-				(pintype "input")
 			)
 		)
 		(net

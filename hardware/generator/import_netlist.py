@@ -48,7 +48,7 @@ POWER_NETS = {
     ('U1', '1'): 'GND',       # GND
     ('U1', '2'): '+5V',       # VIN
     ('U1', '3'): 'BOOST_SW',  # OUTPUT / switching node
-    ('U1', '4'): 'BOOST_SW',  # FB tied to OUTPUT (fixed 12V)
+    ('U1', '4'): '+12V',      # FB senses +12V output rail
     ('U1', '5'): 'GND',       # OSC bypass to GND
     # L1: catch inductor — +5V → BOOST_SW
     ('L1', '1'): '+5V',

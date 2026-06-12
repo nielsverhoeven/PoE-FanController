@@ -275,9 +275,8 @@ def build_schematic():
     # Correct boost topology:
     #   +5V ──[C1]── GND                  (input bypass cap)
     #   +5V ──[L1]──[BOOST_SW]──[D1]── +12V ──[C2]── GND  (boost path)
-    #                    │
-    #               U1 OUTPUT (pin 3)
-    #               U1 FB    (pin 4) tied to OUTPUT (fixed 12V)
+    #                    │                  │
+    #               U1 OUTPUT (pin 3)   U1 FB (pin 4) senses +12V output
     #               U1 OSC   (pin 5) → 1 nF to GND (not shown, placed on PCB)
     #
     # Component layout in schematic (all on BOOST row y=28G..36G):
@@ -319,7 +318,7 @@ def build_schematic():
     s.power("GND",       *pU1["1"])                         # left  pin 1 — GND
     s.power("+5V",       *pU1["2"])                         # left  pin 2 — VIN
     s.label("BOOST_SW",  *pU1["3"])                         # right pin 3 — OUTPUT/SW
-    s.label("BOOST_SW",  *pU1["4"], angle=0)                # right pin 4 — FB tied to OUTPUT
+    s.power("+12V",      *pU1["4"], pin_type="power_in")    # right pin 4 — FB senses +12V output
     s.power("GND",       *pU1["5"])                         # right pin 5 — OSC bypass to GND
 
     # D1 — catch diode: BOOST_SW (anode/pin 1) → +12V (cathode/pin 2)
