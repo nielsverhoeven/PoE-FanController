@@ -1898,6 +1898,7 @@
 			(drill 0.8)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "DHT11_DATA")
 			(uuid "043e3058-d0bc-4d4a-811f-6019aabc9b38")
 		)
 		(pad "2" thru_hole circle
@@ -1906,6 +1907,7 @@
 			(drill 0.8)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
+			(net "DHT11_DATA")
 			(uuid "2815ee8d-cdfe-46d7-820c-6574398d055e")
 		)
 		(embedded_fonts no)
