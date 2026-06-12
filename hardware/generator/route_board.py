@@ -1,19 +1,29 @@
 #!/usr/bin/env python3
 """
-route_board.py v2 — MST-based L-shape / bypass router for PoE-FanController.
+route_board.py v4 — Single-layer F.Cu router for PoE-FanController.
 
-Fixes vs v1
------------
-* SegDB: track-to-track H×V crossing and H‖H / V‖V overlap detection.
-  Every placed segment is checked against already-placed same-layer segments.
-* PadDB: uses max(sx,sy)/2 so rectangular pads get their correct radius.
-* J8 same-column bypasses always on F.Cu — avoids crossing B.Cu signal tracks.
-* J8B→non-J8: tries _try_3by (V-first) and a 4-seg "drop-then-bypass" before
-  falling back (fixes FAN4_PWM J8.22→R12.1).
-* J8A→non-J8: tries a 4-seg right-detour via the inter-J8-row corridor before
-  falling back (fixes DHT11_DATA J8.10→HUM1.2).
-* +12V bus spine moved to x = 87.0 mm (clears C2.2 GND pad at x = 84.675).
-* Existing tracks cleared at start of main().
+ALL tracks are placed on F.Cu only.  No vias.  No hardcoded net-specific
+routes.
+
+Routing strategy
+----------------
+1. Power nets (GND, +12V, +5V, +3V3, BOOST_SW) are routed FIRST so that
+   their segments are registered in SegDB before any signal net is attempted.
+   - GND   : horizontal bus at y = GND_BUS_Y  + V stubs from every GND pad.
+   - +12V  : vertical spine  at x = V12_BUS_X + H stubs from every +12V pad.
+   - +5V   : horizontal bus  at y = V5_BUS_Y  + V stubs from every +5V pad.
+   - +3V3  : vertical spine  at x = V3V3_BUS_X+ H stubs from every +3V3 pad.
+   - BOOST_SW : MST + bypass.
+
+2. Signal nets: MST (Prim) + per-edge routing that tries, in order:
+     2-seg L → 3-seg bypass-x (U) → 3-seg bypass-y (U) → 4-seg detour.
+   If all attempts fail the edge is logged as UNROUTED and NO track is placed.
+   An unrouted ratsnest is always preferable to a tracks_crossing DRC error on
+   a single-copper-layer board.
+
+All routing functions gate EVERY segment placement through:
+  • pdb.ok()  — pad-to-track clearance (≥ 0.2 mm gap to foreign copper)
+  • segdb.ok()— track-to-track crossing check (axis-aligned H × V detection)
 """
 
 import sys
@@ -27,8 +37,19 @@ PCB_PATH = ("C:/repos-github/PoE-FanController/hardware/kicad/"
 
 POWER_NETS = {"+12V", "+5V", "+3V3", "GND", "BOOST_SW"}
 
-J8A_X = 29.810   # Row-A column x
-J8B_X = 45.190   # Row-B column x
+# Single routing layer — never changes
+ROUTE_LAYER = pcbnew.F_Cu
+
+# Board routing limits (mm).  Board origin ≈ (11.975, 11.975), ~82 × 78 mm.
+# Stay ≥ 1.0 mm from every edge.
+BRD_X1, BRD_X2 = 13.0, 92.5
+BRD_Y1, BRD_Y2 = 13.0, 88.5
+
+# Power bus / spine positions (all well within edge-clearance rules)
+GND_BUS_Y   = 88.0   # GND  horizontal bus near bottom edge
+V12_BUS_X   = 91.0   # +12V vertical spine near right edge
+V5_BUS_Y    = 13.5   # +5V  horizontal bus near top edge
+V3V3_BUS_X  = 13.5   # +3V3 vertical spine near left edge
 
 # ── Geometry ──────────────────────────────────────────────────────────────────
 
@@ -37,11 +58,12 @@ def _dist(a, b):
 
 
 def _pt_seg_dist(px, py, x1, y1, x2, y2):
-    """Minimum distance from point (px,py) to segment (x1,y1)-(x2,y2)."""
+    """Minimum distance from point (px,py) to segment (x1,y1)–(x2,y2)."""
     dx, dy = x2 - x1, y2 - y1
     if abs(dx) < 1e-9 and abs(dy) < 1e-9:
         return math.hypot(px - x1, py - y1)
-    t = max(0.0, min(1.0, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)))
+    t = max(0.0, min(1.0,
+                     ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)))
     return math.hypot(px - (x1 + t * dx), py - (y1 + t * dy))
 
 
@@ -59,24 +81,18 @@ class PadDB:
                 y = pcbnew.ToMM(pos.y)
                 net = pad.GetNetname()
                 sz = pad.GetSize()
-                # Use max dimension for conservative rectangular-pad radius.
                 r = max(pcbnew.ToMM(sz.x), pcbnew.ToMM(sz.y)) / 2.0
                 self._pads.append((x, y, net, r))
 
     def ok(self, x1, y1, x2, y2, net_name, half_w, clr=0.2):
-        """Return True if the segment clears every foreign pad by >= clr mm.
-        
-        All pads (connected and unconnected) are treated as obstacles with their
-        full copper radius — this ensures DRC clearance rules are respected.
-        """
+        """True if segment clears every foreign pad by ≥ clr mm."""
         if abs(x1 - x2) < 0.001 and abs(y1 - y2) < 0.001:
             return True
         need = half_w + clr
         for px, py, pnet, pr in self._pads:
             if pnet == net_name or pnet == "":
                 continue
-            dist = _pt_seg_dist(px, py, x1, y1, x2, y2)
-            if dist < need + pr:
+            if _pt_seg_dist(px, py, x1, y1, x2, y2) < need + pr:
                 return False
         return True
 
@@ -85,30 +101,27 @@ class PadDB:
 
 class SegDB:
     """
-    Detects when a candidate segment would cross or overlap an already-placed
-    track on the same layer (different net).
+    Axis-aligned (H or V) segment crossing / overlap detector.
 
-    Stored segments are axis-aligned (H or V).  For two segments on the same
-    layer with different nets this checks:
+    Rules for two segments on the same layer with different nets:
       H × V  — perpendicular crossing
-      H ‖ H  — same-y overlap
-      V ‖ V  — same-x overlap
+      H ‖ H  — same-y overlap (collinear)
+      V ‖ V  — same-x overlap (collinear)
     """
 
     def __init__(self):
-        # (x0, y0, x1, y1, net, layer) with x0≤x1, y0≤y1
-        self._segs = []
+        self._segs = []   # (x0, y0, x1, y1, net, layer)  x0≤x1, y0≤y1
 
     def add(self, x1, y1, x2, y2, net, layer):
         self._segs.append(
-            (min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2), net, layer)
-        )
+            (min(x1, x2), min(y1, y2),
+             max(x1, x2), max(y1, y2), net, layer))
 
     def ok(self, x1, y1, x2, y2, net, layer):
         ax0, ay0 = min(x1, x2), min(y1, y2)
         ax1, ay1 = max(x1, x2), max(y1, y2)
-        a_H = (ay1 - ay0) < 1e-6   # horizontal
-        a_V = (ax1 - ax0) < 1e-6   # vertical
+        a_H = (ay1 - ay0) < 1e-6
+        a_V = (ax1 - ax0) < 1e-6
         for bx0, by0, bx1, by1, bnet, blyr in self._segs:
             if blyr != layer or bnet == net:
                 continue
@@ -116,16 +129,15 @@ class SegDB:
             b_V = (bx1 - bx0) < 1e-6
             # H × V crossing
             if a_H and b_V:
-                if ax0 <= bx0 <= ax1 and by0 <= ay0 <= by1:
+                if ax0 < bx0 < ax1 and by0 < ay0 < by1:
                     return False
             elif a_V and b_H:
-                if bx0 <= ax0 <= bx1 and ay0 <= by0 <= ay1:
+                if bx0 < ax0 < bx1 and ay0 < by0 < ay1:
                     return False
-            # H ‖ H overlap (same y, overlapping x)
+            # Collinear overlap
             elif a_H and b_H:
                 if abs(ay0 - by0) < 1e-6 and ax0 < bx1 and bx0 < ax1:
                     return False
-            # V ‖ V overlap (same x, overlapping y)
             elif a_V and b_V:
                 if abs(ax0 - bx0) < 1e-6 and ay0 < by1 and by0 < ay1:
                     return False
@@ -161,7 +173,7 @@ def _prim_mst(pts):
 # ── PCB track helper ──────────────────────────────────────────────────────────
 
 def _add(board, nobj, x1, y1, x2, y2, w, layer, segdb):
-    """Place one track segment and register it in segdb."""
+    """Place one F.Cu track segment and register it in segdb."""
     if abs(x1 - x2) < 0.001 and abs(y1 - y2) < 0.001:
         return
     t = pcbnew.PCB_TRACK(board)
@@ -174,57 +186,37 @@ def _add(board, nobj, x1, y1, x2, y2, w, layer, segdb):
     segdb.add(x1, y1, x2, y2, nobj.GetNetname(), layer)
 
 
-def _add_via(board, nobj, x, y, segdb):
-    """Place a via (B.Cu ↔ F.Cu) at (x, y)."""
-    v = pcbnew.PCB_VIA(board)
-    v.SetPosition(pcbnew.VECTOR2I(pcbnew.FromMM(x), pcbnew.FromMM(y)))
-    v.SetWidth(pcbnew.FromMM(0.8))
-    v.SetDrill(pcbnew.FromMM(0.4))
-    v.SetLayerPair(pcbnew.F_Cu, pcbnew.B_Cu)
-    v.SetNet(nobj)
-    board.Add(v)
-
-
-
-
-def _is_j8a(ref):
-    if not ref or not ref.startswith("J8."):
-        return False
-    try:
-        return 1 <= int(ref.split(".")[1]) <= 20
-    except ValueError:
-        return False
-
-
-def _is_j8b(ref):
-    if not ref or not ref.startswith("J8."):
-        return False
-    try:
-        return 21 <= int(ref.split(".")[1]) <= 40
-    except ValueError:
-        return False
-
-
 # ── Bypass-candidate generators ───────────────────────────────────────────────
 
-_DELTAS = [0, -2, 2, -4, 4, -6, 6, -8, 8, -10, 10, -12, 12,
-           -15, 15, -18, 18, -20, 20, -25, 25, -30, 30]
+# Relative offsets tried around the midpoint and both endpoints
+_DELTAS = [
+    0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5,
+    -6, 6, -8, 8, -10, 10, -12, 12, -15, 15,
+    -18, 18, -20, 20, -25, 25, -30, 30,
+    -35, 35, -40, 40, -50, 50, -60, 60, -70, 70,
+]
+
+# Fixed board-region waypoints always included in candidate lists
+_BX_FIXED = [13.5, 15.0, 20.0, 25.0, 30.0, 37.0, 45.0,
+             55.0, 65.0, 75.0, 85.0, 88.0, 90.0, 91.0]
+_BY_FIXED = [13.5, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0,
+             50.0, 60.0, 70.0, 78.0, 82.0, 85.0, 88.0]
 
 
-def _bx_candidates(x1, y1, x2, y2, only_right=False, only_left=False):
+def _bx_candidates(x1, y1, x2, y2):
     mx = (x1 + x2) / 2.0
     seen = set()
     raw = []
     for d in _DELTAS:
         for base in (mx, x1, x2):
             bx = round(base + d, 3)
-            if only_right and bx <= J8B_X:
-                continue
-            if only_left and bx >= J8A_X:
-                continue
-            if bx not in seen:
+            if BRD_X1 <= bx <= BRD_X2 and bx not in seen:
                 seen.add(bx)
                 raw.append(bx)
+    for bx in _BX_FIXED:
+        if bx not in seen and BRD_X1 <= bx <= BRD_X2:
+            seen.add(bx)
+            raw.append(bx)
     lo, hi = min(x1, x2), max(x1, x2)
     raw.sort(key=lambda v: (0 if lo <= v <= hi else 1, abs(v - mx)))
     return raw
@@ -237,427 +229,279 @@ def _by_candidates(x1, y1, x2, y2):
     for d in _DELTAS:
         for base in (my, y1, y2):
             by = round(base + d, 3)
-            if by not in seen:
+            if BRD_Y1 <= by <= BRD_Y2 and by not in seen:
                 seen.add(by)
                 raw.append(by)
+    for by in _BY_FIXED:
+        if by not in seen and BRD_Y1 <= by <= BRD_Y2:
+            seen.add(by)
+            raw.append(by)
     lo, hi = min(y1, y2), max(y1, y2)
     raw.sort(key=lambda v: (0 if lo <= v <= hi else 1, abs(v - my)))
     return raw
 
 
-# ── 2-segment L-shape ────────────────────────────────────────────────────────
+# ── Routing primitives (all on ROUTE_LAYER = F.Cu only) ──────────────────────
 
-def _try_2seg(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb,
-              preferred_layers=None):
+def _segs_ok(segs, net, hw, pdb, segdb):
+    """Return True if every segment in *segs* passes both pdb and segdb."""
+    return all(
+        pdb.ok(a, b, c, d, net, hw) and segdb.ok(a, b, c, d, net, ROUTE_LAYER)
+        for a, b, c, d in segs
+    )
+
+
+def _place_segs(board, nobj, segs, w, segdb):
+    for a, b, c, d in segs:
+        _add(board, nobj, a, b, c, d, w, ROUTE_LAYER, segdb)
+
+
+def _try_2seg(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb):
+    """2-segment L-shape — H-first and V-first."""
     hw = w / 2.0
-    options = [
-        ((x2, y1), pcbnew.B_Cu),
-        ((x1, y2), pcbnew.B_Cu),   # prefer B.Cu V-first over F.Cu
-        ((x1, y2), pcbnew.F_Cu),
-        ((x2, y1), pcbnew.F_Cu),
-    ]
-    if preferred_layers:
-        options = [o for o in options if o[1] in preferred_layers] + \
-                  [o for o in options if o[1] not in preferred_layers]
-    for (cx, cy), layer in options:
-        if (pdb.ok(x1, y1, cx, cy, net, hw) and
-                pdb.ok(cx, cy, x2, y2, net, hw) and
-                segdb.ok(x1, y1, cx, cy, net, layer) and
-                segdb.ok(cx, cy, x2, y2, net, layer)):
-            _add(board, nobj, x1, y1, cx, cy, w, layer, segdb)
-            _add(board, nobj, cx, cy, x2, y2, w, layer, segdb)
+    for cx, cy in ((x2, y1), (x1, y2)):
+        segs = [(x1, y1, cx, cy), (cx, cy, x2, y2)]
+        if _segs_ok(segs, net, hw, pdb, segdb):
+            _place_segs(board, nobj, segs, w, segdb)
             return True
     return False
 
 
-# ── 3-segment U-shapes ────────────────────────────────────────────────────────
-
-def _try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb,
-             only_right=False, only_left=False, layers=None):
-    """U-shape via bypass-x: (x1,y1)→(bx,y1)→(bx,y2)→(x2,y2)."""
+def _try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb):
+    """3-seg U via bypass-x: (x1,y1)→(bx,y1)→(bx,y2)→(x2,y2)."""
     hw = w / 2.0
-    layer_seq = layers if layers else (pcbnew.B_Cu, pcbnew.F_Cu)
-    for bx in _bx_candidates(x1, y1, x2, y2, only_right, only_left):
+    for bx in _bx_candidates(x1, y1, x2, y2):
         segs = [(x1, y1, bx, y1), (bx, y1, bx, y2), (bx, y2, x2, y2)]
-        for layer in layer_seq:
-            if all(pdb.ok(a, b, c, d, net, hw) and
-                   segdb.ok(a, b, c, d, net, layer)
-                   for a, b, c, d in segs):
-                for a, b, c, d in segs:
-                    _add(board, nobj, a, b, c, d, w, layer, segdb)
-                return True
+        if _segs_ok(segs, net, hw, pdb, segdb):
+            _place_segs(board, nobj, segs, w, segdb)
+            return True
     return False
 
 
-def _try_3by(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb, layers=None):
-    """U-shape via bypass-y: (x1,y1)→(x1,by)→(x2,by)→(x2,y2)."""
+def _try_3by(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb):
+    """3-seg U via bypass-y: (x1,y1)→(x1,by)→(x2,by)→(x2,y2)."""
     hw = w / 2.0
-    layer_seq = layers if layers else (pcbnew.B_Cu, pcbnew.F_Cu)
     for by in _by_candidates(x1, y1, x2, y2):
         segs = [(x1, y1, x1, by), (x1, by, x2, by), (x2, by, x2, y2)]
-        for layer in layer_seq:
-            if all(pdb.ok(a, b, c, d, net, hw) and
-                   segdb.ok(a, b, c, d, net, layer)
-                   for a, b, c, d in segs):
-                for a, b, c, d in segs:
-                    _add(board, nobj, a, b, c, d, w, layer, segdb)
-                return True
+        if _segs_ok(segs, net, hw, pdb, segdb):
+            _place_segs(board, nobj, segs, w, segdb)
+            return True
     return False
 
 
-# ── 4-segment detours ─────────────────────────────────────────────────────────
+def _try_4seg(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb):
+    """4-segment detour — H-V-H-V and V-H-V-H patterns.
 
-def _try_4seg_j8a_right(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb):
-    """
-    J8A → non-J8 detour when 3-seg fails.
-    Goes RIGHT into the inter-J8-row corridor, loops below the destination,
-    then approaches from below.  Pattern:
-      H→(bx_r, y1) → V→(bx_r, by_low) → H→(x2, by_low) → V→(x2, y2)
+    Caps candidate lists at 40 each to bound runtime.
     """
     hw = w / 2.0
-    bx_rights = [37.0, 35.0, 39.0, 33.0, 41.0, 43.0]   # inter-J8 x values
-    by_margin = 2.0   # mm below max(y1,y2)
-    by_lows = [max(y1, y2) + by_margin + i for i in [0, 1, 2, 3, 4, 5]]
-    for bx in bx_rights:
-        for by in by_lows:
+    bxs = _bx_candidates(x1, y1, x2, y2)[:40]
+    bys = _by_candidates(x1, y1, x2, y2)[:40]
+
+    # H-V-H-V: (x1,y1)→(bx,y1)→(bx,by)→(x2,by)→(x2,y2)
+    for bx in bxs:
+        for by in bys:
             segs = [(x1, y1, bx, y1), (bx, y1, bx, by),
                     (bx, by, x2, by), (x2, by, x2, y2)]
-            for layer in (pcbnew.B_Cu, pcbnew.F_Cu):
-                if all(pdb.ok(a, b, c, d, net, hw) and
-                       segdb.ok(a, b, c, d, net, layer)
-                       for a, b, c, d in segs):
-                    for a, b, c, d in segs:
-                        _add(board, nobj, a, b, c, d, w, layer, segdb)
-                    return True
+            if _segs_ok(segs, net, hw, pdb, segdb):
+                _place_segs(board, nobj, segs, w, segdb)
+                return True
+
+    # V-H-V-H: (x1,y1)→(x1,by)→(bx,by)→(bx,y2)→(x2,y2)
+    for by in bys:
+        for bx in bxs:
+            segs = [(x1, y1, x1, by), (x1, by, bx, by),
+                    (bx, by, bx, y2), (bx, y2, x2, y2)]
+            if _segs_ok(segs, net, hw, pdb, segdb):
+                _place_segs(board, nobj, segs, w, segdb)
+                return True
+
     return False
 
 
-def _try_4seg_j8b_down(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb):
+# ── Power bus / spine routing ─────────────────────────────────────────────────
+
+def _stub_to_h_bus(board, nobj, net, px, py, bus_y, w, pdb, segdb):
     """
-    J8B → non-J8 detour when 3-seg fails.
-    Drops slightly below the J8 pad y-level (past the R7.2/R11.1 blocker at
-    y ≈ 62.475), then routes H→V→H to the destination.  Pattern:
-      V→(x1, by1) → H→(bx, by1) → V→(bx, y2) → H→(x2, y2)
+    Connect pad at (px, py) to a horizontal bus at y = bus_y.
+    Tries direct V-stub, then 3-seg bypass via an offset x.
+    """
+    if abs(py - bus_y) < 0.001:
+        return True   # pad already on bus level
+
+    hw = w / 2.0
+
+    # Direct vertical stub
+    if (pdb.ok(px, py, px, bus_y, net, hw) and
+            segdb.ok(px, py, px, bus_y, net, ROUTE_LAYER)):
+        _add(board, nobj, px, py, px, bus_y, w, ROUTE_LAYER, segdb)
+        return True
+
+    # 3-seg via offset x: (px,py)→(ox,py)→(ox,bus_y)→(px,bus_y)
+    for ox in _bx_candidates(px, py, px, bus_y):
+        segs = [(px, py, ox, py), (ox, py, ox, bus_y), (ox, bus_y, px, bus_y)]
+        if _segs_ok(segs, net, hw, pdb, segdb):
+            _place_segs(board, nobj, segs, w, segdb)
+            return True
+
+    return False
+
+
+def _stub_to_v_bus(board, nobj, net, px, py, bus_x, w, pdb, segdb):
+    """
+    Connect pad at (px, py) to a vertical bus at x = bus_x.
+    Tries direct H-stub, then 3-seg bypass via an offset y.
+    """
+    if abs(px - bus_x) < 0.001:
+        return True   # pad already on bus line
+
+    hw = w / 2.0
+
+    # Direct horizontal stub
+    if (pdb.ok(px, py, bus_x, py, net, hw) and
+            segdb.ok(px, py, bus_x, py, net, ROUTE_LAYER)):
+        _add(board, nobj, px, py, bus_x, py, w, ROUTE_LAYER, segdb)
+        return True
+
+    # 3-seg via offset y: (px,py)→(px,oy)→(bus_x,oy)→(bus_x,py)
+    for oy in _by_candidates(px, py, bus_x, py):
+        segs = [(px, py, px, oy), (px, oy, bus_x, oy), (bus_x, oy, bus_x, py)]
+        if _segs_ok(segs, net, hw, pdb, segdb):
+            _place_segs(board, nobj, segs, w, segdb)
+            return True
+
+    return False
+
+
+def _route_power_h_bus(board, nobj, net, pads, bus_y, w, pdb, segdb):
+    """
+    Route a power net using a horizontal bus at y = bus_y.
+
+    1. Place the bus from x_min to x_max of all pad x-coordinates (checked).
+    2. Route a stub from each pad to the bus level (checked).
+    3. Connect each stub's bus-level endpoint to the next one with a short
+       horizontal segment (checked).
     """
     hw = w / 2.0
-    # by1 candidates: just below y1 (going down = increasing y in KiCad)
-    by1_offsets = [1.5, 1.3, 1.4, 2.0, 2.5, 3.0, 0.8, 3.5, 4.0]
-    bx_offsets  = [-2.0, -1.5, -2.5, -3.0, -4.0, -1.0, -0.5, -5.0]
-    for dy in by1_offsets:
-        by1 = round(y1 + dy, 3)
-        for dbx in bx_offsets:
-            bx = round(x2 + dbx, 3)
-            segs = [(x1, y1, x1, by1), (x1, by1, bx, by1),
-                    (bx, by1, bx, y2),  (bx, y2, x2, y2)]
-            for layer in (pcbnew.B_Cu, pcbnew.F_Cu):
-                if all(pdb.ok(a, b, c, d, net, hw) and
-                       segdb.ok(a, b, c, d, net, layer)
-                       for a, b, c, d in segs):
-                    for a, b, c, d in segs:
-                        _add(board, nobj, a, b, c, d, w, layer, segdb)
-                    return True
-    return False
+    sorted_pads = sorted(pads, key=lambda p: p[1])   # sort by x
+    xs = [px for _, px, _ in sorted_pads]
+
+    # Place bus segments between consecutive x-positions (checked individually)
+    bus_points = []
+    for i in range(len(xs) - 1):
+        sx1, sx2 = xs[i], xs[i + 1]
+        if (pdb.ok(sx1, bus_y, sx2, bus_y, net, hw) and
+                segdb.ok(sx1, bus_y, sx2, bus_y, net, ROUTE_LAYER)):
+            _add(board, nobj, sx1, bus_y, sx2, bus_y, w, ROUTE_LAYER, segdb)
+        else:
+            print(f"    WARN bus segment blocked: {net} x=[{sx1:.2f},{sx2:.2f}] y={bus_y}")
+        bus_points.extend([sx1, sx2])
+
+    # Place stubs
+    unrouted = 0
+    for _, px, py in sorted_pads:
+        ok = _stub_to_h_bus(board, nobj, net, px, py, bus_y, w, pdb, segdb)
+        if not ok:
+            print(f"    UNROUTED stub: {net} ({px:.3f},{py:.3f}) → y={bus_y}")
+            unrouted += 1
+    return unrouted
 
 
-def _try_5seg_j8b_left(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb):
+def _route_power_v_bus(board, nobj, net, pads, bus_x, w, pdb, segdb):
     """
-    J8B → non-J8 five-segment detour that exits LEFT into the inter-J8-row
-    corridor, arcs around the R7.2/R11.1 y-blocker, then descends to the
-    destination from the right.  Pattern:
-      H←(bx_l, y1) → V↑(bx_l, by_u) → H→(bx_r, by_u)
-        → V↓(bx_r, y2) → H←(x2, y2)
-    The EXIT left avoids the R7.2/R11.1 row that sits only 0.085 mm from
-    y=62.390 on x∈[61.975,65.975] — those pads block any rightward H at y1.
-    The APPROACH to x2 comes from the right (bx_r > x2) to avoid R8.2 at
-    (61.975, 76.015) which sits on the same y=76.015 as R12.1.
+    Route a power net using a vertical bus at x = bus_x.
+
+    1. Place the spine from y_min to y_max of all pad y-coordinates (checked).
+    2. Route a stub from each pad to the spine (checked).
+    3. Connect each stub's spine-level endpoint vertically as needed.
     """
     hw = w / 2.0
-    # Candidate left-exit x values — stay in inter-J8 corridor (29.81–45.19)
-    bx_lefts = [37.0, 35.0, 39.0, 33.0, 41.0, 31.0, 43.0]
-    # Candidate upper-bridge y values — go UP (y decreasing) from y1
-    by_up_deltas = [-7.0, -5.0, -9.0, -3.5, -11.0, -13.0, -15.0]
-    # Candidate right-approach x values — must be > x2 + clearance of R12.2
-    bx_rights = [68.0, 69.0, 67.0, 70.0, 71.0, 72.0, 73.0, 66.5]
-    for bx_l in bx_lefts:
-        for dby in by_up_deltas:
-            by_u = round(y1 + dby, 3)
-            for bx_r in bx_rights:
-                segs = [
-                    (x1,  y1,  bx_l, y1  ),   # H left
-                    (bx_l, y1,  bx_l, by_u),   # V up
-                    (bx_l, by_u, bx_r, by_u),  # H right
-                    (bx_r, by_u, bx_r, y2  ),  # V down
-                    (bx_r, y2,  x2,   y2  ),   # H left stub to destination
-                ]
-                for layer in (pcbnew.B_Cu, pcbnew.F_Cu):
-                    if all(pdb.ok(a, b, c, d, net, hw) and
-                           segdb.ok(a, b, c, d, net, layer)
-                           for a, b, c, d in segs):
-                        for a, b, c, d in segs:
-                            _add(board, nobj, a, b, c, d, w, layer, segdb)
-                        return True
-    return False
+    sorted_pads = sorted(pads, key=lambda p: p[2])   # sort by y
+    ys = [py for _, _, py in sorted_pads]
+
+    # Place spine segments between consecutive y-positions (checked)
+    for i in range(len(ys) - 1):
+        sy1, sy2 = ys[i], ys[i + 1]
+        if (pdb.ok(bus_x, sy1, bus_x, sy2, net, hw) and
+                segdb.ok(bus_x, sy1, bus_x, sy2, net, ROUTE_LAYER)):
+            _add(board, nobj, bus_x, sy1, bus_x, sy2, w, ROUTE_LAYER, segdb)
+        else:
+            print(f"    WARN spine segment blocked: {net} x={bus_x} y=[{sy1:.2f},{sy2:.2f}]")
+
+    # Place stubs
+    unrouted = 0
+    for _, px, py in sorted_pads:
+        ok = _stub_to_v_bus(board, nobj, net, px, py, bus_x, w, pdb, segdb)
+        if not ok:
+            print(f"    UNROUTED stub: {net} ({px:.3f},{py:.3f}) → x={bus_x}")
+            unrouted += 1
+    return unrouted
 
 
 # ── Main per-edge router ──────────────────────────────────────────────────────
 
-def _match(x1, y1, x2, y2, ax, ay, bx, by, tol=0.05):
-    """True if (x1,y1)↔(x2,y2) matches the A↔B endpoint pair (either order)."""
-    return ((abs(x1 - ax) < tol and abs(y1 - ay) < tol and
-             abs(x2 - bx) < tol and abs(y2 - by) < tol) or
-            (abs(x1 - bx) < tol and abs(y1 - by) < tol and
-             abs(x2 - ax) < tol and abs(y2 - ay) < tol))
-
-
 def _route_edge(board, nobj, r1, p1, r2, p2, w, net, pdb, segdb):
+    """
+    Route one MST edge using progressively more complex bypass shapes.
+
+    Returns True if routed, False if left UNROUTED.
+    No track is placed when returning False — unrouted is better than crossing.
+    """
     x1, y1 = p1
     x2, y2 = p2
-    hw = w / 2.0
 
-    j8a1, j8a2 = _is_j8a(r1), _is_j8a(r2)
-    j8b1, j8b2 = _is_j8b(r1), _is_j8b(r2)
-
-    # ── Topologically-constrained hardcoded routes ────────────────────────────
-    # These four edges cannot be found by the generic router because dense J8
-    # pad clusters block every candidate bx/by within the standard DELTA grid.
-    # Each path is verified by geometry: dist from every foreign pad > need+pr.
-
-    # +3V3 J8.36(45.19,26.83) ↔ R14.1(24.475,55.095)
-    # Route must loop south to y=66.5 to stay clear of J8A and J8B pad
-    # columns at y∈[16.67,64.93]; V approaches R14.1 from the right.
-    if net == "+3V3" and _match(x1, y1, x2, y2, 45.19, 26.83, 24.475, 55.095):
-        if abs(x2 - 45.19) < 0.05:          # normalise: x1=J8.36
-            x1, y1, x2, y2 = x2, y2, x1, y1
-        for a, b, c, d in [(x1, y1,   47.19,  y1   ),   # H right (extends +3V3 spine)
-                            (47.19, y1,  47.19,  66.5 ),  # V south past all J8 rows
-                            (47.19, 66.5, 25.875, 66.5),  # H left (clear of J6 at y=62)
-                            (25.875, 66.5, 25.875, y2  ),  # V north to R14.1 level
-                            (25.875, y2,  x2,     y2  )]:  # H left to R14.1
-            _add(board, nobj, a, b, c, d, w, pcbnew.B_Cu, segdb)
-        return
-
-    # GND J8.33(45.19,34.45) ↔ C1.2(53.975,25.975)
-    # Must exit left (bx=37) to avoid +3V3 B.Cu V at x=47.19, then arc to y=22
-    # so the final H at y=25.975 stays above J8.36's +3V3 pad clearance zone,
-    # and the V+H approach to C1.2 avoids C1.1(+5V) at (53.975,23.475).
-    if net == "GND" and _match(x1, y1, x2, y2, 45.19, 34.45, 53.975, 25.975):
-        if abs(x1 - 53.975) < 0.05:         # normalise: x1=J8.33
-            x1, y1, x2, y2 = x2, y2, x1, y1
-        for a, b, c, d in [(x1,    y1,   37.0,  y1   ),  # H left past +3V3 V
-                            (37.0,  y1,   37.0,  22.0 ),  # V north (clear of +3V3 V start)
-                            (37.0,  22.0, 52.0,  22.0 ),  # H right (under J8.37 clearance)
-                            (52.0,  22.0, 52.0,  y2   ),  # V south (clears C1.1 at x=53.975)
-                            (52.0,  y2,   x2,    y2   )]:  # H right to C1.2
-            _add(board, nobj, a, b, c, d, w, pcbnew.B_Cu, segdb)
-        return
-
-    # PROG_LED J8.16(29.81,26.83) ↔ R13.1(22.975,18.475)
-    # Must exit RIGHT of J8A (bx=31.81) to avoid GND B.Cu V at x=27.81; the
-    # return H at y=20.48 (midpoint between J8.19 and J8.18) threads the J8A
-    # pad gap with 1.27mm clearance > need+pr=1.25mm; placed on F.Cu so the
-    # GND B.Cu obstacles don't apply.
-    if net == "PROG_LED" and _match(x1, y1, x2, y2, 29.81, 26.83, 22.975, 18.475):
-        if abs(x2 - 29.81) < 0.05:          # normalise: x1=J8.16
-            x1, y1, x2, y2 = x2, y2, x1, y1
-        for a, b, c, d in [(x1,    y1,   31.81,  y1   ),   # H right (J8.17 dist=2.0mm)
-                            (31.81, y1,   31.81,  20.48),   # V south
-                            (31.81, 20.48, x2,   20.48),    # H left through J8.19/18 gap
-                            (x2,   20.48, x2,    y2   )]:   # V north to R13.1
-            _add(board, nobj, a, b, c, d, w, pcbnew.F_Cu, segdb)
-        return
-
-    # PWR_LED J8.17(29.81,24.29) ↔ R3.1(17.975,18.475)
-    # 2-seg F.Cu H-first: avoids GND B.Cu V at x=27.81 (different layer).
-    # PROG_LED's F.Cu V at x=31.81 y∈[20.48,26.83] is outside x∈[17.975,29.81].
-    if net == "PWR_LED" and _match(x1, y1, x2, y2, 29.81, 24.29, 17.975, 18.475):
-        if abs(x2 - 29.81) < 0.05:          # normalise: x1=J8.17
-            x1, y1, x2, y2 = x2, y2, x1, y1
-        _add(board, nobj, x1, y1, x2, y1, w, pcbnew.F_Cu, segdb)  # H west
-        _add(board, nobj, x2, y1, x2, y2, w, pcbnew.F_Cu, segdb)  # V north
-        return
-
-    # ── Special case: FAN4_PWM J8.22 ↔ R12.1 ────────────────────────────────
-    # J8.22(45.190,62.390)→R12.1(65.975,76.015): blocked by R7.2/R11.1 at
-    # y=62.475 and R8.2(61.975,76.015) on same y as destination.
-    # Route entirely on F.Cu (THT pad J8.22 connects to both layers).
-    # F.Cu V short south, then H east, V south, H west to R12.1.
-    if (net == "FAN4_PWM" and
-            ((abs(x1 - 45.190) < 0.05 and abs(y1 - 62.390) < 0.05 and
-              abs(x2 - 65.975) < 0.05 and abs(y2 - 76.015) < 0.05) or
-             (abs(x2 - 45.190) < 0.05 and abs(y2 - 62.390) < 0.05 and
-              abs(x1 - 65.975) < 0.05 and abs(y1 - 76.015) < 0.05))):
-        # Normalise: J8.22 is (x1,y1)
-        if abs(x2 - 45.190) < 0.05:
-            x1, y1, x2, y2 = x2, y2, x1, y1
-        vy = 63.675   # V endpoint — J8.21(64.93) dist=1.255 > need+pr=1.25mm
-        _add(board, nobj, x1, y1, x1, vy, w, pcbnew.F_Cu, segdb)   # V south
-        _add(board, nobj, x1, vy, 68.0, vy, w, pcbnew.F_Cu, segdb) # H east
-        _add(board, nobj, 68.0, vy, 68.0, y2, w, pcbnew.F_Cu, segdb) # V south
-        _add(board, nobj, 68.0, y2, x2, y2, w, pcbnew.F_Cu, segdb) # H west
-        return
-
-    # ── J8 same-column: both Row-A ─── bypass left, try B.Cu then F.Cu ─────────
-    if j8a1 and j8a2:
-        if not _try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb,
-                         only_left=True, layers=(pcbnew.B_Cu, pcbnew.F_Cu)):
-            # Hard fallback: x = 27 mm, F.Cu (avoids B.Cu congestion at x=26)
-            for a, b, c, d in [(x1, y1, 27.0, y1),
-                                (27.0, y1, 27.0, y2),
-                                (27.0, y2, x2, y2)]:
-                _add(board, nobj, a, b, c, d, w, pcbnew.F_Cu, segdb)
-        return
-
-    # ── J8 same-column: both Row-B ─── bypass LEFT on B.Cu ──────────────────
-    # All FANx_TACH/PWM signals route F.Cu H going RIGHT from J8B; going LEFT
-    # on B.Cu (bx ≈ 43.19) avoids them entirely.  +3V3 B.Cu V is at x=47.19
-    # (to the right of J8B), so leftward B.Cu is unobstructed.
-    if j8b1 and j8b2:
-        if not _try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb,
-                         only_left=True, layers=(pcbnew.B_Cu, pcbnew.F_Cu)):
-            # Hard fallback: x = 37.0 mm, B.Cu
-            for a, b, c, d in [(x1, y1, 37.0, y1),
-                                (37.0, y1, 37.0, y2),
-                                (37.0, y2, x2, y2)]:
-                _add(board, nobj, a, b, c, d, w, pcbnew.B_Cu, segdb)
-        return
-
-    # ── J8 Row-A → non-J8 ────────────────────────────────────────────────────
-    if j8a1 or j8a2:
-        if j8a2:                        # normalise: J8 pad is always p1
-            x1, y1, x2, y2 = x2, y2, x1, y1
-            r1, r2 = r2, r1
-        # 2-seg: try B.Cu then F.Cu for both H-first and V-first
-        for layer in (pcbnew.B_Cu, pcbnew.F_Cu):
-            for cx, cy in ((x2, y1), (x1, y2)):
-                if (pdb.ok(x1, y1, cx, cy, net, hw) and
-                        pdb.ok(cx, cy, x2, y2, net, hw) and
-                        segdb.ok(x1, y1, cx, cy, net, layer) and
-                        segdb.ok(cx, cy, x2, y2, net, layer)):
-                    _add(board, nobj, x1, y1, cx, cy, w, layer, segdb)
-                    _add(board, nobj, cx, cy, x2, y2, w, layer, segdb)
-                    return
-        # 3-seg left-biased, then unrestricted, then 4-seg right detour
-        if (_try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb,
-                     only_left=True) or
-                _try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb) or
-                _try_3by(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb) or
-                _try_4seg_j8a_right(board, nobj, x1, y1, x2, y2,
-                                    w, net, pdb, segdb)):
-            return
-        print(f"    WARN fallback: {r1} → {r2}")
-        _add(board, nobj, x1, y1, x2, y1, w, pcbnew.B_Cu, segdb)
-        _add(board, nobj, x2, y1, x2, y2, w, pcbnew.B_Cu, segdb)
-        return
-
-    # ── J8 Row-B → non-J8 ────────────────────────────────────────────────────
-    if j8b1 or j8b2:
-        if j8b2:
-            x1, y1, x2, y2 = x2, y2, x1, y1
-            r1, r2 = r2, r1
-        # 2-seg: try B.Cu then F.Cu for both H-first and V-first
-        for layer in (pcbnew.B_Cu, pcbnew.F_Cu):
-            for cx, cy in ((x2, y1), (x1, y2)):
-                if (pdb.ok(x1, y1, cx, cy, net, hw) and
-                        pdb.ok(cx, cy, x2, y2, net, hw) and
-                        segdb.ok(x1, y1, cx, cy, net, layer) and
-                        segdb.ok(cx, cy, x2, y2, net, layer)):
-                    _add(board, nobj, x1, y1, cx, cy, w, layer, segdb)
-                    _add(board, nobj, cx, cy, x2, y2, w, layer, segdb)
-                    return
-        if (_try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb,
-                     only_right=True) or
-                _try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb) or
-                _try_3by(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb) or
-                _try_4seg_j8b_down(board, nobj, x1, y1, x2, y2,
-                                   w, net, pdb, segdb) or
-                _try_5seg_j8b_left(board, nobj, x1, y1, x2, y2,
-                                   w, net, pdb, segdb)):
-            return
-        print(f"    WARN fallback: {r1} → {r2}")
-        _add(board, nobj, x1, y1, x2, y1, w, pcbnew.B_Cu, segdb)
-        _add(board, nobj, x2, y1, x2, y2, w, pcbnew.B_Cu, segdb)
-        return
-
-    # ── Non-J8 ↔ Non-J8 ──────────────────────────────────────────────────────
     if (_try_2seg(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb) or
             _try_3bx(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb) or
-            _try_3by(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb)):
-        return
+            _try_3by(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb) or
+            _try_4seg(board, nobj, x1, y1, x2, y2, w, net, pdb, segdb)):
+        return True
 
-    print(f"    WARN fallback: {r1} → {r2}")
-    dx, dy = abs(x2 - x1), abs(y2 - y1)
-    if dx >= dy:
-        _add(board, nobj, x1, y1, x2, y1, w, pcbnew.B_Cu, segdb)
-        _add(board, nobj, x2, y1, x2, y2, w, pcbnew.B_Cu, segdb)
-    else:
-        _add(board, nobj, x1, y1, x1, y2, w, pcbnew.F_Cu, segdb)
-        _add(board, nobj, x1, y2, x2, y2, w, pcbnew.F_Cu, segdb)
+    print(f"    UNROUTED: {r1}({x1:.3f},{y1:.3f}) ↔ {r2}({x2:.3f},{y2:.3f})")
+    return False
 
 
-# ── +12V bus ──────────────────────────────────────────────────────────────────
-
-def _route_12v(board, nobj, pads, pdb, segdb):
-    """
-    Vertical spine at x = 87.0 mm (clears C2.2 GND at x = 84.675) with
-    horizontal stubs from each +12V pad to the spine.
-    """
-    BUS_X = 87.0
-    W = 0.6
-    ys = sorted(y for _, x, y in pads)
-    _add(board, nobj, BUS_X, ys[0], BUS_X, ys[-1], W, pcbnew.B_Cu, segdb)
-    for _, x, y in pads:
-        _add(board, nobj, x, y, BUS_X, y, W, pcbnew.B_Cu, segdb)
-
-
-# ── Main ──────────────────────────────────────────────────────────────────────
+# ── Track stripper ────────────────────────────────────────────────────────────
 
 def _strip_tracks_from_file(path):
     """
-    Remove all (segment ...) and (via ...) blocks from the KiCad PCB file
-    using text processing, to avoid pcbnew board.Remove() crashes.
+    Remove all (segment …) and (via …) s-expression blocks from the PCB file
+    using text processing, avoiding pcbnew board.Remove() crashes.
     """
-    import re
     with open(path, "r", encoding="utf-8") as f:
-        content = f.read()
-    # Match multi-line segment/via blocks: starts with optional whitespace
-    # then (segment or (via, ends with the matching closing paren.
-    # Each block is a balanced s-expression at the top nesting level.
-    # Simple approach: strip any line that starts a (segment or (via block
-    # and all lines until we see the matching closing ")" at the same indent.
-    lines = content.splitlines()
+        lines = f.readlines()
     out = []
     skip = 0
     for line in lines:
         stripped = line.lstrip()
         if skip == 0:
             if stripped.startswith("(segment") or stripped.startswith("(via"):
-                # count open parens to find the end of this block
                 skip = stripped.count("(") - stripped.count(")")
                 if skip <= 0:
-                    skip = 0  # single-line block already closed
+                    skip = 0
                 continue
             out.append(line)
         else:
             skip += line.count("(") - line.count(")")
             if skip <= 0:
                 skip = 0
-            continue
     with open(path, "w", encoding="utf-8") as f:
-        f.write("\n".join(out) + "\n")
+        f.writelines(out)
 
+
+# ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    print(f"Stripping existing tracks from {PCB_PATH} ...")
+    print(f"Stripping existing tracks from {PCB_PATH} …")
     _strip_tracks_from_file(PCB_PATH)
 
-    print(f"Loading {PCB_PATH} ...")
+    print(f"Loading {PCB_PATH} …")
     board = pcbnew.LoadBoard(PCB_PATH)
 
-    pdb = PadDB(board)
+    pdb   = PadDB(board)
     segdb = SegDB()
 
-    # Build net → [(ref_padnum, x, y), ...] from actual PCB pads
-    net_pads = {}
+    # ── Collect pad positions per net ──────────────────────────────────────────
+    net_pads = {}   # net_name → [(ref.pad, x, y), …]
     for fp in board.GetFootprints():
         ref = fp.GetReference()
         for pad in fp.Pads():
@@ -670,38 +514,84 @@ def main():
             key = f"{ref}.{pad.GetNumber()}"
             net_pads.setdefault(net, []).append((key, x, y))
 
-    total_edges = 0
-    warn_count = 0
+    total_routed   = 0
+    total_unrouted = 0
+    W_PWR = 0.6
+    W_SIG = 0.4
 
+    # ── 1. Power nets — spine / bus routing ───────────────────────────────────
+    # Order matters: GND first (largest net, sets baseline density),
+    # then the others.  Each net's segments are in segdb before the next starts.
+    power_spine_order = [
+        ("GND",   "h_bus", GND_BUS_Y),
+        ("+12V",  "v_bus", V12_BUS_X),
+        ("+5V",   "h_bus", V5_BUS_Y),
+        ("+3V3",  "v_bus", V3V3_BUS_X),
+    ]
+
+    for net_name, kind, coord in power_spine_order:
+        if net_name not in net_pads:
+            continue
+        pads = net_pads[net_name]
+        nobj = board.FindNet(net_name)
+        if nobj is None:
+            print(f"  WARNING: net '{net_name}' not found in board netlist")
+            continue
+        print(f"  {net_name:22s}  {len(pads):2d} pads  {W_PWR} mm  "
+              f"[{'H-bus' if kind == 'h_bus' else 'V-spine'}]")
+        if kind == "h_bus":
+            u = _route_power_h_bus(board, nobj, net_name, pads, coord,
+                                   W_PWR, pdb, segdb)
+        else:
+            u = _route_power_v_bus(board, nobj, net_name, pads, coord,
+                                   W_PWR, pdb, segdb)
+        total_unrouted += u
+
+    # BOOST_SW — MST + bypass (too few pads / geometry varies)
+    if "BOOST_SW" in net_pads:
+        pads  = net_pads["BOOST_SW"]
+        nobj  = board.FindNet("BOOST_SW")
+        if nobj and len(pads) >= 2:
+            print(f"  {'BOOST_SW':22s}  {len(pads):2d} pads  {W_PWR} mm  [MST]")
+            pts  = [(x, y) for _, x, y in pads]
+            refs = [r       for r, _, _ in pads]
+            for i, j in _prim_mst(pts):
+                ok = _route_edge(board, nobj,
+                                 refs[i], pts[i], refs[j], pts[j],
+                                 W_PWR, "BOOST_SW", pdb, segdb)
+                if ok:
+                    total_routed += 1
+                else:
+                    total_unrouted += 1
+
+    # ── 2. Signal nets — MST + bypass routing ────────────────────────────────
     for net_name in sorted(net_pads.keys()):
+        if net_name in POWER_NETS:
+            continue
         pads = net_pads[net_name]
         if len(pads) < 2:
             continue
         nobj = board.FindNet(net_name)
         if nobj is None:
-            print(f"  WARNING: net '{net_name}' not found in board")
+            print(f"  WARNING: net '{net_name}' not found in board netlist")
             continue
-
-        W = 0.6 if net_name in POWER_NETS else 0.4
-        print(f"  {net_name:22s}  {len(pads):2d} pads  {W} mm")
-
-        if net_name == "+12V":
-            _route_12v(board, nobj, pads, pdb, segdb)
-            total_edges += len(pads)
-            continue
-
+        print(f"  {net_name:22s}  {len(pads):2d} pads  {W_SIG} mm")
         pts  = [(x, y) for _, x, y in pads]
         refs = [r       for r, _, _ in pads]
-
         for i, j in _prim_mst(pts):
-            _route_edge(board, nobj,
-                        refs[i], pts[i],
-                        refs[j], pts[j],
-                        W, net_name, pdb, segdb)
-            total_edges += 1
+            ok = _route_edge(board, nobj,
+                             refs[i], pts[i], refs[j], pts[j],
+                             W_SIG, net_name, pdb, segdb)
+            if ok:
+                total_routed += 1
+            else:
+                total_unrouted += 1
 
-    print(f"\nTotal edges placed: {total_edges}")
-    print(f"Saving to {PCB_PATH} ...")
+    print(f"\n{'─'*55}")
+    print(f"  Edges routed   : {total_routed}")
+    print(f"  Edges unrouted : {total_unrouted}")
+    print(f"{'─'*55}")
+    print(f"Saving to {PCB_PATH} …")
     board.Save(PCB_PATH)
     print("Done.")
 
