@@ -1,174 +1,163 @@
-{
-    "$schema": "https://schemas.kicad.org/drc.v1.json",
-    "coordinate_units": "mm",
-    "date": "2026-06-14T20:58:13",
-    "ignored_checks": [
-        {
-            "description": "Footprint has no courtyard defined",
-            "key": "missing_courtyard"
-        },
-        {
-            "description": "Track endpoint not centered on via",
-            "key": "track_not_centered_on_via"
-        },
-        {
-            "description": "Tuning profile track geometries",
-            "key": "tuning_profile_track_geometries"
-        },
-        {
-            "description": "Footprint doesn't match symbol's footprint filters",
-            "key": "footprint_filters_mismatch"
-        },
-        {
-            "description": "Footprint component type doesn't match footprint pads",
-            "key": "footprint_type_mismatch"
-        }
-    ],
-    "included_severities": [
-        "error",
-        "warning"
-    ],
-    "kicad_version": "10.0.3",
-    "schematic_parity": [],
-    "source": "PoE-FanController.kicad_pcb",
-    "unconnected_items": [],
-    "violations": [
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Arc on Edge.Cuts",
-                    "pos": {
-                        "x": 15.0,
-                        "y": 87.0
-                    },
-                    "uuid": "787bd594-f8e4-4e8b-bbd4-1b49280b68c7"
-                },
-                {
-                    "description": "PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen",
-                    "pos": {
-                        "x": 33.0,
-                        "y": 89.0
-                    },
-                    "uuid": "000001c8-01c8-01c8-01c8-0000000001c8"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "The footprint library 'Custom' is not enabled in the current configuration",
-            "items": [
-                {
-                    "description": "Footprint HUM1",
-                    "pos": {
-                        "x": 21.935,
-                        "y": 71.475
-                    },
-                    "uuid": "32e3b062-3e70-460d-9d6d-ecd892a1a445"
-                }
-            ],
-            "severity": "warning",
-            "type": "lib_footprint_issues"
-        },
-        {
-            "description": "The current configuration does not include the footprint library 'Logos'",
-            "items": [
-                {
-                    "description": "Footprint G***",
-                    "pos": {
-                        "x": 42.0,
-                        "y": 80.0
-                    },
-                    "uuid": "c83c7609-bdc2-4bfe-a66b-7f33c54c15f8"
-                }
-            ],
-            "severity": "warning",
-            "type": "lib_footprint_issues"
-        },
-        {
-            "description": "The footprint library 'Custom' is not enabled in the current configuration",
-            "items": [
-                {
-                    "description": "Footprint J8",
-                    "pos": {
-                        "x": 37.5,
-                        "y": 40.8
-                    },
-                    "uuid": "d66e3b12-b1d3-4c9d-bef3-79312675d057"
-                }
-            ],
-            "severity": "warning",
-            "type": "lib_footprint_issues"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 33.0,
-                        "y": 87.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of G*** on F.Silkscreen",
-                    "pos": {
-                        "x": 39.694018,
-                        "y": 86.849548
-                    },
-                    "uuid": "8a1170f3-545d-4bed-b822-ec2ef956a1a5"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of J8 on F.Silkscreen",
-                    "pos": {
-                        "x": 28.61,
-                        "y": 64.43
-                    },
-                    "uuid": "e06a1b04-9704-47db-8662-9ef2848b06fe"
-                },
-                {
-                    "description": "PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8",
-                    "pos": {
-                        "x": 29.81,
-                        "y": 64.93
-                    },
-                    "uuid": "cd3b3fec-7fbe-47a3-8fc4-10569c440218"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of J8 on F.Silkscreen",
-                    "pos": {
-                        "x": 28.61,
-                        "y": 65.43
-                    },
-                    "uuid": "65f7b509-3c4c-457b-ae61-b6a3718bd696"
-                },
-                {
-                    "description": "PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8",
-                    "pos": {
-                        "x": 29.81,
-                        "y": 64.93
-                    },
-                    "uuid": "cd3b3fec-7fbe-47a3-8fc4-10569c440218"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        }
-    ]
-}
+** Drc report for PoE-FanController.kicad_pcb **
+** Created on 2026-06-14T22:14:12 **
+** Report includes: Errors, Warnings **
+
+** Found 37 DRC violations **
+[shorting_items]: Items shorting two nets (nets GND and FAN1_PWM)
+    Local override; error
+    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
+    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+[tracks_crossing]: Tracks crossing
+    Rule: Board minimums; error
+    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
+    @(79.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 13.0000 mm
+[clearance]: Clearance violation (rule 'Board minimums' clearance 0,2000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(45.1900 mm, 11.5000 mm): Track [+5V] on F.Cu, length 3.1000 mm
+    @(11.9750 mm, 11.9750 mm): Zone [GND] on F.Cu, priority 0
+[clearance]: Clearance violation (rule 'Board minimums' clearance 0,2000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
+    @(11.9750 mm, 11.9750 mm): Zone [GND] on F.Cu, priority 0
+[tracks_crossing]: Tracks crossing
+    Rule: Board minimums; error
+    @(45.1900 mm, 31.9100 mm): Track [FAN1_TACH] on F.Cu, length 1.6915 mm
+    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
+[tracks_crossing]: Tracks crossing
+    Rule: Board minimums; error
+    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
+    @(92.0000 mm, 21.7500 mm): Track [GND] on F.Cu, length 46.8100 mm
+[shorting_items]: Items shorting two nets (nets GND and FAN1_PWM)
+    Local override; error
+    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
+    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+[tracks_crossing]: Tracks crossing
+    Rule: Board minimums; error
+    @(45.1700 mm, 26.8300 mm): Track [+3V3] on F.Cu, length 10.8470 mm
+    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
+[tracks_crossing]: Tracks crossing
+    Rule: Board minimums; error
+    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
+    @(45.1900 mm, 29.3700 mm): Track [FAN1_PWM] on F.Cu, length 5.8407 mm
+[shorting_items]: Items shorting two nets (nets FAN1_TACH and GND)
+    Local override; error
+    @(45.1900 mm, 31.9100 mm): PTH pad 34 [FAN1_TACH] of J8
+    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
+[courtyards_overlap]: Courtyards overlap
+    Rule: board setup constraints courtyard; error
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+    @(37.5000 mm, 40.8000 mm): Footprint J8
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(45.1900 mm, 31.9100 mm): PTH pad 34 [FAN1_TACH] of J8
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(45.1900 mm, 26.8300 mm): PTH pad 36 [+3V3] of J8
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(45.1900 mm, 24.2900 mm): PTH pad 37 [unconnected-(J8-NC-Pad37)] of J8
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(45.1900 mm, 21.7500 mm): PTH pad 38 [GND] of J8
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(45.1900 mm, 19.2100 mm): PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(45.1900 mm, 16.6700 mm): PTH pad 40 [+5V] of J8
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(37.0000 mm, 28.5000 mm): PTH pad 2 [GND] of U_BOOST
+    @(37.5000 mm, 40.8000 mm): Footprint J8
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(54.5000 mm, 30.8800 mm): PTH pad 2 [+3V3] of JP2
+    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
+[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
+    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
+[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
+    @(79.0000 mm, 11.5000 mm): Track [+12V] on F.Cu, length 8.5600 mm
+[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
+    @(37.0000 mm, 11.5000 mm): Track [+5V] on F.Cu, length 8.1900 mm
+[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
+    @(45.1900 mm, 11.5000 mm): Track [+5V] on F.Cu, length 3.1000 mm
+[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
+    @(37.0000 mm, 11.5000 mm): PTH pad 1 [+5V] of U_BOOST
+[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
+    Rule: Board minimums; error
+    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
+    @(79.0000 mm, 11.5000 mm): PTH pad 3 [+12V] of U_BOOST
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
+    @(45.1900 mm, 31.9100 mm): PTH pad 34 [FAN1_TACH] of J8
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
+    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
+    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
+    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
+[track_dangling]: Track has unconnected end
+    Local override; warning
+    @(89.0000 mm, 32.5000 mm): Track [+12V] on F.Cu, length 5.5000 mm
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(15.0000 mm, 87.0000 mm): Arc on Edge.Cuts
+    @(33.0000 mm, 89.0000 mm): PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen
+[lib_footprint_issues]: The current configuration does not include the footprint library 'Logos'
+    Local override; warning
+    @(42.0000 mm, 80.0000 mm): Footprint G***
+[lib_footprint_mismatch]: Footprint 'ESP32-P4-PoE-ETH-PinSocket' does not match copy in library 'Custom'
+    Local override; warning
+    @(37.5000 mm, 40.8000 mm): Footprint J8
+[silk_overlap]: Silkscreen clearance
+    Rule: board setup constraints silk; warning
+    @(33.0000 mm, 87.0000 mm): PCB text 'PoE FanController v0.2' on F.Silkscreen
+    @(39.6940 mm, 86.8495 mm): Polygon of G*** on F.Silkscreen
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(28.6100 mm, 64.4300 mm): Segment of J8 on F.Silkscreen
+    @(29.8100 mm, 64.9300 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(28.6100 mm, 65.4300 mm): Segment of J8 on F.Silkscreen
+    @(29.8100 mm, 64.9300 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

@@ -1272,6 +1272,192 @@
 		)
 		(embedded_fonts no)
 	)
+	(footprint "DC-Boost-Module"
+		(layer "F.Cu")
+		(uuid "37cd127c-c277-4f9d-8a8b-7fc0de657d69")
+		(at 58 20)
+		(descr "2x2 corner THT for LM2587 DC-DC Boost Module B07RKDB2VP 48x23mm. INs LEFT OUTs RIGHT. Pin1=IN+ top-left Pin2=IN- bottom-left Pin3=OUT+ top-right Pin4=OUT- bottom-right.")
+		(tags "dc-dc boost lm2587 tht B07RKDB2VP")
+		(property "Reference" "U_BOOST"
+			(at 0 -14 0)
+			(layer "F.SilkS")
+			(uuid "3be97d40-ffce-4508-881b-1472fadf2bee")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "DC-Boost-Module"
+			(at 0 14 0)
+			(layer "F.Fab")
+			(uuid "389393b2-64ed-40ef-b827-c4c4fcbcebad")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cfad9b89-505e-4df8-b341-0a59a6b4b577")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "adfde61f-f523-419b-874e-1e244cd9ce34")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(attr through_hole)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -25 -11.5)
+			(end -25 -8.7)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "e1ded97f-fdeb-46d1-971e-251bd2d9e8a9")
+		)
+		(fp_line
+			(start -22.2 -11.5)
+			(end -25 -11.5)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "59d399dd-6216-4c1a-9eb9-df7d2c5ea09d")
+		)
+		(fp_line
+			(start -22.2 -11.5)
+			(end -25 -8.7)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "615461ab-be2f-4657-a341-9e2ca483f750")
+		)
+		(fp_rect
+			(start -25 -12.5)
+			(end 25 12.5)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "e3983ee0-825d-48d3-bcd3-b2f55c7bd7ab")
+		)
+		(fp_rect
+			(start -24 -11.5)
+			(end 24 11.5)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "6cf22f14-4db9-4b48-84bd-ed6fdb022083")
+		)
+		(fp_text user "IN+"
+			(at -21 -10 0)
+			(layer "F.Fab")
+			(uuid "0aa8f14b-ca7a-489e-9c9b-befd3c530183")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(fp_text user "IN-"
+			(at -21 10 0)
+			(layer "F.Fab")
+			(uuid "751a65d5-8125-4998-81ad-79bf2d936087")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(fp_text user "OUT+"
+			(at 21 -10 0)
+			(layer "F.Fab")
+			(uuid "89efad52-dad7-4cf4-bf16-9f3df08b9056")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(fp_text user "OUT-"
+			(at 21 10 0)
+			(layer "F.Fab")
+			(uuid "a76ed5fc-9d94-43eb-a1c2-a08150bb68fb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole rect
+			(at -21 -8.5)
+			(size 1.8 1.8)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "+5V")
+			(uuid "221dc82a-f084-4e92-9445-bdef302bf1bc")
+		)
+		(pad "2" thru_hole circle
+			(at -21 8.5)
+			(size 1.8 1.8)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "GND")
+			(uuid "71d5bb65-e50d-478a-82fd-3c46206b4771")
+		)
+		(pad "3" thru_hole circle
+			(at 21 -8.5)
+			(size 1.8 1.8)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "+12V")
+			(uuid "204c4d24-7ce7-488b-a663-2d6baa1eda0c")
+		)
+		(pad "4" thru_hole circle
+			(at 21 8.5)
+			(size 1.8 1.8)
+			(drill 1)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "GND")
+			(uuid "d970d6bd-1cf1-40f3-a95d-1f0ad14b3974")
+		)
+		(embedded_fonts no)
+	)
 	(footprint "LED_THT:LED_D3.0mm"
 		(layer "F.Cu")
 		(uuid "43fdf0be-691d-4b78-a698-9e90a85e62dd")
@@ -2304,162 +2490,6 @@
 				(xyz 0 0 0)
 			)
 		)
-	)
-	(footprint "DC-Boost-Module"
-		(layer "F.Cu")
-		(uuid "5afe3e66-ef48-46fd-aa37-3f78232acc29")
-		(at 71 23.1 180)
-		(descr "2x2 corner THT footprint for LM2587 DC-DC Boost Module (Amazon B07RKDB2VP). Board: 48x23mm. Pads at four corners. Pin1=IN+(bottom-right), Pin2=IN-(bottom-left), Pin3=OUT+(top-right), Pin4=OUT-(top-left). Verify pin order against physical unit before soldering (Risk R-03).")
-		(tags "dc-dc boost converter module lm2587 4-pin corner tht daughter-board B07RKDB2VP")
-		(property "Reference" "U_BOOST"
-			(at 0 0 180)
-			(layer "F.SilkS")
-			(uuid "ceec6590-09d6-4660-8b05-06bb996ea34c")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "DC-Boost-Module"
-			(at 0 14 180)
-			(layer "F.Fab")
-			(uuid "0df86750-1ce6-4e62-881f-ba24cea32449")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 0 0 180)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "6bc05c01-17c9-49b2-b134-49c0a942c8ed")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 0 0 180)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "1d3daa44-90d2-427c-a958-2d50ceb98471")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(attr through_hole)
-		(duplicate_pad_numbers_are_jumpers no)
-		(fp_rect
-			(start -22 -9.4)
-			(end 22 9.4)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.CrtYd")
-			(uuid "e9771463-7b14-4fde-8e83-4a7254c292dd")
-		)
-		(fp_rect
-			(start -24 -11.5)
-			(end 24 11.5)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(fill no)
-			(layer "F.Fab")
-			(uuid "ddd3c07d-aaf7-410f-8255-7f3320c9fe14")
-		)
-		(fp_text user "IN+"
-			(at 21 10 180)
-			(layer "F.Fab")
-			(uuid "7ef0b45c-3b89-4fea-9234-e214a2f093be")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(fp_text user "OUT+"
-			(at 21 -10 180)
-			(layer "F.Fab")
-			(uuid "221ad27d-f583-4b00-a88c-3abd9f6f1a57")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(fp_text user "IN-"
-			(at -21 10 180)
-			(layer "F.Fab")
-			(uuid "e6612454-a0af-4402-8517-25395f0d4ae8")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(fp_text user "OUT-"
-			(at -21 -10 180)
-			(layer "F.Fab")
-			(uuid "f4d1b489-1758-4fb6-ab68-83d2e9fd4005")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(pad "1" thru_hole rect
-			(at 21 8.5 180)
-			(size 1.8 1.8)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "+5V")
-			(uuid "caa9a500-659e-4711-a4a9-d3e9df943381")
-		)
-		(pad "2" thru_hole circle
-			(at -21 8.5 180)
-			(size 1.8 1.8)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "GND")
-			(uuid "591396da-850d-4ca8-97ca-603b8e3098e3")
-		)
-		(pad "3" thru_hole circle
-			(at 21 -8.5 180)
-			(size 1.8 1.8)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "+12V")
-			(uuid "928e840b-8457-478d-bfbc-67100d8c86ab")
-		)
-		(pad "4" thru_hole circle
-			(at -21 -8.5 180)
-			(size 1.8 1.8)
-			(drill 1)
-			(layers "*.Cu" "*.Mask")
-			(remove_unused_layers no)
-			(net "GND")
-			(uuid "19a3b325-06f4-469c-803a-78584ca70c6c")
-		)
-		(embedded_fonts no)
 	)
 	(footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 		(layer "F.Cu")
@@ -23119,6 +23149,14 @@
 		(uuid "8a1e5584-2680-47c7-8a78-75205f969350")
 	)
 	(segment
+		(start 45.19 28.5)
+		(end 45.19 34.45)
+		(width 1)
+		(layer "F.Cu")
+		(net "GND")
+		(uuid "8e96ff96-b761-4739-9cb7-e2488ed2ac6e")
+	)
+	(segment
 		(start 16.485 33.515)
 		(end 18 33.515)
 		(width 0.4)
@@ -23133,14 +23171,6 @@
 		(layer "F.Cu")
 		(net "GND")
 		(uuid "974f5e41-6ba8-43ab-b467-20cbbacbbb6d")
-	)
-	(segment
-		(start 92 14.6)
-		(end 92 21.75)
-		(width 1)
-		(layer "F.Cu")
-		(net "GND")
-		(uuid "adbae865-7038-4c14-a619-34f822e1a0ed")
 	)
 	(segment
 		(start 51.002944 48.2)
@@ -23199,6 +23229,14 @@
 		(uuid "bd372dce-0e6b-40b4-8e14-7c5e3924b5b8")
 	)
 	(segment
+		(start 37 28.5)
+		(end 45.19 28.5)
+		(width 1)
+		(layer "F.Cu")
+		(net "GND")
+		(uuid "c22ba725-12a4-472f-b8d0-e3c3689517e0")
+	)
+	(segment
 		(start 58.5 61.7)
 		(end 50.2 61.7)
 		(width 0.4)
@@ -23237,6 +23275,14 @@
 		(layer "F.Cu")
 		(net "GND")
 		(uuid "d2920447-aec5-4169-a566-f941bb904f38")
+	)
+	(segment
+		(start 92 28.5)
+		(end 92 21.75)
+		(width 1)
+		(layer "F.Cu")
+		(net "GND")
+		(uuid "d3a12888-2991-43ca-8638-323aba1950ab")
 	)
 	(segment
 		(start 69.785 38.1)
@@ -23279,12 +23325,20 @@
 		(uuid "e3f99d7a-812d-45c4-8d65-2aa97051e696")
 	)
 	(segment
-		(start 92 31.6)
-		(end 92 21.75)
+		(start 37 28.5)
+		(end 45.19 28.5)
 		(width 1)
 		(layer "F.Cu")
 		(net "GND")
-		(uuid "f45c06ee-d18a-4c86-ad5c-5e52a1bac3d7")
+		(uuid "ea6f6741-bc09-44b5-944f-5e4d4edd2dca")
+	)
+	(segment
+		(start 79 28.5)
+		(end 92 28.5)
+		(width 1)
+		(layer "F.Cu")
+		(net "GND")
+		(uuid "fc89c979-c216-4eee-8dd4-9bb57dac3b3f")
 	)
 	(segment
 		(start 65.975 70.095)
@@ -23335,6 +23389,14 @@
 		(uuid "42593132-b267-4865-85c7-4ecf465927e7")
 	)
 	(segment
+		(start 87.56 11.5)
+		(end 87.56 39.44)
+		(width 1)
+		(layer "F.Cu")
+		(net "+12V")
+		(uuid "4421c081-b6b2-4014-b4a6-9aae9f832d96")
+	)
+	(segment
 		(start 89 65)
 		(end 89 78.5)
 		(width 0.4)
@@ -23375,6 +23437,14 @@
 		(uuid "8b2ae28b-2ba4-425d-a7a3-d6e48f007076")
 	)
 	(segment
+		(start 79 11.5)
+		(end 87.56 11.5)
+		(width 1)
+		(layer "F.Cu")
+		(net "+12V")
+		(uuid "924e0813-b419-4a20-a8d2-c24fe1c9141d")
+	)
+	(segment
 		(start 89 78.5)
 		(end 87.565 79.935)
 		(width 0.4)
@@ -23413,22 +23483,6 @@
 		(layer "F.Cu")
 		(net "+12V")
 		(uuid "d0ca19d7-e734-4c8e-b964-62548f3f0bf2")
-	)
-	(segment
-		(start 50 32.5)
-		(end 89 32.5)
-		(width 1)
-		(layer "F.Cu")
-		(net "+12V")
-		(uuid "d7f4e8fa-68bf-43e7-a668-b05926f4ca07")
-	)
-	(segment
-		(start 50 31.6)
-		(end 50 32.5)
-		(width 1)
-		(layer "F.Cu")
-		(net "+12V")
-		(uuid "e5570ac9-3fdc-40f0-ae56-45e421016805")
 	)
 	(segment
 		(start 67 51)
@@ -23895,6 +23949,30 @@
 		(uuid "3b27c3c9-a43b-496c-82ab-9288694f7e02")
 	)
 	(segment
+		(start 37 11.5)
+		(end 45.19 11.5)
+		(width 1)
+		(layer "F.Cu")
+		(net "+5V")
+		(uuid "a4ead3d6-aefa-4d31-94b7-968984565886")
+	)
+	(segment
+		(start 45.19 11.5)
+		(end 45.19 14.6)
+		(width 1)
+		(layer "F.Cu")
+		(net "+5V")
+		(uuid "d36db3b8-f404-4564-bbee-395ac0e0517a")
+	)
+	(segment
+		(start 45.19 14.6)
+		(end 45.19 16.67)
+		(width 1)
+		(layer "F.Cu")
+		(net "+5V")
+		(uuid "ffea5676-0fc0-4148-a5ab-cdc0489256c7")
+	)
+	(segment
 		(start 22.975 26.095)
 		(end 22.975 30.975)
 		(width 0.4)
@@ -24077,22 +24155,6 @@
 		(layer "F.Cu")
 		(net "/FAN4_PWM_A")
 		(uuid "96b868ee-5b4b-4361-9328-6c36b049705a")
-	)
-	(segment
-		(start 50 14.6)
-		(end 45.19 14.6)
-		(width 1)
-		(layer "F.Cu")
-		(net "+5V")
-		(uuid "b7ef90d6-d432-4dfa-8fab-ca3e17ddeb32")
-	)
-	(segment
-		(start 45.19 14.6)
-		(end 45.19 16.67)
-		(width 1)
-		(layer "F.Cu")
-		(net "+5V")
-		(uuid "ffea5676-0fc0-4148-a5ab-cdc0489256c7")
 	)
 	(segment
 		(start 78.645 61.355)
