@@ -112,7 +112,29 @@ Committed on branch: `feature/177-replace-boost-converter-module`
 > before finalising `DC-Boost-Module.kicad_mod`. Do not submit PCB for fabrication until
 > the footprint is confirmed against the physical unit.
 
-### 4.2 R5 Retention Confirmed
+### 4.2 PCB Placement Deviation — Right Zone Right Boundary
+
+During PCB implementation (T006), U_BOOST was placed with centre at x=56mm (right bound of the
+"x=33.19–56mm" zone from P-HW-04). This places pads 3 and 4 at x=57.27mm and x=59.81mm,
+slightly beyond the 56mm right boundary.
+
+**Root cause:** Moving U_BOOST centre further left (e.g., x=52mm) causes the footprint courtyard
+to overlap J8's courtyard (J8 right courtyard edge ≈46.94mm), which is a **DRC error** under
+`courtyards_overlap`. The 4-pin header pitch (2.54mm×3 = 7.62mm span) forces pad 4 beyond 56mm
+when pad 1 must clear J8.
+
+**Impact assessment:**
+- All pads remain on the board (right edge at x=94mm) ✅
+- No other component occupies x=57–62mm at y≈18–22mm ✅
+- All U_BOOST traces stay at x≥45.19mm (no left-boundary violation) ✅
+- DRC passes with 0 errors ✅
+- The violated boundary is the *right* extent of the zone, not the J8 isolation line (x=33.19mm)
+
+**Decision:** Deviation accepted. DRC is the enforced hard constraint (P-TEST-03). The zone
+description in P-HW-04 is a placement guideline, not a board-edge rule. Document for clarity;
+no further action required before PR merge.
+
+### 4.3 R5 Retention Confirmed
 
 The plan correctly identifies that **R5 is the FAN1 TACH pull-up resistor** (10 kΩ, +3V3 →
 FAN1_TACH net), not a boost feedback resistor. R5 must **not** be removed from the schematic,
