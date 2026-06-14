@@ -322,7 +322,7 @@ These are **not PR merge gates** but must be resolved before PCB fabrication is 
 | T006 | ✅ Complete | 3f1f1db | PCB: U_BOOST placed at (56,20)mm; 4 power traces 1.0mm; GND pour filled |
 | T007 | ✅ Complete | 3f1f1db | DRC: 0 errors, 8 pre-existing warnings (silk/lib); drc_output.json `error_count: 0` |
 | T008 | ✅ Complete | (this commit) | tasks.md finalised; architecture.md deviation noted |
-| T009 | ⬜ Pending | — | Issue #177 parent update — depends on T008 |
+| T009 | ✅ Complete | 357b428 | Issue #177 parent updated with SC table + pre-fab blockers; issue #186 closed |
 
 ### Known Deviations from Spec (Accepted)
 
