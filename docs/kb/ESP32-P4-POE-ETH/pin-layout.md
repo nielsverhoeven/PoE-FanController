@@ -120,3 +120,76 @@ This matches the physical Waveshare board where VBUS is at the top-right corner 
 | Red             | Power          |
 | Pink            | System Control |
 | Yellow          | ETH POE        |
+
+---
+
+## Daughter Board Signal Assignments (PoE FanController PCB)
+
+### Right Column (Pins 21–40) — Fan + Power signals
+
+| Pin | GPIO | Signal | Direction | Connected to |
+|-----|------|--------|-----------|--------------|
+| 21  | GPIO48 | **FAN4_PWM**  | Output | J5 pin 4, via D5/R12 PWM LED |
+| 22  | GPIO47 | **FAN4_TACH** | Input  | R8 TACH pull-up (10kΩ to +3V3) |
+| 23  | GND    | GND           | —      | — |
+| 24  | GPIO46 | **FAN3_PWM**  | Output | J4 pin 4, via D4/R11 PWM LED |
+| 25  | GPIO33 | **FAN3_TACH** | Input  | R7 TACH pull-up (10kΩ to +3V3) |
+| 26  | GPIO32 | NC            | —      | EMAC_RXD0 — do not use |
+| 27  | GPIO27 | NC            | —      | — |
+| 28  | GND    | GND           | —      | — |
+| 29  | GPIO26 | NC            | —      | — |
+| 30  | RUN    | NC            | —      | System control — reserved |
+| 31  | GPIO23 | **FAN2_PWM**  | Output | J3 pin 4, via D3/R10 PWM LED |
+| 32  | GPIO22 | **FAN2_TACH** | Input  | R6 TACH pull-up (10kΩ to +3V3) |
+| 33  | GND    | GND           | —      | — |
+| 34  | GPIO21 | **FAN1_PWM**  | Output | J2 pin 4, via D2/R9 PWM LED |
+| 35  | GPIO20 | **FAN1_TACH** | Input  | R5 TACH pull-up (10kΩ to +3V3) |
+| 36  | +3V3   | **+3V3**      | Power  | TACH pull-ups R5-R8, sensor VCC |
+| 37  | EN     | NC            | —      | Module enable — reserved |
+| 38  | GND    | GND           | —      | — |
+| 39  | VSYS   | NC            | —      | Do NOT use for 5V supply |
+| 40  | VBUS   | **+5V**       | Power  | U_BOOST IN+ (5V→12V boost input) |
+
+> ⚠️ PWM and TACH are on **adjacent pins per fan** — PWM on the lower-numbered pin, TACH on the higher. This is the result of a board layout reshuffle (2026-06-14) that required swapping from the original TACH-low/PWM-high order.
+
+### Left Column (Pins 1–20) — Sensor + LED signals
+
+| Pin | GPIO | Signal | Direction | Connected to |
+|-----|------|--------|-----------|--------------|
+| 6   | GPIO2  | DS18B20_DATA | Bidirectional | R14 pull-up (4.7kΩ to +3V3), J6 |
+| 10  | GPIO5  | DHT11_DATA   | Input         | HUM1 pin 2 |
+| 11  | GPIO6  | PROBE_LED    | Output        | R15 → LED6 |
+| 16  | GPIO17 | PROG_LED     | Output        | R13 → LED2 |
+| 17  | GPIO18 | PWR_LED      | Output        | R3 → LED1 |
+| 3,8,13,18 | GND | GND | — | — |
+
+### PCB Component Positions (as-built, 2026-06-14)
+
+| Ref | X (mm) | Y (mm) | Rotation | Role |
+|-----|--------|--------|----------|------|
+| U_BOOST | 77.00 | 25.14 | 0° | DC-DC boost module (LM2587) |
+| J2 | 96.5 | 46.5 | 180° | FAN1 header |
+| J3 | 96.5 | 58.5 | 180° | FAN2 header |
+| J4 | 96.5 | 70.5 | 180° | FAN3 header |
+| J5 | 96.5 | 82.5 | 180° | FAN4 header |
+| R5 | 65.00 | 47.77 | 90° | FAN1 TACH pull-up (10kΩ) |
+| R6 | 65.00 | 60.45 | 90° | FAN2 TACH pull-up (10kΩ) |
+| R7 | 65.00 | 73.13 | 90° | FAN3 TACH pull-up (10kΩ) |
+| R8 | 65.00 | 85.81 | 90° | FAN4 TACH pull-up (10kΩ) |
+| R9 | 69.00 | 40.15 | -90° | FAN1 PWM LED resistor (150Ω) |
+| R10 | 69.00 | 52.83 | -90° | FAN2 PWM LED resistor (150Ω) |
+| R11 | 69.00 | 65.51 | -90° | FAN3 PWM LED resistor (150Ω) |
+| R12 | 69.00 | 78.19 | -90° | FAN4 PWM LED resistor (150Ω) |
+| D2 | 77.46 | 46.5 | 0° | FAN1 PWM activity LED |
+| D3 | 77.46 | 58.5 | 0° | FAN2 PWM activity LED |
+| D4 | 77.46 | 70.5 | 0° | FAN3 PWM activity LED |
+| D5 | 77.46 | 82.5 | 0° | FAN4 PWM activity LED |
+| LED1 | 18.00 | 30.975 | -90° | Power status LED |
+| LED2 | 24.50 | 30.73 | -90° | OTA/prog LED |
+| LED6 | 17.975 | 51.475 | -90° | DS18B20 probe LED |
+| R3 | 17.975 | 18.475 | -90° | PWR_LED resistor (330Ω) |
+| R13 | 24.50 | 18.23 | -90° | PROG_LED resistor (330Ω) |
+| R14 | 27.00 | 55.095 | 90° | DS18B20 pull-up (4.7kΩ) |
+| R15 | 18.00 | 39.475 | -90° | PROBE_LED resistor (330Ω) |
+| HUM1 | 22.00 | 71.475 | 180° | DHT11 temperature/humidity |
+| J6 | 19.92 | 61.995 | 0° | DS18B20 probe connector |

@@ -20,32 +20,32 @@
 // arduino-esp32 3.x API: ledcAttach(pin, freq, bits) / ledcWrite(pin, duty)
 // ---------------------------------------------------------------------------
 #ifndef FAN1_PWM_PIN
-#define FAN1_PWM_PIN  20  ///< GPIO20 LEDC CH0  (J8 pin 35)
+#define FAN1_PWM_PIN  21  ///< GPIO21 LEDC CH0  (J8 pin 34)
 #endif
 #ifndef FAN2_PWM_PIN
-#define FAN2_PWM_PIN  22  ///< GPIO22 LEDC CH1  (J8 pin 32)
+#define FAN2_PWM_PIN  23  ///< GPIO23 LEDC CH1  (J8 pin 31)
 #endif
 #ifndef FAN3_PWM_PIN
-#define FAN3_PWM_PIN  33  ///< GPIO33 LEDC CH2  (J8 pin 25)
+#define FAN3_PWM_PIN  46  ///< GPIO46 LEDC CH2  (J8 pin 24)
 #endif
 #ifndef FAN4_PWM_PIN
-#define FAN4_PWM_PIN  47  ///< GPIO47 LEDC CH3  (J8 pin 22)
+#define FAN4_PWM_PIN  48  ///< GPIO48 LEDC CH3  (J8 pin 21)
 #endif
 
 // ---------------------------------------------------------------------------
 // Fan tachometer inputs — GPIO interrupt (open-drain, pull-up required)
 // ---------------------------------------------------------------------------
 #ifndef FAN1_TACH_PIN
-#define FAN1_TACH_PIN  21  ///< GPIO21  (J8 pin 34)
+#define FAN1_TACH_PIN  20  ///< GPIO20  (J8 pin 35)
 #endif
 #ifndef FAN2_TACH_PIN
-#define FAN2_TACH_PIN  23  ///< GPIO23  (J8 pin 31)
+#define FAN2_TACH_PIN  22  ///< GPIO22  (J8 pin 32)
 #endif
 #ifndef FAN3_TACH_PIN
-#define FAN3_TACH_PIN  46  ///< GPIO46  (J8 pin 24)
+#define FAN3_TACH_PIN  33  ///< GPIO33  (J8 pin 25)
 #endif
 #ifndef FAN4_TACH_PIN
-#define FAN4_TACH_PIN  48  ///< GPIO48  (J8 pin 21)
+#define FAN4_TACH_PIN  47  ///< GPIO47  (J8 pin 22)
 #endif
 
 // ---------------------------------------------------------------------------

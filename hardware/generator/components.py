@@ -131,21 +131,21 @@ def build_schematic():
                  ("GND",          "38", "passive"),       # Physical GND
                  ("NC",           "37", "no_connect"),    # EN       — chip-enable RESERVED
                  ("+3V3",         "36", "power_out"),     # +3V3     — SOLE 3.3V source
-                 ("FAN1_TACH",    "34", "input"),          # GPIO21   — FAN1 tach IRQ
-                 ("FAN1_PWM",     "35", "output"),        # GPIO20   — FAN1 speed control
+                 ("FAN1_PWM",     "34", "output"),        # GPIO21   — FAN1 speed control (J8 pin 34)
+                 ("FAN1_TACH",    "35", "input"),          # GPIO20   — FAN1 tach IRQ   (J8 pin 35)
                  ("GND",          "33", "passive"),       # Physical GND
-                 ("FAN2_PWM",     "32", "output"),        # GPIO22   — FAN2 speed control
-                 ("FAN2_TACH",    "31", "input"),         # GPIO23   — FAN2 tach IRQ
+                 ("FAN2_TACH",    "32", "input"),         # GPIO22   — FAN2 tach IRQ   (J8 pin 32)
+                 ("FAN2_PWM",     "31", "output"),        # GPIO23   — FAN2 speed control (J8 pin 31)
                  ("NC",           "30", "no_connect"),    # RUN      — system control RESERVED
                  ("NC",           "29", "no_connect"),    # GPIO26   — NC
                  ("GND",          "28", "passive"),       # Physical GND
-                 ("FAN3_PWM",     "25", "output"),        # GPIO33   — FAN3 speed control
-                 ("FAN3_TACH",    "24", "input"),         # GPIO46   — FAN3 tach IRQ
+                 ("FAN3_TACH",    "25", "input"),         # GPIO33   — FAN3 tach IRQ   (J8 pin 25)
+                 ("FAN3_PWM",     "24", "output"),        # GPIO46   — FAN3 speed control (J8 pin 24)
                  ("NC",           "27", "no_connect"),    # GPIO27   — NC (was FAN3_TACH)
                  ("NC",           "26", "no_connect"),    # GPIO32   — NC (was FAN3_PWM)
                  ("GND",          "23", "passive"),       # Physical GND
-                 ("FAN4_PWM",     "22", "output"),        # GPIO47   — FAN4 speed control
-                 ("FAN4_TACH",    "21", "input"),         # GPIO48   — FAN4 tach IRQ (bottom-right)
+                 ("FAN4_TACH",    "22", "input"),         # GPIO47   — FAN4 tach IRQ   (J8 pin 22)
+                 ("FAN4_PWM",     "21", "output"),        # GPIO48   — FAN4 speed control (J8 pin 21)
              ])
 
     # 4-pin fan header (J2-J5) — all pins on LEFT side (connector opens left)

@@ -75,6 +75,19 @@ GND pins: 3, 8, 13, 18 (Row A) | 23, 28, 33, 38 (Row B)
 FORBIDDEN: pins 25, 26 = EMAC_RXD1/RXD0 — must remain NC
 ```
 
+Fan signal assignments (PWM on lower pin, TACH on higher — swapped 2026-06-14):
+
+| Pin | GPIO | Signal |
+|-----|------|--------|
+| 21 | GPIO48 | FAN4_PWM |
+| 22 | GPIO47 | FAN4_TACH |
+| 24 | GPIO46 | FAN3_PWM |
+| 25 | GPIO33 | FAN3_TACH |
+| 31 | GPIO23 | FAN2_PWM |
+| 32 | GPIO22 | FAN2_TACH |
+| 34 | GPIO21 | FAN1_PWM |
+| 35 | GPIO20 | FAN1_TACH |
+
 ### Board Design Rules (from board setup — enforced as DRC errors)
 
 | Rule | Value |
