@@ -11,6 +11,7 @@
 - **Layers covered:** Hardware: Schematic (generator), Hardware: ERC, Hardware: Layout (PCB), Hardware: DRC, Hardware: BOM, Hardware: Footprint, Documentation, Issue Update
 - **Parent GitHub issue:** #177
 - **Branch:** `feature/177-replace-boost-converter-module`
+- **Task issues:** T001=#178, T002=#179, T003=#180, T004=#181, T005=#182, T006=#183, T007=#184, T008=#185, T009=#186
 
 ---
 
@@ -185,7 +186,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
   are layered on top; `bom.csv` is produced by the same `generate_project.py` run)
 - **Acceptance**: `hardware/bom/bom.csv` contains a `U_BOOST` / `B07RKDB2VP` row; contains no
   rows for U1/LM2587-12, L1, D1/1N5822, C1, or C2; SC-10 is met; R5 row is intact.
-- **GitHub issue**: <!-- T005_ISSUE -->
+- **GitHub issue**: #182
 
 ---
 
@@ -219,7 +220,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
   ref `U_BOOST` (SC-05); contains no footprints for U1/L1/D1/C1/C2 (SC-06); U_BOOST placement
   is entirely within x = 33.19–56 mm (SC-08); all four boost pads are routed with ≥ 1.0 mm
   traces; `.kicad_pcb` is saved (git diff shows changes).
-- **GitHub issue**: <!-- T006_ISSUE -->
+- **GitHub issue**: #183
 
 ---
 
@@ -244,7 +245,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
 - **Depends on**: T006 (PCB layout must be complete before DRC is meaningful)
 - **Acceptance**: `hardware/kicad/drc_output.json` contains `"error_count": 0`; `.kicad_pcb`,
   `drc_output.json`, and `drc_current.json` are committed to the branch; SC-07 is met.
-- **GitHub issue**: <!-- T007_ISSUE -->
+- **GitHub issue**: #184
 
 ---
 
@@ -270,7 +271,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
   file has unresolved TODOs related to this feature; `docs/constitution.md` is at v5.0.0;
   `git log --oneline docs/features/replace-boost-module/` shows commits for spec, plan,
   architecture, and tasks.
-- **GitHub issue**: <!-- T008_ISSUE -->
+- **GitHub issue**: #185
 
 ---
 
@@ -291,7 +292,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
 - **Acceptance**: Issue #177 has a completion summary comment listing all child issue numbers and
   their closed status; SC-01 through SC-14 are addressed in the comment; pre-fab blockers R-01,
   R-02, R-03 are explicitly called out as pending pre-fabrication verification.
-- **GitHub issue**: <!-- T009_ISSUE -->
+- **GitHub issue**: #186
 
 ---
 
