@@ -169,8 +169,26 @@ All schematic symbol origins and pin endpoints must land on the 2.54 mm grid (sn
 
 | Net class | Track width | Via diameter | Via drill |
 |---|---|---|---|
-| Signal | 0.25 mm | 0.8 mm | 0.4 mm |
-| Power (+12 V, GND) | 1.0 mm | 0.8 mm | 0.4 mm |
+| Signal | 0.25 mm (min 0.4 mm per board rules) | 0.8 mm | 0.4 mm |
+| Power (+12 V, GND, +5V) | **1.0 mm** | 0.8 mm | 0.4 mm |
+
+**P-HW-10 — Board design rules (from board setup, authoritative).**
+The following mandatory constraints are set in the KiCad board setup and enforced as DRC **errors**:
+
+| Rule | Value |
+|---|---|
+| Minimum copper clearance | **0.2 mm** |
+| Minimum copper-to-edge clearance | **1.0 mm** |
+| Minimum track width | **0.4 mm** |
+| Minimum through-hole diameter | **0.6 mm** |
+| Minimum via diameter | **0.5 mm** |
+| Minimum hole clearance | **0.25 mm** |
+| Courtyard overlap | **error** (blocks DRC) |
+| PTH inside courtyard | **error** (blocks DRC) |
+| Tracks crossing | **error** (blocks DRC) |
+| Shorting nets | **error** (blocks DRC) |
+
+Any script-based PCB editing (pcbnew Python API) **must** respect these values. Violations are DRC errors and will block the CI gate.
 
 **P-HW-08 — Ground copper pour on both layers.**
 Both F.Cu and B.Cu carry a GND copper pour. There is only **one** ground domain on the daughter board: `GND` (SELV secondary). The primary-side isolation barrier (previously at x = 38 mm) is no longer present on the daughter board — it resides inside the Waveshare SKU 32088. No split of the ground pour is required on the daughter board.
