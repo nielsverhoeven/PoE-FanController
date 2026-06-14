@@ -33,21 +33,19 @@ It is based on the **TI LM2587S-ADJ P+** — the same IC family used in the orig
 The board has **4 through-hole solder pads**, one at each corner:
 
 ```
-┌─────────────────────────────────┐
-│  OUT− (cathode)   OUT+ (anode)  │  ← Output side (top)
-│                                 │
-│  IN−  (cathode)   IN+  (anode)  │  ← Input side (bottom)
-└─────────────────────────────────┘
+IN+  (top-left)      OUT+ (top-right)
+      [  48mm × 23mm board  ]
+IN−  (bottom-left)   OUT− (bottom-right)
 ```
 
 | Corner | Label | Function | Net (PoE FanController) |
 |---|---|---|---|
-| Top-left | **OUT−** | Output cathode (GND) | GND |
-| Top-right | **OUT+** | Output anode (+12V) | +12V |
+| Top-left | **IN+** | Input anode (+5V) | +5V |
 | Bottom-left | **IN−** | Input cathode (GND) | GND |
-| Bottom-right | **IN+** | Input anode (+5V) | +5V |
+| Top-right | **OUT+** | Output anode (+12V) | +12V |
+| Bottom-right | **OUT−** | Output cathode (GND) | GND |
 
-> ⚠️ **Pin ordering is diagonal, not linear.** IN+ and OUT+ are on the RIGHT side; IN− and OUT− are on the LEFT side. Verify against physical board before soldering.
+> ✅ **Both INs on the LEFT side, both OUTs on the RIGHT side.**
 
 ---
 
@@ -88,18 +86,18 @@ The board has **4 through-hole solder pads**, one at each corner:
 
 ### Schematic symbol
 - Symbol: **DC_Boost_Module** (4-pin)
-- Pin assignments:
-  - Pin 1 `IN+`  → net `+5V`  (`power_in`)
-  - Pin 2 `IN−`  → net `GND`  (`power_in`)
-  - Pin 3 `OUT+` → net `+12V` (`power_out`)
-  - Pin 4 `OUT−` → net `GND`  (`power_in`)
+- Pin assignments (both INs LEFT, both OUTs RIGHT):
+  - Pin 1 `IN+`  → top-left     → net `+5V`  (`power_in`)
+  - Pin 2 `IN−`  → bottom-left  → net `GND`  (`power_in`)
+  - Pin 3 `OUT+` → top-right    → net `+12V` (`power_out`)
+  - Pin 4 `OUT−` → bottom-right → net `GND`  (`power_in`)
 
 ### Footprint (`Custom:DC-Boost-Module`)
 - File: `hardware/kicad/footprints/Custom.pretty/DC-Boost-Module.kicad_mod`
-- Pad layout: **4 pads at corners**, 2.54 mm pitch rows, ~43 mm between left/right columns
+- Pad layout: **2×2 corners** on 48×23mm board; pad span ±21mm (X) × ±8.5mm (Y)
+- Pin-1 marker triangle at top-left corner (IN+)
 - Pad drill: 1.0 mm, copper: 1.8 mm round, F.Cu only
 - Courtyard: **50 mm × 25 mm** on F.CrtYd
-- Silkscreen: pin-1 (IN+) marker on F.SilkS and F.Fab
 - Power traces to all pads: ≥ 1.0 mm width (P-HW-07)
 
 ---
