@@ -7,7 +7,7 @@ The Waveshare ESP32-P4-POE-ETH (SKU 32088) main board is purchased separately an
 not listed here. It provides PoE PD, Ethernet PHY, RJ45, ESP32-P4, USB-C, and the
 2×20 male header that mates with J8 on this daughter board.
 
-Power chain: J8 pin 40 (+5V from Waveshare VBUS) → U1 / LM2587-12 (5V→12V boost) → fans J2–J5.
+Power chain: J8 pin 40 (+5V from Waveshare VBUS) → U_BOOST (LM2587 DC-DC boost module, 5A, 92%) → fans J2–J5.
 """
 
 import csv
@@ -22,12 +22,8 @@ def write_bom():
         ["Reference","Value","Footprint","Qty","Manufacturer","MPN","Description","Datasheet"],
         # Waveshare ESP32-P4-POE-ETH Interface (2×20 female PinSocket)
         ["J8","Waveshare_HAT","Custom:ESP32-P4-PoE-ETH-PinSocket","1","Sullins","PPPC202LFBN-RC","2×20 2.54mm female THT pin socket — daughter board ↔ Waveshare ESP32-P4-POE-ETH (SKU 32088) interface","https://www.waveshare.com/wiki/ESP32-P4-POE-ETH"],
-        # 5V→12V Boost Converter (U1) + external passives
-        ["U1","LM2587-12","Package_TO_SOT_THT:TO-220-5_Vertical","1","TI","LM2587T-12/NOPB","5V→12V fixed-12V boost converter, TO-220-5, 1.5A — powers fan +12V rail","https://www.ti.com/lit/ds/symlink/lm2587.pdf"],
-        ["L1","100uH","Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC","1","Fastron","MICC-101K-02","100µH axial THT inductor, 0.8A — boost converter catch inductor","~"],
-        ["D1","1N5822","Diode_THT:D_DO-27_P12.70mm_Horizontal","1","ON Semiconductor","1N5822","40V 3A Schottky THT DO-27 — boost converter catch diode, hand-solderable","https://www.onsemi.com/pdf/datasheet/1n5820-d.pdf"],
-        ["C1","100uF_25V","Capacitor_THT:CP_Radial_D6.3mm_P2.50mm","1","Panasonic","EEU-FC1E101","100µF 25V radial electrolytic — boost input bypass","~"],
-        ["C2","100uF_25V","Capacitor_THT:CP_Radial_D6.3mm_P2.50mm","1","Panasonic","EEU-FC1E101","100µF 25V radial electrolytic — boost output filter","~"],
+        # 5V→12V Boost Module (replaces discrete U1/L1/D1/C1/C2 boost stage)
+        ["U_BOOST","DC-Boost-Module","Custom:DC-Boost-Module","1","Amazon.nl","B07RKDB2VP","DC-DC step-up boost converter module (LM2587), 5V→12V, 5A max, 92% efficiency — powers fan +12V rail. 4-pin 2.54mm THT daughter board header.","https://www.ti.com/lit/ds/symlink/lm2587.pdf"],
         # Fan Headers
         ["J2,J3,J4,J5","Fan_Header","Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical","4","Molex","47053-1000","4-pin 2.54mm 12V PWM fan header","~"],
         ["R5,R6,R7,R8","10k","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal","4","Yageo","MFR-25FBF52-10K0","10kΩ 1/4W 1% axial THT — fan TACH pull-up resistors (3.3V from J8)","https://www.yageo.com/upload/media/product/productsearch/datasheet/rchip/PYu-MFR_51.pdf"],

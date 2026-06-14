@@ -1,5 +1,5 @@
 # Project Constitution
-<!-- Version: 4.3.0 | Last amended: 2026-06-10 -->
+<!-- Version: 5.0.0 | Last amended: 2026-06-14 -->
 
 > **This document is the single authoritative reference for every technology choice,
 > design rule, and development agreement in the PoE FanController project.**
@@ -54,7 +54,7 @@ These component selections are locked. Substitutions require a MAJOR amendment.
 
 | Ref | Value / MPN | Package | Role |
 |---|---|---|---|
-| U_BOOST | 5V→12V boost converter (e.g. TI LM2587-12 or TI TPS61085) | SOT-23-6 or D2PAK | Boosts +5V from SKU 32088 header to regulated +12V for fan headers |
+| U_BOOST | DC-DC Boost Module — Amazon.nl **B0D9VJKD1L** (**Amendment v5.0.0 — BOM locked**; replaces discrete LM2587-12/TPS61085 placeholder. Discrete stage U1 (LM2587-12), L1 (100 µH inductor), D1 (1N5822 Schottky), C1/C2 (100 µF/25 V capacitors) retired per issue #177 — their function is now internal to the module) | 4-pin 2.54 mm pitch THT module (single-row header interface); footprint `Custom:DC-Boost-Module` in `hardware/kicad/footprints/Custom.pretty/` | 5V→12V boost converter for fan +12V rail; module contains IC, inductor, catch diode, input/output capacitors, and output-voltage trimmer internally; trimmer must be pre-set to 12.0 V ± 0.1 V off-board before PCB installation; rated 2 A output (50% headroom vs 1.0 A fan load), 93% efficiency max; **⚠ verify VBUS current capacity on J8 pin 40 before PCB fabrication — total draw is ~3.47 A (2.67 A boost + 0.8 A ESP32); see Risk R-01 in `docs/features/replace-boost-module/plan.md`** |
 | J8 | 2×20 female pin socket, 2.54 mm pin pitch, **15.38 mm row-to-row spacing** (non-standard — confirmed from Waveshare ESP32-P4-POE-ETH dimension drawing), through-hole | `Custom:ESP32-P4-PoE-ETH-PinSocket` (in `hardware/kicad/footprints/Custom.pretty/`; renamed from `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` by Amendment v4.2.1) | Daughter board ↔ Waveshare SKU 32088 — +5V from VBUS (pin 40), +3V3 output from pin 36, GPIO signals across remaining header pins; Row A pads at x = 17.81 mm, Row B pads at x = 33.19 mm; J8 centre at (25.50, 28.80) mm offset 15 mm from left board edge |
 | J2–J5 | Molex 22-27-2041 (KK-254, 4-pin keyed vertical header; old part number AE-6410-04A; Molex 22-23-2041 is an acceptable equivalent from the same series) | 1×4, 2.54 mm pitch, through-hole, polarised latching shroud | 12 V PWM fan headers (4-wire Intel spec) — keyed housing physically prevents reverse insertion; mates with standard 4-pin PC fan female housing (Molex 22-01-2042 or equivalent); placed on **side** edge for case cut-out access; footprint `Connector_Molex:Molex_KK-254_AE-6410-04A_1x04_P2.54mm_Vertical` (KiCad standard library, 4-pin sibling of J6's 3-pin footprint); replaces non-compliant `47053-1000` per P-HW-09 mandate — see Amendment v4.0.0 |
 | J6 | Molex 22-01-3037 (KK 254 3-pin housing) + Molex 08-50-0032 crimp terminals | 3-pin 2.54 mm polarized latching | DS18B20 temperature probe connector — keyed housing per P-HW-09; footprint `Connector_Molex:Molex_KK-254_AE-6410-03A_1x03_P2.54mm_Vertical` (KiCad standard library) |
@@ -144,17 +144,18 @@ The daughter board uses a **portrait layout** as established by the PCB sketch i
 **Layout zones (portrait orientation) — Amendment v4.3.0:**
 - **Left zone (x = 0–17.81 mm, 17.81 mm wide):** Left-side components connecting to J8 Row A (left-column GPIOs). Contains: J9 (DHT11 sensor connector), LED1+R3 (STATUS_LED), LED2+R13 (PROG_LED), J6 (DS18B20 temperature probe connector — moved from right zone; DS18B20_DATA is a Row A signal).
 - **ESP32 zone (x = 15–36 mm):** Occupied by the Waveshare ESP32-P4-POE-ETH module and J8 footprint. No daughter-board signal components in this zone.
-- **Right zone (x = 33.19 mm – 56 mm, 22.81 mm wide):** Right-side components connecting to J8 Row B (right-column GPIOs). Contains: J2–J5 (fan headers), R5–R8 (TACH pull-ups), U1+L1+D1+C1+C2 (boost converter chain), LED6+R15 (PROBE_LED), D2–D5 (fan indicator LEDs).
+- **Right zone (x = 33.19 mm – 56 mm, 22.81 mm wide):** Right-side components connecting to J8 Row B (right-column GPIOs). Contains: J2–J5 (fan headers), R5–R8 (TACH pull-ups), U_BOOST (DC-DC boost module, Amazon.nl B0D9VJKD1L), LED6+R15 (PROBE_LED), D2–D5 (fan indicator LEDs).
 
 **Zero-crossing trace rule (Amendment v4.3.0):** No signal trace may cross the ESP32 footprint boundary. Left-column GPIO signals (J8 Row A, x = 17.81 mm) must be routed entirely in x ≤ 17.81 mm. Right-column GPIO signals (J8 Row B, x = 33.19 mm) must be routed entirely in x ≥ 33.19 mm.
 
-**J8 pin constraints (from ESP32-P4-POE-ETH dimension drawing — HIGH confidence — updated by Amendment v4.3.0):**
+**J8 pin constraints (from ESP32-P4-POE-ETH dimension drawing — HIGH confidence — updated by Amendment v4.3.0, position updated 2026-06-14):**
 - First pin: 4.67 mm from top edge of board
 - Header Y span: 4.67 mm to 52.93 mm (20 × 2.54 mm pitch = 48.26 mm)
-- J8 footprint centre: (25.50, 28.80) mm (updated from (10.50, 28.80) mm by Amendment v4.3.0)
-- Row A (odd pins, pads 1–20) centre: **x = 17.81 mm** from left board edge (updated from 2.81 mm)
-- Row B (even pins, pads 21–40) centre: **x = 33.19 mm** from left board edge (updated from 18.19 mm)
+- J8 footprint centre: **(41.0, 40.77) mm** — updated after board reshuffle 2026-06-14 (was 25.50, 28.80)
+- Row A (odd pins, pads 1–20) centre: **x = 17.81 mm** from left board edge
+- Row B (even pins, pads 21–40) centre: **x = 33.19 mm** from left board edge
 - Row spacing: 15.38 mm (unchanged — confirmed from SKU 32088 dimension drawing)
+- Rotation: **90°**
 
 > Source: `docs/kb/ESP32-P4-POE-ETH/ESP32-P4-ETH-details-size-*.webp` + `docs/kb/Sample-PCB-Sketch.png`
 
@@ -169,8 +170,26 @@ All schematic symbol origins and pin endpoints must land on the 2.54 mm grid (sn
 
 | Net class | Track width | Via diameter | Via drill |
 |---|---|---|---|
-| Signal | 0.25 mm | 0.8 mm | 0.4 mm |
-| Power (+12 V, GND) | 1.0 mm | 0.8 mm | 0.4 mm |
+| Signal | 0.25 mm (min 0.4 mm per board rules) | 0.8 mm | 0.4 mm |
+| Power (+12 V, GND, +5V) | **1.0 mm** | 0.8 mm | 0.4 mm |
+
+**P-HW-10 — Board design rules (from board setup, authoritative).**
+The following mandatory constraints are set in the KiCad board setup and enforced as DRC **errors**:
+
+| Rule | Value |
+|---|---|
+| Minimum copper clearance | **0.2 mm** |
+| Minimum copper-to-edge clearance | **1.0 mm** |
+| Minimum track width | **0.4 mm** |
+| Minimum through-hole diameter | **0.6 mm** |
+| Minimum via diameter | **0.5 mm** |
+| Minimum hole clearance | **0.25 mm** |
+| Courtyard overlap | **error** (blocks DRC) |
+| PTH inside courtyard | **error** (blocks DRC) |
+| Tracks crossing | **error** (blocks DRC) |
+| Shorting nets | **error** (blocks DRC) |
+
+Any script-based PCB editing (pcbnew Python API) **must** respect these values. Violations are DRC errors and will block the CI gate.
 
 **P-HW-08 — Ground copper pour on both layers.**
 Both F.Cu and B.Cu carry a GND copper pour. There is only **one** ground domain on the daughter board: `GND` (SELV secondary). The primary-side isolation barrier (previously at x = 38 mm) is no longer present on the daughter board — it resides inside the Waveshare SKU 32088. No split of the ground pour is required on the daughter board.
@@ -248,50 +267,60 @@ Default PWM duty cycle at boot must be **100 %** (full speed) until configuratio
 [Ethernet cable — 802.3at PoE+]
         │  37–57 V DC (PoE pairs)
         ▼
-   J1  RJ45 (Würth 615008144521) — PoE power only; MDI secondary NC
-        │  PoE centre-tap pairs
+   Waveshare ESP32-P4-POE-ETH (SKU 32088)
+   (integrated: RJ45, onboard Ag9905M PoE+ PD module, isolated DC-DC, internal 5V and 3.3V
+    regulators, LAN8720A Ethernet PHY, ESP32-P4NRW32 SoC, 32 MB flash, 32 MB PSRAM)
+        │  +5V VBUS — J8 pin 40
+        │  ⚠ VBUS current capacity unconfirmed — verify from SKU 32088 schematic before fab
+        │  (total load: ~3.47 A — boost 2.67 A + ESP32 ~0.8 A; see Risk R-01)
         ▼
-   U1  Ag9905M PoE+ PD module
-        │  Isolated 12 V DC, max 1.67 A (20 W)
-        ├──────────────────────────────► J2–J5  Fan headers (+12 V)
+   J8  2×20 daughter board connector
         │
-        ▼
-   U2  LM2596S-5.0/NOPB buck regulator  (12 V → 5 V, 3 A rated)
-        │  +5V
-        ▼
-   D2  1N5822 Schottky diode (USB back-feed protection, Vf ≈ 0.35 V)
-        │  +5V_HAT (~4.65 V)
-        ▼
-   J8  2×20 HAT header → Waveshare ESP32-P4-ETH board
-        │  (internal 5V→3.3V LDO on Waveshare)
-        ├──► +3V3 back to carrier via J8 pin 1/17
-        │     └──► R5–R8 TACH pull-ups, J9 DHT11 connector (+3V3 → VCC)
-        └──► ESP32-P4NRW32 + LAN8720A + PSRAM + Flash
+        ├──► U_BOOST  DC-DC Boost Module (Amazon.nl B0D9VJKD1L)  5V → 12V
+        │         │  +12V DC (trimmer pre-set to 12.0 V; 2 A max output / 93% eff.)
+        │         └──────────────────────────────► J2–J5  Fan headers (+12 V, ≤1.0 A total)
+        │
+        ├──► +3V3 (J8 pin 36, from Waveshare internal LDO)
+        │         └──► R5–R8 TACH pull-ups, J9 DHT11 connector (+3V3 → VCC), R14 DS18B20 pull-up
+        │
+        └──► ESP32-P4NRW32 + LAN8720A + PSRAM + Flash (on Waveshare board, ~800 mA)
 ```
 
-> **PSE Note:** The PoE switch port connected to J1 must be set to **"force PoE"** mode
-> (power regardless of link state), because J1's MDI secondary is NC and no 802.3 Ethernet
-> link is visible on that port. PoE power extraction via J1 centre-tap pairs is electrically
-> independent of the MDI secondary; leaving it NC creates no isolation concern. Ethernet
-> data connectivity is provided by the Waveshare board's own built-in RJ45 on a separate cable.
+> **Architecture note (v3.0.0 daughter board):** All primary-side circuitry (PoE PD negotiation,
+> isolation barrier, AC/DC conversion) is entirely inside the Waveshare SKU 32088. The custom
+> daughter board is a wholly SELV domain. No isolation analysis is required on the daughter board.
+
+> **U_BOOST substitution (v5.0.0):** The discrete boost stage (U1 LM2587-12, L1, D1, C1, C2)
+> has been replaced by the off-the-shelf DC-DC Boost Module (B0D9VJKD1L). The module is
+> on the SELV secondary side and introduces no isolation concern. The output trimmer must be
+> pre-set to 12.0 V ± 0.1 V on a bench supply before soldering the module to the PCB.
 
 ### 5.2 Power Budget
 
 | Consumer | Rail | Current | Power |
 |---|---|---|---|
 | 4 × PWM fan (max) | 12 V | ≤1.0 A | ≤12.0 W |
-| LM2596S-5.0 conversion loss (~88% eff.) | 12→5V | — | ~0.55 W |
-| D2 diode drop loss | — | — | ~0.35 W |
+| U_BOOST conversion loss (~90% eff. worst-case) | 5V→12V | — | ~1.3 W |
 | Waveshare ESP32-P4-ETH board | 5V (via J8) | ~800 mA | ~4.0 W |
 | DHT11 + TACH pull-ups | 3.3V | <15 mA | ~0.05 W |
-| Ag9905M losses (est.) | — | — | ~2.0 W |
-| **Total** | | | **~18.9 W** |
-| **802.3at Class 4 budget (Ag9905M)** | | | **20.0 W** |
-| **Margin** | | | **~1.1 W (5.5%)** |
+| Waveshare internal losses (est.) | — | — | ~2.0 W |
+| **Total** | | | **~19.4 W** |
+| **802.3at Class 4 budget (Waveshare onboard PD)** | | | **20.0 W** |
+| **Margin** | | | **~0.6 W (3%)** |
 
-> **⚠ Tight margin warning:** The 5.5% power margin is significantly tighter than the previous
-> design (v0.2 had ~8.5 W margin). The Ag9905M's 20 W (1.67 A × 12 V) output is the hard cap.
-> **Do not add further 12 V loads without a full power budget re-evaluation and poe.expert consultation.**
+> **⚠ Very tight margin warning (v5.0.0):** The 3% power margin (~0.6 W) is tighter than the
+> previous design (~1.1 W / 5.5%). The U_BOOST module is more efficient than the discrete
+> LM2587-12 stage (90–93% vs ~88%), but the revised efficiency figure still leaves only 0.6 W
+> of headroom under the Waveshare SKU 32088's 20 W Class 4 cap.
+> **Do not add further 12V or 5V loads without a full power budget re-evaluation and
+> `poe.expert` consultation.**
+
+> **⚠ VBUS current risk (CRITICAL — verify before PCB fabrication):** The +5V VBUS rail
+> (J8 pin 40) must supply ~2.67 A to U_BOOST (12 W fan load ÷ 90% efficiency ÷ 5 V) plus
+> ~0.8 A for the Waveshare board = **~3.47 A total**. The Waveshare SKU 32088 VBUS output
+> current capacity is flagged as **MEDIUM confidence** (see §11). Verify from the Waveshare
+> schematic or datasheet before ordering PCBs. If VBUS is limited, a dedicated 5V regulator
+> on the daughter board must be added (requires a new MAJOR amendment + `poe.expert` review).
 
 ### 5.3 PoE Standards
 
@@ -463,19 +492,19 @@ The PlatformIO native test suite must pass in the GitHub Actions CI pipeline on 
 
 The following sequence must be completed (and results logged) for every new board revision:
 
-1. **No-load power test**: Measure Ag9905M output → expect 12.0 ± 0.3 V DC.
-2. **5V rail test**: Measure LM2596S-5.0 output (before D2) → expect 5.0 ± 0.2 V DC.
-3. **5V_HAT rail test**: Measure J8 pin 2 (after D2) → expect ≥ 4.5 V DC.
-4. **Seat Waveshare board**: Plug Waveshare ESP32-P4-ETH onto J8.
-5. **Waveshare power test**: Confirm Waveshare's status LED illuminates.
-6. **3.3V rail test**: Measure J8 pin 1 → expect 3.30 ± 0.05 V DC from Waveshare's internal LDO.
-7. **Firmware flash**: Connect USB-C to Waveshare board → CH343P enumerates → `pio run -e esp32-p4-eth --target upload`.
-8. **Ethernet connectivity**: Connect Ethernet cable to Waveshare's RJ45 → ping `poe-fanctrl.local`.
-9. **Fan PWM test**: Drive one fan at 50% duty; confirm audible speed change and TACH signal.
-10. **Full-load thermal test**: All 4 fans at 100% for 10 min; check power consumption vs 20 W budget.
-
-> **PSE Note:** The PoE switch port connected to J1 must be set to **"force PoE"** mode
-> (not link-dependent) because J1's MDI secondary is NC and no 802.3 link is visible on that port.
+1. **Pre-install U_BOOST trim (off-board)**: Connect B0D9VJKD1L to a bench supply at 5.0 V (do not install on PCB yet). Adjust the trimmer potentiometer until OUT+ measures 12.0 V ± 0.1 V. Lock the trimmer with a dab of nail varnish or thread-lock before soldering.
+2. **PCB assembly**: Solder all daughter-board components (J2–J5, R5–R8, J6, J9, LED1/R3, LED2/R13, LED6/R15, R14, U_BOOST).
+3. **No-load 12V rail test (before seating Waveshare board)**: Apply PoE. Measure J2 pin 2 (VCC_FAN) → expect 12.0 V ± 0.3 V DC. Confirms U_BOOST is operating.
+4. **5V VBUS rail test**: Measure J8 pin 40 (VBUS) → expect 5.0 ± 0.2 V DC.
+5. **3.3V rail test**: Measure J8 pin 36 → expect 3.30 ± 0.05 V DC from Waveshare's internal LDO.
+6. **Seat Waveshare board**: Plug Waveshare ESP32-P4-POE-ETH (SKU 32088) onto J8.
+7. **Waveshare power test**: Confirm Waveshare's onboard status LED illuminates.
+8. **Firmware flash**: Connect USB-C to Waveshare board → CH343P enumerates → `pio run -e esp32-p4-eth --target upload`.
+9. **Ethernet connectivity**: Connect Ethernet cable to Waveshare's built-in RJ45 → ping `poe-fanctrl.local`.
+10. **Fan PWM test**: Drive one fan at 50% duty; confirm audible speed change and TACH signal.
+11. **Full-load 12V droop test**: Connect all 4 fans at 100% duty; measure VCC_FAN → expect ≥ 11.5 V (allow for U_BOOST output droop at load).
+12. **U_BOOST temperature check**: After 10 min full-load, verify U_BOOST module PCB surface temperature ≤ 70 °C (touch or IR thermometer). Sustained >70 °C indicates inadequate derating; improve airflow or derate fan load.
+13. **Full-load thermal test**: All 4 fans at 100% for 10 min; measure total PoE draw → expect ≤ 20 W (802.3at Class 4 cap).
 
 ### 8.5 CI Gate Principles
 
@@ -564,3 +593,4 @@ The architect agent owns `docs/constitution.md`, `docs/architecture.md`, and `do
 | 4.2.0 | 2026-06-10 | MINOR — **Correct J8 GPIO pin assignments (Issue #148).** *P-FW-02 peripheral ownership table:* (1) LEDC channels corrected from GPIO4/5/6/7 → **GPIO20/21/26/27** (J8 right pins 35/34/29/27); (2) GPIO interrupts (TACH) corrected from GPIO8/9/10/11 → **GPIO22/23/46/47** (J8 right pins 32/31/24/22); (3) PROBE_LED corrected from GPIO20 → **GPIO48** (J8 right pin 21 — GPIO20 now FAN1_PWM); (4) STATUS_LED J8 pin reference corrected from "left pin 3" (GND) → **"left pin 6"** (GPIO2); (5) PROG_LED J8 pin reference corrected from "right pin 22" (GND) → **"left pin 14"** (GPIO15); (6) DHT11_DATA J8 pin reference corrected from "pin 23" (GND) → **"left pin 15"** (GPIO16); (7) DS18B20_DATA J8 pin reference corrected from "left pin 27" (GND) → **"left pin 19"** (GPIO19); (8) Ethernet MAC/RMII row: MDIO corrected from GPIO28 (ESP32-classic value, wrong for P4) → **GPIO52** (confirmed from Waveshare Kconfig); PHY_RST GPIO51 added; (9) **I2C (SDA/SCL) reserved row removed** — GPIO21 assigned FAN2_PWM, GPIO22 assigned FAN1_TACH. *§2.3 firmware table:* DHT11 pin reference corrected from "J8 pin 23" → **"J8 left pin 15"**. *GPIO capability confirmations (esp32.expert):* GPIO26/27 confirmed NOT EMAC-reserved (EMAC set: GPIO31–37, 50–52); GPIO20/21/26/27 confirmed LEDC-capable via GPIO matrix; GPIO22/23/46/47/48 confirmed interrupt-capable; GPIO46/47/48 confirmed present in authoritative 40-pin table and absent from forbidden list. All changes go through `hardware/generator/components.py` only (P-HW-05/P-KI-04). Feature: correct-gpio-pin-assignments (#148). | architect |
 | 4.2.1 | 2026-06-10 | PATCH — **§2.2 J8 footprint rename** (Issue #148, FR-12). J8 footprint identifier renamed from `Custom:PinSocket_2x20_P2.54mm_P15.38mm_Vertical` → **`Custom:ESP32-P4-PoE-ETH-PinSocket`** in §2.2 BOM table and P-HW-03 exception note. The new name reflects the board this connector interfaces with, making the footprint self-documenting. Physical pad geometry, row-to-row spacing (15.38 mm), pad pitch (2.54 mm), and all mechanical constraints are **unchanged** — only the name identifier changes. The rename applies to: `hardware/generator/components.py` (footprint= argument), `hardware/generator/gen_footprint_j8.py` (header string), `hardware/kicad/footprints/Custom.pretty/` (file rename + internal header). §2.2 J8 Role description also corrected to remove stale "+5V (pins 2 & 4), +3.3V (pins 1 & 17)" phrasing (those assignments were corrected to NC/pin-36 by Amendment v4.2.0). No principle removed or redefined; no new technology choice. Feature: correct-gpio-pin-assignments (#148). | architect |
 | 4.3.0 | 2026-06-10 | MINOR — **P-HW-04 ESP32 offset layout** (Issue #148, board layout realignment). ESP32-P4-POE-ETH module repositioned from x = 0–21 mm to **x = 15–36 mm** (offset 15 mm from left board edge). J8 Row A pads updated from x = 2.81 mm → **x = 17.81 mm**; Row B pads updated from x = 18.19 mm → **x = 33.19 mm**; J8 footprint centre updated from (10.50, 28.80) mm → **(25.50, 28.80) mm**. Layout zones replaced: *Left zone* (x = 0–17.81 mm) contains J9, LED1+R3, LED2+R13, J6 (DS18B20 connector moved here from right zone — DS18B20_DATA is a Row A signal); *ESP32 zone* (x = 15–36 mm) occupied by module + J8; *Right zone* (x = 33.19–56 mm) contains J2–J5, R5–R8, boost chain, PROBE_LED, fan indicator LEDs. **Zero-crossing trace rule added**: no signal trace may cross the ESP32 footprint boundary; Row A signals routed at x ≤ 17.81 mm, Row B signals routed at x ≥ 33.19 mm. P-HW-03 J8 exception note updated from "LEFT edge" to "centre-left (x = 15–36 mm), offset 15 mm from left edge". §2.2 J8 BOM row footnote updated with new pad coordinates. Board dimensions (78 × 56 mm) **unchanged**. P-HW-02 (F.Cu-only placement), P-HW-07 (trace widths), and all isolation rules **unchanged**. Feature: correct-gpio-pin-assignments (#148). | architect |
+| 5.0.0 | 2026-06-14 | MAJOR — **Replace discrete boost stage with DC-DC module (Issue #177).** *§2.2 BOM U_BOOST row:* Placeholder (LM2587-12/TPS61085, SOT-23-6/D2PAK) replaced by locked entry: **DC-DC Boost Module, Amazon.nl B0D9VJKD1L**, 4-pin 2.54 mm pitch THT, footprint `Custom:DC-Boost-Module` in `hardware/kicad/footprints/Custom.pretty/`. Discrete components **U1 (LM2587-12), L1 (100 µH), D1 (1N5822), C1/C2 (100 µF/25 V) retired** — their functions (switching IC, inductor, catch diode, bypass capacitors) are now internal to the module. *P-HW-04 right zone:* "U1+L1+D1+C1+C2 (boost converter chain)" → "U_BOOST (DC-DC boost module, Amazon.nl B0D9VJKD1L)". *§5.1 power chain:* Rewritten — stale v2.0.0 content (J1/Ag9905M/LM2596S/D2 — all removed in v3.0.0) replaced with current daughter-board architecture; U_BOOST inserted in power path; VBUS current risk documented. *§5.2 power budget:* Updated — U_BOOST conversion loss ~1.3 W at 90% worst-case efficiency; revised total ~19.4 W, margin ~0.6 W (3%) vs 20 W cap; VBUS current risk warning added (3.47 A total from J8 pin 40 — must be verified from Waveshare SKU 32088 schematic before PCB fabrication). *§8.4 bring-up checklist:* Rewritten — stale steps (Ag9905M, LM2596S, D2) removed; 4 U_BOOST-specific steps added (off-board trim pre-set, no-load 12V rail, full-load 12V droop, module temperature check). **MAJOR classification rationale:** §2.2 explicitly requires a MAJOR amendment for any BOM substitution; package type changes from discrete IC (SOT-23-6/D2PAK) to off-the-shelf module (4-pin THT); footprint changes from standard to custom. **⚠ Open pre-fab risk:** VBUS current capacity (J8 pin 40, Waveshare SKU 32088) unverified — must be confirmed before PCB ordering. Feature: replace-boost-module (#177). | architect |

@@ -1,43 +1,59 @@
-ERC report (2026-06-11T11:01:24, Encoding UTF8)
+ERC report (2026-06-14T23:04:42, Encoding UTF8)
 Report includes: Errors, Warnings
 
 ***** Sheet /
+[pin_to_pin]: Pins of type Output and Output are connected
+    ; error
+    @(322.58 mm, 81.28 mm): Symbol J2 Pin 3 [TACH, Output, Line]
+    @(106.68 mm, 140.97 mm): Symbol J8 Pin 34 [FAN1_PWM, Output, Line]
+[pin_to_pin]: Pins of type Output and Output are connected
+    ; error
+    @(322.58 mm, 111.76 mm): Symbol J3 Pin 3 [TACH, Output, Line]
+    @(106.68 mm, 151.13 mm): Symbol J8 Pin 31 [FAN2_PWM, Output, Line]
+[pin_to_pin]: Pins of type Output and Output are connected
+    ; error
+    @(322.58 mm, 142.24 mm): Symbol J4 Pin 3 [TACH, Output, Line]
+    @(106.68 mm, 163.83 mm): Symbol J8 Pin 24 [FAN3_PWM, Output, Line]
+[pin_to_pin]: Pins of type Output and Output are connected
+    ; error
+    @(322.58 mm, 172.72 mm): Symbol J5 Pin 3 [TACH, Output, Line]
+    @(106.68 mm, 176.53 mm): Symbol J8 Pin 21 [FAN4_PWM, Output, Line]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 133.35 mm): Symbol #PWR037 [GND]
+    @(76.20 mm, 133.35 mm): Symbol #PWR032 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 146.05 mm): Symbol #PWR036 [GND]
+    @(76.20 mm, 146.05 mm): Symbol #PWR031 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 158.75 mm): Symbol #PWR035 [GND]
+    @(76.20 mm, 158.75 mm): Symbol #PWR030 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(76.20 mm, 171.45 mm): Symbol #PWR034 [GND]
+    @(76.20 mm, 171.45 mm): Symbol #PWR029 [GND]
 [lib_symbol_mismatch]: Symbol 'J8_Waveshare' doesn't match copy in library 'Custom'
     ; warning
     @(91.44 mm, 152.40 mm): Symbol J8 [J8_Waveshare]
 [lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
     ; warning
-    @(106.68 mm, 128.27 mm): Symbol #PWR038 [+5V]
+    @(106.68 mm, 128.27 mm): Symbol #PWR033 [+5V]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(106.68 mm, 133.35 mm): Symbol #PWR039 [GND]
+    @(106.68 mm, 133.35 mm): Symbol #PWR034 [GND]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(106.68 mm, 138.43 mm): Symbol #PWR040 [+3V3]
+    @(106.68 mm, 138.43 mm): Symbol #PWR035 [+3V3]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(106.68 mm, 146.05 mm): Symbol #PWR041 [GND]
+    @(106.68 mm, 146.05 mm): Symbol #PWR036 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(106.68 mm, 158.75 mm): Symbol #PWR042 [GND]
+    @(106.68 mm, 158.75 mm): Symbol #PWR037 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(106.68 mm, 171.45 mm): Symbol #PWR043 [GND]
+    @(106.68 mm, 171.45 mm): Symbol #PWR038 [GND]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(152.40 mm, 302.26 mm): Symbol #PWR030 [+3V3]
+    @(152.40 mm, 302.26 mm): Symbol #PWR025 [+3V3]
 [lib_symbol_mismatch]: Symbol 'R' doesn't match copy in library 'Custom'
     ; warning
     @(157.48 mm, 228.60 mm): Symbol R3 [R]
@@ -50,30 +66,15 @@ Report includes: Errors, Warnings
 [lib_symbol_mismatch]: Symbol 'R' doesn't match copy in library 'Custom'
     ; warning
     @(157.48 mm, 302.26 mm): Symbol R14 [R]
-[lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
-    ; warning
-    @(167.64 mm, 91.44 mm): Symbol #PWR001 [+5V]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(167.64 mm, 261.62 mm): Symbol #PWR028 [+3V3]
+    @(167.64 mm, 261.62 mm): Symbol #PWR023 [+3V3]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(167.64 mm, 266.70 mm): Symbol #PWR029 [GND]
-[lib_symbol_issues]: Symbol 'Cap_Elec' not found in symbol library 'Custom'
+    @(167.64 mm, 266.70 mm): Symbol #PWR024 [GND]
+[lib_symbol_issues]: Symbol 'DHT11_Direct' not found in symbol library 'Custom'
     ; warning
-    @(172.72 mm, 91.44 mm): Symbol C1 [Cap_Elec]
-[lib_symbol_issues]: Symbol 'Conn_1x03' not found in symbol library 'Custom'
-    ; warning
-    @(175.26 mm, 264.16 mm): Symbol HUM1 [Conn_1x03]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(177.80 mm, 91.44 mm): Symbol #PWR002 [GND]
-[lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
-    ; warning
-    @(186.69 mm, 71.12 mm): Symbol #PWR003 [+5V]
-[lib_symbol_issues]: Symbol 'Inductor' not found in symbol library 'Custom'
-    ; warning
-    @(193.04 mm, 71.12 mm): Symbol L1 [Inductor]
+    @(175.26 mm, 264.16 mm): Symbol HUM1 [DHT11_Direct]
 [lib_symbol_mismatch]: Symbol 'LED' doesn't match copy in library 'Custom'
     ; warning
     @(193.04 mm, 228.60 mm): Symbol LED1 [LED]
@@ -85,61 +86,49 @@ Report includes: Errors, Warnings
     @(193.04 mm, 281.94 mm): Symbol LED6 [LED]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(198.12 mm, 228.60 mm): Symbol #PWR026 [GND]
+    @(198.12 mm, 228.60 mm): Symbol #PWR021 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(198.12 mm, 246.38 mm): Symbol #PWR027 [GND]
+    @(198.12 mm, 246.38 mm): Symbol #PWR022 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(198.12 mm, 281.94 mm): Symbol #PWR033 [GND]
+    @(198.12 mm, 281.94 mm): Symbol #PWR028 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(205.74 mm, 299.72 mm): Symbol #PWR031 [GND]
+    @(205.74 mm, 299.72 mm): Symbol #PWR026 [GND]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(205.74 mm, 304.80 mm): Symbol #PWR032 [+3V3]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(210.82 mm, 66.04 mm): Symbol #PWR004 [GND]
+    @(205.74 mm, 304.80 mm): Symbol #PWR027 [+3V3]
 [lib_symbol_mismatch]: Symbol '+5V' doesn't match copy in library 'power'
     ; warning
-    @(210.82 mm, 68.58 mm): Symbol #PWR005 [+5V]
+    @(210.82 mm, 76.20 mm): Symbol #PWR001 [+5V]
+[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
+    ; warning
+    @(210.82 mm, 78.74 mm): Symbol #PWR002 [GND]
 [lib_symbol_issues]: Symbol 'Conn_1x03' not found in symbol library 'Custom'
     ; warning
     @(213.36 mm, 302.26 mm): Symbol J6 [Conn_1x03]
-[lib_symbol_mismatch]: Symbol 'Boost_Converter' doesn't match copy in library 'Custom'
+[lib_symbol_issues]: Symbol 'DC_Boost_Module' not found in symbol library 'Custom'
     ; warning
-    @(218.44 mm, 71.12 mm): Symbol U1 [Boost_Converter]
-[lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
-    ; warning
-    @(226.06 mm, 71.12 mm): Symbol #PWR006 [GND]
-[lib_symbol_issues]: Symbol 'Diode_Schottky' not found in symbol library 'Custom'
-    ; warning
-    @(243.84 mm, 71.12 mm): Symbol D1 [Diode_Schottky]
+    @(218.44 mm, 81.28 mm): Symbol U_BOOST [DC_Boost_Module]
 [lib_symbol_mismatch]: Symbol '+12V' doesn't match copy in library 'power'
     ; warning
-    @(248.92 mm, 71.12 mm): Symbol #PWR007 [+12V]
-[lib_symbol_mismatch]: Symbol '+12V' doesn't match copy in library 'power'
-    ; warning
-    @(259.08 mm, 91.44 mm): Symbol #PWR008 [+12V]
-[lib_symbol_issues]: Symbol 'Cap_Elec' not found in symbol library 'Custom'
-    ; warning
-    @(264.16 mm, 91.44 mm): Symbol C2 [Cap_Elec]
+    @(226.06 mm, 76.20 mm): Symbol #PWR003 [+12V]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(269.24 mm, 91.44 mm): Symbol #PWR009 [GND]
+    @(226.06 mm, 78.74 mm): Symbol #PWR004 [GND]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(274.32 mm, 81.28 mm): Symbol #PWR012 [+3V3]
+    @(274.32 mm, 81.28 mm): Symbol #PWR007 [+3V3]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(274.32 mm, 111.76 mm): Symbol #PWR015 [+3V3]
+    @(274.32 mm, 111.76 mm): Symbol #PWR010 [+3V3]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(274.32 mm, 142.24 mm): Symbol #PWR018 [+3V3]
+    @(274.32 mm, 142.24 mm): Symbol #PWR013 [+3V3]
 [lib_symbol_mismatch]: Symbol '+3V3' doesn't match copy in library 'power'
     ; warning
-    @(274.32 mm, 172.72 mm): Symbol #PWR021 [+3V3]
+    @(274.32 mm, 172.72 mm): Symbol #PWR016 [+3V3]
 [lib_symbol_mismatch]: Symbol 'R' doesn't match copy in library 'Custom'
     ; warning
     @(279.40 mm, 81.28 mm): Symbol R5 [R]
@@ -178,40 +167,40 @@ Report includes: Errors, Warnings
     @(314.96 mm, 172.72 mm): Symbol D5 [LED]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(320.04 mm, 81.28 mm): Symbol #PWR022 [GND]
+    @(320.04 mm, 81.28 mm): Symbol #PWR017 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(320.04 mm, 111.76 mm): Symbol #PWR023 [GND]
+    @(320.04 mm, 111.76 mm): Symbol #PWR018 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(320.04 mm, 142.24 mm): Symbol #PWR024 [GND]
+    @(320.04 mm, 142.24 mm): Symbol #PWR019 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(320.04 mm, 172.72 mm): Symbol #PWR025 [GND]
+    @(320.04 mm, 172.72 mm): Symbol #PWR020 [GND]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 76.20 mm): Symbol #PWR010 [GND]
+    @(322.58 mm, 76.20 mm): Symbol #PWR005 [GND]
 [lib_symbol_mismatch]: Symbol '+12V' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 78.74 mm): Symbol #PWR011 [+12V]
+    @(322.58 mm, 78.74 mm): Symbol #PWR006 [+12V]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 106.68 mm): Symbol #PWR013 [GND]
+    @(322.58 mm, 106.68 mm): Symbol #PWR008 [GND]
 [lib_symbol_mismatch]: Symbol '+12V' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 109.22 mm): Symbol #PWR014 [+12V]
+    @(322.58 mm, 109.22 mm): Symbol #PWR009 [+12V]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 137.16 mm): Symbol #PWR016 [GND]
+    @(322.58 mm, 137.16 mm): Symbol #PWR011 [GND]
 [lib_symbol_mismatch]: Symbol '+12V' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 139.70 mm): Symbol #PWR017 [+12V]
+    @(322.58 mm, 139.70 mm): Symbol #PWR012 [+12V]
 [lib_symbol_mismatch]: Symbol 'GND' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 167.64 mm): Symbol #PWR019 [GND]
+    @(322.58 mm, 167.64 mm): Symbol #PWR014 [GND]
 [lib_symbol_mismatch]: Symbol '+12V' doesn't match copy in library 'power'
     ; warning
-    @(322.58 mm, 170.18 mm): Symbol #PWR020 [+12V]
+    @(322.58 mm, 170.18 mm): Symbol #PWR015 [+12V]
 [lib_symbol_mismatch]: Symbol 'Fan_Header' doesn't match copy in library 'Custom'
     ; warning
     @(330.20 mm, 81.28 mm): Symbol J2 [Fan_Header]
@@ -225,7 +214,7 @@ Report includes: Errors, Warnings
     ; warning
     @(330.20 mm, 172.72 mm): Symbol J5 [Fan_Header]
 
- ** ERC messages: 74  Errors 0  Warnings 74
+ ** ERC messages: 69  Errors 4  Warnings 65
 
  ** Ignored checks:
     - Global label only appears once in the schematic

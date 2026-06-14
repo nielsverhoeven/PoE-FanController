@@ -35,7 +35,7 @@ import pcbnew
 PCB_PATH = ("C:/repos-github/PoE-FanController/hardware/kicad/"
             "PoE-FanController.kicad_pcb")
 
-POWER_NETS = {"+12V", "+5V", "+3V3", "GND", "BOOST_SW"}
+POWER_NETS = {"+12V", "+5V", "+3V3", "GND"}
 
 # Single routing layer — never changes
 ROUTE_LAYER = pcbnew.F_Cu

@@ -1,189 +1,44 @@
-{
-    "$schema": "https://schemas.kicad.org/drc.v1.json",
-    "coordinate_units": "mm",
-    "date": "2026-06-12T09:34:09",
-    "ignored_checks": [
-        {
-            "description": "Footprint has no courtyard defined",
-            "key": "missing_courtyard"
-        },
-        {
-            "description": "Track endpoint not centered on via",
-            "key": "track_not_centered_on_via"
-        },
-        {
-            "description": "Tuning profile track geometries",
-            "key": "tuning_profile_track_geometries"
-        },
-        {
-            "description": "Footprint doesn't match symbol's footprint filters",
-            "key": "footprint_filters_mismatch"
-        },
-        {
-            "description": "Footprint component type doesn't match footprint pads",
-            "key": "footprint_type_mismatch"
-        }
-    ],
-    "included_severities": [
-        "error",
-        "warning"
-    ],
-    "kicad_version": "10.0.3",
-    "schematic_parity": [],
-    "source": "PoE-FanController.kicad_pcb",
-    "unconnected_items": [],
-    "violations": [
-        {
-            "description": "Track has unconnected end",
-            "items": [
-                {
-                    "description": "Track [+5V] on F.Cu, length 0,9750 mm",
-                    "pos": {
-                        "x": 53.975,
-                        "y": 21.525
-                    },
-                    "uuid": "7bc6b4e8-4871-429b-bcdd-0ab6f7b3ba60"
-                }
-            ],
-            "severity": "warning",
-            "type": "track_dangling"
-        },
-        {
-            "description": "Silkscreen clipped by board edge",
-            "items": [
-                {
-                    "description": "Arc on Edge.Cuts",
-                    "pos": {
-                        "x": 15.0,
-                        "y": 87.0
-                    },
-                    "uuid": "787bd594-f8e4-4e8b-bbd4-1b49280b68c7"
-                },
-                {
-                    "description": "PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen",
-                    "pos": {
-                        "x": 33.0,
-                        "y": 89.0
-                    },
-                    "uuid": "000001c8-01c8-01c8-01c8-0000000001c8"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_edge_clearance"
-        },
-        {
-            "description": "Footprint 'TO-220-5_Vertical' does not match copy in library 'Package_TO_SOT_THT'",
-            "items": [
-                {
-                    "description": "Footprint U1",
-                    "pos": {
-                        "x": 64.5,
-                        "y": 23.5
-                    },
-                    "uuid": "64036776-5e76-4dd9-90c5-4560ab5b546d"
-                }
-            ],
-            "severity": "warning",
-            "type": "lib_footprint_mismatch"
-        },
-        {
-            "description": "The current configuration does not include the footprint library 'Logos'",
-            "items": [
-                {
-                    "description": "Footprint G***",
-                    "pos": {
-                        "x": 42.0,
-                        "y": 80.0
-                    },
-                    "uuid": "c83c7609-bdc2-4bfe-a66b-7f33c54c15f8"
-                }
-            ],
-            "severity": "warning",
-            "type": "lib_footprint_issues"
-        },
-        {
-            "description": "Footprint 'ESP32-P4-PoE-ETH-PinSocket' does not match copy in library 'Custom'",
-            "items": [
-                {
-                    "description": "Footprint J8",
-                    "pos": {
-                        "x": 37.5,
-                        "y": 40.8
-                    },
-                    "uuid": "d66e3b12-b1d3-4c9d-bef3-79312675d057"
-                }
-            ],
-            "severity": "warning",
-            "type": "lib_footprint_mismatch"
-        },
-        {
-            "description": "Silkscreen clearance",
-            "items": [
-                {
-                    "description": "PCB text 'PoE FanController v0.2' on F.Silkscreen",
-                    "pos": {
-                        "x": 33.0,
-                        "y": 87.0
-                    },
-                    "uuid": "000001c7-01c7-01c7-01c7-0000000001c7"
-                },
-                {
-                    "description": "Polygon of G*** on F.Silkscreen",
-                    "pos": {
-                        "x": 39.694018,
-                        "y": 86.849548
-                    },
-                    "uuid": "8a1170f3-545d-4bed-b822-ec2ef956a1a5"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_overlap"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of J8 on F.Silkscreen",
-                    "pos": {
-                        "x": 28.61,
-                        "y": 64.43
-                    },
-                    "uuid": "e06a1b04-9704-47db-8662-9ef2848b06fe"
-                },
-                {
-                    "description": "PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8",
-                    "pos": {
-                        "x": 29.81,
-                        "y": 64.93
-                    },
-                    "uuid": "cd3b3fec-7fbe-47a3-8fc4-10569c440218"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        },
-        {
-            "description": "Silkscreen clipped by solder mask",
-            "items": [
-                {
-                    "description": "Segment of J8 on F.Silkscreen",
-                    "pos": {
-                        "x": 28.61,
-                        "y": 65.43
-                    },
-                    "uuid": "65f7b509-3c4c-457b-ae61-b6a3718bd696"
-                },
-                {
-                    "description": "PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8",
-                    "pos": {
-                        "x": 29.81,
-                        "y": 64.93
-                    },
-                    "uuid": "cd3b3fec-7fbe-47a3-8fc4-10569c440218"
-                }
-            ],
-            "severity": "warning",
-            "type": "silk_over_copper"
-        }
-    ]
-}
+** Drc report for PoE-FanController.kicad_pcb **
+** Created on 2026-06-15T00:20:42 **
+** Report includes: Errors, Warnings **
+
+** Found 7 DRC violations **
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(60.0000 mm, 35.6200 mm): PTH pad 1 [+3V3] of JP2
+    @(77.0000 mm, 25.1400 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(60.0000 mm, 28.0000 mm): PTH pad 2 [+3V3] of JP2
+    @(77.0000 mm, 25.1400 mm): Footprint U_BOOST
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(33.5000 mm, 75.6200 mm): PTH pad 2 [DHT11_DATA] of JP1
+    @(39.5000 mm, 77.9600 mm): Footprint HUM1
+[lib_footprint_issues]: The current configuration does not include the footprint library 'Logos'
+    Local override; warning
+    @(49.0000 mm, 81.0000 mm): Footprint G***
+[lib_footprint_mismatch]: Footprint 'ESP32-P4-PoE-ETH-PinSocket' does not match copy in library 'Custom'
+    Local override; warning
+    @(41.0000 mm, 40.7700 mm): Footprint J8
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(32.1100 mm, 64.4000 mm): Segment of J8 on F.Silkscreen
+    @(33.3100 mm, 64.9000 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
+[silk_over_copper]: Silkscreen clipped by solder mask
+    Local override; warning
+    @(32.1100 mm, 65.4000 mm): Segment of J8 on F.Silkscreen
+    @(33.3100 mm, 64.9000 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **
