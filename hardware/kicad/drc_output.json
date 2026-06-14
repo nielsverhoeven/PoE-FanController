@@ -1,8 +1,8 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-15T00:08:53 **
+** Created on 2026-06-15T00:20:42 **
 ** Report includes: Errors, Warnings **
 
-** Found 13 DRC violations **
+** Found 7 DRC violations **
 [pth_inside_courtyard]: PTH inside courtyard
     Local override; error
     @(60.0000 mm, 35.6200 mm): PTH pad 1 [+3V3] of JP2
@@ -11,40 +11,16 @@
     Local override; error
     @(60.0000 mm, 28.0000 mm): PTH pad 2 [+3V3] of JP2
     @(77.0000 mm, 25.1400 mm): Footprint U_BOOST
-[silk_edge_clearance]: Silkscreen clipped by board edge
-    Rule: board setup constraints silk; warning
-    @(15.0000 mm, 87.0000 mm): Arc on Edge.Cuts
-    @(33.0000 mm, 89.0000 mm): PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen
-[silk_edge_clearance]: Silkscreen clipped by board edge
-    Rule: board setup constraints silk; warning
-    @(15.0000 mm, 87.0000 mm): Arc on Edge.Cuts
-    @(29.6400 mm, 97.3650 mm): Rectangle of HUM1 on F.Silkscreen
+[pth_inside_courtyard]: PTH inside courtyard
+    Local override; error
+    @(33.5000 mm, 75.6200 mm): PTH pad 2 [DHT11_DATA] of JP1
+    @(39.5000 mm, 77.9600 mm): Footprint HUM1
 [lib_footprint_issues]: The current configuration does not include the footprint library 'Logos'
     Local override; warning
-    @(42.0000 mm, 80.0000 mm): Footprint G***
+    @(49.0000 mm, 81.0000 mm): Footprint G***
 [lib_footprint_mismatch]: Footprint 'ESP32-P4-PoE-ETH-PinSocket' does not match copy in library 'Custom'
     Local override; warning
     @(41.0000 mm, 40.7700 mm): Footprint J8
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(33.0000 mm, 89.0000 mm): PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen
-    @(29.6400 mm, 97.3650 mm): Rectangle of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(33.0000 mm, 89.0000 mm): PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen
-    @(22.0000 mm, 88.4750 mm): Reference field of HUM1
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(33.0000 mm, 87.0000 mm): PCB text 'PoE FanController v0.2' on F.Silkscreen
-    @(22.0000 mm, 88.4750 mm): Reference field of HUM1
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(33.0000 mm, 87.0000 mm): PCB text 'PoE FanController v0.2' on F.Silkscreen
-    @(29.6400 mm, 97.3650 mm): Rectangle of HUM1 on F.Silkscreen
-[silk_overlap]: Silkscreen clearance
-    Rule: board setup constraints silk; warning
-    @(33.0000 mm, 87.0000 mm): PCB text 'PoE FanController v0.2' on F.Silkscreen
-    @(39.6940 mm, 86.8495 mm): Polygon of G*** on F.Silkscreen
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
     @(32.1100 mm, 64.4000 mm): Segment of J8 on F.Silkscreen

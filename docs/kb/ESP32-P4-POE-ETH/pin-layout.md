@@ -163,44 +163,43 @@ This matches the physical Waveshare board where VBUS is at the top-right corner 
 | 17  | GPIO18 | PWR_LED      | Output        | R3 → LED1 |
 | 3,8,13,18 | GND | GND | — | — |
 
-### PCB Component Positions (as-built, 2026-06-14 — fully routed)
+### PCB Component Positions (as-built, 2026-06-15 — fully routed)
 
-Board outline: ~92mm × 78mm with rounded corners (Edge.Cuts).
-All components on F.Cu. Routing: single layer F.Cu, 0.4mm track width throughout.
-**DRC: 0 errors, 0 unconnected (fully routed), 8 warnings (cosmetic only).**
+Board outline: **92mm × 78mm** (X: 12–104mm, Y: 12–90mm) with rounded corners.
+All signal components on F.Cu. Wire jumpers JP1–JP4 on B.Cu.
+Routing: single layer F.Cu, **0.4mm** track width, 242 segments.
+**DRC: 0 errors, 0 unconnected, 7 warnings (cosmetic only).**
 
-| Ref | X (mm) | Y (mm) | Rotation | Role |
-|-----|--------|--------|----------|------|
-| **J8** | **41.000** | **40.770** | **90°** | ESP32-P4-PoE-ETH interface header |
-| U_BOOST | 77.000 | 25.140 | 0° | DC-DC boost module (LM2587, 5V→12V) |
-| J2 | 96.500 | 46.500 | 180° | FAN1 header (Molex KK-254 4-pin) |
-| J3 | 96.500 | 58.500 | 180° | FAN2 header |
-| J4 | 96.500 | 70.500 | 180° | FAN3 header |
-| J5 | 96.500 | 82.500 | 180° | FAN4 header |
-| R5 | 65.000 | 47.770 | 90° | FAN1 TACH pull-up (10kΩ, pin 35/GPIO20) |
-| R6 | 65.000 | 60.450 | 90° | FAN2 TACH pull-up (10kΩ, pin 32/GPIO22) |
-| R7 | 65.000 | 73.130 | 90° | FAN3 TACH pull-up (10kΩ, pin 25/GPIO33) |
-| R8 | 65.000 | 85.810 | 90° | FAN4 TACH pull-up (10kΩ, pin 22/GPIO47) |
-| R9 | 69.000 | 40.150 | -90° | FAN1 PWM LED resistor (150Ω) |
-| R10 | 69.000 | 52.830 | -90° | FAN2 PWM LED resistor (150Ω) |
-| R11 | 69.000 | 65.510 | -90° | FAN3 PWM LED resistor (150Ω) |
-| R12 | 69.000 | 78.190 | -90° | FAN4 PWM LED resistor (150Ω) |
-| D2 | 77.460 | 46.500 | 0° | FAN1 PWM activity LED |
-| D3 | 77.460 | 58.500 | 0° | FAN2 PWM activity LED |
-| D4 | 77.460 | 70.500 | 0° | FAN3 PWM activity LED |
-| D5 | 77.460 | 82.500 | 0° | FAN4 PWM activity LED |
-| JP1 | 33.500 | 68.000 | -90° | Wire jumper (B.Cu) |
-| JP2 | 60.000 | 35.620 | 90° | Wire jumper (B.Cu) |
-| JP3 | 60.000 | 55.390 | 90° | Wire jumper (B.Cu) |
-| JP4 | 60.000 | 70.310 | 90° | Wire jumper (B.Cu) |
-| LED1 | 18.000 | 30.975 | -90° | Power status LED |
-| LED2 | 24.500 | 30.975 | -90° | OTA/prog LED |
-| LED6 | 17.975 | 51.475 | -90° | DS18B20 probe LED |
-| R3 | 17.975 | 18.475 | -90° | PWR_LED resistor (330Ω) |
-| R13 | 24.500 | 18.230 | -90° | PROG_LED resistor (330Ω) |
-| R14 | 27.000 | 55.095 | 90° | DS18B20 pull-up (4.7kΩ) |
-| R15 | 18.000 | 39.475 | -90° | PROBE_LED resistor (330Ω) |
-| HUM1 | 22.000 | 71.475 | 180° | DHT11 temperature/humidity sensor |
-| J6 | 19.920 | 61.995 | 0° | DS18B20 probe connector |
-
-> **Notable:** J8 moved to (41.0, 40.77)mm — significantly different from the earlier (10.50, 28.80)mm position. This is the current authoritative PCB placement.
+| Ref | X (mm) | Y (mm) | Rotation | Layer | Role |
+|-----|--------|--------|----------|-------|------|
+| **J8** | **41.000** | **40.770** | **90°** | F.Cu | ESP32-P4-PoE-ETH interface header |
+| U_BOOST | 77.000 | 25.140 | 0° | F.Cu | DC-DC boost module (LM2587, 5V→12V) |
+| J2 | 96.500 | 46.500 | 180° | F.Cu | FAN1 header (Molex KK-254 4-pin) |
+| J3 | 96.500 | 58.500 | 180° | F.Cu | FAN2 header |
+| J4 | 96.500 | 70.500 | 180° | F.Cu | FAN3 header |
+| J5 | 96.500 | 82.500 | 180° | F.Cu | FAN4 header |
+| R5 | 65.000 | 47.770 | 90° | F.Cu | FAN1 TACH pull-up (10kΩ, pin 35/GPIO20) |
+| R6 | 65.000 | 60.450 | 90° | F.Cu | FAN2 TACH pull-up (10kΩ, pin 32/GPIO22) |
+| R7 | 65.000 | 73.130 | 90° | F.Cu | FAN3 TACH pull-up (10kΩ, pin 25/GPIO33) |
+| R8 | 65.000 | 85.810 | 90° | F.Cu | FAN4 TACH pull-up (10kΩ, pin 22/GPIO47) |
+| R9 | 69.000 | 40.150 | -90° | F.Cu | FAN1 PWM LED resistor (150Ω) |
+| R10 | 69.000 | 52.830 | -90° | F.Cu | FAN2 PWM LED resistor (150Ω) |
+| R11 | 69.000 | 65.510 | -90° | F.Cu | FAN3 PWM LED resistor (150Ω) |
+| R12 | 69.000 | 78.190 | -90° | F.Cu | FAN4 PWM LED resistor (150Ω) |
+| D2 | 77.460 | 46.500 | 0° | F.Cu | FAN1 PWM activity LED |
+| D3 | 77.460 | 58.500 | 0° | F.Cu | FAN2 PWM activity LED |
+| D4 | 77.460 | 70.500 | 0° | F.Cu | FAN3 PWM activity LED |
+| D5 | 77.460 | 82.500 | 0° | F.Cu | FAN4 PWM activity LED |
+| **HUM1** | **39.500** | **77.960** | **90°** | F.Cu | DHT22 temperature/humidity sensor |
+| J6 | 19.920 | 61.995 | 0° | F.Cu | DS18B20 probe connector |
+| JP1 | 33.500 | 68.000 | -90° | B.Cu | Wire jumper |
+| JP2 | 60.000 | 35.620 | 90° | B.Cu | Wire jumper |
+| JP3 | 60.000 | 55.390 | 90° | B.Cu | Wire jumper |
+| JP4 | 60.000 | 70.310 | 90° | B.Cu | Wire jumper |
+| LED1 | 18.000 | 30.975 | -90° | F.Cu | Power status LED |
+| LED2 | 24.500 | 30.975 | -90° | F.Cu | OTA/prog LED |
+| LED6 | 17.975 | 51.475 | -90° | F.Cu | DS18B20 probe LED |
+| R3 | 17.975 | 18.475 | -90° | F.Cu | PWR_LED resistor (330Ω) |
+| R13 | 24.500 | 18.230 | -90° | F.Cu | PROG_LED resistor (330Ω) |
+| R14 | 27.000 | 55.095 | 90° | F.Cu | DS18B20 pull-up (4.7kΩ) |
+| R15 | 18.000 | 39.475 | -90° | F.Cu | PROBE_LED resistor (330Ω) |

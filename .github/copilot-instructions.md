@@ -105,7 +105,7 @@ Fan signal assignments (PWM on lower pin, TACH on higher — swapped 2026-06-14)
 
 - **ERC:** zero `severity=error` violations required
 - **DRC:** zero `severity=error` violations required, zero unconnected items
-- **Current baseline (fully routed, 2026-06-14):** 0 errors, 0 unconnected, 8 warnings (cosmetic: pth_inside_courtyard × 2, silk_overlap × 1, silk_over_copper × 2, silk_edge_clearance × 1, lib_footprint × 2)
+- **Current baseline (fully routed, 2026-06-15):** 0 errors, 0 unconnected, 7 warnings (cosmetic: pth_inside_courtyard × 3, silk_over_copper × 2, lib_footprint × 2)
 - CI uses Docker `kicad/kicad:10.0.2`; local uses KiCad 10.0.3 — minor violation count differences are expected
 
 ### J8 PCB Placement (authoritative, updated 2026-06-14)

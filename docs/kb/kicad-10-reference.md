@@ -419,7 +419,7 @@ Always output with `newline="\n"` (not Windows CRLF) and add to `Custom.pretty/`
 
 | Environment | Violations | Breakdown |
 |---|---|---|
-| Windows local KiCad 10.0.3 | **8** | 2× pth_inside_courtyard (U_BOOST courtyard over J8 pads), 2× silk_over_copper, 1× silk_overlap, 1× silk_edge_clearance, 1× lib_footprint_mismatch, 1× lib_footprint_issues |
+| Windows local KiCad 10.0.3 | **7** | 3× pth_inside_courtyard (U_BOOST courtyard over J8/HUM1 pads), 2× silk_over_copper, 1× lib_footprint_mismatch, 1× lib_footprint_issues |
 | All violations | **severity=warning** | **0 errors, 0 unconnected — board fully routed** |
 
 **CI threshold:** 0 severity=error violations required. Warnings are cosmetic.
