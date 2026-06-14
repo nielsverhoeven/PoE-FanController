@@ -69,7 +69,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
 - **Depends on**: none
 - **Acceptance**: `git log --oneline docs/kb/DC-DC-boost-module.md` shows a commit on
   `feature/177-replace-boost-converter-module`; the file is no longer listed by `git status`.
-- **GitHub issue**: <!-- T001_ISSUE -->
+- **GitHub issue**: #178
 
 ---
 
@@ -93,7 +93,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
 - **Acceptance**: `hardware/kicad/footprints/Custom.pretty/DC-Boost-Module.kicad_mod` exists
   and is committed; it loads without errors in KiCad 10.0.3 Footprint Editor; all 4 pads are
   on F.Cu; courtyard is on F.CrtYd; footprint DRC shows zero violations in isolation.
-- **GitHub issue**: <!-- T002_ISSUE -->
+- **GitHub issue**: #179
 
 ---
 
@@ -129,7 +129,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
 - **Acceptance**: `python hardware/generate_project.py` exits with code 0; `git diff
   hardware/generator/components.py` shows removal of U1/L1/D1/C1/C2 definitions and addition
   of `Custom:DC_Boost_Module` with 4 pins; no `BOOST_SW` net reference remains in the file.
-- **GitHub issue**: <!-- T003_ISSUE -->
+- **GitHub issue**: #180
 
 ---
 
@@ -153,7 +153,7 @@ T001 → T002 → T003 → T004 → T005 ─┐
 - **Acceptance**: `hardware/kicad/erc_output.json` contains `"error_count": 0`; `git diff
   hardware/kicad/PoE-FanController.kicad_sch` shows U_BOOST present and U1/L1/D1/C1/C2 absent;
   `python hardware/generate_project.py` exits cleanly when re-run.
-- **GitHub issue**: <!-- T004_ISSUE -->
+- **GitHub issue**: #181
 
 ---
 
