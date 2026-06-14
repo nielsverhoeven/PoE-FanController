@@ -1,131 +1,8 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-14T22:14:12 **
+** Created on 2026-06-14T23:29:16 **
 ** Report includes: Errors, Warnings **
 
-** Found 37 DRC violations **
-[shorting_items]: Items shorting two nets (nets GND and FAN1_PWM)
-    Local override; error
-    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
-    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
-[tracks_crossing]: Tracks crossing
-    Rule: Board minimums; error
-    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
-    @(79.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 13.0000 mm
-[clearance]: Clearance violation (rule 'Board minimums' clearance 0,2000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(45.1900 mm, 11.5000 mm): Track [+5V] on F.Cu, length 3.1000 mm
-    @(11.9750 mm, 11.9750 mm): Zone [GND] on F.Cu, priority 0
-[clearance]: Clearance violation (rule 'Board minimums' clearance 0,2000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
-    @(11.9750 mm, 11.9750 mm): Zone [GND] on F.Cu, priority 0
-[tracks_crossing]: Tracks crossing
-    Rule: Board minimums; error
-    @(45.1900 mm, 31.9100 mm): Track [FAN1_TACH] on F.Cu, length 1.6915 mm
-    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
-[tracks_crossing]: Tracks crossing
-    Rule: Board minimums; error
-    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
-    @(92.0000 mm, 21.7500 mm): Track [GND] on F.Cu, length 46.8100 mm
-[shorting_items]: Items shorting two nets (nets GND and FAN1_PWM)
-    Local override; error
-    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
-    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
-[tracks_crossing]: Tracks crossing
-    Rule: Board minimums; error
-    @(45.1700 mm, 26.8300 mm): Track [+3V3] on F.Cu, length 10.8470 mm
-    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
-[tracks_crossing]: Tracks crossing
-    Rule: Board minimums; error
-    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
-    @(45.1900 mm, 29.3700 mm): Track [FAN1_PWM] on F.Cu, length 5.8407 mm
-[shorting_items]: Items shorting two nets (nets FAN1_TACH and GND)
-    Local override; error
-    @(45.1900 mm, 31.9100 mm): PTH pad 34 [FAN1_TACH] of J8
-    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
-[courtyards_overlap]: Courtyards overlap
-    Rule: board setup constraints courtyard; error
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-    @(37.5000 mm, 40.8000 mm): Footprint J8
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(45.1900 mm, 31.9100 mm): PTH pad 34 [FAN1_TACH] of J8
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(45.1900 mm, 26.8300 mm): PTH pad 36 [+3V3] of J8
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(45.1900 mm, 24.2900 mm): PTH pad 37 [unconnected-(J8-NC-Pad37)] of J8
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(45.1900 mm, 21.7500 mm): PTH pad 38 [GND] of J8
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(45.1900 mm, 19.2100 mm): PTH pad 39 [unconnected-(J8-NC-Pad39)] of J8
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(45.1900 mm, 16.6700 mm): PTH pad 40 [+5V] of J8
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(37.0000 mm, 28.5000 mm): PTH pad 2 [GND] of U_BOOST
-    @(37.5000 mm, 40.8000 mm): Footprint J8
-[pth_inside_courtyard]: PTH inside courtyard
-    Local override; error
-    @(54.5000 mm, 30.8800 mm): PTH pad 2 [+3V3] of JP2
-    @(58.0000 mm, 20.0000 mm): Footprint U_BOOST
-[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
-    @(87.5600 mm, 11.5000 mm): Track [+12V] on F.Cu, length 27.9400 mm
-[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
-    @(79.0000 mm, 11.5000 mm): Track [+12V] on F.Cu, length 8.5600 mm
-[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
-    @(37.0000 mm, 11.5000 mm): Track [+5V] on F.Cu, length 8.1900 mm
-[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
-    @(45.1900 mm, 11.5000 mm): Track [+5V] on F.Cu, length 3.1000 mm
-[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
-    @(37.0000 mm, 11.5000 mm): PTH pad 1 [+5V] of U_BOOST
-[copper_edge_clearance]: Board edge clearance violation (rule 'Board minimums' clearance 1,0000 mm; actual 0,0000 mm)
-    Rule: Board minimums; error
-    @(15.0000 mm, 12.0000 mm): Segment on Edge.Cuts
-    @(79.0000 mm, 11.5000 mm): PTH pad 3 [+12V] of U_BOOST
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
-    @(45.1900 mm, 31.9100 mm): PTH pad 34 [FAN1_TACH] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(45.1900 mm, 28.5000 mm): Track [GND] on F.Cu, length 5.9500 mm
-    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
-    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
-[solder_mask_bridge]: Front solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(37.0000 mm, 28.5000 mm): Track [GND] on F.Cu, length 8.1900 mm
-    @(45.1900 mm, 29.3700 mm): PTH pad 35 [FAN1_PWM] of J8
-[track_dangling]: Track has unconnected end
-    Local override; warning
-    @(89.0000 mm, 32.5000 mm): Track [+12V] on F.Cu, length 5.5000 mm
+** Found 6 DRC violations **
 [silk_edge_clearance]: Silkscreen clipped by board edge
     Rule: board setup constraints silk; warning
     @(15.0000 mm, 87.0000 mm): Arc on Edge.Cuts
@@ -135,21 +12,241 @@
     @(42.0000 mm, 80.0000 mm): Footprint G***
 [lib_footprint_mismatch]: Footprint 'ESP32-P4-PoE-ETH-PinSocket' does not match copy in library 'Custom'
     Local override; warning
-    @(37.5000 mm, 40.8000 mm): Footprint J8
+    @(41.0000 mm, 40.7700 mm): Footprint J8
 [silk_overlap]: Silkscreen clearance
     Rule: board setup constraints silk; warning
     @(33.0000 mm, 87.0000 mm): PCB text 'PoE FanController v0.2' on F.Silkscreen
     @(39.6940 mm, 86.8495 mm): Polygon of G*** on F.Silkscreen
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(28.6100 mm, 64.4300 mm): Segment of J8 on F.Silkscreen
-    @(29.8100 mm, 64.9300 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
+    @(32.1100 mm, 64.4000 mm): Segment of J8 on F.Silkscreen
+    @(33.3100 mm, 64.9000 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
 [silk_over_copper]: Silkscreen clipped by solder mask
     Local override; warning
-    @(28.6100 mm, 65.4300 mm): Segment of J8 on F.Silkscreen
-    @(29.8100 mm, 64.9300 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
+    @(32.1100 mm, 65.4000 mm): Segment of J8 on F.Silkscreen
+    @(33.3100 mm, 64.9000 mm): PTH pad 1 [unconnected-(J8-NC-Pad1)] of J8
 
-** Found 0 unconnected pads **
+** Found 55 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(17.9750 mm, 26.0950 mm): PTH pad 2 [/LED_A] of R3
+    @(18.0000 mm, 30.9750 mm): PTH pad 1 [/LED_A] of LED1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(19.9200 mm, 61.9950 mm): PTH pad 1 [GND] of J6
+    @(17.9750 mm, 54.0150 mm): PTH pad 2 [GND] of LED6
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(19.9200 mm, 61.9950 mm): PTH pad 1 [GND] of J6
+    @(19.4600 mm, 71.4750 mm): PTH pad 3 [GND] of HUM1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(19.9200 mm, 61.9950 mm): PTH pad 1 [GND] of J6
+    @(33.3100 mm, 59.8200 mm): PTH pad 3 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(24.5000 mm, 33.2700 mm): PTH pad 2 [GND] of LED2
+    @(18.0000 mm, 33.5150 mm): PTH pad 2 [GND] of LED1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.3100 mm, 21.7200 mm): PTH pad 18 [GND] of J8
+    @(33.3100 mm, 34.4200 mm): PTH pad 13 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.3100 mm, 34.4200 mm): PTH pad 13 [GND] of J8
+    @(24.5000 mm, 33.2700 mm): PTH pad 2 [GND] of LED2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.3100 mm, 34.4200 mm): PTH pad 13 [GND] of J8
+    @(33.3100 mm, 47.1200 mm): PTH pad 8 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.3100 mm, 47.1200 mm): PTH pad 8 [GND] of J8
+    @(33.3100 mm, 59.8200 mm): PTH pad 3 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 21.7200 mm): PTH pad 38 [GND] of J8
+    @(51.5800 mm, 34.4200 mm): Track [GND] on F.Cu, length 1.1031 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 34.4200 mm): PTH pad 33 [GND] of J8
+    @(33.3100 mm, 34.4200 mm): PTH pad 13 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 47.1200 mm): PTH pad 28 [GND] of J8
+    @(48.6900 mm, 34.4200 mm): PTH pad 33 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 59.8200 mm): PTH pad 23 [GND] of J8
+    @(48.6900 mm, 47.1200 mm): PTH pad 28 [GND] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(52.3600 mm, 33.6400 mm): Track [GND] on F.Cu, length 3.6400 mm
+    @(80.0000 mm, 46.5000 mm): PTH pad 2 [GND] of D2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(80.0000 mm, 58.5000 mm): PTH pad 2 [GND] of D3
+    @(80.0000 mm, 70.5000 mm): PTH pad 2 [GND] of D4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(80.0000 mm, 58.5000 mm): PTH pad 2 [GND] of D3
+    @(80.0000 mm, 46.5000 mm): PTH pad 2 [GND] of D2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(80.0000 mm, 70.5000 mm): PTH pad 2 [GND] of D4
+    @(84.5000 mm, 87.0000 mm): Track [GND] on F.Cu, length 6.3640 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 36.9600 mm): PTH pad 32 [FAN2_TACH] of J8
+    @(65.0000 mm, 52.8300 mm): PTH pad 2 [FAN2_TACH] of R6
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 52.8300 mm): PTH pad 2 [FAN2_TACH] of R6
+    @(91.4200 mm, 58.5000 mm): PTH pad 3 [FAN2_TACH] of J3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 39.5000 mm): PTH pad 31 [FAN2_PWM] of J8
+    @(69.0000 mm, 52.8300 mm): PTH pad 1 [FAN2_PWM] of R10
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(69.0000 mm, 52.8300 mm): PTH pad 1 [FAN2_PWM] of R10
+    @(88.8800 mm, 58.5000 mm): PTH pad 4 [FAN2_PWM] of J3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(25.0000 mm, 61.9950 mm): PTH pad 3 [+3V3] of J6
+    @(24.5400 mm, 71.4750 mm): PTH pad 1 [+3V3] of HUM1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(27.0000 mm, 55.0950 mm): PTH pad 1 [+3V3] of R14
+    @(25.0000 mm, 61.9950 mm): PTH pad 3 [+3V3] of J6
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 26.8000 mm): PTH pad 36 [+3V3] of J8
+    @(27.0000 mm, 55.0950 mm): PTH pad 1 [+3V3] of R14
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 47.7700 mm): PTH pad 1 [+3V3] of R5
+    @(48.6900 mm, 26.8000 mm): PTH pad 36 [+3V3] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 60.4500 mm): PTH pad 1 [+3V3] of R6
+    @(65.0000 mm, 47.7700 mm): PTH pad 1 [+3V3] of R5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 60.4500 mm): PTH pad 1 [+3V3] of R6
+    @(65.0000 mm, 73.1300 mm): PTH pad 1 [+3V3] of R7
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 85.8100 mm): PTH pad 1 [+3V3] of R8
+    @(65.0000 mm, 73.1300 mm): PTH pad 1 [+3V3] of R7
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.5000 mm, 55.0000 mm): PTH pad 1 [+3V3] of JP2
+    @(106.5000 mm, 47.3800 mm): PTH pad 2 [+3V3] of JP2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.5000 mm, 60.3800 mm): PTH pad 2 [+3V3] of JP3
+    @(106.5000 mm, 55.0000 mm): PTH pad 1 [+3V3] of JP2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.5000 mm, 60.3800 mm): PTH pad 2 [+3V3] of JP3
+    @(65.0000 mm, 60.4500 mm): PTH pad 1 [+3V3] of R6
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.5000 mm, 68.0000 mm): PTH pad 1 [+3V3] of JP3
+    @(106.5000 mm, 60.3800 mm): PTH pad 2 [+3V3] of JP3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.5000 mm, 73.8800 mm): PTH pad 2 [+3V3] of JP4
+    @(106.5000 mm, 68.0000 mm): PTH pad 1 [+3V3] of JP3
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(106.5000 mm, 81.5000 mm): PTH pad 1 [+3V3] of JP4
+    @(106.5000 mm, 73.8800 mm): PTH pad 2 [+3V3] of JP4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.5000 mm, 68.0000 mm): PTH pad 1 [DHT11_DATA] of JP1
+    @(22.0000 mm, 71.4750 mm): PTH pad 2 [DHT11_DATA] of HUM1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.5000 mm, 68.0000 mm): PTH pad 1 [DHT11_DATA] of JP1
+    @(33.3100 mm, 42.0400 mm): PTH pad 10 [DHT11_DATA] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.5000 mm, 75.6200 mm): PTH pad 2 [DHT11_DATA] of JP1
+    @(33.5000 mm, 68.0000 mm): PTH pad 1 [DHT11_DATA] of JP1
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(24.5000 mm, 25.8500 mm): PTH pad 2 [/PROG_LED_A] of R13
+    @(24.5000 mm, 30.7300 mm): PTH pad 1 [/PROG_LED_A] of LED2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 62.3600 mm): PTH pad 22 [FAN4_TACH] of J8
+    @(65.0000 mm, 78.1900 mm): PTH pad 2 [FAN4_TACH] of R8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 78.1900 mm): PTH pad 2 [FAN4_TACH] of R8
+    @(91.4200 mm, 82.5000 mm): PTH pad 3 [FAN4_TACH] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 64.9000 mm): PTH pad 21 [FAN4_PWM] of J8
+    @(69.0000 mm, 78.1900 mm): PTH pad 1 [FAN4_PWM] of R12
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(69.0000 mm, 78.1900 mm): PTH pad 1 [FAN4_PWM] of R12
+    @(88.8800 mm, 82.5000 mm): PTH pad 4 [FAN4_PWM] of J5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 57.2800 mm): PTH pad 24 [FAN3_PWM] of J8
+    @(69.0000 mm, 65.5100 mm): PTH pad 1 [FAN3_PWM] of R11
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(69.0000 mm, 65.5100 mm): PTH pad 1 [FAN3_PWM] of R11
+    @(88.8800 mm, 70.5000 mm): PTH pad 4 [FAN3_PWM] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(22.4600 mm, 61.9950 mm): PTH pad 2 [DS18B20_DATA] of J6
+    @(33.3100 mm, 52.2000 mm): PTH pad 6 [DS18B20_DATA] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(33.3100 mm, 52.2000 mm): PTH pad 6 [DS18B20_DATA] of J8
+    @(27.0000 mm, 47.4750 mm): PTH pad 2 [DS18B20_DATA] of R14
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 29.3400 mm): PTH pad 35 [FAN1_TACH] of J8
+    @(65.0000 mm, 40.1500 mm): PTH pad 2 [FAN1_TACH] of R5
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 40.1500 mm): PTH pad 2 [FAN1_TACH] of R5
+    @(91.4200 mm, 46.5000 mm): PTH pad 3 [FAN1_TACH] of J2
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 54.7400 mm): PTH pad 25 [FAN3_TACH] of J8
+    @(65.0000 mm, 65.5100 mm): PTH pad 2 [FAN3_TACH] of R7
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(65.0000 mm, 65.5100 mm): PTH pad 2 [FAN3_TACH] of R7
+    @(91.4200 mm, 70.5000 mm): PTH pad 3 [FAN3_TACH] of J4
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(48.6900 mm, 31.8800 mm): PTH pad 34 [FAN1_PWM] of J8
+    @(69.0000 mm, 40.1500 mm): Track [FAN1_PWM] on F.Cu, length 13.5300 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(24.5000 mm, 18.2300 mm): PTH pad 1 [PROG_LED] of R13
+    @(33.3100 mm, 26.8000 mm): PTH pad 16 [PROG_LED] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(18.0000 mm, 39.4750 mm): PTH pad 1 [PROBE_LED] of R15
+    @(33.3100 mm, 39.5000 mm): PTH pad 11 [PROBE_LED] of J8
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(17.9750 mm, 51.4750 mm): PTH pad 1 [/PROBE_LED_A] of LED6
+    @(18.0000 mm, 47.0950 mm): PTH pad 2 [/PROBE_LED_A] of R15
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(17.9750 mm, 18.4750 mm): PTH pad 1 [PWR_LED] of R3
+    @(33.3100 mm, 24.2600 mm): PTH pad 17 [PWR_LED] of J8
 
 ** Found 0 Footprint errors **
 

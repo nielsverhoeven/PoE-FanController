@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "C:\\repos-github\\PoE-FanController\\hardware\\kicad\\PoE-FanController.kicad_sch")
-		(date "2026-06-12T08:43:35")
+		(date "2026-06-14T23:26:24")
 		(tool "Eeschema 10.0.3")
 		(sheet
 			(number "1")
@@ -55,144 +55,6 @@
 	)
 	(components
 		(comp
-			(ref "C1")
-			(value "100uF_25V")
-			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
-			(datasheet "~")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
-				(field
-					(name "Datasheet") "~")
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Custom")
-				(part "Cap_Elec")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "")
-			)
-			(property
-				(name "Sheetfile")
-				(value "PoE-FanController.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "00000004-0004-0004-0004-000000000004")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "C2")
-			(value "100uF_25V")
-			(footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
-			(datasheet "~")
-			(fields
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
-				(field
-					(name "Datasheet") "~")
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Custom")
-				(part "Cap_Elec")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "")
-			)
-			(property
-				(name "Sheetfile")
-				(value "PoE-FanController.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "00000026-0026-0026-0026-000000000026")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
-			(ref "D1")
-			(value "1N5822")
-			(footprint "Diode_THT:D_DO-27_P12.70mm_Horizontal")
-			(datasheet "~")
-			(fields
-				(field
-					(name "Footprint") "Diode_THT:D_DO-27_P12.70mm_Horizontal")
-				(field
-					(name "Datasheet") "~")
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Custom")
-				(part "Diode_Schottky")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "")
-			)
-			(property
-				(name "Sheetfile")
-				(value "PoE-FanController.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "00000020-0020-0020-0020-000000000020")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "D2")
 			(value "LED_GREEN")
 			(footprint "LED_THT:LED_D3.0mm")
@@ -223,7 +85,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000078-0078-0078-0078-000000000078")
+			(tstamps "0000005c-005c-005c-005c-00000000005c")
 			(units
 				(unit
 					(name "A")
@@ -269,7 +131,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000083-0083-0083-0083-000000000083")
+			(tstamps "00000067-0067-0067-0067-000000000067")
 			(units
 				(unit
 					(name "A")
@@ -315,7 +177,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000008e-008e-008e-008e-00000000008e")
+			(tstamps "00000072-0072-0072-0072-000000000072")
 			(units
 				(unit
 					(name "A")
@@ -361,7 +223,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000099-0099-0099-0099-000000000099")
+			(tstamps "0000007d-007d-007d-007d-00000000007d")
 			(units
 				(unit
 					(name "A")
@@ -407,7 +269,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000b9-00b9-00b9-00b9-0000000000b9")
+			(tstamps "0000009d-009d-009d-009d-00000000009d")
 			(units
 				(unit
 					(name "A")
@@ -456,7 +318,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000030-0030-0030-0030-000000000030")
+			(tstamps "00000014-0014-0014-0014-000000000014")
 			(units
 				(unit
 					(name "A")
@@ -508,7 +370,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000041-0041-0041-0041-000000000041")
+			(tstamps "00000025-0025-0025-0025-000000000025")
 			(units
 				(unit
 					(name "A")
@@ -560,7 +422,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000052-0052-0052-0052-000000000052")
+			(tstamps "00000036-0036-0036-0036-000000000036")
 			(units
 				(unit
 					(name "A")
@@ -612,7 +474,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000063-0063-0063-0063-000000000063")
+			(tstamps "00000047-0047-0047-0047-000000000047")
 			(units
 				(unit
 					(name "A")
@@ -664,7 +526,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000c9-00c9-00c9-00c9-0000000000c9")
+			(tstamps "000000ad-00ad-00ad-00ad-0000000000ad")
 			(units
 				(unit
 					(name "A")
@@ -713,7 +575,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000103-0103-0103-0103-000000000103")
+			(tstamps "000000e7-00e7-00e7-00e7-0000000000e7")
 			(units
 				(unit
 					(name "A")
@@ -843,52 +705,6 @@
 			)
 		)
 		(comp
-			(ref "L1")
-			(value "100uH")
-			(footprint "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC")
-			(datasheet "~")
-			(fields
-				(field
-					(name "Footprint") "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC")
-				(field
-					(name "Datasheet") "~")
-				(field
-					(name "Description")
-				)
-			)
-			(libsource
-				(lib "Custom")
-				(part "Inductor")
-				(description "")
-			)
-			(property
-				(name "Sheetname")
-				(value "")
-			)
-			(property
-				(name "Sheetfile")
-				(value "PoE-FanController.kicad_sch")
-			)
-			(sheetpath
-				(names "/")
-				(tstamps "/")
-			)
-			(tstamps "0000000b-000b-000b-000b-00000000000b")
-			(units
-				(unit
-					(name "A")
-					(pins
-						(pin
-							(num "1")
-						)
-						(pin
-							(num "2")
-						)
-					)
-				)
-			)
-		)
-		(comp
 			(ref "LED1")
 			(value "LED_GREEN")
 			(footprint "LED_THT:LED_D3.0mm")
@@ -919,7 +735,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000a5-00a5-00a5-00a5-0000000000a5")
+			(tstamps "00000089-0089-0089-0089-000000000089")
 			(units
 				(unit
 					(name "A")
@@ -965,7 +781,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000b1-00b1-00b1-00b1-0000000000b1")
+			(tstamps "00000095-0095-0095-0095-000000000095")
 			(units
 				(unit
 					(name "A")
@@ -1011,7 +827,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000d6-00d6-00d6-00d6-0000000000d6")
+			(tstamps "000000ba-00ba-00ba-00ba-0000000000ba")
 			(units
 				(unit
 					(name "A")
@@ -1057,7 +873,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000a0-00a0-00a0-00a0-0000000000a0")
+			(tstamps "00000084-0084-0084-0084-000000000084")
 			(units
 				(unit
 					(name "A")
@@ -1103,7 +919,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000039-0039-0039-0039-000000000039")
+			(tstamps "0000001d-001d-001d-001d-00000000001d")
 			(units
 				(unit
 					(name "A")
@@ -1149,7 +965,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000004a-004a-004a-004a-00000000004a")
+			(tstamps "0000002e-002e-002e-002e-00000000002e")
 			(units
 				(unit
 					(name "A")
@@ -1195,7 +1011,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000005b-005b-005b-005b-00000000005b")
+			(tstamps "0000003f-003f-003f-003f-00000000003f")
 			(units
 				(unit
 					(name "A")
@@ -1241,7 +1057,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000006c-006c-006c-006c-00000000006c")
+			(tstamps "00000050-0050-0050-0050-000000000050")
 			(units
 				(unit
 					(name "A")
@@ -1287,7 +1103,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000073-0073-0073-0073-000000000073")
+			(tstamps "00000057-0057-0057-0057-000000000057")
 			(units
 				(unit
 					(name "A")
@@ -1333,7 +1149,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "0000007e-007e-007e-007e-00000000007e")
+			(tstamps "00000062-0062-0062-0062-000000000062")
 			(units
 				(unit
 					(name "A")
@@ -1379,7 +1195,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000089-0089-0089-0089-000000000089")
+			(tstamps "0000006d-006d-006d-006d-00000000006d")
 			(units
 				(unit
 					(name "A")
@@ -1425,7 +1241,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000094-0094-0094-0094-000000000094")
+			(tstamps "00000078-0078-0078-0078-000000000078")
 			(units
 				(unit
 					(name "A")
@@ -1471,7 +1287,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000ac-00ac-00ac-00ac-0000000000ac")
+			(tstamps "00000090-0090-0090-0090-000000000090")
 			(units
 				(unit
 					(name "A")
@@ -1517,7 +1333,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000c2-00c2-00c2-00c2-0000000000c2")
+			(tstamps "000000a6-00a6-00a6-00a6-0000000000a6")
 			(units
 				(unit
 					(name "A")
@@ -1563,7 +1379,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "000000d1-00d1-00d1-00d1-0000000000d1")
+			(tstamps "000000b5-00b5-00b5-00b5-0000000000b5")
 			(units
 				(unit
 					(name "A")
@@ -1579,13 +1395,13 @@
 			)
 		)
 		(comp
-			(ref "U1")
-			(value "LM2587-12")
-			(footprint "Package_TO_SOT_THT:TO-220-5_Vertical")
+			(ref "U_BOOST")
+			(value "DC-Boost-Module")
+			(footprint "Custom:DC-Boost-Module")
 			(datasheet "~")
 			(fields
 				(field
-					(name "Footprint") "Package_TO_SOT_THT:TO-220-5_Vertical")
+					(name "Footprint") "Custom:DC-Boost-Module")
 				(field
 					(name "Datasheet") "~")
 				(field
@@ -1594,7 +1410,7 @@
 			)
 			(libsource
 				(lib "Custom")
-				(part "Boost_Converter")
+				(part "DC_Boost_Module")
 				(description "")
 			)
 			(property
@@ -1609,7 +1425,7 @@
 				(names "/")
 				(tstamps "/")
 			)
-			(tstamps "00000014-0014-0014-0014-000000000014")
+			(tstamps "00000006-0006-0006-0006-000000000006")
 			(units
 				(unit
 					(name "A")
@@ -1626,9 +1442,6 @@
 						(pin
 							(num "4")
 						)
-						(pin
-							(num "5")
-						)
 					)
 				)
 			)
@@ -1637,81 +1450,6 @@
 	(groups)
 	(variants)
 	(libparts
-		(libpart
-			(lib "Custom")
-			(part "Boost_Converter")
-			(docs "https://www.ti.com/lit/ds/symlink/lm2587.pdf")
-			(fields
-				(field
-					(name "Reference") "U")
-				(field
-					(name "Value") "LM2587-12")
-				(field
-					(name "Footprint") "Package_TO_SOT_THT:TO-220-5_Vertical")
-				(field
-					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/lm2587.pdf")
-				(field
-					(name "Description")
-				)
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "GND")
-					(type "power_in")
-				)
-				(pin
-					(num "2")
-					(name "VIN")
-					(type "power_in")
-				)
-				(pin
-					(num "3")
-					(name "OUTPUT")
-					(type "output")
-				)
-				(pin
-					(num "4")
-					(name "FB")
-					(type "input")
-				)
-				(pin
-					(num "5")
-					(name "OSC")
-					(type "input")
-				)
-			)
-		)
-		(libpart
-			(lib "Custom")
-			(part "Cap_Elec")
-			(docs "~")
-			(fields
-				(field
-					(name "Reference") "C")
-				(field
-					(name "Value") "100uF_25V")
-				(field
-					(name "Footprint") "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
-				(field
-					(name "Datasheet") "~")
-				(field
-					(name "Description")
-				)
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "~")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "~")
-					(type "passive")
-				)
-			)
-		)
 		(libpart
 			(lib "Custom")
 			(part "Conn_1x03")
@@ -1744,6 +1482,46 @@
 					(num "3")
 					(name "VCC")
 					(type "passive")
+				)
+			)
+		)
+		(libpart
+			(lib "Custom")
+			(part "DC_Boost_Module")
+			(docs "https://www.ti.com/lit/ds/symlink/lm2587.pdf")
+			(fields
+				(field
+					(name "Reference") "U")
+				(field
+					(name "Value") "DC-Boost-Module")
+				(field
+					(name "Footprint") "Custom:DC-Boost-Module")
+				(field
+					(name "Datasheet") "https://www.ti.com/lit/ds/symlink/lm2587.pdf")
+				(field
+					(name "Description")
+				)
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "IN+")
+					(type "power_in")
+				)
+				(pin
+					(num "2")
+					(name "IN-")
+					(type "power_in")
+				)
+				(pin
+					(num "3")
+					(name "OUT+")
+					(type "power_out")
+				)
+				(pin
+					(num "4")
+					(name "OUT-")
+					(type "power_in")
 				)
 			)
 		)
@@ -1784,36 +1562,6 @@
 		)
 		(libpart
 			(lib "Custom")
-			(part "Diode_Schottky")
-			(docs "~")
-			(fields
-				(field
-					(name "Reference") "D")
-				(field
-					(name "Value") "1N5822")
-				(field
-					(name "Footprint") "Diode_THT:D_DO-27_P12.70mm_Horizontal")
-				(field
-					(name "Datasheet") "~")
-				(field
-					(name "Description")
-				)
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "A")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "K")
-					(type "passive")
-				)
-			)
-		)
-		(libpart
-			(lib "Custom")
 			(part "Fan_Header")
 			(docs "https://www.molex.com/en-us/products/part-detail/22232041")
 			(fields
@@ -1849,36 +1597,6 @@
 					(num "4")
 					(name "PWM")
 					(type "input")
-				)
-			)
-		)
-		(libpart
-			(lib "Custom")
-			(part "Inductor")
-			(docs "~")
-			(fields
-				(field
-					(name "Reference") "L")
-				(field
-					(name "Value") "100uH")
-				(field
-					(name "Footprint") "Inductor_THT:L_Axial_L7.0mm_D3.3mm_P10.16mm_Horizontal_Fastron_MICC")
-				(field
-					(name "Datasheet") "~")
-				(field
-					(name "Description")
-				)
-			)
-			(pins
-				(pin
-					(num "1")
-					(name "~")
-					(type "passive")
-				)
-				(pin
-					(num "2")
-					(name "~")
-					(type "passive")
 				)
 			)
 		)
@@ -2002,13 +1720,13 @@
 				)
 				(pin
 					(num "21")
-					(name "FAN4_TACH")
-					(type "input")
+					(name "FAN4_PWM")
+					(type "output")
 				)
 				(pin
 					(num "22")
-					(name "FAN4_PWM")
-					(type "output")
+					(name "FAN4_TACH")
+					(type "input")
 				)
 				(pin
 					(num "23")
@@ -2017,13 +1735,13 @@
 				)
 				(pin
 					(num "24")
-					(name "FAN3_TACH")
-					(type "input")
+					(name "FAN3_PWM")
+					(type "output")
 				)
 				(pin
 					(num "25")
-					(name "FAN3_PWM")
-					(type "output")
+					(name "FAN3_TACH")
+					(type "input")
 				)
 				(pin
 					(num "26")
@@ -2052,13 +1770,13 @@
 				)
 				(pin
 					(num "31")
-					(name "FAN2_TACH")
-					(type "input")
+					(name "FAN2_PWM")
+					(type "output")
 				)
 				(pin
 					(num "32")
-					(name "FAN2_PWM")
-					(type "output")
+					(name "FAN2_TACH")
+					(type "input")
 				)
 				(pin
 					(num "33")
@@ -2067,13 +1785,13 @@
 				)
 				(pin
 					(num "34")
-					(name "FAN1_TACH")
-					(type "input")
+					(name "FAN1_PWM")
+					(type "output")
 				)
 				(pin
 					(num "35")
-					(name "FAN1_PWM")
-					(type "output")
+					(name "FAN1_TACH")
+					(type "input")
 				)
 				(pin
 					(num "36")
@@ -2172,29 +1890,6 @@
 	(nets
 		(net
 			(code "1")
-			(name "/BOOST_SW")
-			(class "Default")
-			(node
-				(ref "D1")
-				(pin "1")
-				(pinfunction "A_1")
-				(pintype "passive")
-			)
-			(node
-				(ref "L1")
-				(pin "2")
-				(pinfunction "~_2")
-				(pintype "passive")
-			)
-			(node
-				(ref "U1")
-				(pin "3")
-				(pinfunction "OUTPUT_3")
-				(pintype "output")
-			)
-		)
-		(net
-			(code "2")
 			(name "/FAN1_PWM_A")
 			(class "Default")
 			(node
@@ -2211,7 +1906,7 @@
 			)
 		)
 		(net
-			(code "3")
+			(code "2")
 			(name "/FAN2_PWM_A")
 			(class "Default")
 			(node
@@ -2228,7 +1923,7 @@
 			)
 		)
 		(net
-			(code "4")
+			(code "3")
 			(name "/FAN3_PWM_A")
 			(class "Default")
 			(node
@@ -2245,7 +1940,7 @@
 			)
 		)
 		(net
-			(code "5")
+			(code "4")
 			(name "/FAN4_PWM_A")
 			(class "Default")
 			(node
@@ -2262,7 +1957,7 @@
 			)
 		)
 		(net
-			(code "6")
+			(code "5")
 			(name "/LED_A")
 			(class "Default")
 			(node
@@ -2279,7 +1974,7 @@
 			)
 		)
 		(net
-			(code "7")
+			(code "6")
 			(name "/PROBE_LED_A")
 			(class "Default")
 			(node
@@ -2296,7 +1991,7 @@
 			)
 		)
 		(net
-			(code "8")
+			(code "7")
 			(name "/PROG_LED_A")
 			(class "Default")
 			(node
@@ -2313,7 +2008,7 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "8")
 			(name "DHT11_DATA")
 			(class "Default")
 			(node
@@ -2330,7 +2025,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "9")
 			(name "DS18B20_DATA")
 			(class "Default")
 			(node
@@ -2353,7 +2048,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "10")
 			(name "FAN1_PWM")
 			(class "Default")
 			(node
@@ -2365,8 +2060,8 @@
 			(node
 				(ref "J8")
 				(pin "35")
-				(pinfunction "FAN1_PWM_35")
-				(pintype "output")
+				(pinfunction "FAN1_TACH_35")
+				(pintype "input")
 			)
 			(node
 				(ref "R9")
@@ -2376,7 +2071,7 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "11")
 			(name "FAN1_TACH")
 			(class "Default")
 			(node
@@ -2388,8 +2083,8 @@
 			(node
 				(ref "J8")
 				(pin "34")
-				(pinfunction "FAN1_TACH_34")
-				(pintype "input")
+				(pinfunction "FAN1_PWM_34")
+				(pintype "output")
 			)
 			(node
 				(ref "R5")
@@ -2399,7 +2094,7 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "12")
 			(name "FAN2_PWM")
 			(class "Default")
 			(node
@@ -2411,8 +2106,8 @@
 			(node
 				(ref "J8")
 				(pin "32")
-				(pinfunction "FAN2_PWM_32")
-				(pintype "output")
+				(pinfunction "FAN2_TACH_32")
+				(pintype "input")
 			)
 			(node
 				(ref "R10")
@@ -2422,7 +2117,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "13")
 			(name "FAN2_TACH")
 			(class "Default")
 			(node
@@ -2434,8 +2129,8 @@
 			(node
 				(ref "J8")
 				(pin "31")
-				(pinfunction "FAN2_TACH_31")
-				(pintype "input")
+				(pinfunction "FAN2_PWM_31")
+				(pintype "output")
 			)
 			(node
 				(ref "R6")
@@ -2445,7 +2140,7 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "14")
 			(name "FAN3_PWM")
 			(class "Default")
 			(node
@@ -2457,8 +2152,8 @@
 			(node
 				(ref "J8")
 				(pin "25")
-				(pinfunction "FAN3_PWM_25")
-				(pintype "output")
+				(pinfunction "FAN3_TACH_25")
+				(pintype "input")
 			)
 			(node
 				(ref "R11")
@@ -2468,7 +2163,7 @@
 			)
 		)
 		(net
-			(code "16")
+			(code "15")
 			(name "FAN3_TACH")
 			(class "Default")
 			(node
@@ -2480,8 +2175,8 @@
 			(node
 				(ref "J8")
 				(pin "24")
-				(pinfunction "FAN3_TACH_24")
-				(pintype "input")
+				(pinfunction "FAN3_PWM_24")
+				(pintype "output")
 			)
 			(node
 				(ref "R7")
@@ -2491,7 +2186,7 @@
 			)
 		)
 		(net
-			(code "17")
+			(code "16")
 			(name "FAN4_PWM")
 			(class "Default")
 			(node
@@ -2503,8 +2198,8 @@
 			(node
 				(ref "J8")
 				(pin "22")
-				(pinfunction "FAN4_PWM_22")
-				(pintype "output")
+				(pinfunction "FAN4_TACH_22")
+				(pintype "input")
 			)
 			(node
 				(ref "R12")
@@ -2514,7 +2209,7 @@
 			)
 		)
 		(net
-			(code "18")
+			(code "17")
 			(name "FAN4_TACH")
 			(class "Default")
 			(node
@@ -2526,8 +2221,8 @@
 			(node
 				(ref "J8")
 				(pin "21")
-				(pinfunction "FAN4_TACH_21")
-				(pintype "input")
+				(pinfunction "FAN4_PWM_21")
+				(pintype "output")
 			)
 			(node
 				(ref "R8")
@@ -2537,7 +2232,7 @@
 			)
 		)
 		(net
-			(code "19")
+			(code "18")
 			(name "PROBE_LED")
 			(class "Default")
 			(node
@@ -2554,7 +2249,7 @@
 			)
 		)
 		(net
-			(code "20")
+			(code "19")
 			(name "PROG_LED")
 			(class "Default")
 			(node
@@ -2571,7 +2266,7 @@
 			)
 		)
 		(net
-			(code "21")
+			(code "20")
 			(name "PWR_LED")
 			(class "Default")
 			(node
