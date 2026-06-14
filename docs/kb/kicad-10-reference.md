@@ -415,14 +415,26 @@ Always output with `newline="\n"` (not Windows CRLF) and add to `Custom.pretty/`
 
 ---
 
-## 17. DRC Baseline — Current (v3.1.0, daughter board, 0 routing)
+## 17. DRC Baseline — Current (fully routed, 2026-06-14)
 
 | Environment | Violations | Breakdown |
 |---|---|---|
-| Windows local KiCad 10.0.3 | **4** | 2× silk_overlap (title text near J5), 2× silk_over_copper (J8 pin-1 marker clipped by mask) |
-| All violations | **severity=warning** | 0 errors, 0 unconnected — safe to proceed |
+| Windows local KiCad 10.0.3 | **8** | 2× pth_inside_courtyard (U_BOOST courtyard over J8 pads), 2× silk_over_copper, 1× silk_overlap, 1× silk_edge_clearance, 1× lib_footprint_mismatch, 1× lib_footprint_issues |
+| All violations | **severity=warning** | **0 errors, 0 unconnected — board fully routed** |
 
-**CI threshold:** ≤5 violations (set in `.github/workflows/hardware-check.yml`)
+**CI threshold:** 0 severity=error violations required. Warnings are cosmetic.
+
+### J8 PCB Placement (authoritative, updated 2026-06-14)
+
+After board reshuffle to accommodate U_BOOST module, J8 moved significantly:
+- **Current position: (41.0, 40.77) mm, rotation 90°**
+- Previous position (pre-reshuffle): ~~(10.50, 28.80) mm~~ — **deprecated, do not use**
+
+Always read from the PCB via pcbnew if in doubt:
+```python
+fp = board.FindFootprintByReference('J8')
+print(pcbnew.ToMM(fp.GetX()), pcbnew.ToMM(fp.GetY()), fp.GetOrientation().AsDegrees())
+```
 
 ---
 

@@ -148,13 +148,14 @@ The daughter board uses a **portrait layout** as established by the PCB sketch i
 
 **Zero-crossing trace rule (Amendment v4.3.0):** No signal trace may cross the ESP32 footprint boundary. Left-column GPIO signals (J8 Row A, x = 17.81 mm) must be routed entirely in x ≤ 17.81 mm. Right-column GPIO signals (J8 Row B, x = 33.19 mm) must be routed entirely in x ≥ 33.19 mm.
 
-**J8 pin constraints (from ESP32-P4-POE-ETH dimension drawing — HIGH confidence — updated by Amendment v4.3.0):**
+**J8 pin constraints (from ESP32-P4-POE-ETH dimension drawing — HIGH confidence — updated by Amendment v4.3.0, position updated 2026-06-14):**
 - First pin: 4.67 mm from top edge of board
 - Header Y span: 4.67 mm to 52.93 mm (20 × 2.54 mm pitch = 48.26 mm)
-- J8 footprint centre: (25.50, 28.80) mm (updated from (10.50, 28.80) mm by Amendment v4.3.0)
-- Row A (odd pins, pads 1–20) centre: **x = 17.81 mm** from left board edge (updated from 2.81 mm)
-- Row B (even pins, pads 21–40) centre: **x = 33.19 mm** from left board edge (updated from 18.19 mm)
+- J8 footprint centre: **(41.0, 40.77) mm** — updated after board reshuffle 2026-06-14 (was 25.50, 28.80)
+- Row A (odd pins, pads 1–20) centre: **x = 17.81 mm** from left board edge
+- Row B (even pins, pads 21–40) centre: **x = 33.19 mm** from left board edge
 - Row spacing: 15.38 mm (unchanged — confirmed from SKU 32088 dimension drawing)
+- Rotation: **90°**
 
 > Source: `docs/kb/ESP32-P4-POE-ETH/ESP32-P4-ETH-details-size-*.webp` + `docs/kb/Sample-PCB-Sketch.png`
 

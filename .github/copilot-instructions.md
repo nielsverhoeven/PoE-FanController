@@ -104,8 +104,14 @@ Fan signal assignments (PWM on lower pin, TACH on higher — swapped 2026-06-14)
 ### ERC/DRC Gates (CI)
 
 - **ERC:** zero `severity=error` violations required
-- **DRC:** zero `severity=error` violations required (`unconnected_items` type excluded during active routing)
+- **DRC:** zero `severity=error` violations required, zero unconnected items
+- **Current baseline (fully routed, 2026-06-14):** 0 errors, 0 unconnected, 8 warnings (cosmetic: pth_inside_courtyard × 2, silk_overlap × 1, silk_over_copper × 2, silk_edge_clearance × 1, lib_footprint × 2)
 - CI uses Docker `kicad/kicad:10.0.2`; local uses KiCad 10.0.3 — minor violation count differences are expected
+
+### J8 PCB Placement (authoritative, updated 2026-06-14)
+
+- Position: **(41.0, 40.77) mm**, rotation 90°
+- Previous position (pre-reshuffle): ~~(10.50, 28.80) mm~~ — **do not use**
 
 ### Schematic Generator Conventions
 
