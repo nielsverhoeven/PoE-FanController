@@ -1,9 +1,9 @@
 /**
  * @file temp.cpp
- * @brief DHT11 temperature + humidity sensing for PoE FanController.
+ * @brief DHT22 temperature + humidity sensing for PoE FanController.
  *
- * Replaces NTC1/R4 Steinhart-Hart ADC sensing (issue #135, constitution v4.1.0).
- * Uses GPIO16 (J8 pin 23) as the DHT11 single-wire data line.
+ * Replaces DHT11 (2026-06-14). Same pinout, same library, sensor type changed to DHT22.
+ * Uses GPIO5 (J8 pin 10) as the DHT22 single-wire data line.
  * Library: Adafruit DHT sensor library (adafruit/DHT sensor library@^1.4.6).
  */
 
@@ -11,7 +11,7 @@
 #include <DHT.h>
 #include "pins.h"
 
-static DHT _dht(DHT11_DATA_PIN, DHT11);
+static DHT _dht(DHT11_DATA_PIN, DHT22);
 
 static float _temp_celsius  = 25.0f;  ///< last valid temperature reading
 static float _humidity_pct  = 50.0f;  ///< last valid humidity reading
@@ -22,7 +22,7 @@ static float _humidity_pct  = 50.0f;  ///< last valid humidity reading
 void temp_init()
 {
     _dht.begin();
-    Serial.printf("[TEMP] DHT11 initialised on GPIO%d\n", DHT11_DATA_PIN);
+    Serial.printf("[TEMP] DHT22 initialised on GPIO%d\n", DHT11_DATA_PIN);
 }
 
 // ---------------------------------------------------------------------------

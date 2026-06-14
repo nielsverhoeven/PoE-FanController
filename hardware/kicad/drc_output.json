@@ -1,8 +1,8 @@
 ** Drc report for PoE-FanController.kicad_pcb **
-** Created on 2026-06-14T23:47:43 **
+** Created on 2026-06-14T23:59:20 **
 ** Report includes: Errors, Warnings **
 
-** Found 8 DRC violations **
+** Found 9 DRC violations **
 [pth_inside_courtyard]: PTH inside courtyard
     Local override; error
     @(60.0000 mm, 35.6200 mm): PTH pad 1 [+3V3] of JP2
@@ -15,6 +15,9 @@
     Rule: board setup constraints silk; warning
     @(15.0000 mm, 87.0000 mm): Arc on Edge.Cuts
     @(33.0000 mm, 89.0000 mm): PCB text 'ESP32-P4 | LAN8720A | PoE 802.3at | 4xPWM Fan' on F.Silkscreen
+[lib_footprint_mismatch]: Footprint 'DHT11_Direct' does not match copy in library 'Custom'
+    Local override; warning
+    @(22.0000 mm, 71.4750 mm): Footprint HUM1
 [lib_footprint_issues]: The current configuration does not include the footprint library 'Logos'
     Local override; warning
     @(42.0000 mm, 80.0000 mm): Footprint G***
