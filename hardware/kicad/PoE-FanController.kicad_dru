@@ -5,20 +5,20 @@
 
 # ── Board-level minimum constraints ──────────────────────────────────────────
 (rule "Board minimums"
-   (constraint clearance     (min 0.2mm))
+   (constraint clearance     (min 0.25mm))
    (constraint track_width   (min 0.4mm))
    (constraint edge_clearance (min 1.0mm))
-   (constraint hole_size     (min 0.6mm))
+   (constraint hole_size     (min 0.85mm))
 )
 
 # USB-C receptacle (J6, GCT USB4085-GF-A) has pads at 0.85 mm pitch.
 # Copper-to-copper clearance between adjacent pads is 0.15 mm, which is
 # below the board default but within the USB-C spec and manufacturable
 # by standard PCB houses supporting USB-C (min clearance capability 0.1 mm).
-(rule "USB-C pad clearance"
-   (constraint clearance (min 0.1mm))
-   (condition "A.insideCourtyard('J6') && B.insideCourtyard('J6')")
-)
+#(rule "USB-C pad clearance"
+#   (constraint clearance (min 0.1mm))
+#   (condition "A.insideCourtyard('J6') && B.insideCourtyard('J6')")
+#)
 
 # ESP32-WROOM-32 castellation pads (pad 39) use 0.2 mm drill vias per the
 # module datasheet (LPKF-style castellation). Standard PCB houses can drill
